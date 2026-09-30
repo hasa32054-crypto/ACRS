@@ -30,9 +30,9 @@ from research import experiment as E
 from research.experiment import incidents, uniform_decide, EGRESS_CMDS
 
 OUT = Path(__file__).parent / "results"
-C2 = ("127.66.0.1", 4444)          # attacker's server
-CRIT = ("127.30.0.1", 4445)        # critical internal server (spread target)
-SVC = ("127.20.0.1", 8080)         # business service the machine must keep reaching
+C2 = ("127.66.0.1", 47444)          # attacker's server
+CRIT = ("127.30.0.1", 47445)        # critical internal server (spread target)
+SVC = ("127.20.0.1", 47480)         # business service the machine must keep reaching
 PERIOD, TIMEOUT = 0.002, 0.03
 
 

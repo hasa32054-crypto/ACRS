@@ -190,6 +190,7 @@ python -m research.e2e_repeat 5      # نفس القياس 5 مرات (المؤ�
 python -m research.export_evidence   # ملف لكل حادثة يعدّه أي شخص بيده -> research/results/per_incident.csv + summary.csv
 python -m research.learning         # تجربة التعلّم: 8 جولات مع خدع المهاجم -> research/results/learning.json
 sudo python -m research.real_lab     # معمل حقيقي: قرارات ACRS تُنفَّذ بجدار حماية Linux (iptables) على اتصالات TCP حقيقية -> research/results/real_lab.json
+sudo python3 -m research.hospital_box # مستشفى في صندوق: موقع + تطبيق + جهاز طبي حقيقي على أجهزة "مخترقة"، ACRS مقابل العزل الكامل -> research/results/hospital_box.json
 python -m pytest tests/test_research.py
 ```
 

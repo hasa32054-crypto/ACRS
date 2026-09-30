@@ -1,0 +1,83 @@
+{
+ "note": "Real HTTP services and clients, real ACRS decisions, real Linux firewall (iptables), one machine. The 'attacker' is harmless TCP traffic to a local address.",
+ "rows": [
+  {
+   "box": "website",
+   "title": "Appointments website",
+   "host": "ERP-PROD-01",
+   "policy": "full_isolation",
+   "decision": "FULL_ISOLATION",
+   "firewall_rules": 1,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 0.6,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 0,
+   "requests_after": 5
+  },
+  {
+   "box": "website",
+   "title": "Appointments website",
+   "host": "ERP-PROD-01",
+   "policy": "acrs",
+   "decision": "RESTRICT",
+   "firewall_rules": 2,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 1.8,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 100,
+   "requests_after": 43
+  },
+  {
+   "box": "app",
+   "title": "Nurse app (records API)",
+   "host": "ERP-DB-01",
+   "policy": "full_isolation",
+   "decision": "FULL_ISOLATION",
+   "firewall_rules": 1,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 0.4,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 0,
+   "requests_after": 5
+  },
+  {
+   "box": "app",
+   "title": "Nurse app (records API)",
+   "host": "ERP-DB-01",
+   "policy": "acrs",
+   "decision": "RESTRICT",
+   "firewall_rules": 2,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 1.1,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 100,
+   "requests_after": 43
+  },
+  {
+   "box": "device",
+   "title": "MRI console",
+   "host": "MRI-CTRL-02",
+   "policy": "full_isolation",
+   "decision": "FULL_ISOLATION",
+   "firewall_rules": 1,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 0.4,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 0,
+   "requests_after": 5
+  },
+  {
+   "box": "device",
+   "title": "MRI console",
+   "host": "MRI-CTRL-02",
+   "policy": "acrs",
+   "decision": "COMPENSATING",
+   "firewall_rules": 1,
+   "attacker_cut": true,
+   "alert_to_attacker_cut_ms": 0.8,
+   "service_ok_before_pct": 100,
+   "service_ok_after_pct": 100,
+   "requests_after": 43
+  }
+ ]
+}
