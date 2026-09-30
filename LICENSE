@@ -1,0 +1,26 @@
+ACRS — Adaptive Cyber Response System
+Copyright (c) 2026 Hassan Abdullah Alyenbawi (حسان عبدالله الينبعاوي). All rights reserved.
+
+This software, its source code, documentation, design, video and poster are the exclusive
+property of the author. No part of this work may be copied, modified, distributed, published,
+sublicensed, sold, or used to create derivative works, in whole or in part, without the prior
+written permission of the author.
+
+Viewing or running this software for evaluation at the author's invitation does not grant any
+licence or right to reuse it.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. It is a simulation prototype:
+it performs no real network operations and must not be used to protect production systems.
+
+----------------------------------------------------------------------------------------------
+
+حقوق الطبع والنشر © 2026 حسان عبدالله الينبعاوي. جميع الحقوق محفوظة.
+
+هذا البرنامج وكوده المصدري وتوثيقه وتصميمه والفيديو والبوستر المرتبطة به ملك حصري للمؤلف.
+يُمنع نسخ أي جزء من هذا العمل أو تعديله أو توزيعه أو نشره أو بيعه أو بناء أعمال مشتقة منه،
+كليًا أو جزئيًا، دون إذن كتابي مسبق من المؤلف.
+
+الاطلاع على البرنامج أو تشغيله لغرض التقييم بدعوة من المؤلف لا يمنح أي ترخيص أو حق في إعادة استخدامه.
+
+البرنامج مقدَّم «كما هو» دون أي ضمان. وهو نموذج محاكاة أولي لا ينفذ أي عمليات على شبكة حقيقية،
+ولا يجوز استخدامه لحماية أنظمة فعلية.

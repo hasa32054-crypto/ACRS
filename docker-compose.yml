@@ -1,0 +1,52 @@
+# ACRS v2. SIMULATION ONLY - no real network operations.
+name: acrs-v2
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-acrs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-acrs}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-acrs} -d ${POSTGRES_DB:-acrs}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      ACRS_STORE: sql
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-acrs}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-acrs}
+      REDIS_URL: redis://redis:6379/0
+      ACRS_JWT_SECRET: ${ACRS_JWT_SECRET:?set ACRS_JWT_SECRET in .env}
+      ACRS_SEED_PASSWORD: ${ACRS_SEED_PASSWORD:?set ACRS_SEED_PASSWORD in .env}
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      backend: {condition: service_healthy}
+    ports: ["8080:8080"]
+
+volumes:
+  pgdata:

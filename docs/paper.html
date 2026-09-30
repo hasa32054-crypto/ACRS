@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACRS Research Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+:root{--bg:#060a0f;--card:rgba(8,14,20,.62);--line:rgba(255,255,255,.12);--text:#ffffff;--muted:#c3d0d7;--acrs:#2fb7e0;--acrs-2:#7fe3ff;--uniform:#f07a45;
+ --font:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;color-scheme:dark}
+:root[lang=en]{--font:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1.02rem/1.85 var(--font);-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#0d1822 0%,var(--bg) 60%)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+.o1{width:46vmax;height:46vmax;background:radial-gradient(circle,#1b8fb8 0%,transparent 65%);top:-12vmax;inset-inline-start:-10vmax;animation:drift1 26s ease-in-out infinite alternate}
+.o2{width:40vmax;height:40vmax;background:radial-gradient(circle,#c0482f 0%,transparent 65%);bottom:-14vmax;inset-inline-end:-8vmax;opacity:.42;animation:drift2 32s ease-in-out infinite alternate}
+.o3{width:30vmax;height:30vmax;background:radial-gradient(circle,#15806a 0%,transparent 65%);top:40%;inset-inline-start:35%;opacity:.3;animation:drift3 38s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(12vmax,10vmax) scale(1.1)}}
+@keyframes drift2{to{transform:translate(-14vmax,-8vmax) scale(1.15)}}
+@keyframes drift3{to{transform:translate(-10vmax,12vmax) scale(.9)}}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%)}
+#net{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+@media (prefers-reduced-motion:reduce){.orb{animation:none}}
+.sheet{background:rgba(6,11,16,.58);border:1px solid var(--line);border-radius:22px;padding:1.6rem clamp(1rem,4vw,2.2rem);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+mark{color:#fff;padding:.05em .25em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;font-weight:600}
+.mk-y{background:linear-gradient(100deg,rgba(255,200,0,.28),rgba(255,200,0,.55) 8%,rgba(255,200,0,.48) 92%,rgba(255,200,0,.24))}
+.mk-r{background:linear-gradient(100deg,rgba(255,77,94,.18),rgba(255,77,94,.44) 8%,rgba(255,77,94,.36) 92%,rgba(255,77,94,.16))}
+.mk-b{background:linear-gradient(100deg,rgba(47,183,224,.2),rgba(47,183,224,.46) 8%,rgba(47,183,224,.38) 92%,rgba(47,183,224,.18))}
+.mklegend{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin:1rem 0 0;font-size:.86rem;color:var(--muted)}
+.mklegend mark{font-weight:500;font-size:.84rem}
+a{color:var(--acrs-2)}
+.bar{position:sticky;top:0;z-index:5;display:flex;gap:.5rem;align-items:center;justify-content:space-between;padding:.7rem 16px;background:rgba(6,10,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar .brand{font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.bar .brand i{width:.55rem;height:.55rem;border-radius:50%;background:var(--acrs);box-shadow:0 0 12px var(--acrs)}
+.bar .act{display:flex;gap:.4rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .85rem;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);text-decoration:none;font:500 .88rem var(--font);cursor:pointer}
+.btn:hover{border-color:rgba(127,227,255,.5);box-shadow:0 0 18px rgba(47,183,224,.25)}
+.btn svg{width:1rem;height:1rem}
+@media (max-width:560px){.bar .brand i{display:none}.bar{padding:.55rem 10px}.bar .act{flex-wrap:nowrap;gap:.3rem}.btn{padding:.34rem .6rem;font-size:.78rem;white-space:nowrap}.btn svg{width:.85rem;height:.85rem}.bar .brand{font-size:.9rem}}
+.btn.pri{background:linear-gradient(135deg,rgba(47,183,224,.35),rgba(47,183,224,.12));border-color:rgba(127,227,255,.45)}
+main{max-width:860px;margin:0 auto;padding:1.6rem 12px 4rem}
+.kicker{font:600 .78rem var(--mono);letter-spacing:.12em;color:var(--acrs-2);text-transform:uppercase}
+h1{font-size:clamp(1.55rem,4.2vw,2.3rem);line-height:1.3;margin:.5rem 0 .4rem;font-weight:700}
+.sub{color:var(--acrs-2);font-weight:600;margin:0}
+.by{color:var(--muted);margin:.4rem 0 0}
+.note{margin:1.2rem 0 0;padding:.7rem 1rem;border-radius:12px;border:1px dashed rgba(127,227,255,.35);color:var(--muted);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.2rem 1.4rem;margin:1.6rem 0}
+.card h2{margin-top:0}
+.kw{color:var(--muted);font-size:.88rem;margin:.6rem 0 0}
+.toc ol{margin:.2rem 0 0;padding-inline-start:1.3rem;columns:2;column-gap:2rem}
+.toc a{color:var(--text);text-decoration:none}.toc a:hover{color:var(--acrs-2)}
+@media (max-width:560px){.toc ol{columns:1}}
+h2{font-size:1.32rem;margin:2.4rem 0 .6rem;display:flex;gap:.6rem;align-items:baseline}
+h2 .n{font:600 .9rem var(--mono);color:var(--acrs)}
+p{margin:.55rem 0}
+ol,ul{padding-inline-start:1.4rem;margin:.5rem 0}
+li{margin:.25rem 0}
+.box{border-inline-start:3px solid var(--acrs);background:rgba(47,183,224,.08);padding:.8rem 1rem;border-radius:10px;font-weight:600;margin:.8rem 0}
+.tw{overflow-x:auto;margin:1rem 0}
+table{width:100%;border-collapse:collapse;font-size:.92rem;line-height:1.55}
+.rules{table-layout:fixed}.rules th:nth-child(1){width:6%}.rules th:nth-child(2){width:40%}.rules th:nth-child(3){width:54%}
+caption{caption-side:top;text-align:start;color:var(--muted);font-size:.85rem;padding-bottom:.4rem}
+th,td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.84rem}
+td.num{font-family:var(--mono);white-space:nowrap}
+tr.hl td{color:var(--acrs-2);font-weight:600}
+.u{color:var(--uniform)}.a{color:var(--acrs-2)}
+figure{margin:1.2rem 0;padding:1rem;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
+figure svg{width:100%;height:auto;display:block;direction:ltr}
+figcaption{color:var(--muted);font-size:.86rem;margin-top:.4rem}
+svg text{font-family:var(--font);fill:var(--muted);font-size:12px}
+svg .v{font-family:var(--mono);font-weight:600;fill:var(--text)}
+.leg{display:flex;gap:1rem;font-size:.84rem;color:var(--muted);margin-bottom:.3rem}
+.leg i{display:inline-block;width:.8rem;height:.8rem;border-radius:3px;vertical-align:-.1rem;margin-inline-end:.35rem}
+.refs li{font-size:.9rem;color:var(--muted)}
+.bdi{unicode-bidi:isolate}
+footer{color:var(--muted);font-size:.84rem;text-align:center;padding:2rem 16px 3rem;border-top:1px solid var(--line)}
+@media print{
+ :root{--bg:#fff;--card:#f6f8f9;--line:#d9e0e4;--text:#12202a;--muted:#4c5d68;--acrs:#1386ad;--acrs-2:#0e6f90;--uniform:#d35d25;color-scheme:light}
+ body{font-size:10.5pt;line-height:1.7}
+ .bg,.bar,.toc,footer .noprint{display:none}
+ .sheet{background:none;border:0;box-shadow:none;padding:0;backdrop-filter:none}
+ mark{color:inherit;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .mk-y{background:#ffe680}.mk-r{background:#ffc9cf}.mk-b{background:#c7ecf8}
+ main{max-width:none;padding:0}
+ h2{break-after:avoid;margin-top:1.4rem}
+ figure,.box{break-inside:avoid}
+ .tw{overflow:visible}
+ table{break-inside:auto} tr{break-inside:avoid} thead{display:table-header-group}
+ p:has(+ .tw),h2{break-after:avoid}
+ section:has(> h2 + .tw) > h2 + .tw, table.sm{break-inside:avoid}
+ .tw:has(table.sm){break-inside:avoid}
+ .card{margin:1rem 0}
+ a{color:inherit;text-decoration:none}
+ @page{size:A4;margin:16mm 16mm 18mm}
+}
+
+.cover{display:none}
+@media print{
+ .cover{display:flex;flex-direction:column;height:262mm;break-after:page;background:linear-gradient(160deg,#0b2733 0%,#0a1820 55%,#241310 100%);color:#fff;border-radius:6px;padding:22mm 18mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .cover ~ .kicker,.cover ~ h1,.cover ~ .sub,.cover ~ .by{display:none}
+ .cv-k{font:600 9pt var(--mono);letter-spacing:.18em;color:#7fe3ff;text-transform:uppercase}
+ .cv-brand{font:700 64pt var(--mono);letter-spacing:.05em;margin-top:28mm;color:#bff0ff}
+ .cv-t{font-size:19pt;font-weight:700;line-height:1.35;margin-top:4mm;max-width:150mm}
+ .cv-s{font-size:12pt;color:#9fe7fb;margin-top:4mm}
+ .cv-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:auto}
+ .cv-nums div{border:1px solid rgba(255,255,255,.25);border-radius:4mm;padding:5mm;background:rgba(255,255,255,.06)}
+ .cv-nums b{display:block;font:700 20pt var(--mono);color:#fff}
+ .cv-nums span{font-size:9.5pt;color:#cfe3ea}
+ .cv-by{margin-top:10mm;font-size:11pt;color:#e7eef1;line-height:1.6}
+ .cv-note{margin-top:3mm;font-size:8.5pt;color:#9fb0ba}
+ h2{border-bottom:2px solid #d9e0e4;padding-bottom:1.5mm}
+ h2 .n{display:inline-grid;place-items:center;width:7mm;height:7mm;border-radius:50%;background:#1386ad;color:#fff;font-size:9pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ figure{border:1px solid #d9e0e4;background:#fbfcfc;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ thead th{background:#eef3f5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .card{border:1px solid #d9e0e4;background:#f7fafb;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="index.html"><i></i>ACRS</a>
+  <div class="act">
+    <a class="btn" id="back" href="index.html"></a>
+    <a class="btn pri" id="pdf" href="#" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><span></span></a>
+    <button class="btn" id="lang" type="button"></button>
+  </div>
+</header>
+<div class="bg" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><canvas id="net"></canvas></div>
+<main><div class="sheet" id="doc"></div></main>
+<footer><span id="copy"></span></footer>
+<script>
+/* ACRS research paper: content in Arabic and English. Every number comes from
+   acrs-v2/backend/research/results (experiment.json, e2e_repeats.json). */
+window.PAPER_DOC = {
+ar:{
+ dir:"rtl",
+ kicker:"ورقة بحثية",
+ title:"تصميم وتقييم نموذج احتواء سيبراني يتكيّف مع خطورة الهجوم وأهمية الجهاز",
+ sub:"ACRS: نظام الاستجابة السيبرانية المتكيّفة · يوقف الهجوم… لا المستشفى",
+ by:"بحث وتطوير: حسان عبدالله الينبعاوي",
+ date:"2026",
+ note:"كل البيانات في هذه الورقة من محاكاة. لم تُلمس أي شبكة حقيقية.",
+ toc:"المحتويات", mk:["نتيجة مهمة","مشكلة أو تحذير","ما يضيفه ACRS"], back:"الرجوع للموقع", pdf:"تنزيل PDF", lang:"English",
+ abs_t:"الملخص",
+ abs:"عندما يُخترق جهاز في منشأة، تعزله أغلب أنظمة الرد الآلي عزلًا كاملًا عن الشبكة. هذا يوقف المهاجم، لكنه [[r:قد يوقف معه خادم الدخول الذي يعتمد عليه كل الموظفين، أو جهازًا طبيًا يعتمد عليه مريض]]. يقترح هذا البحث نظامًا اسمه ACRS [[b:يختار أخف رد يكفي لإيقاف المهاجم]]، بناءً على ثلاثة أشياء: خطورة الهجوم، ومدى التأكد منه، وأهمية الجهاز. قارنّا ACRS بالطريقة المعتادة، وهي عزل كامل لأي جهاز تتجاوز خطورته 60، في تجربة محاكاة من 42 حادثة وبنفس المدخلات تمامًا. النتيجة: [[y:توقف 20 جهازًا بدل 37، وتوقف نظامان مهمان بدل 7، وأُوقف المهاجم في 36 هجومًا من 41 في الطريقتين]]. ولم ينجح أي رقم ثابت بين 50 و100 في تحقيق النتيجتين معًا. وفي تجربة ثانية من 8 جولات يغيّر فيها المهاجم أسلوبه، [[y:نجحت كل خدعة جديدة مرة واحدة فقط]] بعد أن تعلّم ACRS من رد المهندس. [[r:الثمن هو تدخل بشري في مواضع محددة]].",
+ kw:"كلمات مفتاحية: الاستجابة للحوادث، الاحتواء، الرد الآلي، أهمية الأصول، الفدية",
+ fig:"شكل", tab:"جدول",
+ sections:[
+ {t:"المقدمة والمشكلة", b:[
+  ["p","الهجمات الإلكترونية صارت أسرع وأخطر. في تقارير Verizon السنوية، ارتفعت نسبة الاختراقات التي فيها برامج فدية [[r:من 25% في 2022 إلى 48% في 2026]] [1]. وتقول CrowdStrike إن متوسط الوقت الذي يحتاجه المهاجم لينتقل من أول جهاز إلى أجهزة أخرى كان [[r:29 دقيقة]] في 2025 [2]. ومتوسط تكلفة الاختراق عالميًا [[r:4.99 مليون دولار]] [3]."],
+  ["p","لأن المهاجم سريع، تعتمد المنشآت على أنظمة رد آلي تتحرك في ثوانٍ بدل انتظار إنسان. والرد الأشهر في هذه الأنظمة بسيط: اعزل الجهاز المصاب عزلًا كاملًا عن الشبكة."],
+  ["p","المشكلة أن هذا الرد واحد لكل الأجهزة. عزل جهاز موظف لا يضر أحدًا، [[r:لكن عزل خادم الدخول يوقف كل الموظفين، وعزل جهاز طبي قد يضر مريضًا]]. وإرشادات الاستجابة للحوادث توصي أصلًا بأن يراعي قرار الاحتواء أثره على الخدمات [4]. إذن السؤال ليس: هل نوقف المهاجم؟ بل: [[b:ما أخف رد يكفي لإيقافه؟]]"]]},
+ {t:"سؤال البحث والفرضية", b:[
+  ["box","سؤال البحث: هل يمكن لنظام يوازن بين خطورة الهجوم وأهمية الجهاز أن يوقف أجهزة أقل من العزل الكامل، ويوقف المهاجم بنفس القوة؟"],
+  ["p","الفرضية: النظام الذي يراعي أهمية الجهاز يوقف أجهزة أقل وأنظمة مهمة أقل، دون أن يقل عدد الهجمات التي يوقف فيها المهاجم."],
+  ["p","الفرضية الصفرية: لا فرق في عدد الأجهزة المتوقفة، أو أن ACRS يوقف المهاجم في عدد أقل من الهجمات."],
+  ["p","الأهداف:"],
+  ["ol",["بناء ACRS كنظام قرار بقواعد واضحة يمكن فحصها وشرح كل قرار فيها.","اختباره أمام العزل الكامل على نفس الهجمات المحاكاة.","قياس عدد الأجهزة المتوقفة، وإيقاف المهاجم، والسرعة، والجهد البشري المطلوب."]]]},
+ {t:"كيف يعمل ACRS", b:[
+  ["p","يمر كل تنبيه في ACRS بثماني مراحل. التجربة تغيّر المرحلة الخامسة فقط، أي القرار:"],
+  ["ol",["الاكتشاف: 12 قاعدة تقرأ من 8 أنواع من الحساسات.","الربط: جمع الأحداث المرتبطة خلال 5 دقائق في حادثة واحدة.","حساب الخطورة: درجة من 0 إلى 100 من 6 عوامل.","أهمية الجهاز: هل هو أساسي أو مهم أو عادي؟ هل له بديل؟ هل هو جهاز سلامة؟","القرار: 9 قواعد مرتبة، بدون ذكاء اصطناعي.","الاحتواء: تنفيذ الأمر خلال مهلة 7 أو 15 أو 90 ثانية حسب أهمية الجهاز.","التحقق: 9 فحوص تتأكد أن الاحتواء نجح.","الرجوع: يعود الجهاز للعمل على مراحل."]],
+  ["p","الأجهزة في ACRS ثلاثة مستويات: أساسية (Tier-0) مثل خوادم الدخول والشهادات، ومهمة (Tier-1) مثل قواعد البيانات والأجهزة الطبية، وعادية (Tier-2) مثل أجهزة الموظفين."],
+  ["fig","arch"],
+  ["p","قواعد القرار التسع بالترتيب، وأول قاعدة تنطبق هي التي تحكم:"],
+  ["table",{h:["#","إذا كان…","فإن ACRS…"],r:[
+   ["1","الجهاز غير معروف","يحجب عنوانه عند حدود الشبكة فقط"],
+   ["2","الجهاز لا يجوز إطفاؤه (طبي أو صناعي)","يحجب المهاجم من الشبكة ويترك الجهاز يعمل"],
+   ["3","الهجوم فدية","يتحرك فورًا: الأساسي يُقيَّد، والمهم يُعزل ويعمل بديله، والعادي يُعزل كاملًا"],
+   ["4","التأكد أقل من 60% (وحساس واحد لا يتجاوز 55%)","لا يعزل وحده، وينتظر إنسانًا"],
+   ["5","الخطورة أقل من 60","يراقب فقط"],
+   ["6","الجهاز في وقت صيانة معتمد","يقيّد وينتظر تأكيدًا"],
+   ["7","الخطورة فوق حد الجهاز (أساسي 95، مهم 90، عادي 85)","أساسي: تقييد فوري وشخصان للعزل الكامل. مهم: عزل والبديل يعمل. عادي: عزل كامل"],
+   ["8","الخطورة متوسطة","يقيّد وحده، والخطوة الأقوى تحتاج إنسانًا. الأساسي: مراقبة وشخصان"],
+   ["9","حصلت 5 احتواءات آلية أو أكثر خلال 10 دقائق","يوقف الآلية مؤقتًا حتى لا يعزل المنشأة كلها"]]}],
+  ["p","ما يضيفه ACRS: العزل الآلي موجود في أدوات الأمن التجارية، ولا ندّعي أننا اخترعناه. ما يضيفه هذا البحث هو [[b:نموذج قرار واضح يحدد قوة الرد من الخطورة والتأكد وأهمية الجهاز]]، وتجربة مضبوطة تقارنه بالعزل الكامل."]]},
+ {t:"طريقة التجربة", b:[
+  ["p","التجربة من ذراعين: كل حادثة تمر على الطريقتين بنفس المعلومات تمامًا، أي نفس الاكتشاف ونفس درجة الخطورة ونفس درجة التأكد. [[y:الشيء الوحيد المختلف هو القرار]]."],
+  ["fig","design"],
+  ["p","الطريقة المعتادة (خط الأساس): إذا كانت الخطورة 60 أو أكثر، أو الهجوم فدية سريعة، يُعزل الجهاز عزلًا كاملًا فورًا. غير ذلك: مراقبة. اخترنا 60 لأنه نفس الحد الأدنى الذي يستخدمه ACRS، حتى تكون المقارنة عادلة."],
+  ["table",{h:["النوع","المتغير"],r:[
+   ["المستقل (ما غيّرناه)","طريقة الرد: الطريقة المعتادة أو ACRS"],
+   ["التابع (ما قسناه)","الأجهزة المتوقفة، الأنظمة المهمة المتوقفة، الأجهزة الطبية المطفأة، الخوادم الأساسية المعزولة دون إنسان، الحالة السليمة، إيقاف المهاجم، الطرق المقطوعة، سرعة الرد، الجهد البشري"],
+   ["الثابت","نفس السيناريوهات، ونفس الاكتشاف، ونفس حساب الخطورة والتأكد، ونفس قائمة الأجهزة، ونفس طريقة تحويل القرار إلى أوامر، ونفس طريقة العد"]]}],
+  ["p","البيانات: 40 سيناريو هجوم في 8 أنواع، نتجت عنها 42 حادثة: 41 هجومًا وحالة سليمة واحدة (عمل صيانة مشروع يشبه الهجوم). الأجهزة 20: 4 أساسية، و10 مهمة منها جهاز رنين مغناطيسي، و6 عادية. تراوحت الخطورة بين 40 و99، ورأى كل حادثة من 1 إلى 4 حساسات."],
+  ["table",{h:["نوع الهجوم","عدد الحوادث"],r:[["فدية","7"],["اتصال بخادم المهاجم","6"],["سرقة هوية ودخول","5"],["دخول أولي","5"],["حالات خاصة","5"],["سحابة وحاويات","5"],["تطبيقات ويب","5"],["تسريب من الداخل","4"]]}],
+  ["p","طريقة العد: لا نعدّ من اسم القرار، بل من الأوامر التي أصدرتها كل طريقة فعلًا. مثلًا: نقول إن المهاجم أُوقف فقط إذا صدر أمر يقطع اتصاله بالخارج."],
+  ["p","إعادة الإنتاج: النظام لا يعتمد على العشوائية، لذلك إعادة التجربة [[y:تعطي نفس الأرقام تمامًا]]. وبصمة ملف القواعد 87893ca0، و6 اختبارات آلية تتأكد في كل تشغيل أن النتائج لم تتغير."]]},
+ {t:"النتائج", b:[
+  ["table",{cap:"النتائج الرئيسية على 42 حادثة",h:["ماذا قسنا","الطريقة المعتادة","ACRS"],r:[
+   ["أجهزة توقفت عن العمل","37","20"],["أنظمة مهمة توقفت","7","2"],["أُوقف المهاجم (من 41 هجومًا)","36","36"],["طرق مقطوعة نحو الأنظمة المهمة","36","30"],["أجهزة طبية أُطفئت","1","0"],["خوادم أساسية عُزلت دون قرار إنسان","4","0"],["حالة سليمة أُوقفت بالخطأ","1","0"]]}],
+  ["fig","bars"],
+  ["p","أوقف ACRS المهاجم في نفس عدد الهجمات (36 من 41)، لكنه أوقف 20 جهازًا بدل 37، [[y:أي أقل بـ46%]]. ونزلت الأنظمة المهمة المتوقفة [[y:من 7 إلى 2]]."],
+  ["p","هل يكفي رفع رقم العزل في الطريقة المعتادة؟ جرّبنا كل الأرقام من 50 إلى 100:"],
+  ["table",{cap:"الطريقة المعتادة بأرقام عزل مختلفة",h:["رقم العزل","أنظمة مهمة توقفت","أُوقف المهاجم"],r:[["50","7","38"],["55","7","37"],["60","7","36"],["65","7","34"],["70","7","33"],["75، 80","5","32"],["85","5","24"],["90","2","18"],["95","2","10"],["100","1","7"],["ACRS","2","36"]]}],
+  ["fig","sweep"],
+  ["p","للوصول إلى نظامين مهمين متوقفين فقط، تحتاج الطريقة المعتادة رقم 90، وعندها [[r:لا يُوقف المهاجم إلا في 18 هجومًا]]. [[b:ACRS وحده حقق 2 و36 معًا]]."],
+  ["p","قرارات ACRS على الـ42 حادثة: 17 تقييد والجهاز يعمل، و9 عزل ذكي، و7 عزل كامل، و4 تقييد فوري، و4 مراقبة، وحالة واحدة حجب من الشبكة فقط. أما الطريقة المعتادة فعزلت 37 عزلًا كاملًا وراقبت 5."],
+  ["p","السرعة: في 5 تشغيلات كاملة كان زمن الاحتواء [[y:بين 0.29 و0.34 ثانية في الطريقتين]]، ولم يتأخر أي احتواء عن مهلته في 365 عملية. والقرار نفسه يأخذ نحو 2 ميكروثانية في ACRS، و0.8 في الطريقة المعتادة. أي أن الفرق في الوقت لا يُذكر."]]},
+ {t:"التجربة الثانية: لا يوجد معنى للفشل", b:[
+  ["p","إذا لم يوقف ACRS هجومًا تلقائيًا، يتدخل المهندس بيده. سؤال هذه التجربة: [[b:إذا حفظ ACRS رد المهندس واستخدمه مع الهجمات المشابهة، كم هجومًا يفلت عندما تعود نفس الهجمات، حتى لو غيّر المهاجم أسلوبه؟]]"],
+  ["p","الطريقة: 8 جولات، في كل جولة نفس الـ41 هجومًا، ويغيّر المهاجم أسلوبه كل جولتين: الهجمات الأصلية، ثم عناوين جديدة لا تعرفها قوائم التهديدات، ثم التخفّي عن أحد الحساسات، ثم الخدعتان معًا. كل نسخة تمر على نفس محركات النظام بدون تعديل. بعد كل جولة، كل هجوم لم يتوقف تلقائيًا يعالجه المهندس (محاكى، ونفترض أنه يعرف الهجوم صح)، ويُحفظ رده."],
+  ["p","ضوابط الأمان في الرد المتعلَّم: يُستخدم فقط إذا تشابه الهجوم الجديد مع رد معتمد بنسبة 96% أو أكثر، ولا يُستخدم أبدًا على خادم أساسي، وأقوى ما يفعله هو التقييد والجهاز يعمل (أو الحجب من الشبكة لجهاز لا يُطفأ). لا يعزل أي جهاز."],
+  ["table",{cap:"هجمات لم تتوقف تلقائيًا (من 41) في كل جولة",h:["الجولة","الطريقة المعتادة","ACRS بدون تعلّم","ACRS مع التعلّم"],r:[
+   ["1: الهجمات الأصلية","5","5","5"],["2: تكرار","5","5","1"],["3: عناوين جديدة","9","11","9"],["4: تكرار","9","11","4"],
+   ["5: التخفّي عن حساس","7","15","11"],["6: تكرار","7","15","4"],["7: الخدعتان معًا","9","15","9"],["8: تكرار","9","15","4"]]}],
+  ["fig","learn"],
+  ["p","النتيجة: [[y:كل خدعة جديدة نجحت مرة واحدة فقط]]. في كل جولة تكرار نزل العدد إلى 4، و[[y:الأربعة كلها خوادم أساسية]] ينتظر فيها ACRS قرار إنسان عن قصد. أي أن الهجمات التي تفلت في بقية الأجهزة وصلت إلى صفر. ولم يُستخدم الرد المتعلَّم ولا مرة على الحالة السليمة ولا على خادم أساسي."],
+  ["p","ملاحظة مهمة: [[r:بدون تعلّم، الخدع ترفع ما يفلت من ACRS إلى 15]]، أكثر من الطريقة المعتادة (9)، لأن ACRS لا يتصرف وحده عندما يقل التأكد. التعلّم هو ما يعالج هذا الضعف عند تكرار الهجوم. و[[r:الخدعة الجديدة لا تُكشف من أول مرة]]: يحتاج المهندس أن يراها مرة."],
+  ["p","التجربة في research/learning.py، ومعها 3 اختبارات آلية، وتعطي نفس الأرقام في كل تشغيل."]]},
+ {t:"المناقشة", b:[
+  ["p","لماذا نجح ACRS؟ [[b:لأنه لا يعامل كل الأجهزة بنفس الطريقة]]. الجهاز العادي يُعزل كاملًا كما في الطريقة المعتادة. أما الخادم الذي له بديل فيُعزل والعمل ينتقل للبديل، والجهاز الطبي لا يُطفأ ويُحجب المهاجم من الشبكة، والخادم الأساسي لا يُعزل عزلًا كاملًا أبدًا دون موافقة شخصين."],
+  ["p","[[r:الثمن الأول:]] قطع ACRS طرقًا أقل نحو الأنظمة المهمة (30 بدل 36). هذا مقصود: 4 خوادم أساسية تنتظر موافقة شخصين، وجهاز طبي لم يُطفأ، وتنبيه رآه حساس واحد فقط. لكنه تنازل حقيقي ونذكره بوضوح."],
+  ["p","[[r:الثمن الثاني:]] الجهد البشري. يؤكد شخص رجوع الجهاز في 16 حالة، وتنتظر 4 خوادم أساسية موافقة شخصين، وحالتان تنتظران إنسانًا قبل أي احتواء (الحالة السليمة وتنبيه الحساس الواحد). الطريقة المعتادة لا تحتاج أحدًا، لكنها تعزل خوادم أساسية دون أي قرار بشري."],
+  ["p","[[r:ما زال ACRS يوقف نظامين مهمين]]: قاعدة بيانات ERP-DB-01 وخادم الشهادات PKI-CA-01. هذان جهازان بلا بديل وكان الخطر عليهما عاليًا."]]},
+ {t:"حدود البحث", b:[
+  ["ol",["البيانات محاكاة: 40 سيناريو على 20 جهازًا افتراضيًا.","أثر التوقف محسوب من وصف الأجهزة، وليس مقاسًا على خدمات تعمل فعلًا.","أوزان الخطورة محددة بالتصميم، ولم تُضبط على هجمات حقيقية.","[[r:نفس الشخص كتب السيناريوهات والقواعد، وهذا قد يميل لصالح ACRS]]. وهذا أهم قيد في البحث.","زمن الاحتواء مقاس على أدوات محاكاة بزمن واقعي، وليس على أدوات حقيقية.","ACRS يقطع طرقًا أقل (30 بدل 36)، وهذا تنازل مقصود لكنه حقيقي.","في تجربة التعلّم، المهندس محاكى ونفترض أنه يعرف الهجوم صح، والخدع مولّدة من نفس الهجمات وليست هجمات جديدة كليًا."]]]},
+ {t:"العمل المستقبلي", b:[
+  ["ul",["تجربة قراءة فقط على تنبيهات حقيقية: يقرر ACRS ويسجل قراره ولا ينفذ، ثم تُضبط الأوزان.","سيناريوهات هجوم يكتبها أشخاص آخرون، وتُشغَّل دون تعديل القواعد، لإزالة تحيّز الكاتب الواحد.","ربط أداة حماية حقيقية واحدة في بيئة اختبار.","نسخة أساسية مجانية، مع دعم مدفوع للمستشفيات والشركات الصغيرة."]]]},
+ {t:"الخلاصة", b:[
+  ["p","في هذه المحاكاة، الرد على قدر الخطر [[y:أوقف أجهزة أقل بـ46%]]، وأنظمة مهمة أقل (2 بدل 7)، وأوقف المهاجم بنفس القوة، وبنفس السرعة. ولم يستطع أي رقم عزل ثابت الوصول لنفس النتيجة. ومع التعلّم من المهندس، لم تنجح أي خدعة أكثر من مرة واحدة. لذلك [[b:تحققت الفرضية في هذه المحاكاة]]، والخطوة التالية اختبارها على بيانات حقيقية وبسيناريوهات يكتبها غيري."]]}
+ ],
+ fig_bars:"الأجهزة والأنظمة التي توقفت (الأقل أفضل)",
+ fig_arch:"بنية النظام: من مصادر المراقبة إلى القرار ثم أدوات الرد والتحقق", fig_design:"تصميم التجربة: مجموعة ضابطة ومجموعة تجريبية بنفس المدخلات", fig_sweep:"كل نقطة برتقالية هي الطريقة المعتادة برقم عزل مختلف", fig_learn:"هجمات لم تتوقف تلقائيًا في كل جولة (الأقل أفضل)", lrn_leg:["الطريقة المعتادة","ACRS بدون تعلّم","ACRS مع التعلّم"], lrn_g:["الأصلية","عناوين جديدة","التخفّي","الخدعتان"], lrn_r:["أول","تكرار"],
+ bars:[["أجهزة توقفت",37,20],["أنظمة مهمة",7,2],["أجهزة طبية",1,0],["أساسية دون إنسان",4,0],["حالة سليمة",1,0]],
+ leg_u:"الطريقة المعتادة", leg_a:"ACRS",
+ ax_x:"أنظمة مهمة توقفت (الأقل أفضل)", ax_y:"أُوقف المهاجم (الأكثر أفضل)",
+ ref_t:"المراجع",
+ refs:[
+  "Verizon. Data Breach Investigations Report, 2022–2026. نسبة الاختراقات التي فيها فدية: 25%، 24%، 32% (مع أساليب الابتزاز الأخرى)، 44%، 48%.",
+  "CrowdStrike. 2026 Global Threat Report. متوسط زمن انتشار المهاجم 29 دقيقة (2025).",
+  "IBM. Cost of a Data Breach Report 2026. متوسط تكلفة الاختراق عالميًا 4.99 مليون دولار.",
+  "NIST SP 800-61 Rev. 2 (2012) و Rev. 3 (2025). إرشادات الاستجابة للحوادث.",
+  "NIST SP 800-207 (2020). Zero Trust Architecture.",
+  "MITRE ATT&CK, Enterprise Matrix (T1486, T1490).",
+  "الهيئة الوطنية للأمن السيبراني. الضوابط الأساسية للأمن السيبراني (ECC)."]
+},
+en:{
+ dir:"ltr",
+ kicker:"Research paper",
+ title:"Design and Evaluation of a Risk-Adaptive Cyber Containment Model Based on Threat Severity and Asset Criticality",
+ sub:"ACRS: Adaptive Cyber Response System · Stops the attack, not the hospital",
+ by:"Research & development: Hassan Abdullah Alyenbawi",
+ date:"2026",
+ note:"All data in this paper is simulated. No real network was touched.",
+ toc:"Contents", mk:["Key result","Problem or warning","What ACRS adds"], back:"Back to site", pdf:"PDF", lang:"العربية",
+ abs_t:"Abstract",
+ abs:"When a machine in an organization is hacked, most automated response tools fully isolate it from the network. That stops the attacker, but [[r:it can also stop the login server every employee depends on, or a medical device a patient depends on]]. This research proposes a system called ACRS that [[b:picks the lightest response that still stops the attacker]], based on three things: how dangerous the attack is, how sure we are, and how important the machine is. We compared ACRS with the usual way, full isolation of any machine whose danger score passes 60, in a simulated test of 42 incidents with exactly the same inputs. Result: [[y:20 machines stopped instead of 37, 2 important systems stopped instead of 7, and the attacker stopped in 36 of 41 attacks with both approaches]]. No fixed number from 50 to 100 achieved both results. In a second, 8-round experiment where the attacker changes tactics, [[y:each new trick worked only once]] after ACRS learned from the engineer's response. [[r:The cost is human involvement at specific points]].",
+ kw:"Keywords: incident response, containment, automated response, asset criticality, ransomware",
+ fig:"Figure", tab:"Table",
+ sections:[
+ {t:"Introduction and the problem", b:[
+  ["p","Cyber attacks are getting faster and more damaging. In Verizon's yearly reports, the share of breaches involving ransomware rose [[r:from 25% in 2022 to 48% in 2026]] [1]. CrowdStrike reports that the average time an attacker needs to move from the first machine to others was [[r:29 minutes]] in 2025 [2]. The global average cost of a breach is [[r:$4.99 million]] [3]."],
+  ["p","Because attackers are fast, organizations rely on automated response tools that act in seconds instead of waiting for a person. The most common response in these tools is simple: fully isolate the infected machine from the network."],
+  ["p","The problem is that this is one response for every machine. Isolating an employee's laptop hurts no one, [[r:but isolating the login server stops every employee, and isolating a medical device can hurt a patient]]. Incident response guidance already says a containment decision should consider its impact on services [4]. So the question is not whether to stop the attacker, but [[b:what is the lightest response that still stops them?]]"]]},
+ {t:"Research question and hypothesis", b:[
+  ["box","Research question: Can a system that weighs how dangerous the attack is and how important the machine is stop fewer machines than full isolation, and still stop the attacker just as often?"],
+  ["p","Hypothesis: a system that considers how important the machine is will stop fewer machines and fewer important systems, without stopping the attacker any less often."],
+  ["p","Null hypothesis: there is no difference in machines stopped, or ACRS stops the attacker in fewer attacks."],
+  ["p","Objectives:"],
+  ["ol",["Build ACRS as a decision system with clear rules that can be checked, with a written reason for every decision.","Test it against full isolation on the same simulated attacks.","Measure machines stopped, attackers stopped, speed, and the human effort needed."]]]},
+ {t:"How ACRS works", b:[
+  ["p","Every alert in ACRS goes through eight stages. The experiment changes only stage five, the decision:"],
+  ["ol",["Detect: 12 rules reading from 8 kinds of sensors.","Connect: related events within 5 minutes are grouped into one incident.","Score danger: a score from 0 to 100 from 6 factors.","Machine importance: is it core, important or ordinary? Does it have a backup? Is it a safety device?","Decide: 9 ordered rules, no AI.","Contain: carry out the command within 7, 15 or 90 seconds depending on the machine.","Check: 9 checks confirm the containment worked.","Return: the machine comes back to work in stages."]],
+  ["p","Machines in ACRS have three levels: core (Tier-0) such as login and certificate servers, important (Tier-1) such as databases and medical devices, and ordinary (Tier-2) such as employee laptops."],
+  ["fig","arch"],
+  ["p","The nine decision rules, in order. The first rule that applies decides:"],
+  ["table",{h:["#","If…","then ACRS…"],r:[
+   ["1","the machine is unknown","blocks its address at the network edge only"],
+   ["2","the machine must not be switched off (medical or industrial)","blocks the attacker on the network and leaves the machine running"],
+   ["3","the attack is ransomware","acts at once: core is restricted, important is isolated while its backup runs, ordinary is fully isolated"],
+   ["4","certainty is below 60% (one sensor is capped at 55%)","does not isolate on its own and waits for a person"],
+   ["5","danger is below 60","watches only"],
+   ["6","the machine is in an approved maintenance window","restricts and waits for confirmation"],
+   ["7","danger is above the machine's limit (core 95, important 90, ordinary 85)","core: immediate restriction, two people for full isolation. Important: isolated while the backup runs. Ordinary: full isolation"],
+   ["8","danger is medium","restricts on its own; a stronger step needs a person. Core: watch, and two people"],
+   ["9","5 or more automatic containments happened within 10 minutes","pauses automation so it does not isolate the whole organization"]]}],
+  ["p","What ACRS adds: automatic isolation already exists in commercial security tools, and we do not claim to have invented it. What this research adds is [[b:a clear decision model that sets how strong the response is from danger, certainty and machine importance]], and a controlled test comparing it with full isolation."]]},
+ {t:"How we tested it", b:[
+  ["p","The experiment has two arms: every incident goes through both approaches with exactly the same information, meaning the same detection, the same danger score and the same certainty. [[y:The only thing that changes is the decision]]."],
+  ["fig","design"],
+  ["p","The usual way (baseline): if danger is 60 or more, or the attack is fast ransomware, the machine is fully isolated at once. Otherwise it is watched. We chose 60 because it is the same minimum ACRS uses, so the comparison is fair."],
+  ["table",{h:["Type","Variable"],r:[
+   ["Independent (what we changed)","The response approach: the usual way or ACRS"],
+   ["Dependent (what we measured)","Machines stopped, important systems stopped, medical devices switched off, core servers isolated with no person, the harmless case, attacker stopped, paths cut, response speed, human effort"],
+   ["Controlled","Same scenarios, same detection, same danger and certainty scoring, same machine list, same way of turning a decision into commands, same way of counting"]]}],
+  ["p","Data: 40 attack scenarios of 8 types, producing 42 incidents: 41 attacks and one harmless case (legitimate maintenance that looks like an attack). There are 20 machines: 4 core, 10 important including an MRI controller, and 6 ordinary. Danger ranged from 40 to 99, and each incident was seen by 1 to 4 sensors."],
+  ["table",{h:["Attack type","Incidents"],r:[["Ransomware","7"],["Attacker command channel","6"],["Identity theft","5"],["Initial access","5"],["Edge cases","5"],["Cloud & containers","5"],["Web apps & APIs","5"],["Insider data theft","4"]]}],
+  ["p","How we counted: not from the decision's name, but from the commands each approach actually issued. For example, we only count the attacker as stopped if a command cut their outside connection."],
+  ["p","Reproducibility: the system has no randomness, so re-running the experiment [[y:gives exactly the same numbers]]. The rules file fingerprint is 87893ca0, and 6 automated tests check on every run that the results have not changed."]]},
+ {t:"Results", b:[
+  ["table",{cap:"Main results on 42 incidents",h:["What we measured","The usual way","ACRS"],r:[
+   ["Machines stopped","37","20"],["Important systems stopped","7","2"],["Attacker stopped (of 41 attacks)","36","36"],["Paths to important systems cut","36","30"],["Medical devices switched off","1","0"],["Core servers isolated with no person","4","0"],["Harmless case stopped by mistake","1","0"]]}],
+  ["fig","bars"],
+  ["p","ACRS stopped the attacker in the same number of attacks (36 of 41), but stopped 20 machines instead of 37, [[y:which is 46% fewer]]. Important systems stopped [[y:fell from 7 to 2]]."],
+  ["p","Is it enough to raise the isolation number in the usual way? We tried every number from 50 to 100:"],
+  ["table",{cap:"The usual way with different isolation numbers",h:["Isolation number","Important systems stopped","Attacker stopped"],r:[["50","7","38"],["55","7","37"],["60","7","36"],["65","7","34"],["70","7","33"],["75 and 80","5","32"],["85","5","24"],["90","2","18"],["95","2","10"],["100","1","7"],["ACRS","2","36"]]}],
+  ["fig","sweep"],
+  ["p","To get down to 2 important systems stopped, the usual way needs the number 90, and then [[r:it stops the attacker in only 18 attacks]]. [[b:Only ACRS achieved 2 and 36 together]]."],
+  ["p","ACRS decisions across the 42 incidents: 17 restricted while working, 9 smart isolation, 7 full isolation, 4 immediate restriction, 4 watch, and 1 blocked on the network only. The usual way fully isolated 37 and watched 5."],
+  ["p","Speed: across 5 full runs, time to contain was [[y:0.29 to 0.34 seconds for both approaches]], and no containment missed its deadline in 365 actions. The decision itself takes about 2 microseconds in ACRS and 0.8 in the usual way, so the time difference is negligible."]]},
+ {t:"Second experiment: failure is never final", b:[
+  ["p","When ACRS does not stop an attack automatically, an engineer handles it by hand. This experiment asks: [[b:if ACRS saves the engineer's response and reuses it on similar attacks, how many attacks get through when the same attacks come back, even if the attacker changes tactics?]]"],
+  ["p","Method: 8 rounds, each with the same 41 attacks, and the attacker changes tactics every two rounds: the original attacks, then new addresses that threat feeds do not know, then hiding from one sensor, then both tricks together. Every version goes through the same, unmodified engines. After each round, every attack that was not stopped automatically is handled by the engineer (simulated, and assumed to identify the attack correctly), and the response is saved."],
+  ["p","Safety limits on the learned response: it is used only when a new attack matches an approved response at 96% or more, never on a core server, and the strongest thing it does is restrict while the machine keeps working (or block on the network for a device that must not be switched off). It never isolates a machine."],
+  ["table",{cap:"Attacks not stopped automatically (of 41) in each round",h:["Round","The usual way","ACRS without learning","ACRS with learning"],r:[
+   ["1: original attacks","5","5","5"],["2: repeat","5","5","1"],["3: new addresses","9","11","9"],["4: repeat","9","11","4"],
+   ["5: hiding from a sensor","7","15","11"],["6: repeat","7","15","4"],["7: both tricks","9","15","9"],["8: repeat","9","15","4"]]}],
+  ["fig","learn"],
+  ["p","Result: [[y:each new trick worked only once]]. In every repeat round the count fell to 4, and [[y:all 4 are core servers]] where ACRS waits for a person on purpose. So on every other machine, the attacks that got through reached zero. The learned response was never used on the harmless case or on a core server."],
+  ["p","An important note: [[r:without learning, the tricks raise the attacks that get past ACRS to 15]], more than the usual way (9), because ACRS does not act alone when certainty drops. Learning is what fixes this weakness when an attack returns. And [[r:a brand-new trick is not caught the first time]]: the engineer has to see it once."],
+  ["p","The experiment is in research/learning.py, with 3 automated tests, and gives the same numbers on every run."]]},
+ {t:"Discussion", b:[
+  ["p","Why did ACRS work? [[b:Because it does not treat every machine the same way]]. An ordinary machine is fully isolated, just like the usual way. A server with a backup is isolated while work moves to the backup, a medical device is not switched off and the attacker is blocked on the network, and a core server is never fully isolated without two people approving."],
+  ["p","[[r:The first cost:]] ACRS cut fewer paths to important systems (30 instead of 36). This is on purpose: 4 core servers wait for two people to approve, a medical device was not switched off, and one alert was seen by a single sensor. But it is a real trade-off and we state it clearly."],
+  ["p","[[r:The second cost:]] human effort. A person confirms a machine's return in 16 cases, 4 core servers wait for two people, and 2 cases wait for a person before any containment (the harmless case and the single-sensor alert). The usual way needs no one, but it isolates core servers with no human decision at all."],
+  ["p","[[r:ACRS still stopped two important systems]]: the ERP-DB-01 database and the PKI-CA-01 certificate server. Both have no backup and faced high danger."]]},
+ {t:"Limitations", b:[
+  ["ol",["The data is simulated: 40 scenarios on 20 virtual machines.","The impact of an outage is estimated from the machine descriptions, not measured on live services.","The danger weights were set by design, not tuned on real attacks.","[[r:The same person wrote the scenarios and the rules, which may favour ACRS]]. This is the most important limitation.","Time to contain was measured on simulated tools with realistic delays, not on real tools.","ACRS cuts fewer paths (30 instead of 36), an intended but real trade-off.","In the learning experiment the engineer is simulated and assumed correct, and the tricks are generated from the same attacks, not entirely new attacks."]]]},
+ {t:"Future work", b:[
+  ["ul",["A read-only trial on real alerts: ACRS decides and logs but does not act, then the weights are tuned.","Attack scenarios written by other people and run without changing the rules, to remove single-author bias.","Connect one real protection tool in a test environment.","A free basic version, with paid support for hospitals and small companies."]]]},
+ {t:"Conclusion", b:[
+  ["p","In this simulation, responding to match the danger [[y:stopped 46% fewer machines]] and fewer important systems (2 instead of 7), stopped the attacker just as often, and just as fast. No fixed isolation number could reach the same result. With learning from the engineer, no trick worked more than once. [[b:The hypothesis holds in this simulation]]; the next step is to test it on real data with scenarios written by someone else."]]}
+ ],
+ fig_bars:"Machines and systems stopped (fewer is better)",
+ fig_arch:"System architecture: from monitoring sources to the decision, then response tools and verification", fig_design:"Experiment design: a control group and an experimental group with identical inputs", fig_sweep:"Each orange dot is the usual way with a different isolation number", fig_learn:"Attacks not stopped automatically in each round (fewer is better)", lrn_leg:["The usual way","ACRS without learning","ACRS with learning"], lrn_g:["Original","New addresses","Hiding","Both tricks"], lrn_r:["first","repeat"],
+ bars:[["Machines stopped",37,20],["Important systems",7,2],["Medical devices",1,0],["Core, no person",4,0],["Harmless case",1,0]],
+ leg_u:"The usual way", leg_a:"ACRS",
+ ax_x:"Important systems stopped (fewer is better)", ax_y:"Attacker stopped (more is better)",
+ ref_t:"References",
+ refs:[
+  "Verizon. Data Breach Investigations Report, 2022–2026. Share of breaches involving ransomware: 25%, 24%, 32% (with other extortion), 44%, 48%.",
+  "CrowdStrike. 2026 Global Threat Report. Average attacker breakout time of 29 minutes (2025).",
+  "IBM. Cost of a Data Breach Report 2026. Global average breach cost of $4.99 million.",
+  "NIST SP 800-61 Rev. 2 (2012) and Rev. 3 (2025). Incident response guidance.",
+  "NIST SP 800-207 (2020). Zero Trust Architecture.",
+  "MITRE ATT&CK, Enterprise Matrix (T1486, T1490).",
+  "National Cybersecurity Authority (NCA). Essential Cybersecurity Controls (ECC)."]
+}};
+
+(function(){
+var D=window.PAPER_DOC, q=new URLSearchParams(location.search);
+function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+var lang=q.get("lang")||get("acrs_lang")||"ar"; if(!D[lang])lang="ar";
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function tx(s){return esc(s).replace(/ACRS|Tier-[012]|[A-Z]{2,}[A-Z0-9-]*-\d+|87893ca0|\d+(\.\d+)?%?/g,function(m){return '<bdi>'+m+'</bdi>';}).replace(/\[\[([yrb]):(.*?)\]\]/g,'<mark class="mk-$1">$2</mark>');}
+function bars(t){
+  var W=640,rowH=46,top=8,left=150,right=40,H=top+t.bars.length*rowH+6,max=40,sc=(W-left-right)/max,s="";
+  t.bars.forEach(function(b,i){var y=top+i*rowH;
+    s+='<text x="'+(left-10)+'" y="'+(y+22)+'" text-anchor="end">'+esc(b[0])+'</text>';
+    s+='<rect x="'+left+'" y="'+(y+4)+'" width="'+Math.max(b[1]*sc,2)+'" height="15" rx="4" fill="var(--uniform)"/>';
+    s+='<text class="v" x="'+(left+Math.max(b[1]*sc,2)+6)+'" y="'+(y+16)+'">'+b[1]+'</text>';
+    s+='<rect x="'+left+'" y="'+(y+22)+'" width="'+Math.max(b[2]*sc,2)+'" height="15" rx="4" fill="var(--acrs)"/>';
+    s+='<text class="v" x="'+(left+Math.max(b[2]*sc,2)+6)+'" y="'+(y+34)+'">'+b[2]+'</text>';});
+  s+='<line x1="'+left+'" x2="'+left+'" y1="4" y2="'+(H-4)+'" stroke="var(--line)"/>';
+  return '<div class="leg"><span><i style="background:var(--uniform)"></i>'+esc(t.leg_u)+'</span><span><i style="background:var(--acrs)"></i>'+esc(t.leg_a)+'</span></div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(t.fig_bars)+'">'+s+'</svg>';
+}
+function sweep(t){
+  var W=640,H=330,L=64,R=24,T=16,B=52,X=function(v){return L+v*(W-L-R)/8;},Y=function(v){return T+(40-v)*(H-T-B)/40;},s="";
+  [0,10,20,30,40].forEach(function(v){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--line)"/><text x="'+(L-10)+'" y="'+(Y(v)+4)+'" text-anchor="end" class="v" style="font-weight:500;fill:var(--muted)">'+v+'</text>';});
+  for(var i=0;i<=8;i++)s+='<text x="'+X(i)+'" y="'+(H-B+18)+'" text-anchor="middle" class="v" style="font-weight:500;fill:var(--muted)">'+i+'</text>';
+  s+='<text x="'+((L+W-R)/2)+'" y="'+(H-8)+'" text-anchor="middle">'+esc(t.ax_x)+'</text>';
+  s+='<text transform="translate(16 '+((T+H-B)/2)+') rotate(-90)" text-anchor="middle">'+esc(t.ax_y)+'</text>';
+  var pts=[[50,7,38],[55,7,37],[60,7,36],[65,7,34],[70,7,33],[75,5,32],[85,5,24],[90,2,18],[95,2,10],[100,1,7]];
+  s+='<polyline fill="none" stroke="var(--uniform)" stroke-width="2.2" points="'+pts.map(function(p){return X(p[1])+','+Y(p[2]);}).join(' ')+'"/>';
+  pts.forEach(function(p){s+='<circle cx="'+X(p[1])+'" cy="'+Y(p[2])+'" r="4.5" fill="var(--uniform)"/>';});
+  [["50–70",7,35.5,12,"start"],["75, 80",5,32,-10,"end"],["85",5,24,12,"start"],["90",2,18,-10,"end"],["95",2,10,12,"start"],["100",1,7,-10,"end"]].forEach(function(l){s+='<text class="v" x="'+(X(l[1])+l[3])+'" y="'+(Y(l[2])+4)+'" text-anchor="'+l[4]+'" style="fill:var(--uniform)">'+l[0]+'</text>';});
+  s+='<circle cx="'+X(2)+'" cy="'+Y(36)+'" r="8" fill="var(--acrs)"/><text class="v" x="'+(X(2)+14)+'" y="'+(Y(36)+5)+'" style="fill:var(--acrs-2)">ACRS</text>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(t.fig_sweep)+'">'+s+'</svg>';
+}
+function learn(t){
+  var U=[5,5,9,9,7,7,9,9],A=[5,5,11,11,15,15,15,15],M=[5,1,9,4,11,4,9,4],W=640,H=300,Lf=40,R=10,Tp=14,B=64,gw=(W-Lf-R)/8,bw=gw*.24,Y=function(v){return Tp+(16-v)*(H-Tp-B)/16;},s="",cols=["var(--uniform)","#7b95a1","var(--acrs)"];
+  [0,4,8,12,16].forEach(function(v){s+='<line x1="'+Lf+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--line)"/><text x="'+(Lf-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" class="v" style="font-weight:500;fill:var(--muted)">'+v+'</text>';});
+  for(var g=0;g<4;g++){var x=Lf+g*2*gw;if(g)s+='<line x1="'+x+'" x2="'+x+'" y1="'+Tp+'" y2="'+(H-B+40)+'" stroke="var(--line)" stroke-dasharray="3 4"/>';s+='<text x="'+(x+gw)+'" y="'+(H-10)+'" text-anchor="middle">'+esc(t.lrn_g[g])+'</text>';}
+  for(var i=0;i<8;i++){var cx=Lf+i*gw+gw/2;[U,A,M].forEach(function(S2,k){var bx=cx+(k-1.5)*(bw+2)+1;s+='<rect x="'+bx+'" y="'+Y(S2[i])+'" width="'+bw+'" height="'+(Y(0)-Y(S2[i]))+'" rx="3" fill="'+cols[k]+'"/>';if(k===2)s+='<text class="v" x="'+(bx+bw/2)+'" y="'+(Y(S2[i])-5)+'" text-anchor="middle" style="fill:var(--acrs-2)">'+S2[i]+'</text>';});
+    s+='<text x="'+cx+'" y="'+(H-B+16)+'" text-anchor="middle" style="font-size:11px">'+esc(t.lrn_r[i%2])+'</text>';}
+  s+='<line x1="'+Lf+'" x2="'+(W-R)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="var(--muted)"/>';
+  return '<div class="leg">'+t.lrn_leg.map(function(n,k){return '<span><i style="background:'+cols[k]+'"></i>'+esc(n)+'</span>';}).join("")+'</div><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(t.fig_learn)+'">'+s+'</svg>';
+}
+function arch(t){
+  var L=t.dir==="rtl", A=L?{src:"مصادر المراقبة",s:["EDR · NDR","جدار ناري · DNS","الهوية · السحابة","معلومات التهديد"],core:"قلب ACRS",c:[["الاكتشاف","12 قاعدة"],["الربط","خلال 5 دقائق"],["التقييم","الخطورة والتأكد"],["القرار","9 قواعد مرتبة"]],
+      i:[["قائمة الأجهزة","الأهمية · البديل · السلامة"],["ذاكرة الردود","معتمدة من المهندس"],["قاعدة الشخصين","للخوادم الأساسية"]],out:"أدوات الرد",o:["الجدار الناري: حجب","EDR: عزل الجهاز","الشبكة: تقييد","السحابة: قواعد أمان"],v:[["التحقق","9 فحوص"],["الرجوع","4 مراحل"],["السجل","سبب لكل قرار"]]}
+    :{src:"Monitoring sources",s:["EDR · NDR","Firewall · DNS","Identity · Cloud","Threat intel"],core:"ACRS core",c:[["Detect","12 rules"],["Correlate","5-min window"],["Score","danger + certainty"],["Decide","9 ordered rules"]],
+      i:[["Asset inventory","tier · backup · safety"],["Response memory","engineer-approved"],["Two-person rule","for core servers"]],out:"Response tools",o:["Firewall: block","EDR: isolate host","Network: restrict","Cloud: security group"],v:[["Verify","9 checks"],["Recover","4 stages"],["Log","reason for every decision"]]};
+  var W=720,H=360,sx=10,sw=118,ox=W-10-128,ow=128,cx=sx+sw+26,cw=ox-26-cx,s="";
+  function bx(x,y,w,h,f,st,t1,t2,c1,c2){var r='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="7" fill="'+f+'"'+(st?' stroke="'+st+'"':'')+'/>';
+    r+='<text x="'+(x+w/2)+'" y="'+(y+(t2?h/2-3:h/2+4))+'" text-anchor="middle" style="font:700 11.5px var(--font);fill:'+c1+'">'+esc(t1)+'</text>';
+    if(t2)r+='<text x="'+(x+w/2)+'" y="'+(y+h/2+12)+'" text-anchor="middle" style="font:10px var(--font);fill:'+(c2||c1)+'">'+esc(t2)+'</text>';return r;}
+  function ar(x1,y1,x2,y2,col){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+col+'" stroke-width="1.6" marker-end="url(#ah'+(col==="#1386ad"?"b":col==="#2b8a63"?"g":"m")+')"/>';}
+  s+='<defs>'+[["b","#1386ad"],["g","#2b8a63"],["m","#7b8a90"]].map(function(m){return '<marker id="ah'+m[0]+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="'+m[1]+'"/></marker>';}).join("")+'</defs>';
+  s+='<text x="'+(sx+sw/2)+'" y="16" text-anchor="middle" style="font:700 11px var(--font);fill:#4c5d68">'+esc(A.src)+'</text>';
+  A.s.forEach(function(v,i){s+=bx(sx,26+i*44,sw,34,"#eef1ea",null,v,null,"#1e2b28");});
+  s+='<rect x="'+cx+'" y="22" width="'+cw+'" height="200" rx="10" fill="#f7fbfc" stroke="#1386ad" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(cx+10)+'" y="40" style="font:700 11px var(--font);fill:#1386ad" '+(L?'text-anchor="start"':'')+'>'+esc(A.core)+'</text>';
+  var g=14,bw=(cw-20-3*g)/4;
+  A.c.forEach(function(v,i){var x=cx+10+i*(bw+g),k=i===3;s+=bx(x,52,bw,52,k?"#1386ad":"#d8ecf2",null,v[0],v[1],k?"#fff":"#0b3b36",k?"#e3f5fb":"#35545c");if(i<3)s+=ar(x+bw+1,78,x+bw+g-1,78,"#1386ad");});
+  var dx=cx+10+3*(bw+g),iw=(cw-20-2*g)/3;
+  A.i.forEach(function(v,i){var x=cx+10+i*(iw+g);s+=bx(x,150,iw,52,"#fff","#c9cdbf",v[0],v[1],"#0b3b36","#56625e");s+=ar(x+iw/2,148,dx+bw*(0.2+0.3*i),106,"#7b8a90");});
+  s+=ar(sx+sw+2,96,cx-2,78,"#7b8a90");
+  s+='<text x="'+(ox+ow/2)+'" y="16" text-anchor="middle" style="font:700 11px var(--font);fill:#4c5d68">'+esc(A.out)+'</text>';
+  A.o.forEach(function(v,i){s+=bx(ox,26+i*44,ow,34,"#eef1ea",null,v,null,"#1e2b28");});
+  s+=ar(dx+bw+2,78,ox-2,96,"#1386ad");
+  var vw=(W-20-2*30)/3;
+  A.v.forEach(function(v,i){var x=10+i*(vw+30);s+=bx(x,262,vw,44,"#e1f1e8",null,v[0]+" · "+v[1],null,"#12402f");if(i<2)s+=ar(x+vw+2,284,x+vw+28,284,"#2b8a63");});
+  s+=ar(ox+ow/2,202,ox+ow/2,258,"#2b8a63");
+  if(L){ /* mirror nothing: diagram reads left to right in both languages */ }
+  return '<svg viewBox="0 0 '+W+' 320" role="img" aria-label="'+esc(t.fig_arch)+'">'+s+'</svg>';
+}
+function design(t){
+  var L=t.dir==="rtl", A=L?{in:["41 هجومًا","+ حالة سليمة"],u:["المجموعة الضابطة: الطريقة المعتادة","خطورة ≥ 60 ← عزل كامل"],a:["المجموعة التجريبية: ACRS","أخف رد يوقف المهاجم"],out:["نفس القياسات","من الأوامر الفعلية"]}
+    :{in:["41 attacks","+ 1 harmless case"],u:["Control group: the usual way","danger ≥ 60 → full isolation"],a:["Experimental group: ACRS","smallest action that stops the attacker"],out:["Same measurements","from the commands actually sent"]};
+  var W=720,s='<defs><marker id="ahd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7b8a90"/></marker></defs>';
+  function b(x,y,w,h,f,t1,t2){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8" fill="'+f+'"/><text x="'+(x+w/2)+'" y="'+(y+h/2-4)+'" text-anchor="middle" style="font:700 12px var(--font);fill:#12202a">'+esc(t1)+'</text><text x="'+(x+w/2)+'" y="'+(y+h/2+13)+'" text-anchor="middle" style="font:11px var(--font);fill:#4c5d68">'+esc(t2)+'</text>';}
+  function a(x1,y1,x2,y2){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#7b8a90" stroke-width="1.6" marker-end="url(#ahd)"/>';}
+  s+=b(10,55,140,60,"#eef1ea",A.in[0],A.in[1]);s+=b(210,10,300,60,"#f6ddd0",A.u[0],A.u[1]);s+=b(210,100,300,60,"#d8ecf2",A.a[0],A.a[1]);s+=b(570,55,140,60,"#eef1ea",A.out[0],A.out[1]);
+  s+=a(152,80,208,42)+a(152,90,208,128)+a(512,42,568,80)+a(512,128,568,90);
+  return '<svg viewBox="0 0 '+W+' 170" role="img" aria-label="'+esc(t.fig_design)+'">'+s+'</svg>';
+}
+function render(){
+  var t=D[lang],root=document.documentElement,h="",fn=0,tn=0;
+  root.lang=lang;root.dir=t.dir;document.title=(lang==="ar"?"ورقة البحث · ACRS":"Research paper · ACRS");
+  var K=lang==="ar"?[["37 → 20","أجهزة توقفت"],["7 → 2","أنظمة مهمة توقفت"],["36 = 36","أُوقف المهاجم (من 41)"]]:[["37 → 20","machines offline"],["7 → 2","critical outages"],["36 = 36","attacker stopped (of 41)"]];
+  h+='<div class="cover"><div class="cv-top"><span class="cv-k">'+esc(t.kicker)+'</span></div><div class="cv-brand">ACRS</div><div class="cv-t">'+tx(t.title)+'</div><div class="cv-s">'+tx(t.sub)+'</div>'+
+     '<div class="cv-nums">'+K.map(function(k){return '<div><b dir="ltr">'+k[0]+'</b><span>'+esc(k[1])+'</span></div>';}).join("")+'</div>'+
+     '<div class="cv-by">'+esc(t.by)+'</div><div class="cv-note">'+esc(t.note)+'</div></div>';
+  h+='<div class="kicker">'+esc(t.kicker)+'</div><h1>'+tx(t.title)+'</h1><p class="sub">'+tx(t.sub)+'</p><p class="by">'+esc(t.by)+' · <bdi>'+t.date+'</bdi></p><p class="note">'+esc(t.note)+'</p><div class="mklegend"><mark class="mk-y">'+esc(t.mk[0])+'</mark><mark class="mk-r">'+esc(t.mk[1])+'</mark><mark class="mk-b">'+esc(t.mk[2])+'</mark></div>';
+  h+='<section class="card"><h2>'+esc(t.abs_t)+'</h2><p>'+tx(t.abs)+'</p><p class="kw">'+esc(t.kw)+'</p></section>';
+  h+='<nav class="card toc"><b>'+esc(t.toc)+'</b><ol>'+t.sections.map(function(s,i){return '<li><a href="#s'+(i+1)+'">'+esc(s.t)+'</a></li>';}).join("")+'<li><a href="#refs">'+esc(t.ref_t)+'</a></li></ol></nav>';
+  t.sections.forEach(function(sec,i){
+    h+='<section id="s'+(i+1)+'"><h2><span class="n">'+(i+1)+'</span>'+esc(sec.t)+'</h2>';
+    sec.b.forEach(function(b){
+      if(b[0]==="p")h+='<p>'+tx(b[1])+'</p>';
+      else if(b[0]==="box")h+='<p class="box">'+tx(b[1])+'</p>';
+      else if(b[0]==="ol"||b[0]==="ul")h+='<'+b[0]+'>'+b[1].map(function(x){return '<li>'+tx(x)+'</li>';}).join("")+'</'+b[0]+'>';
+      else if(b[0]==="table"){var tb=b[1],cap="";if(tb.cap){tn++;cap='<caption>'+esc(t.tab)+' '+tn+': '+esc(tb.cap)+'</caption>';}
+        var cmp=tb.h.length===3&&/ACRS/.test(tb.h[2]);
+        h+='<div class="tw"><table'+(tb.h[0]==="#"?' class="rules"':tb.r.length<=11?' class="sm"':'')+'>'+cap+'<thead><tr>'+tb.h.map(function(x,j){return '<th'+(cmp&&j===1?' class="u"':cmp&&j===2?' class="a"':'')+'>'+tx(x)+'</th>';}).join("")+'</tr></thead><tbody>'+
+          tb.r.map(function(r){return '<tr'+(r[0]==="ACRS"?' class="hl"':'')+'>'+r.map(function(c,j){return '<td'+(/^[\d ,،و.–-]+$/.test(c)&&c.length<12&&j>0?' class="num"':'')+'>'+tx(c)+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table></div>';}
+      else if(b[0]==="fig"){fn++;var FF={bars:[bars,t.fig_bars],sweep:[sweep,t.fig_sweep],learn:[learn,t.fig_learn],arch:[arch,t.fig_arch],design:[design,t.fig_design]}[b[1]];h+='<figure>'+FF[0](t)+'<figcaption>'+esc(t.fig)+' '+fn+': '+esc(FF[1])+'</figcaption></figure>';}
+    });
+    h+='</section>';
+  });
+  h+='<section id="refs"><h2>'+esc(t.ref_t)+'</h2><ol class="refs">'+t.refs.map(function(r){return '<li>'+tx(r)+'</li>';}).join("")+'</ol></section>';
+  document.getElementById("doc").innerHTML=h;
+  document.getElementById("back").textContent=t.back;
+  document.getElementById("lang").textContent=t.lang;
+  var pdf=document.getElementById("pdf");pdf.href="data/ACRS_Paper_"+(lang==="ar"?"AR":"EN")+".pdf";pdf.querySelector("span").textContent=t.pdf;
+  document.getElementById("copy").textContent=(lang==="ar"?"© 2026 حسان عبدالله الينبعاوي. جميع الحقوق محفوظة.":"© 2026 Hassan Abdullah Alyenbawi. All rights reserved.");
+}
+document.getElementById("lang").addEventListener("click",function(){lang=lang==="ar"?"en":"ar";set("acrs_lang",lang);render();});
+render();
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* ================= background network ================= */
+(function(){
+  var cv=document.getElementById("net"), cx=cv.getContext("2d"), N=[], w=0, h=0, raf=0, dpr=Math.min(window.devicePixelRatio||1,2);
+  function size(){ w=cv.clientWidth; h=cv.clientHeight; cv.width=w*dpr; cv.height=h*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.round(Math.min(46,Math.max(18,w/30))); N=[];
+    for(var i=0;i<n;i++) N.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,r:Math.random()<.12});
+  }
+  function draw(){
+    cx.clearRect(0,0,w,h);
+    for(var i=0;i<N.length;i++){ var a=N[i]; a.x+=a.vx; a.y+=a.vy; if(a.x<0||a.x>w)a.vx*=-1; if(a.y<0||a.y>h)a.vy*=-1;
+      for(var j=i+1;j<N.length;j++){ var b=N[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy;
+        if(d<16000){ cx.strokeStyle="rgba(120,210,240,"+(0.12*(1-d/16000))+")"; cx.lineWidth=1; cx.beginPath(); cx.moveTo(a.x,a.y); cx.lineTo(b.x,b.y); cx.stroke(); } } }
+    var t=performance.now()/1000;
+    for(var k=0;k<N.length;k++){ var p=N[k]; var pulse=p.r?(0.5+0.5*Math.sin(t*1.6+k)):0;
+      cx.fillStyle=p.r?"rgba(255,122,90,"+(0.35+0.4*pulse)+")":"rgba(150,225,250,.5)";
+      cx.beginPath(); cx.arc(p.x,p.y,p.r?2.2+pulse*1.4:1.5,0,6.283); cx.fill(); }
+    if(!reduce) raf=requestAnimationFrame(draw);
+  }
+  size(); draw();
+  addEventListener("resize",function(){cancelAnimationFrame(raf);size();draw();});
+  document.addEventListener("visibilitychange",function(){ if(document.hidden)cancelAnimationFrame(raf); else if(!reduce){cancelAnimationFrame(raf);draw();} });
+})();
+})();
+</script>
+</body>
+</html>

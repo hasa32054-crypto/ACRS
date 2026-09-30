@@ -1,0 +1,8 @@
+metric,uniform,acrs,how it is counted
+Machines taken offline,37,20,count rows where *_offline is True
+Critical-service outages,7,2,count rows where *_critical_outage is True
+Attacks cut off (of 41 malicious),36,36,count malicious rows where *_attacker_cut is True
+Paths to Tier-0/1 cut,36,30,from the commands each policy issued
+Safety devices taken offline,1,0,medical device rows taken offline
+Tier-0 isolated with no person,4,0,Tier-0 rows isolated automatically
+Harmless activity cut off,1,0,the one benign row taken offline
