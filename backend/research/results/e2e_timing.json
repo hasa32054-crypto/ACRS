@@ -1,0 +1,783 @@
+{
+ "note": "Simulated controllers with realistic latency; real 7/15/90 s deadlines.",
+ "baseline": {
+  "summary": {
+   "contained": 37,
+   "incidents": 42,
+   "median_ms": 325,
+   "p95_ms": 360,
+   "max_ms": 367,
+   "within_deadline": 37
+  },
+  "rows": [
+   {
+    "scenario": "tier1_c2_hr",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 367,
+    "detect_to_contain_ms": 436,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "tier0_dc_cred_dump",
+    "tier": 0,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 337,
+    "detect_to_contain_ms": 405,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "tier2_workstation",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 364,
+    "detect_to_contain_ms": 433,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 308,
+    "detect_to_contain_ms": 377,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 345,
+    "detect_to_contain_ms": 415,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 360,
+    "detect_to_contain_ms": 430,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "erp_change_window_fp",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 325,
+    "detect_to_contain_ms": 396,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "mri_non_isolatable",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 340,
+    "detect_to_contain_ms": 411,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "cloud_workload",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 346,
+    "detect_to_contain_ms": 418,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ioc_return_hr",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 346,
+    "detect_to_contain_ms": 418,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "unknown_host",
+    "tier": null,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "dns_tunnel",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 275,
+    "detect_to_contain_ms": 347,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "beacon_hr_app2",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 317,
+    "detect_to_contain_ms": 388,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "c2_build_server",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 305,
+    "detect_to_contain_ms": 376,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "vpn_gateway_c2",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 355,
+    "detect_to_contain_ms": 427,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "c2_ws_fin023",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 307,
+    "detect_to_contain_ms": 380,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "impossible_travel_hr",
+    "tier": 2,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "dc02_lsass_single",
+    "tier": 0,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "pki_c2",
+    "tier": 0,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 332,
+    "detect_to_contain_ms": 406,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "travel_then_c2_ws044",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 301,
+    "detect_to_contain_ms": 376,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_ws_hr",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 327,
+    "detect_to_contain_ms": 402,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_build",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 317,
+    "detect_to_contain_ms": 393,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_erp_db",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 314,
+    "detect_to_contain_ms": 391,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_dc02",
+    "tier": 0,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 325,
+    "detect_to_contain_ms": 402,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "k8s_node_miner",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 292,
+    "detect_to_contain_ms": 371,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "k8s_cp_c2",
+    "tier": 0,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 336,
+    "detect_to_contain_ms": 416,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "aws_access_key_only",
+    "tier": 1,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "aws_gw_exfil",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 335,
+    "detect_to_contain_ms": 416,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "phishing_macro_fin023",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 339,
+    "detect_to_contain_ms": 420,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "phishing_hta_fin044",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 339,
+    "detect_to_contain_ms": 422,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "outlook_cmd_fin031",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 334,
+    "detect_to_contain_ms": 418,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "vpn_credential_abuse",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 309,
+    "detect_to_contain_ms": 394,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "webshell_hr_gateway",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 294,
+    "detect_to_contain_ms": 379,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "fin_api_rce",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 246,
+    "detect_to_contain_ms": 331,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "aws_gw_node_exploit",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 306,
+    "detect_to_contain_ms": 392,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "hr_app2_webshell",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 261,
+    "detect_to_contain_ms": 347,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "erp_web_exploit_cw",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 315,
+    "detect_to_contain_ms": 402,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "erp_db_exfil",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 330,
+    "detect_to_contain_ms": 417,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "hr_db_exfil",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 313,
+    "detect_to_contain_ms": 401,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "insider_dns_ws044",
+    "tier": 2,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "response_memory_repeat",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 253,
+    "detect_to_contain_ms": 338,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "attribution_conflict",
+    "tier": 1,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 251,
+    "detect_to_contain_ms": 336,
+    "deadline_s": 15.0
+   }
+  ]
+ },
+ "acrs": {
+  "summary": {
+   "contained": 36,
+   "incidents": 42,
+   "median_ms": 306.0,
+   "p95_ms": 343,
+   "max_ms": 345,
+   "within_deadline": 36
+  },
+  "rows": [
+   {
+    "scenario": "tier1_c2_hr",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 328,
+    "detect_to_contain_ms": 403,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "tier0_dc_cred_dump",
+    "tier": 0,
+    "level": "EMERGENCY_RESTRICT",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 319,
+    "detect_to_contain_ms": 394,
+    "deadline_s": 7.0
+   },
+   {
+    "scenario": "tier2_workstation",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 267,
+    "detect_to_contain_ms": 343,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 321,
+    "detect_to_contain_ms": 397,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 294,
+    "detect_to_contain_ms": 371,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_finance",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 336,
+    "detect_to_contain_ms": 413,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "erp_change_window_fp",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "PENDING_APPROVAL",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "mri_non_isolatable",
+    "tier": 1,
+    "level": "COMPENSATING",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 219,
+    "detect_to_contain_ms": 295,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "cloud_workload",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 343,
+    "detect_to_contain_ms": 420,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ioc_return_hr",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 343,
+    "detect_to_contain_ms": 420,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "unknown_host",
+    "tier": null,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 345,
+    "detect_to_contain_ms": 422,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "dns_tunnel",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 343,
+    "detect_to_contain_ms": 420,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "beacon_hr_app2",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 333,
+    "detect_to_contain_ms": 410,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "c2_build_server",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 267,
+    "detect_to_contain_ms": 343,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "vpn_gateway_c2",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 315,
+    "detect_to_contain_ms": 393,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "c2_ws_fin023",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 309,
+    "detect_to_contain_ms": 387,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "impossible_travel_hr",
+    "tier": 2,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "dc02_lsass_single",
+    "tier": 0,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 7.0
+   },
+   {
+    "scenario": "pki_c2",
+    "tier": 0,
+    "level": "EMERGENCY_RESTRICT",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 287,
+    "detect_to_contain_ms": 367,
+    "deadline_s": 7.0
+   },
+   {
+    "scenario": "travel_then_c2_ws044",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 307,
+    "detect_to_contain_ms": 387,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_ws_hr",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 327,
+    "detect_to_contain_ms": 408,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_build",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 249,
+    "detect_to_contain_ms": 331,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "ransomware_erp_db",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 221,
+    "detect_to_contain_ms": 303,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "ransomware_dc02",
+    "tier": 0,
+    "level": "EMERGENCY_RESTRICT",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 275,
+    "detect_to_contain_ms": 358,
+    "deadline_s": 7.0
+   },
+   {
+    "scenario": "k8s_node_miner",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 293,
+    "detect_to_contain_ms": 376,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "k8s_cp_c2",
+    "tier": 0,
+    "level": "EMERGENCY_RESTRICT",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 318,
+    "detect_to_contain_ms": 402,
+    "deadline_s": 7.0
+   },
+   {
+    "scenario": "aws_access_key_only",
+    "tier": 1,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "aws_gw_exfil",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 232,
+    "detect_to_contain_ms": 317,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "phishing_macro_fin023",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 315,
+    "detect_to_contain_ms": 401,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "phishing_hta_fin044",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 239,
+    "detect_to_contain_ms": 325,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "outlook_cmd_fin031",
+    "tier": 2,
+    "level": "FULL_ISOLATION",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 305,
+    "detect_to_contain_ms": 392,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "vpn_credential_abuse",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "PENDING_APPROVAL",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "webshell_hr_gateway",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 313,
+    "detect_to_contain_ms": 401,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "fin_api_rce",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 296,
+    "detect_to_contain_ms": 385,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "aws_gw_node_exploit",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 310,
+    "detect_to_contain_ms": 399,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "hr_app2_webshell",
+    "tier": 1,
+    "level": "SURGICAL",
+    "state": "REMEDIATE",
+    "decide_to_contain_ms": 236,
+    "detect_to_contain_ms": 326,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "erp_web_exploit_cw",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 317,
+    "detect_to_contain_ms": 408,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "erp_db_exfil",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 279,
+    "detect_to_contain_ms": 369,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "hr_db_exfil",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 279,
+    "detect_to_contain_ms": 370,
+    "deadline_s": 15.0
+   },
+   {
+    "scenario": "insider_dns_ws044",
+    "tier": 2,
+    "level": "MONITOR",
+    "state": "MONITOR",
+    "decide_to_contain_ms": null,
+    "detect_to_contain_ms": null,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "response_memory_repeat",
+    "tier": 2,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 224,
+    "detect_to_contain_ms": 313,
+    "deadline_s": 90.0
+   },
+   {
+    "scenario": "attribution_conflict",
+    "tier": 1,
+    "level": "RESTRICT",
+    "state": "VERIFY",
+    "decide_to_contain_ms": 218,
+    "detect_to_contain_ms": 307,
+    "deadline_s": 15.0
+   }
+  ]
+ }
+}

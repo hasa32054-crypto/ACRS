@@ -1,0 +1,434 @@
+{
+  "note": "Simulated learning experiment. Deterministic: re-running gives the same numbers.",
+  "similarity_threshold": 0.96,
+  "rounds": [
+    {
+      "round": "R1",
+      "variant": "original",
+      "malicious": 41,
+      "miss_uniform": 5,
+      "miss_acrs": 5,
+      "miss_learning": 5,
+      "learned_used": 0,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 20,
+      "critical_outage_learning": 2,
+      "max_learned_level": null,
+      "tier0_learned": 0,
+      "misses_learning": [
+        "impossible_travel_hr@10.40.6.11",
+        "dc02_lsass_single@10.10.0.6",
+        "aws_access_key_only@172.31.10.5",
+        "vpn_credential_abuse@10.0.0.2",
+        "insider_dns_ws044@10.40.5.44"
+      ],
+      "patterns_after_round": 5
+    },
+    {
+      "round": "R2",
+      "variant": "original",
+      "malicious": 41,
+      "miss_uniform": 5,
+      "miss_acrs": 5,
+      "miss_learning": 1,
+      "learned_used": 4,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 20,
+      "critical_outage_learning": 2,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "dc02_lsass_single@10.10.0.6"
+      ],
+      "patterns_after_round": 6
+    },
+    {
+      "round": "R3",
+      "variant": "new_infra",
+      "malicious": 41,
+      "miss_uniform": 9,
+      "miss_acrs": 11,
+      "miss_learning": 9,
+      "learned_used": 2,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 7,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "dns_tunnel@10.40.5.31",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10",
+        "vpn_credential_abuse@10.0.0.2",
+        "erp_web_exploit_cw@10.30.1.10",
+        "insider_dns_ws044@10.40.5.44",
+        "response_memory_repeat@10.40.5.31"
+      ],
+      "patterns_after_round": 15
+    },
+    {
+      "round": "R4",
+      "variant": "new_infra",
+      "malicious": 41,
+      "miss_uniform": 9,
+      "miss_acrs": 11,
+      "miss_learning": 4,
+      "learned_used": 7,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 7,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10"
+      ],
+      "patterns_after_round": 19
+    },
+    {
+      "round": "R5",
+      "variant": "evasion",
+      "malicious": 41,
+      "miss_uniform": 7,
+      "miss_acrs": 15,
+      "miss_learning": 11,
+      "learned_used": 4,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 8,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "vpn_gateway_c2@10.0.0.2",
+        "impossible_travel_hr@10.40.6.11",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10",
+        "aws_gw_exfil@172.31.10.5",
+        "vpn_credential_abuse@10.0.0.2",
+        "erp_web_exploit_cw@10.30.1.10",
+        "erp_db_exfil@10.30.2.10",
+        "hr_db_exfil@10.20.2.21"
+      ],
+      "patterns_after_round": 30
+    },
+    {
+      "round": "R6",
+      "variant": "evasion",
+      "malicious": 41,
+      "miss_uniform": 7,
+      "miss_acrs": 15,
+      "miss_learning": 4,
+      "learned_used": 11,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 8,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10"
+      ],
+      "patterns_after_round": 34
+    },
+    {
+      "round": "R7",
+      "variant": "both",
+      "malicious": 41,
+      "miss_uniform": 9,
+      "miss_acrs": 15,
+      "miss_learning": 9,
+      "learned_used": 6,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 7,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "vpn_gateway_c2@10.0.0.2",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10",
+        "aws_gw_exfil@172.31.10.5",
+        "vpn_credential_abuse@10.0.0.2",
+        "erp_db_exfil@10.30.2.10",
+        "hr_db_exfil@10.20.2.21"
+      ],
+      "patterns_after_round": 43
+    },
+    {
+      "round": "R8",
+      "variant": "both",
+      "malicious": 41,
+      "miss_uniform": 9,
+      "miss_acrs": 15,
+      "miss_learning": 4,
+      "learned_used": 11,
+      "learned_on_harmless": 0,
+      "invisible": 0,
+      "offline_learning": 7,
+      "critical_outage_learning": 1,
+      "max_learned_level": "RESTRICT",
+      "tier0_learned": 0,
+      "misses_learning": [
+        "tier0_dc_cred_dump@10.10.0.5",
+        "dc02_lsass_single@10.10.0.6",
+        "pki_c2@10.10.0.20",
+        "k8s_cp_c2@10.50.0.10"
+      ],
+      "patterns_after_round": 47
+    }
+  ],
+  "patterns": [
+    {
+      "id": 1,
+      "level": "RESTRICT",
+      "source": "R1:impossible_travel_hr"
+    },
+    {
+      "id": 2,
+      "level": "RESTRICT",
+      "source": "R1:dc02_lsass_single"
+    },
+    {
+      "id": 3,
+      "level": "RESTRICT",
+      "source": "R1:aws_access_key_only"
+    },
+    {
+      "id": 4,
+      "level": "RESTRICT",
+      "source": "R1:vpn_credential_abuse"
+    },
+    {
+      "id": 5,
+      "level": "RESTRICT",
+      "source": "R1:insider_dns_ws044"
+    },
+    {
+      "id": 6,
+      "level": "RESTRICT",
+      "source": "R2:dc02_lsass_single"
+    },
+    {
+      "id": 7,
+      "level": "RESTRICT",
+      "source": "R3:tier0_dc_cred_dump"
+    },
+    {
+      "id": 8,
+      "level": "RESTRICT",
+      "source": "R3:dns_tunnel"
+    },
+    {
+      "id": 9,
+      "level": "RESTRICT",
+      "source": "R3:dc02_lsass_single"
+    },
+    {
+      "id": 10,
+      "level": "RESTRICT",
+      "source": "R3:pki_c2"
+    },
+    {
+      "id": 11,
+      "level": "RESTRICT",
+      "source": "R3:k8s_cp_c2"
+    },
+    {
+      "id": 12,
+      "level": "RESTRICT",
+      "source": "R3:vpn_credential_abuse"
+    },
+    {
+      "id": 13,
+      "level": "RESTRICT",
+      "source": "R3:erp_web_exploit_cw"
+    },
+    {
+      "id": 14,
+      "level": "RESTRICT",
+      "source": "R3:insider_dns_ws044"
+    },
+    {
+      "id": 15,
+      "level": "RESTRICT",
+      "source": "R3:response_memory_repeat"
+    },
+    {
+      "id": 16,
+      "level": "RESTRICT",
+      "source": "R4:tier0_dc_cred_dump"
+    },
+    {
+      "id": 17,
+      "level": "RESTRICT",
+      "source": "R4:dc02_lsass_single"
+    },
+    {
+      "id": 18,
+      "level": "RESTRICT",
+      "source": "R4:pki_c2"
+    },
+    {
+      "id": 19,
+      "level": "RESTRICT",
+      "source": "R4:k8s_cp_c2"
+    },
+    {
+      "id": 20,
+      "level": "RESTRICT",
+      "source": "R5:tier0_dc_cred_dump"
+    },
+    {
+      "id": 21,
+      "level": "RESTRICT",
+      "source": "R5:vpn_gateway_c2"
+    },
+    {
+      "id": 22,
+      "level": "RESTRICT",
+      "source": "R5:impossible_travel_hr"
+    },
+    {
+      "id": 23,
+      "level": "RESTRICT",
+      "source": "R5:dc02_lsass_single"
+    },
+    {
+      "id": 24,
+      "level": "RESTRICT",
+      "source": "R5:pki_c2"
+    },
+    {
+      "id": 25,
+      "level": "RESTRICT",
+      "source": "R5:k8s_cp_c2"
+    },
+    {
+      "id": 26,
+      "level": "RESTRICT",
+      "source": "R5:aws_gw_exfil"
+    },
+    {
+      "id": 27,
+      "level": "RESTRICT",
+      "source": "R5:vpn_credential_abuse"
+    },
+    {
+      "id": 28,
+      "level": "RESTRICT",
+      "source": "R5:erp_web_exploit_cw"
+    },
+    {
+      "id": 29,
+      "level": "RESTRICT",
+      "source": "R5:erp_db_exfil"
+    },
+    {
+      "id": 30,
+      "level": "RESTRICT",
+      "source": "R5:hr_db_exfil"
+    },
+    {
+      "id": 31,
+      "level": "RESTRICT",
+      "source": "R6:tier0_dc_cred_dump"
+    },
+    {
+      "id": 32,
+      "level": "RESTRICT",
+      "source": "R6:dc02_lsass_single"
+    },
+    {
+      "id": 33,
+      "level": "RESTRICT",
+      "source": "R6:pki_c2"
+    },
+    {
+      "id": 34,
+      "level": "RESTRICT",
+      "source": "R6:k8s_cp_c2"
+    },
+    {
+      "id": 35,
+      "level": "RESTRICT",
+      "source": "R7:tier0_dc_cred_dump"
+    },
+    {
+      "id": 36,
+      "level": "RESTRICT",
+      "source": "R7:vpn_gateway_c2"
+    },
+    {
+      "id": 37,
+      "level": "RESTRICT",
+      "source": "R7:dc02_lsass_single"
+    },
+    {
+      "id": 38,
+      "level": "RESTRICT",
+      "source": "R7:pki_c2"
+    },
+    {
+      "id": 39,
+      "level": "RESTRICT",
+      "source": "R7:k8s_cp_c2"
+    },
+    {
+      "id": 40,
+      "level": "RESTRICT",
+      "source": "R7:aws_gw_exfil"
+    },
+    {
+      "id": 41,
+      "level": "RESTRICT",
+      "source": "R7:vpn_credential_abuse"
+    },
+    {
+      "id": 42,
+      "level": "RESTRICT",
+      "source": "R7:erp_db_exfil"
+    },
+    {
+      "id": 43,
+      "level": "RESTRICT",
+      "source": "R7:hr_db_exfil"
+    },
+    {
+      "id": 44,
+      "level": "RESTRICT",
+      "source": "R8:tier0_dc_cred_dump"
+    },
+    {
+      "id": 45,
+      "level": "RESTRICT",
+      "source": "R8:dc02_lsass_single"
+    },
+    {
+      "id": 46,
+      "level": "RESTRICT",
+      "source": "R8:pki_c2"
+    },
+    {
+      "id": 47,
+      "level": "RESTRICT",
+      "source": "R8:k8s_cp_c2"
+    }
+  ]
+}

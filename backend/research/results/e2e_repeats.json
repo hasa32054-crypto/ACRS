@@ -1,0 +1,100 @@
+{
+ "runs": 5,
+ "note": "Median decide-to-contain time per run; simulated controllers, real 7/15/90 s timers.",
+ "baseline": {
+  "median_of_runs_ms": 316,
+  "min_ms": 295,
+  "max_ms": 342,
+  "missed_deadline_total": 0,
+  "per_run": [
+   {
+    "contained": 37,
+    "incidents": 42,
+    "median_ms": 319,
+    "p95_ms": 347,
+    "max_ms": 358,
+    "within_deadline": 37
+   },
+   {
+    "contained": 37,
+    "incidents": 42,
+    "median_ms": 295,
+    "p95_ms": 335,
+    "max_ms": 354,
+    "within_deadline": 37
+   },
+   {
+    "contained": 37,
+    "incidents": 42,
+    "median_ms": 316,
+    "p95_ms": 344,
+    "max_ms": 348,
+    "within_deadline": 37
+   },
+   {
+    "contained": 37,
+    "incidents": 42,
+    "median_ms": 342,
+    "p95_ms": 370,
+    "max_ms": 378,
+    "within_deadline": 37
+   },
+   {
+    "contained": 37,
+    "incidents": 42,
+    "median_ms": 316,
+    "p95_ms": 354,
+    "max_ms": 361,
+    "within_deadline": 37
+   }
+  ]
+ },
+ "acrs": {
+  "median_of_runs_ms": 301.5,
+  "min_ms": 288.0,
+  "max_ms": 318.5,
+  "missed_deadline_total": 0,
+  "per_run": [
+   {
+    "contained": 36,
+    "incidents": 42,
+    "median_ms": 304.0,
+    "p95_ms": 343,
+    "max_ms": 350,
+    "within_deadline": 36
+   },
+   {
+    "contained": 36,
+    "incidents": 42,
+    "median_ms": 294.0,
+    "p95_ms": 333,
+    "max_ms": 338,
+    "within_deadline": 36
+   },
+   {
+    "contained": 36,
+    "incidents": 42,
+    "median_ms": 301.5,
+    "p95_ms": 334,
+    "max_ms": 344,
+    "within_deadline": 36
+   },
+   {
+    "contained": 36,
+    "incidents": 42,
+    "median_ms": 288.0,
+    "p95_ms": 328,
+    "max_ms": 346,
+    "within_deadline": 36
+   },
+   {
+    "contained": 36,
+    "incidents": 42,
+    "median_ms": 318.5,
+    "p95_ms": 366,
+    "max_ms": 371,
+    "within_deadline": 36
+   }
+  ]
+ }
+}
