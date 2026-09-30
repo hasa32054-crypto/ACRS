@@ -348,7 +348,8 @@ en:{
 var D=window.PAPER_DOC, q=new URLSearchParams(location.search);
 function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
-var lang=q.get("lang")||get("acrs_lang")||"ar"; if(!D[lang])lang="ar";
+function autoLang(){var L=((navigator.languages&&navigator.languages[0])||navigator.language||"ar")+"";return /^ar/i.test(L)?"ar":"en";}
+var lang=q.get("lang")||get("acrs_lang")||autoLang(); if(!D[lang])lang=autoLang(); if(!D[lang])lang="ar";
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function tx(s){return esc(s).replace(/ACRS|Tier-[012]|[A-Z]{2,}[A-Z0-9-]*-\d+|87893ca0|\d+(\.\d+)?%?/g,function(m){return '<bdi>'+m+'</bdi>';}).replace(/\[\[([yrb]):(.*?)\]\]/g,'<mark class="mk-$1">$2</mark>');}
 function bars(t){

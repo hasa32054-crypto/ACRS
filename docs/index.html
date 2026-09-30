@@ -919,7 +919,8 @@ var FOOT = {ar:"© 2026 حسان عبدالله الينبعاوي. جميع ا�
 var REPLAY = {ar:"أعد مشاهدة المقدمة", en:"Replay the intro"};
 
 /* ================= language ================= */
-var lang = store("acrs_lang") || "ar";
+function autoLang(){var L=((navigator.languages&&navigator.languages[0])||navigator.language||"ar")+"";return /^ar/i.test(L)?"ar":"en";}
+var lang = (function(){var q=null;try{q=new URLSearchParams(location.search).get("lang");}catch(e){} if(q==="ar"||q==="en")return q; var s=store("acrs_lang"); if(s==="ar"||s==="en")return s; return autoLang();})();
 var filter = "all";
 function applyLang(){
   var t=T[lang], root=document.documentElement;
