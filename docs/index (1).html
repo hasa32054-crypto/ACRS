@@ -1,0 +1,1559 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACRS · نظام الاستجابة السيبرانية المتكيّفة</title>
+<meta name="description" content="ACRS: Adaptive Cyber Response System, by Hassan Abdullah Alyenbawi">
+
+</head>
+<body>
+<title>ACRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one dark "operations room" page — a slowly moving colour field behind frosted-glass panels.
+   Single-theme by design (always dark), so every colour is set explicitly below. */
+:root{
+  --bg:#060a0f; --bg2:#0b1219;
+  --text:#e8eef2; --muted:#93a4ae; --faint:#5f707a;
+  --acrs:#2fb7e0; --acrs-2:#7fe3ff; --uniform:#f07a45; --breach:#ff4d5e; --alive:#3ddc97;
+  --glass:rgba(255,255,255,.055); --glass-2:rgba(255,255,255,.09); --edge:rgba(255,255,255,.12); --edge-2:rgba(255,255,255,.2);
+  --font:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --r:20px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.15}
+a{color:var(--acrs-2)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acrs-2);outline-offset:3px;border-radius:10px}
+.wrap{max-width:72rem;margin:0 auto;padding-inline:clamp(1rem,4vw,2rem)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- moving background ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#0d1822 0%,var(--bg) 60%)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+.o1{width:46vmax;height:46vmax;background:radial-gradient(circle,#1b8fb8 0%,transparent 65%);top:-12vmax;inset-inline-start:-10vmax;animation:drift1 26s ease-in-out infinite alternate}
+.o2{width:40vmax;height:40vmax;background:radial-gradient(circle,#c0482f 0%,transparent 65%);bottom:-14vmax;inset-inline-end:-8vmax;opacity:.42;animation:drift2 32s ease-in-out infinite alternate}
+.o3{width:30vmax;height:30vmax;background:radial-gradient(circle,#15806a 0%,transparent 65%);top:40%;inset-inline-start:35%;opacity:.3;animation:drift3 38s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(12vmax,10vmax) scale(1.1)}}
+@keyframes drift2{to{transform:translate(-14vmax,-8vmax) scale(1.15)}}
+@keyframes drift3{to{transform:translate(-10vmax,12vmax) scale(.9)}}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%)}
+#net{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+
+/* ---------- glass + controls ---------- */
+.glass{background:linear-gradient(145deg,var(--glass-2),var(--glass));border:1px solid var(--edge);border-radius:var(--r);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);
+  box-shadow:0 18px 50px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08)}
+
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.btn{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.35rem;border-radius:999px;
+  border:1px solid var(--edge-2);background:rgba(8,14,20,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  cursor:pointer;font-weight:600;font-size:1rem;text-decoration:none;color:var(--text);transition:transform .2s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn .glow{position:absolute;inset:-1px;border-radius:inherit;z-index:-1;opacity:.55;filter:blur(14px);transition:opacity .3s}
+.btn:hover .glow{opacity:.95}
+.btn-primary{border-color:transparent;background:
+  linear-gradient(rgba(6,12,18,.82),rgba(6,12,18,.82)) padding-box,
+  conic-gradient(from var(--ang),var(--acrs),var(--acrs-2),#1f6f8b,var(--acrs)) border-box;animation:spin 5s linear infinite}
+.btn-primary .glow{background:var(--acrs)}
+.btn-ghost .glow{background:var(--uniform);opacity:.25}
+.btn-ghost:hover .glow{opacity:.55}
+@keyframes spin{to{--ang:360deg}}
+.btn[disabled]{cursor:default;opacity:.8}
+.pill{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;padding:.15rem .5rem;border-radius:999px;border:1px solid var(--edge-2);color:var(--muted)}
+.shine{position:relative;overflow:hidden}
+.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);
+  transform:translateX(-120%);animation:sweep 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes sweep{60%,100%{transform:translateX(120%)}}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;inset-inline:0;top:0;z-index:40;padding-top:env(safe-area-inset-top,0px)}
+.topbar .in.glass{background:linear-gradient(145deg,rgba(14,22,30,.82),rgba(8,13,18,.78))}
+.topbar .in{display:flex;align-items:center;gap:.8rem;justify-content:space-between;margin:.6rem auto 0;max-width:72rem;
+  padding:.45rem .55rem .45rem 1rem;border-radius:999px}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:700;letter-spacing:.06em;text-decoration:none;color:var(--text);font-family:var(--mono)}
+.brand i{width:.6rem;height:.6rem;border-radius:50%;background:var(--acrs);box-shadow:0 0 12px var(--acrs);animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.6}}
+.tools{display:flex;align-items:center;gap:.45rem}
+.navlink{color:var(--muted);text-decoration:none;font-size:.92rem;padding:.4rem .7rem;border-radius:999px}
+.navlink:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.icon-btn{width:2.4rem;height:2.4rem;border-radius:50%;display:grid;place-items:center;cursor:pointer;border:1px solid var(--edge);background:rgba(255,255,255,.05)}
+.icon-btn[aria-pressed="true"]{border-color:rgba(61,220,151,.6);box-shadow:0 0 16px rgba(61,220,151,.35)}
+.icon-btn svg{width:1.1rem;height:1.1rem}
+.lang{position:relative;display:flex;align-items:center;padding:.22rem;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.05);cursor:pointer;direction:ltr}
+.lang span{position:relative;z-index:1;min-width:2.3rem;text-align:center;font-weight:600;font-size:.88rem;padding:.25rem .5rem;color:var(--muted);transition:color .3s}
+.lang .thumb{position:absolute;top:.22rem;bottom:.22rem;width:calc(50% - .22rem);left:.22rem;border-radius:999px;
+  background:linear-gradient(135deg,var(--acrs),#1f7fa3);box-shadow:0 0 18px rgba(47,183,224,.55);transition:left .35s cubic-bezier(.6,.2,.2,1.2)}
+.lang[data-lang="ar"] .thumb{left:50%}
+.lang[data-lang="en"] .en,.lang[data-lang="ar"] .ar{color:#fff}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(7rem,16vw,10rem) clamp(3rem,8vw,5rem);text-align:center}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acrs-2)}
+:lang(ar) .eyebrow{letter-spacing:0;font-family:var(--font);font-size:.9rem}
+.hero h1{font-family:var(--mono);font-size:clamp(4rem,17vw,9.5rem);letter-spacing:.04em;margin-top:.6rem;
+  background:linear-gradient(180deg,#fff 10%,#9fe8ff 60%,#2fb7e0);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(47,183,224,.35))}
+.fullname{font-size:clamp(1rem,3vw,1.25rem);color:var(--muted);margin-top:.2rem}
+.lede{max-width:40rem;margin:1.4rem auto 0;font-size:clamp(1.05rem,3.2vw,1.3rem);color:#d9e3e8}
+.sig{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.7rem;color:var(--muted);font-size:.95rem}
+.sig::before,.sig::after{content:"";width:2.2rem;height:1px;background:linear-gradient(90deg,transparent,var(--edge-2),transparent)}
+.sig b{color:var(--text);font-weight:600}
+.simple{max-width:36rem;margin:.8rem auto 0;color:var(--muted);font-size:clamp(.95rem,2.8vw,1.08rem);line-height:1.8}
+.cta{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:2rem}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;text-align:center}
+@media (max-width:720px){.verdict{grid-template-columns:1fr}}
+.v{padding:1.5rem 1rem 1.3rem}
+.v .pair{font-family:var(--mono);font-weight:600;font-size:clamp(2.2rem,7vw,3rem);direction:ltr;unicode-bidi:isolate}
+.v .u{color:var(--uniform)} .v .a{color:var(--acrs-2);text-shadow:0 0 18px rgba(47,183,224,.5)} .v .op{color:var(--faint);margin-inline:.4rem}
+.v .l{margin-top:.4rem;font-weight:600}
+.v .t{margin-top:.1rem;font-size:.9rem;color:var(--alive);font-weight:600}
+.legend{display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;color:var(--muted);font-size:.88rem}
+.legend i{display:inline-block;width:.7rem;height:.7rem;border-radius:3px;margin-inline-end:.4rem;vertical-align:middle}
+
+/* ---------- evidence ---------- */
+section.block{padding-block:clamp(3rem,8vw,5rem)}
+.head{max-width:44rem}
+.head h2{font-size:clamp(1.7rem,5vw,2.5rem);margin-top:.6rem}
+.honest{display:flex;gap:.8rem;align-items:flex-start;margin-top:1.4rem;padding:1rem 1.2rem;color:#cfdbe1;font-size:.95rem;max-width:44rem}
+.honest svg{flex:none;width:1.2rem;height:1.2rem;margin-top:.25rem;color:var(--alive)}
+.acc{display:grid;gap:.8rem;margin-top:2rem}
+.item{overflow:hidden}
+.item > button{width:100%;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;background:none;border:0;cursor:pointer;text-align:start}
+.item .ic{flex:none;width:2.6rem;height:2.6rem;border-radius:14px;display:grid;place-items:center;background:rgba(47,183,224,.12);border:1px solid rgba(47,183,224,.35);color:var(--acrs-2);box-shadow:0 0 20px rgba(47,183,224,.15)}
+.item .ic svg{width:1.2rem;height:1.2rem}
+.item .tt{flex:1;min-width:0}
+.item .tt b{display:block;font-size:1.08rem}
+.item .tt small{display:block;color:var(--muted);font-size:.86rem;margin-top:.1rem}
+.item .chev{flex:none;width:1.9rem;height:1.9rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--edge);transition:transform .35s,background .3s}
+.item[data-open="true"] .chev{transform:rotate(180deg);background:rgba(47,183,224,.18);border-color:rgba(47,183,224,.5)}
+.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1)}
+.item[data-open="true"] .panel{grid-template-rows:1fr}
+.panel > div{min-height:0;overflow:hidden}
+.panel .body{padding:0 1.25rem 1.3rem;border-top:1px solid var(--edge)}
+.panel .body > *:first-child{margin-top:1.1rem}
+.paper{display:grid;gap:.9rem}
+.paper h4{margin:0;font-size:.82rem;color:var(--acrs-2);font-weight:600;letter-spacing:.02em}
+.paper p{margin:.15rem 0 0;color:#d5dfe4}
+.soon{color:var(--muted);font-size:.88rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.chip{cursor:pointer;padding:.35rem .8rem;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.04);font-size:.86rem;color:var(--muted)}
+.chip[aria-pressed="true"]{color:#fff;border-color:rgba(47,183,224,.6);background:rgba(47,183,224,.16)}
+.sbtn{cursor:pointer;display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1rem;border-radius:12px;border:1px solid var(--edge-2);background:rgba(255,255,255,.06);font-weight:600;font-size:.9rem;text-decoration:none;color:var(--text)}
+.sbtn:hover{background:rgba(255,255,255,.1)}
+.sbtn.go{border-color:rgba(61,220,151,.55);box-shadow:0 0 18px rgba(61,220,151,.2)}
+.sbtn svg{width:1rem;height:1rem}
+.tablebox{margin-top:1rem;max-height:26rem;overflow:auto;border-radius:14px;border:1px solid var(--edge)}
+table{width:100%;border-collapse:collapse;font-size:.86rem;min-width:40rem}
+th,td{padding:.55rem .7rem;text-align:start;border-bottom:1px solid rgba(255,255,255,.06);white-space:nowrap}
+th{position:sticky;top:0;background:#0d161e;color:var(--muted);font-weight:500;font-size:.78rem;z-index:1}
+tr.scan td{background:rgba(47,183,224,.14)}
+tr.saved td:first-child{box-shadow:inset 3px 0 0 var(--alive)}
+:lang(ar) tr.saved td:first-child{box-shadow:inset -3px 0 0 var(--alive)}
+.lv{display:inline-flex;align-items:center;gap:.35rem;padding:.12rem .5rem;border-radius:6px;font-size:.78rem;border:1px solid transparent}
+.lv i{width:.45rem;height:.45rem;border-radius:50%;background:currentColor}
+.lv-FULL_ISOLATION{color:#ffb08c;background:rgba(240,122,69,.14);border-color:rgba(240,122,69,.35)}
+.lv-SURGICAL,.lv-EMERGENCY_RESTRICT{color:#8fe9ff;background:rgba(47,183,224,.14);border-color:rgba(47,183,224,.35)}
+.lv-RESTRICT,.lv-COMPENSATING{color:#9ff0c9;background:rgba(61,220,151,.12);border-color:rgba(61,220,151,.3)}
+.lv-MONITOR{color:#b7c3ca;background:rgba(255,255,255,.06);border-color:var(--edge)}
+.off{color:#ffb08c} .on{color:#9ff0c9}
+.tier{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--edge);border-radius:5px;padding:0 .3rem;margin-inline-start:.35rem}
+.result{display:none;margin-top:1rem;padding:1rem;border-radius:14px;border:1px solid rgba(61,220,151,.4);background:rgba(61,220,151,.07)}
+.result.show{display:block}
+.result .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:.6rem}
+@media (max-width:640px){.result .grid3{grid-template-columns:1fr}}
+.result .cell{padding:.7rem .8rem;border-radius:10px;background:rgba(0,0,0,.2)}
+.result .cell b{display:block;font-size:.85rem;color:var(--muted);font-weight:500}
+.result .cell span{font-family:var(--mono);font-size:1.25rem;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.result .u{color:var(--uniform)} .result .a{color:var(--acrs-2)}
+.facts{display:grid;gap:.7rem;margin:0;padding:0;list-style:none}
+.facts li{display:flex;gap:.7rem;align-items:flex-start;color:#d5dfe4}
+.facts li::before{content:"";flex:none;width:.5rem;height:.5rem;margin-top:.62rem;border-radius:50%;background:var(--acrs);box-shadow:0 0 10px var(--acrs)}
+.srcs{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
+.srcs a{text-decoration:none;display:flex;gap:.6rem;align-items:baseline;padding:.6rem .8rem;border-radius:10px;border:1px solid var(--edge);background:rgba(255,255,255,.03)}
+.srcs a:hover{background:rgba(255,255,255,.07)}
+.srcs .k{font-family:var(--mono);color:var(--acrs-2);font-size:.8rem}
+.srcs .d{color:#d5dfe4}
+.srcs .d small{color:var(--muted)}
+.mini{width:100%;min-width:0;font-size:.88rem}
+.mini td,.mini th{white-space:normal}
+.mini td.n{font-family:var(--mono);direction:ltr;text-align:center}
+.nw{white-space:nowrap}
+@media (max-width:640px){
+  .mini thead{display:none}
+  .mini tr{display:grid;grid-template-columns:1fr 3rem 3rem;align-items:center;column-gap:.4rem;padding:.7rem .8rem;border-bottom:1px solid rgba(255,255,255,.07)}
+  .mini td{border:0;padding:0}
+  .mini td.m{font-weight:600}
+  .mini td.n{font-size:1.15rem}
+  .mini td.how{grid-column:1/-1;margin-top:.35rem;font-size:.84rem}
+}
+
+footer{padding-block:3rem 2.5rem;color:var(--muted);font-size:.88rem;text-align:center}
+footer .in{display:grid;gap:.6rem;justify-items:center}
+footer button{background:none;border:0;color:var(--acrs-2);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- intro ---------- */
+.intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:radial-gradient(90% 70% at 50% 40%,#0c1720,#04070a 70%);
+  transition:opacity .7s ease,visibility .7s}
+.intro.done{opacity:0;visibility:hidden}
+.intro .stage{position:relative;width:min(92vw,46rem);height:min(80vh,32rem)}
+.scene{position:absolute;inset:0;display:grid;place-items:center;align-content:center;text-align:center;opacity:0;transform:translateY(12px) scale(.98);
+  transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+.scene.on{opacity:1;transform:none;transition:opacity .55s ease .3s,transform .55s ease .3s}
+.monitor{width:min(80vw,26rem)}
+.monitor .scr{transition:fill .4s}
+.monitor .ln{fill:#1d6d86;opacity:.55}
+.monitor .path{fill:none;stroke:var(--breach);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 6px var(--breach))}
+.breached .monitor .path{transition:stroke-dashoffset 1s ease-in;stroke-dashoffset:0}
+.breached .monitor .scr{fill:#2a0c12}
+.breached .monitor .ln{fill:#7a2230}
+.badge{margin-top:1.2rem;display:inline-flex;gap:.55rem;align-items:center;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(255,77,94,.6);
+  color:#ffd2d7;background:rgba(255,77,94,.14);box-shadow:0 0 30px rgba(255,77,94,.35);font-weight:600;opacity:0;transform:scale(.8);transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.breached .badge{opacity:1;transform:none;animation:flick .5s steps(2) 2}
+@keyframes flick{50%{opacity:.4}}
+.stat h2{font-size:clamp(1.4rem,4.5vw,2.1rem);max-width:30rem;margin:0 auto}
+.bars{display:grid;gap:.75rem;margin:1.6rem auto 0;width:min(84vw,30rem)}
+.bar.hot .val{color:#fff;font-weight:600}
+.bar{display:grid;grid-template-columns:3.6rem 1fr 3.2rem;gap:.7rem;align-items:center;font-size:.9rem;color:var(--muted)}
+.bar .track{height:.8rem;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar .fill{height:100%;width:0;max-width:100%;border-radius:inherit;background:linear-gradient(90deg,#b8323f,var(--breach));box-shadow:0 0 14px rgba(255,77,94,.5);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.bar .val{font-family:var(--mono);color:#ffd2d7;direction:ltr}
+.src{margin-top:1.1rem;font-size:.78rem;color:var(--faint)}
+.problem p{font-size:clamp(1.3rem,4.2vw,2rem);max-width:32rem;margin:0 auto;font-weight:500}
+.problem p em{font-style:normal;color:var(--uniform)}
+.brandmark{font-family:var(--mono);font-weight:600;font-size:clamp(4rem,16vw,8rem);letter-spacing:.06em;
+  background:linear-gradient(180deg,#fff,#7fe3ff 55%,#2fb7e0);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 40px rgba(47,183,224,.55))}
+.brandtag{color:var(--muted);font-size:clamp(1rem,3vw,1.2rem)}
+.inav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:3.4rem;height:3.4rem;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  color:#fff;border:1px solid rgba(127,227,255,.35);background:rgba(10,20,28,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 22px rgba(47,183,224,.25);transition:opacity .3s,box-shadow .3s,transform .2s}
+.inav svg{width:1.5rem;height:1.5rem}
+.inav:hover{box-shadow:0 0 32px rgba(47,183,224,.55)}
+.inav:active{transform:translateY(-50%) scale(.94)}
+.inav.prev{left:clamp(.6rem,3vw,2rem)} .inav.next{right:clamp(.6rem,3vw,2rem)}
+.inav.next{background:linear-gradient(135deg,rgba(47,183,224,.45),rgba(47,183,224,.18));border-color:rgba(127,227,255,.6);animation:nudge 2.2s ease-in-out infinite}
+.inav.next.wide{width:auto;padding:0 1.1rem 0 1.3rem;border-radius:999px;gap:.4rem;grid-auto-flow:column;animation:none}
+.inav .inlbl{display:none;font-weight:600;font-size:.95rem;white-space:nowrap}
+.inav.next.wide .inlbl{display:inline}
+.inav[disabled]{opacity:.2;pointer-events:none}
+@keyframes nudge{0%,100%{box-shadow:0 0 18px rgba(47,183,224,.3)}50%{box-shadow:0 0 36px rgba(47,183,224,.75)}}
+.dots{position:absolute;bottom:clamp(4.6rem,11vh,6rem);inset-inline:0;display:flex;justify-content:center;gap:.5rem;direction:ltr}
+.dots i{width:.55rem;height:.55rem;border-radius:99px;background:rgba(255,255,255,.2);transition:width .3s,background .3s}
+.dots i.on{width:1.6rem;background:var(--acrs)}
+@media (max-width:560px){.inav{width:2.9rem;height:2.9rem;top:auto;bottom:clamp(4rem,10vh,5rem);transform:none}.inav:active{transform:scale(.94)}.dots{bottom:clamp(5.1rem,12vh,6.2rem)}}
+.drop .cnt{display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:min(88vw,34rem)}
+.drop .c{padding:1.2rem .8rem}
+.drop .big{font-family:var(--mono);font-size:clamp(2.8rem,10vw,4.2rem);font-weight:600;color:var(--uniform);transition:color .6s,text-shadow .6s;direction:ltr}
+.drop .big.fell{color:var(--acrs-2);text-shadow:0 0 24px rgba(47,183,224,.6)}
+.drop .cl{color:var(--muted);font-size:.92rem}
+.drop .cap{margin-top:1rem;color:var(--muted);font-size:.88rem}
+.introbar{position:absolute;bottom:clamp(1.2rem,4vh,2rem);inset-inline:0;display:flex;justify-content:center;gap:.6rem}
+.introbar .sbtn{background:rgba(255,255,255,.05)}
+.progress{position:absolute;top:0;inset-inline:0;height:3px;background:rgba(255,255,255,.05)}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--breach),var(--acrs));box-shadow:0 0 10px var(--acrs)}
+
+@media (prefers-reduced-motion:reduce){
+  .orb,.brand i,.btn-primary,.shine::after{animation:none}
+  .scene,.panel{transition:none}
+}
+/* ---------- story (stage 2) ---------- */
+.story .head{margin-bottom:1.6rem}
+.sub{color:var(--muted);max-width:42rem;margin-top:.6rem}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:760px){.duel{grid-template-columns:1fr}}
+.side{padding:1rem 1rem 1.1rem}
+.side h3{font-size:1.02rem;display:flex;align-items:center;gap:.5rem}
+.side h3 i{width:.7rem;height:.7rem;border-radius:3px}
+.map{width:100%;height:auto;display:block;margin-top:.4rem;direction:ltr}
+.map .lk{stroke:rgba(127,227,255,.13);stroke-width:1}
+.map .nd{fill:#0f2230;stroke:rgba(127,227,255,.5);stroke-width:1.6;transition:fill .35s,stroke .35s}
+.map .t0{stroke:#e8c46a}
+.map .nd.off{fill:#3a1510;stroke:var(--uniform)}
+.map .nd.tgt{fill:rgba(47,183,224,.28);stroke:var(--acrs-2)}
+.map .nd.rst{fill:rgba(61,220,151,.2);stroke:var(--alive)}
+.map .nd.mon{stroke:#b7c3ca;stroke-dasharray:3 2}
+.map .xx{stroke:var(--uniform);stroke-width:1.6;opacity:0;transition:opacity .3s}
+.map .xx.on{opacity:1}
+.map .ring{fill:none;stroke:var(--breach);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ring .7s ease-out forwards}
+@keyframes ring{from{transform:scale(1);opacity:1}to{transform:scale(3.3);opacity:0}}
+.map .mri{font:600 9px var(--mono);fill:#9ff0c9}
+.map .core{font:600 8px var(--mono);fill:#e8c46a;opacity:.8}
+.duel>*,.lab>*,.side,.ecg{min-width:0}
+.ecg svg{max-width:100%}
+.ctr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin-top:.6rem;text-align:center}
+.ctr div{padding:.5rem .3rem;border-radius:10px;background:rgba(0,0,0,.22)}
+.ctr b{display:block;font-family:var(--mono);font-size:1.45rem;direction:ltr}
+.ctr small{display:block;color:var(--muted);font-size:.72rem;line-height:1.35}
+.u-side .ctr b{color:var(--uniform)} .a-side .ctr b{color:var(--acrs-2)}
+.ecg{display:flex;align-items:center;gap:.6rem;margin-top:.6rem;padding:.45rem .6rem;border-radius:10px;background:rgba(0,0,0,.22)}
+.ecg svg{flex:1;height:26px;direction:ltr;overflow:hidden}
+.ecg .wave{fill:none;stroke:var(--alive);stroke-width:1.6;filter:drop-shadow(0 0 4px var(--alive));animation:ecg 2.4s linear infinite}
+@keyframes ecg{to{transform:translateX(-100px)}}
+.ecg.dead .wave{display:none}
+.ecg .flat{stroke:var(--breach);stroke-width:1.6;display:none}
+.ecg.dead .flat{display:block}
+.ecg small{font-size:.75rem;color:var(--muted);white-space:nowrap}
+.ecg em{font-style:normal;font-weight:600;font-size:.78rem;color:var(--alive)}
+.ecg.dead em{color:var(--breach)}
+.playrow{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-block:1.2rem .2rem}
+.now{font-size:.88rem;color:var(--muted);min-height:1.4em}
+.now b{color:var(--text)}
+.keys{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-top:1rem;font-size:.84rem;color:var(--muted)}
+.keys i{display:inline-block;width:.8rem;height:.8rem;border-radius:50%;margin-inline-end:.4rem;vertical-align:middle;border:2px solid}
+.fine{font-size:.8rem;color:var(--faint);margin-top:.7rem}
+.sgap{margin-top:clamp(3rem,8vw,4.5rem)}
+/* decision explorer */
+.lab{display:grid;grid-template-columns:1.1fr 1fr;gap:1rem;align-items:stretch}
+@media (max-width:760px){.lab{grid-template-columns:1fr}}
+.lab .ctl,.lab .out{padding:1.2rem}
+.assets{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.asset{cursor:pointer;text-align:start;padding:.7rem .8rem;border-radius:12px;border:1px solid var(--edge);background:rgba(255,255,255,.04)}
+.asset b{display:block;font-size:.92rem} .asset small{color:var(--muted);font-size:.76rem}
+.asset[aria-pressed="true"]{border-color:rgba(47,183,224,.7);background:rgba(47,183,224,.16);box-shadow:0 0 18px rgba(47,183,224,.25)}
+.slider{margin-top:1.2rem}
+.slider label{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted)}
+.slider label b{font-family:var(--mono);color:var(--text);font-size:1.1rem}
+input[type=range]{width:100%;margin-top:.6rem;accent-color:var(--breach);direction:ltr}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.68rem;color:var(--faint);direction:ltr}
+.tog{display:flex;align-items:center;gap:.6rem;margin-top:1rem;cursor:pointer;font-size:.9rem;color:#d5dfe4}
+.tog input{width:1.1rem;height:1.1rem;accent-color:var(--acrs)}
+.out{display:flex;flex-direction:column;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.out .glowdot{position:absolute;width:14rem;height:14rem;border-radius:50%;filter:blur(50px);opacity:.35;top:-4rem;inset-inline-end:-4rem;transition:background .4s}
+.out .lvl{font-size:clamp(1.5rem,5vw,2.1rem);font-weight:700;margin-top:.3rem;transition:color .3s}
+.out .how{display:inline-flex;margin:.7rem auto 0;padding:.3rem .8rem;border-radius:999px;font-size:.82rem;border:1px solid var(--edge-2)}
+.out p{color:#d5dfe4;margin:.9rem auto 0;max-width:26rem}
+/* threshold chart */
+.tchart{padding:1.2rem}
+.tchart svg{width:100%;max-width:640px;margin:0 auto;height:auto;direction:ltr;display:block}
+.tchart .ax{stroke:rgba(255,255,255,.25)} .tchart .gl{stroke:rgba(255,255,255,.06)}
+.tchart text{font:12px var(--mono);fill:var(--muted)}
+.tchart .lab2{font:12px var(--font);fill:var(--muted)}
+.tchart .ul{fill:none;stroke:var(--uniform);stroke-width:2.4;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2s ease}
+.tchart.drawn .ul{stroke-dashoffset:0}
+.tchart .up{fill:var(--uniform);stroke:#081018;stroke-width:2;opacity:0;transition:opacity .4s}
+.tchart.drawn .up{opacity:1}
+.tchart .zone{fill:rgba(47,183,224,.12);stroke:rgba(47,183,224,.4);stroke-dasharray:4 3}
+.tchart .ap{fill:var(--acrs-2);filter:drop-shadow(0 0 8px var(--acrs));opacity:0;transform-origin:center;transition:opacity .5s 1.8s}
+.tchart.drawn .ap{opacity:1}
+.tchart .apl{font:700 13px var(--mono);fill:var(--acrs-2)}
+.tchart .zl{font:600 11px var(--font);fill:var(--acrs-2)}
+.tchart .tl{font:600 10px var(--mono);fill:#ffc2a6}
+/* lifecycle */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;position:relative}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.step{padding:1rem;opacity:.62;transition:opacity .4s,border-color .4s,box-shadow .4s}
+.step.on{opacity:1;border-color:rgba(47,183,224,.6);box-shadow:0 0 26px rgba(47,183,224,.22)}
+.step .k{font-family:var(--mono);font-size:.72rem;color:var(--acrs-2)}
+.step b{display:block;margin-top:.2rem}
+.step p{margin:.3rem 0 0;font-size:.85rem;color:var(--muted)}
+.stages{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;align-items:center;font-size:.85rem;color:var(--muted)}
+.stages span{padding:.3rem .7rem;border-radius:999px;border:1px solid var(--edge);transition:all .4s}
+.stages span.on{color:#fff;border-color:rgba(61,220,151,.6);background:rgba(61,220,151,.14)}
+
+.navs{display:flex;gap:.1rem;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8px,#000 calc(100% - 8px),transparent)}.navs::-webkit-scrollbar{display:none}
+.topbar .tools{min-width:0}.topbar .in>*{flex-shrink:0}.topbar .in>.tools{flex-shrink:1}.lang,.icon-btn{flex-shrink:0}
+svg[hidden]{display:none!important}
+@media (max-width:900px){.hide-md{display:none}}
+.navs .navlink{white-space:nowrap}
+@media (max-width:520px){.lang span{min-width:1.9rem;padding:.2rem .35rem;font-size:.8rem}.icon-btn{width:2.3rem!important;height:2.3rem!important}.topbar .in{gap:.4rem!important}}
+@media (max-width:400px){.navs .navlink{font-size:.68rem;padding:.28rem .24rem}}
+@media (max-width:520px){.topbar .in{padding-inline:.55rem!important}:root[lang=en] .navs .navlink{font-size:.7rem;padding:.3rem .28rem}}
+@media (max-width:520px){.navs .navlink{font-size:.76rem;padding:.35rem .38rem}.topbar .brand{font-size:.86rem}.topbar .tools{gap:.3rem}}
+@media (max-width:380px){.navs .navlink{font-size:.7rem;padding:.3rem .28rem}.topbar .brand i{display:none}}
+
+/* ================= stage 2b: compare ================= */
+.cmp .head{margin-bottom:1.4rem}
+.cmp-legend{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;margin:0 0 1.2rem;font-size:.88rem;color:var(--muted)}
+.cmp-legend span{display:inline-flex;align-items:center;gap:.45rem}
+.cmp-legend i{width:.8rem;height:.8rem;border-radius:3px;display:inline-block}
+.diffs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+@media (max-width:760px){.diffs{grid-template-columns:1fr}}
+.df{padding:1rem 1.1rem;position:relative;overflow:hidden;opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s,border-color .3s,box-shadow .3s}
+.df.in{opacity:1;transform:none}
+.df:hover{border-color:rgba(127,227,255,.35);box-shadow:0 0 28px rgba(47,183,224,.12)}
+.df .top{display:flex;align-items:baseline;gap:.6rem}
+.df .k{font:600 .78rem var(--mono);color:var(--acrs)}
+.df b.t{font-size:1rem}
+.df .tag{margin-inline-start:auto;font-size:.7rem;padding:.12rem .5rem;border-radius:999px;border:1px solid var(--edge-2);color:var(--muted);white-space:nowrap}
+.df .tag.src{border-color:rgba(255,200,0,.45);color:#ffd84d}
+.df .vs{display:grid;grid-template-columns:auto 1fr auto;gap:.35rem .7rem;align-items:center;margin-top:.8rem}
+.df .lb{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.df .tr{height:.62rem;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.df .tr i{display:block;height:100%;width:0;border-radius:999px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.df .tr.u i{background:var(--uniform)} .df .tr.a i{background:linear-gradient(90deg,var(--acrs),var(--acrs-2));box-shadow:0 0 12px rgba(47,183,224,.6)}
+.df .v{font:600 1.05rem var(--mono);direction:ltr;min-width:2.2rem;text-align:end}
+.df .v.u{color:var(--uniform)} .df .v.a{color:var(--acrs-2)}
+.df .txt{display:grid;gap:.45rem;margin-top:.8rem}
+.df .txt div{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;line-height:1.5}
+.df .txt em{font-style:normal;font-size:.72rem;padding:.1rem .45rem;border-radius:6px;white-space:nowrap;margin-top:.12rem}
+.df .txt .u em{background:rgba(240,122,69,.18);color:var(--uniform)}
+.df .txt .a em{background:rgba(47,183,224,.18);color:var(--acrs-2)}
+.df .note{margin-top:.6rem;font-size:.84rem;color:#d9e3e8}
+.df .note mark{background:rgba(255,200,0,.3);color:#fff;padding:0 .3em;border-radius:.3em}
+.df .fine{margin-top:.4rem;font-size:.76rem;color:var(--faint)}
+.cost{margin-top:.8rem;padding:1rem 1.2rem;border-color:rgba(255,77,94,.35)!important;background:linear-gradient(135deg,rgba(255,77,94,.10),rgba(255,255,255,.02))!important}
+.cost b{color:#ff8a95}
+.cost p{margin:.35rem 0 0;color:#e4ecf0;font-size:.94rem}
+.cmp h3.h3{font-size:clamp(1.25rem,3.6vw,1.6rem);margin:2.6rem 0 .4rem}
+.vtab{margin-top:1rem;padding:.4rem;overflow:hidden}
+.vtab table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:.9rem;line-height:1.5}
+.vtab th,.vtab td{padding:.75rem .8rem;text-align:start;vertical-align:top;border-bottom:1px solid var(--edge)}
+.vtab th,.vtab td{white-space:normal}
+.vtab thead th{font-size:.82rem;color:var(--muted);font-weight:600}
+.vtab thead th.me{color:var(--acrs-2)}
+.vtab td.me{background:rgba(47,183,224,.08);color:#fff;font-weight:500}
+.vtab tbody th{color:#d9e3e8;font-weight:600}
+.vtab thead th:first-child{width:17%}.vtab thead th:last-child{width:23%}
+.vtab tr:last-child td,.vtab tr:last-child th{border-bottom:0}
+.vtab .no{color:var(--faint)}
+@media (max-width:760px){
+ .vtab{padding:0;background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
+ .vtab table,.vtab tbody,.vtab tr,.vtab td,.vtab th{display:block;width:auto!important}
+ .vtab thead{display:none}
+ .vtab tr{margin-bottom:.8rem;border:1px solid var(--edge);border-radius:16px;background:rgba(255,255,255,.04);overflow:hidden}
+ .vtab tbody th{padding:.8rem 1rem;background:rgba(255,255,255,.04)}
+ .vtab td{padding:.55rem 1rem;border-bottom:1px solid var(--edge)}
+ .vtab td::before{content:attr(data-l);display:block;font-size:.72rem;color:var(--muted);margin-bottom:.1rem}
+ .vtab td.me::before{color:var(--acrs-2)}
+}
+.same{margin-top:1.6rem}
+.cmp h3.h3s{font-size:clamp(1.15rem,3.4vw,1.4rem);margin:0 0 .2rem}
+.samegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:.9rem}
+@media (max-width:760px){.samegrid{grid-template-columns:1fr}}
+.sm{padding:1rem 1.1rem;display:grid;gap:.6rem;border-color:rgba(61,220,151,.35)!important;background:linear-gradient(135deg,rgba(61,220,151,.08),rgba(255,255,255,.02))!important}
+.sm .pair{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font:600 1.05rem var(--mono)}
+.sm .pair span{display:inline-flex;align-items:center;gap:.5rem}
+.sm em{font:500 .72rem var(--font);font-style:normal;padding:.1rem .45rem;border-radius:6px}
+.sm em.u{background:rgba(240,122,69,.18);color:var(--uniform)} .sm em.a{background:rgba(47,183,224,.18);color:var(--acrs-2)}
+.sm .ok{display:inline-flex;align-items:center;gap:.4rem;color:var(--alive);font-weight:600;font-size:.9rem}
+.sm .ok svg{width:1.1rem;height:1.1rem}
+.vtab table{min-width:0}
+.honest{margin-top:1rem;font-size:.86rem;color:var(--muted);border-inline-start:3px solid rgba(255,200,0,.6);padding:.2rem .9rem}
+.cmp .srcs{margin-top:.8rem;font-size:.78rem;color:var(--faint)}
+.cmp .srcs a{color:var(--muted)}
+
+
+/* ================= video modal ================= */
+.vmodal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(3,6,9,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:12px;opacity:0;transition:opacity .3s}
+.vmodal.on{opacity:1}
+.vmodal[hidden]{display:none}
+.vbox{display:flex;flex-direction:column;gap:.6rem;align-items:center;max-width:100%}
+.vbar{display:flex;justify-content:space-between;align-items:center;width:100%;gap:.6rem}
+.vseg{display:inline-flex;border:1px solid var(--edge-2);border-radius:999px;padding:3px;background:rgba(255,255,255,.05)}
+.vseg button{border:0;background:none;color:var(--muted);font:600 .85rem var(--font);padding:.4rem .9rem;border-radius:999px;cursor:pointer}
+.vseg button[aria-pressed=true]{background:rgba(47,183,224,.25);color:#fff;box-shadow:0 0 14px rgba(47,183,224,.35)}
+.vclose{width:2.4rem;height:2.4rem;border-radius:50%;border:1px solid var(--edge-2);background:rgba(255,255,255,.06);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer}
+#vid{display:block;border-radius:16px;background:#000;box-shadow:0 30px 90px rgba(0,0,0,.6),0 0 0 1px rgba(127,227,255,.18);max-width:calc(100vw - 24px);max-height:calc(100vh - 90px);max-height:calc(100dvh - 90px)}
+#vid.l{width:min(1100px,calc(100vw - 24px),calc((100vh - 90px)*16/9));aspect-ratio:16/9}
+#vid.p{height:min(860px,calc(100vh - 90px));height:min(860px,calc(100dvh - 90px));aspect-ratio:9/16;width:auto}
+
+/* ================= power block ================= */
+.pw{margin-top:2rem;padding:1.3rem 1.4rem;border-color:rgba(127,227,255,.3)!important}
+.pw .h3s{font-size:clamp(1.2rem,3.6vw,1.55rem);margin:0}
+.pwrow{display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;margin-top:1rem}
+.pwrow .pl{font-size:.88rem;color:var(--muted);min-width:6.5rem}
+.pbar{display:flex;gap:2px;height:1.4rem;border-radius:8px;overflow:hidden;direction:ltr}
+.pbar i,.pleg i{display:block}
+.pbar i.full,.pleg i.full{background:var(--uniform)} .pbar i.smart,.pleg i.smart{background:var(--acrs)} .pbar i.emer,.pleg i.emer{background:#2a86b0}
+.pbar i.rst,.pleg i.rst{background:var(--alive)} .pbar i.net,.pleg i.net{background:#1f9e6c}
+.pn{font:600 1.2rem var(--mono)} .pn.u{color:var(--uniform)} .pn.a{color:var(--acrs-2)}
+.pleg{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-top:.9rem;font-size:.84rem;color:#d9e3e8}
+.pleg span{display:inline-flex;align-items:center;gap:.4rem} .pleg i{width:.75rem;height:.75rem;border-radius:3px}
+.pwk{margin-top:.9rem;font-size:.95rem;color:#e8f1f5} .pwk mark{background:rgba(61,220,151,.28);color:#fff;padding:0 .3em;border-radius:.3em}
+@media (max-width:520px){.pwrow .pl{min-width:4.6rem;font-size:.8rem}}
+.sm .unit{font-family:var(--font);font-weight:500;font-size:.8em}
+
+/* ================= learning ================= */
+.lchart{margin-top:.4rem;padding:1.1rem 1rem .8rem}
+.lchart svg{width:100%;height:auto;display:block;direction:ltr}
+.lchart text{font-family:var(--mono);fill:var(--muted);font-size:12px}
+.lchart .lab{font-family:var(--font);font-size:12px;fill:#d9e3e8}
+.lchart .vl{font-weight:600;font-size:12px}
+.lchart.nar text{font-size:13px}.lchart.nar .lab{font-size:12.5px}.lchart.nar .vl{font-size:13px}
+.lleg{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.86rem;color:#d9e3e8;margin-bottom:.6rem}
+.lleg span{display:inline-flex;align-items:center;gap:.45rem}.lleg i{width:.8rem;height:.8rem;border-radius:3px;display:inline-block}
+.lfacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:1rem}
+@media (max-width:760px){.lfacts{grid-template-columns:1fr}}
+.lf{padding:1rem 1.1rem;display:grid;gap:.35rem}
+.lf b{font:600 1.9rem var(--mono);color:var(--acrs-2);direction:ltr;text-align:start}
+.lf b.g{color:var(--alive)}
+.lf span{font-size:.95rem;color:#e8f1f5;line-height:1.5}
+.lf small{color:var(--muted);font-size:.8rem;line-height:1.45}
+/* real firewall lab */
+.rl .lf b .u{color:var(--uniform)}.rl .lf b .a{color:var(--acrs-2)}.rl .lf b span{font-size:inherit;color:inherit}.rl .lf b .u{color:var(--uniform)}.rl .lf b .a{color:var(--acrs-2)}.rl .lf b em{font-size:1rem;font-weight:600;color:var(--acrs-2);font-style:normal;margin-inline-start:.4rem}
+.rlrow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:.8rem;margin-top:.8rem}
+@media (max-width:860px){.rlrow{grid-template-columns:minmax(0,1fr)}}
+.rlab{padding:.8rem}.rlab svg{width:100%;height:auto;display:block}
+.rlab text{fill:#dbe8ee;font-size:15px;font-weight:600;text-anchor:middle;font-family:inherit}
+.rlab .mut{fill:#8aa0aa}.rlab .fw{fill:#f07a45;font-size:13px}.rlab .hk{fill:#ffb4b6}
+.rlhon{display:grid;gap:.8rem}
+.rbox{padding:1rem 1.1rem}.rbox h4{margin:0 0 .35rem;font-size:1.02rem}.rbox p{margin:0;color:#dbe8ee;font-size:.93rem;line-height:1.6}
+.rbox.ok{border-color:rgba(74,222,128,.55)}.rbox.ok h4{color:#4ade80}
+.rbox.wr{border-color:rgba(245,184,61,.55)}.rbox.wr h4{color:#f5b83d}
+.rbox.try h4{color:var(--acrs-2)}
+.rcode{display:block;direction:ltr;text-align:left;font:500 .85rem var(--mono);background:rgba(0,0,0,.35);padding:.55rem .75rem;border-radius:8px;overflow-x:auto;white-space:nowrap;margin:.4rem 0}
+.rbox.try a{color:var(--acrs-2);font-size:.9rem}
+.lchart .bar-l{transition:height 1s cubic-bezier(.2,.8,.2,1),y 1s cubic-bezier(.2,.8,.2,1)}
+</style>
+
+<div class="bg" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><canvas id="net"></canvas></div>
+
+<!-- ============ intro ============ -->
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div class="progress"><span id="prog"></span></div>
+  <div class="stage">
+    <div class="scene s1" id="sc1">
+      <svg class="monitor" viewBox="0 0 320 230" aria-hidden="true">
+        <rect x="10" y="8" width="300" height="182" rx="14" fill="#0b141b" stroke="rgba(255,255,255,.18)"/>
+        <rect class="scr" x="22" y="20" width="276" height="158" rx="6" fill="#08121a"/>
+        <g class="lines">
+          <rect class="ln" x="36" y="36" width="120" height="7" rx="3"/><rect class="ln" x="36" y="52" width="180" height="7" rx="3"/>
+          <rect class="ln" x="36" y="68" width="90" height="7" rx="3"/><rect class="ln" x="36" y="84" width="210" height="7" rx="3"/>
+          <rect class="ln" x="36" y="100" width="140" height="7" rx="3"/><rect class="ln" x="36" y="116" width="170" height="7" rx="3"/>
+          <rect class="ln" x="36" y="132" width="110" height="7" rx="3"/><rect class="ln" x="36" y="148" width="190" height="7" rx="3"/>
+        </g>
+        <path class="path" pathLength="1" d="M300 30 C 250 50, 260 80, 210 90 S 150 120, 120 110 S 60 140, 40 160"/>
+        <path class="path" pathLength="1" d="M300 150 C 260 140, 250 110, 200 118 S 140 70, 90 60"/>
+        <rect x="130" y="190" width="60" height="20" fill="#0b141b"/><rect x="100" y="208" width="120" height="10" rx="5" fill="#0b141b" stroke="rgba(255,255,255,.14)"/>
+      </svg>
+      <div class="badge" id="introTitle">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/></svg>
+        <span data-i18n="in_breach"></span>
+      </div>
+    </div>
+    <div class="scene s2 stat" id="sc2">
+      <h2 data-i18n="in_stat"></h2>
+      <div class="bars">
+        <div class="bar"><span class="num">2022</span><div class="track"><div class="fill" data-w="25"></div></div><span class="val" data-v="25">0%</span></div>
+        <div class="bar"><span class="num">2023</span><div class="track"><div class="fill" data-w="24"></div></div><span class="val" data-v="24">0%</span></div>
+        <div class="bar"><span class="num">2024</span><div class="track"><div class="fill" data-w="32"></div></div><span class="val" data-v="32">0%</span></div>
+        <div class="bar"><span class="num">2025</span><div class="track"><div class="fill" data-w="44"></div></div><span class="val" data-v="44">0%</span></div>
+        <div class="bar hot"><span class="num">2026</span><div class="track"><div class="fill" data-w="48"></div></div><span class="val" data-v="48">0%</span></div>
+      </div>
+      <div class="src" data-i18n="in_src"></div>
+    </div>
+    <div class="scene s3 problem" id="sc3"><p data-i18n-html="in_problem"></p></div>
+    <div class="scene s4" id="sc4"><div class="brandmark">ACRS</div><div class="brandtag" data-i18n="in_tag"></div></div>
+  </div>
+  <button class="inav prev" id="inPrev" type="button" data-i18n-aria="in_prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="inav next" id="inNext" type="button" data-i18n-aria="in_next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg><span class="inlbl" id="inNextLbl"></span></button>
+  <div class="dots" id="inDots"><i></i><i></i><i></i><i></i></div>
+  <div class="introbar">
+    <button class="sbtn" id="introSound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg><span data-i18n="in_sound"></span></button>
+    <button class="sbtn" id="introSkip" type="button"><span data-i18n="in_skip"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5l7 7-7 7M13 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+
+<!-- ============ top bar ============ -->
+<header class="topbar">
+  <div class="in glass">
+    <a class="brand" href="#top"><i></i>ACRS</a>
+    <div class="tools">
+      <nav class="navs"><a class="navlink" href="#results" data-i18n="nav_res"></a><a class="navlink" href="#evidence" data-i18n="nav_evidence"></a><a class="navlink" href="#how" data-i18n="nav_story"></a><a class="navlink" href="#compare" data-i18n="nav_cmp"></a></nav>
+      <button class="icon-btn" id="soundBtn" type="button" aria-pressed="false" data-i18n-aria="sound_label">
+        <svg id="sndOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+        <svg id="sndOn" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>
+      </button>
+      <button class="lang" id="langBtn" type="button" data-lang="ar" aria-label="Switch language / تبديل اللغة"><i class="thumb"></i><span class="en">EN</span><span class="ar">ع</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ============ hero ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow" data-i18n="hero_eyebrow"></div>
+      <h1>ACRS</h1>
+      <div class="fullname" data-i18n="hero_full"></div>
+      <p class="lede" data-i18n="hero_lede"></p>
+      <p class="simple" data-i18n="hero_simple"></p>
+      <div class="sig"><span data-i18n-html="hero_sig"></span></div>
+      <div class="cta">
+        <button class="btn btn-primary shine" type="button" id="watchBtn"><span class="glow"></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span data-i18n="btn_watch"></span></button>
+        <a class="btn btn-ghost" href="#results"><span class="glow"></span><span data-i18n="btn_evidence"></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ results ============ -->
+  <section class="block story cmp" id="results">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="rs_eyebrow"></div>
+        <h2 data-i18n="st1_t"></h2>
+        <p class="sub" data-i18n="st1_s"></p>
+      </div>
+      <div class="duel">
+        <div class="side glass u-side">
+          <h3><i style="background:var(--uniform)"></i><span data-i18n="leg_u"></span></h3>
+          <svg class="map" id="mapU" viewBox="0 0 400 400" role="img" data-i18n-aria="map_u"></svg>
+          <div class="ctr">
+            <div><b id="uc1">0</b><small data-i18n="c_off"></small></div>
+            <div><b id="uc2">0</b><small data-i18n="c_crit"></small></div>
+            <div><b id="uc3">0</b><small data-i18n="c_cut"></small></div>
+          </div>
+          <div class="ecg" id="ecgU"><small data-i18n="ecg_l"></small>
+            <svg viewBox="0 0 200 26" preserveAspectRatio="none"><path class="wave" d="M0 13h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17"/><path class="flat" d="M0 13H200"/></svg>
+            <em data-i18n="ecg_on"></em></div>
+        </div>
+        <div class="side glass a-side">
+          <h3><i style="background:var(--acrs)"></i><span>ACRS</span></h3>
+          <svg class="map" id="mapA" viewBox="0 0 400 400" role="img" data-i18n-aria="map_a"></svg>
+          <div class="ctr">
+            <div><b id="ac1">0</b><small data-i18n="c_off"></small></div>
+            <div><b id="ac2">0</b><small data-i18n="c_crit"></small></div>
+            <div><b id="ac3">0</b><small data-i18n="c_cut"></small></div>
+          </div>
+          <div class="ecg" id="ecgA"><small data-i18n="ecg_l"></small>
+            <svg viewBox="0 0 200 26" preserveAspectRatio="none"><path class="wave" d="M0 13h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17h20l4-9 5 18 4-9h17"/><path class="flat" d="M0 13H200"/></svg>
+            <em data-i18n="ecg_on"></em></div>
+        </div>
+      </div>
+      <div class="playrow">
+        <button class="btn btn-primary shine" id="runBtn" type="button"><span class="glow"></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span id="runLbl" data-i18n="run"></span></button>
+        <div class="now" id="now" aria-live="polite"></div>
+      </div>
+      <div class="keys">
+        <span><i style="border-color:var(--uniform);background:#3a1510"></i><span data-i18n="k_off"></span></span>
+        <span><i style="border-color:var(--acrs-2);background:rgba(47,183,224,.28)"></i><span data-i18n="k_tgt"></span></span>
+        <span><i style="border-color:var(--alive);background:rgba(61,220,151,.2)"></i><span data-i18n="k_rst"></span></span>
+        <span><i style="border-color:#b7c3ca;border-style:dashed"></i><span data-i18n="k_mon"></span></span>
+        <span><i style="border-color:#e8c46a"></i><span data-i18n="k_t0"></span></span>
+      </div>
+      <p class="fine" data-i18n="st1_fine"></p>
+
+      <div class="pw glass" id="pw">
+        <h3 class="h3s" data-i18n="pw_t"></h3>
+        <p class="sub" data-i18n="pw_s"></p>
+        <div class="pwrow"><span class="pl" data-i18n="pw_u"></span><div class="pbar"><i class="full" style="flex:36"></i></div><b class="pn u">36</b></div>
+        <div class="pwrow"><span class="pl">ACRS</span><div class="pbar"><i class="full" style="flex:7"></i><i class="smart" style="flex:9"></i><i class="emer" style="flex:4"></i><i class="rst" style="flex:15"></i><i class="net" style="flex:1"></i></div><b class="pn a">36</b></div>
+        <div class="pleg"><span><i class="full"></i><span data-i18n="pw_l1"></span> <bdi>7</bdi></span><span><i class="smart"></i><span data-i18n="pw_l2"></span> <bdi>9</bdi></span><span><i class="emer"></i><span data-i18n="pw_l3"></span> <bdi>4</bdi></span><span><i class="rst"></i><span data-i18n="pw_l4"></span> <bdi>15</bdi></span><span><i class="net"></i><span data-i18n="pw_l5"></span> <bdi>1</bdi></span></div>
+        <p class="pwk" data-i18n-html="pw_k"></p>
+      </div>
+      <div class="head sgap">
+        <h2 data-i18n-html="cp_t"></h2>
+        <p class="sub" data-i18n="cp_s"></p>
+      </div>
+      <div class="cmp-legend"><span><i style="background:var(--uniform)"></i><b data-i18n="cp_without"></b></span><span><i style="background:var(--acrs)"></i><b data-i18n="cp_with"></b></span></div>
+      <div class="diffs" id="diffs"></div>
+
+    </div>
+  </section>
+
+  <!-- ============ real firewall lab ============ -->
+  <section class="block rl" id="real">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="rl_eyebrow"></div>
+        <h2 data-i18n="rl_t"></h2>
+        <p class="sub" data-i18n="rl_s"></p>
+      </div>
+      <div class="lfacts">
+        <div class="lf glass"><b><bdi><span class="u">36</span> = <span class="a">36</span></bdi></b><span data-i18n="rl_f1"></span><small data-i18n="rl_f1s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">37</span> → <span class="a">16</span></bdi></b><span data-i18n="rl_f2"></span><small data-i18n="rl_f2s"></small></div>
+        <div class="lf glass"><b><bdi><span class="a">0.007</span></bdi><em data-i18n="rl_unit"></em></b><span data-i18n="rl_f3"></span><small data-i18n="rl_f3s"></small></div>
+      </div>
+      <div class="rlrow">
+        <div class="rlab glass">
+          <svg viewBox="0 0 520 265" role="img" data-i18n-aria="rl_d_aria">
+            <rect x="20" y="30" width="150" height="44" rx="8" fill="#10222f" stroke="#1f3a4a"/>
+            <rect x="20" y="108" width="150" height="44" rx="8" fill="#10222f" stroke="#1f3a4a"/>
+            <rect x="20" y="186" width="150" height="44" rx="8" fill="#10222f" stroke="#4ade80"/>
+            <text x="95" y="57" class="mut" data-i18n="rl_d1"></text>
+            <text x="95" y="135" class="mut" data-i18n="rl_d2"></text>
+            <text x="95" y="213" data-i18n="rl_d3"></text>
+            <line x1="366" y1="130" x2="276" y2="52" stroke="#f07a45" stroke-width="2.5"/>
+            <line x1="366" y1="130" x2="276" y2="130" stroke="#f07a45" stroke-width="2.5"/>
+            <line x1="366" y1="130" x2="276" y2="208" stroke="#7fe3ff" stroke-width="2.5"/>
+            <line x1="170" y1="208" x2="250" y2="208" stroke="#7fe3ff" stroke-width="2.5"/>
+            <rect x="250" y="20" width="26" height="215" rx="6" fill="#3a1d10" stroke="#f07a45"/>
+            <text x="263" y="252" class="fw" data-i18n="rl_d_fw"></text>
+            <path d="M256 45l14 14M270 45l-14 14M256 123l14 14M270 123l-14 14" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="212" cy="208" r="11" fill="#4ade80"/><path d="M206 208l4 4 8-8" stroke="#06140c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <rect x="366" y="92" width="146" height="76" rx="10" fill="#3a1216" stroke="#e5484d" stroke-width="2"/>
+            <text x="439" y="136" class="hk" data-i18n="rl_d4"></text>
+          </svg>
+        </div>
+        <div class="rlhon">
+          <div class="rbox glass ok"><h4 data-i18n="rl_ok_t"></h4><p data-i18n="rl_ok"></p></div>
+          <div class="rbox glass wr"><h4 data-i18n="rl_wr_t"></h4><p data-i18n="rl_wr"></p></div>
+          <div class="rbox glass try"><h4 data-i18n="rl_try_t"></h4><code class="rcode">sudo python -m research.real_lab</code>
+            <a href="data/real_lab.json" target="_blank" rel="noopener" data-i18n="rl_try_l"></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ learning ============ -->
+  <section class="block learn" id="learn">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="ln_eyebrow"></div>
+        <h2 data-i18n="ln_t"></h2>
+        <p class="sub" data-i18n="ln_s"></p>
+      </div>
+      <div class="lchart glass" id="lchart"></div>
+      <div class="lfacts" id="lfacts"></div>
+      <p class="honest" data-i18n="ln_honest"></p>
+    </div>
+  </section>
+
+  <!-- ============ evidence ============ -->
+  <section class="block" id="evidence">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="ev_eyebrow"></div>
+        <h2 data-i18n="ev_title"></h2>
+      </div>
+      <div class="honest glass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span data-i18n="ev_note"></span>
+      </div>
+
+      <div class="acc">
+        <!-- paper -->
+        <div class="item glass" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="p1">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h6"/></svg></span>
+            <span class="tt"><b data-i18n="a1_t"></b><small data-i18n="a1_s"></small></span>
+            <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="panel" id="p1" role="region"><div><div class="body">
+            <div class="row" style="gap:.5rem;flex-wrap:wrap"><a class="btn btn-primary" href="paper.html" style="padding:.55rem 1.1rem"><span data-i18n="a1_read"></span></a><a class="sbtn" href="data/ACRS_Paper_AR.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><span>PDF</span> <span>عربي</span></a><a class="sbtn" href="data/ACRS_Paper_EN.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><span>PDF</span> <span>English</span></a></div>
+          </div></div></div>
+        </div>
+        <!-- incidents -->
+        <div class="item glass" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="p2">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg></span>
+            <span class="tt"><b data-i18n="a2_t"></b><small data-i18n-html="a2_s"></small></span>
+            <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="panel" id="p2" role="region"><div><div class="body">
+            <p class="soon" data-i18n="a2_intro"></p>
+            <div class="row" style="margin-top:.8rem">
+              <button class="sbtn go" id="countBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M12 4v16"/></svg><span data-i18n="a2_count"></span></button>
+              <a class="sbtn" href="data/per_incident.csv" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><span data-i18n="dl"></span> per_incident.csv</a>
+              <a class="sbtn" href="data/summary.csv" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg><span data-i18n="dl"></span> summary.csv</a>
+            </div>
+            <div class="result" id="result"></div>
+            <div class="row" style="margin-top:1rem" id="filters"></div>
+            <div class="tablebox"><table id="incTable"></table></div>
+          </div></div></div>
+        </div>
+        <!-- reproducibility -->
+        <div class="item glass" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="p4">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
+            <span class="tt"><b data-i18n="a4_t"></b><small data-i18n="a4_s"></small></span>
+            <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="panel" id="p4" role="region"><div><div class="body"><ul class="facts" id="facts"></ul></div></div></div>
+        </div>
+        <!-- sources -->
+        <div class="item glass" data-open="false">
+          <button type="button" aria-expanded="false" aria-controls="p5">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg></span>
+            <span class="tt"><b data-i18n="a5_t"></b><small data-i18n="a5_s"></small></span>
+            <span class="chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+          </button>
+          <div class="panel" id="p5" role="region"><div><div class="body"><ul class="srcs" id="srcs"></ul></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ============ how it decides ============ -->
+  <section class="block story" id="how">
+    <div class="wrap">
+      <div class="eyebrow" data-i18n="st_eyebrow"></div>
+      <!-- decision explorer -->
+      <div class="head">
+        <h2 data-i18n="st2_t"></h2>
+        <p class="sub" data-i18n="st2_s"></p>
+      </div>
+      <div class="lab">
+        <div class="ctl glass">
+          <div class="assets" id="assets"></div>
+          <div class="slider">
+            <label for="risk"><span data-i18n="risk_l"></span><b id="riskV">90</b></label>
+            <input type="range" id="risk" min="0" max="8" step="1" value="6">
+            <div class="ticks"><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>85</span><span>90</span><span>95</span><span>100</span></div>
+          </div>
+          <label class="tog"><input type="checkbox" id="single"><span data-i18n="single_l"></span></label>
+          <p class="fine" id="singleNote" data-i18n="single_n" hidden></p>
+        </div>
+        <div class="out glass" id="out" aria-live="polite">
+          <span class="glowdot" id="outGlow"></span>
+          <small data-i18n="out_l" style="color:var(--muted)"></small>
+          <div class="lvl" id="outLvl"></div>
+          <span class="how" id="outHow"></span>
+          <p id="outWhy"></p>
+        </div>
+      </div>
+
+      <!-- threshold frontier -->
+      <div class="head sgap">
+        <h2 data-i18n="st3_t"></h2>
+        <p class="sub" data-i18n="st3_s"></p>
+      </div>
+      <div class="tchart glass" id="tchart"><svg viewBox="0 0 460 300" id="tsvg" role="img" data-i18n-aria="st3_t"></svg></div>
+
+      <!-- lifecycle -->
+      <div class="head sgap">
+        <h2 data-i18n="st4_t"></h2>
+        <p class="sub" data-i18n="st4_s"></p>
+      </div>
+      <div class="steps" id="steps"></div>
+      <div class="stages" id="stagesRow"></div>
+      <p class="fine" data-i18n="st4_fine"></p>
+    </div>
+  </section>
+
+  <!-- ============ vs existing systems ============ -->
+  <section class="block cmp" id="compare">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="cp_eyebrow"></div>
+        <h2 data-i18n="cp2_t"></h2>
+        <p class="sub" data-i18n="cp2_s"></p>
+      </div>
+      <div class="vtab glass" id="vtab"></div>
+      <p class="honest" data-i18n="cp_honest"></p>
+      <p class="srcs" id="cpSrc"></p>
+    </div>
+  </section>
+
+</main>
+
+<div class="vmodal" id="vmodal" hidden role="dialog" aria-modal="true" aria-label="ACRS video">
+  <div class="vbox">
+    <div class="vbar"><div class="vseg" id="vseg"><button type="button" data-o="16x9"></button><button type="button" data-o="9x16"></button></div><button type="button" class="vclose" id="vclose" aria-label="Close">&times;</button></div>
+    <video id="vid" controls playsinline preload="metadata"></video>
+  </div>
+</div>
+<footer>
+  <div class="wrap in">
+    <div data-i18n="foot_copy"></div>
+    <button type="button" id="replay" data-i18n="foot_replay"></button>
+  </div>
+</footer>
+
+<script>
+window.ACRS_INCIDENTS=[[1,"tier1_c2_hr","network_c2","HR-APP-01",1,false,94,98,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[2,"tier0_dc_cred_dump","identity","DC-01",0,false,98,97,"FULL_ISOLATION",true,false,true,"EMERGENCY_RESTRICT",true,false,true],[3,"tier2_workstation","initial_access","WS-HR-011",2,false,87,98,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[4,"ransomware_finance","ransomware","WS-FIN-023",2,false,56,62,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[5,"ransomware_finance","ransomware","WS-FIN-031",2,false,40,46,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[6,"ransomware_finance","ransomware","WS-FIN-044",2,false,40,46,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[7,"erp_change_window_fp","edge_cases","ERP-PROD-01",1,true,74,94,"FULL_ISOLATION",true,true,true,"RESTRICT",false,false,false],[8,"mri_non_isolatable","edge_cases","MRI-CTRL-02",1,false,86,84,"FULL_ISOLATION",true,true,true,"COMPENSATING",false,false,true],[9,"cloud_workload","cloud_k8s","API-GW-AWS-01",1,false,91,96,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[10,"ioc_return_hr","network_c2","HR-APP-01",1,false,94,98,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[11,"unknown_host","edge_cases","10.77.7.7",null,false,50,62,"MONITOR",false,false,false,"RESTRICT",false,false,true],[12,"dns_tunnel","data_insider","WS-FIN-031",2,false,62,61,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[13,"beacon_hr_app2","network_c2","HR-APP-02",1,false,91,96,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[14,"c2_build_server","network_c2","DEV-BUILD-07",2,false,83,96,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[15,"vpn_gateway_c2","network_c2","VPN-GW-01",1,false,84,82,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[16,"c2_ws_fin023","network_c2","WS-FIN-023",2,false,82,98,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[17,"impossible_travel_hr","identity","WS-HR-011",2,false,46,43,"MONITOR",false,false,false,"MONITOR",false,false,false],[18,"dc02_lsass_single","identity","DC-02",0,false,56,46,"MONITOR",false,false,false,"MONITOR",false,false,false],[19,"pki_c2","identity","PKI-CA-01",0,false,98,98,"FULL_ISOLATION",true,true,true,"EMERGENCY_RESTRICT",true,true,true],[20,"travel_then_c2_ws044","identity","WS-FIN-044",2,false,82,98,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[21,"ransomware_ws_hr","ransomware","WS-HR-011",2,false,40,46,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[22,"ransomware_build","ransomware","DEV-BUILD-07",2,false,42,46,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[23,"ransomware_erp_db","ransomware","ERP-DB-01",1,false,49,46,"FULL_ISOLATION",true,true,true,"SURGICAL",true,true,true],[24,"ransomware_dc02","ransomware","DC-02",0,false,56,46,"FULL_ISOLATION",true,false,true,"EMERGENCY_RESTRICT",true,false,true],[25,"k8s_node_miner","cloud_k8s","K8S-NODE-04",2,false,83,96,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[26,"k8s_cp_c2","cloud_k8s","K8S-CP-01",0,false,99,98,"FULL_ISOLATION",true,false,true,"EMERGENCY_RESTRICT",true,false,true],[27,"aws_access_key_only","cloud_k8s","API-GW-AWS-01",1,false,45,41,"MONITOR",false,false,false,"MONITOR",false,false,false],[28,"aws_gw_exfil","cloud_k8s","API-GW-AWS-01",1,false,85,84,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[29,"phishing_macro_fin023","initial_access","WS-FIN-023",2,false,82,98,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[30,"phishing_hta_fin044","initial_access","WS-FIN-044",2,false,81,96,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[31,"outlook_cmd_fin031","initial_access","WS-FIN-031",2,false,86,96,"FULL_ISOLATION",true,false,true,"FULL_ISOLATION",true,false,true],[32,"vpn_credential_abuse","initial_access","VPN-GW-01",1,false,69,55,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,false],[33,"webshell_hr_gateway","web_api","HR-API-GW",1,false,92,98,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[34,"fin_api_rce","web_api","FIN-API-01",1,false,91,96,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[35,"aws_gw_node_exploit","web_api","API-GW-AWS-01",1,false,91,97,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[36,"hr_app2_webshell","web_api","HR-APP-02",1,false,90,96,"FULL_ISOLATION",true,false,true,"SURGICAL",true,false,true],[37,"erp_web_exploit_cw","web_api","ERP-PROD-01",1,false,70,83,"FULL_ISOLATION",true,true,true,"RESTRICT",false,false,true],[38,"erp_db_exfil","data_insider","ERP-DB-01",1,false,86,84,"FULL_ISOLATION",true,true,true,"RESTRICT",false,false,true],[39,"hr_db_exfil","data_insider","HR-DB-01",1,false,85,84,"FULL_ISOLATION",true,true,true,"RESTRICT",false,false,true],[40,"insider_dns_ws044","data_insider","WS-FIN-044",2,false,47,44,"MONITOR",false,false,false,"MONITOR",false,false,false],[41,"response_memory_repeat","edge_cases","WS-FIN-031",2,false,62,61,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true],[42,"attribution_conflict","edge_cases","HR-APP-01",1,false,82,98,"FULL_ISOLATION",true,false,true,"RESTRICT",false,false,true]];
+
+window.ACRS_SWEEP=[["DC-01",0,"domain-controller",true,false,99,"EMERGENCY_RESTRICT",true,2,"FULL_ISOLATION",true],["DC-02",0,"domain-controller",true,false,99,"EMERGENCY_RESTRICT",true,2,"FULL_ISOLATION",true],["K8S-CP-01",0,"k8s-control-plane",true,false,99,"EMERGENCY_RESTRICT",true,2,"FULL_ISOLATION",true],["PKI-CA-01",0,"pki",false,false,99,"EMERGENCY_RESTRICT",true,2,"FULL_ISOLATION",true],["HR-APP-01",1,"hr-app",true,false,94,"SURGICAL",true,1,"FULL_ISOLATION",true],["HR-APP-02",1,"hr-app",true,false,94,"SURGICAL",true,1,"FULL_ISOLATION",true],["HR-DB-01",1,"database",false,false,92,"SURGICAL",true,1,"FULL_ISOLATION",true],["HR-API-GW",1,"api-gateway",true,false,94,"SURGICAL",true,1,"FULL_ISOLATION",true],["ERP-PROD-01",1,"erp-app",false,true,77,"RESTRICT",true,1,"FULL_ISOLATION",true],["ERP-DB-01",1,"database",false,false,92,"SURGICAL",true,1,"FULL_ISOLATION",true],["FIN-API-01",1,"api-gateway",true,false,92,"SURGICAL",true,1,"FULL_ISOLATION",true],["API-GW-AWS-01",1,"web-frontend",true,false,94,"SURGICAL",true,1,"FULL_ISOLATION",true],["MRI-CTRL-02",1,"medical-device",false,false,92,"COMPENSATING",true,0,"FULL_ISOLATION",false],["VPN-GW-01",1,"vpn-gateway",true,false,92,"SURGICAL",true,1,"FULL_ISOLATION",true],["WS-FIN-023",2,"workstation",false,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true],["WS-FIN-031",2,"workstation",false,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true],["WS-FIN-044",2,"workstation",false,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true],["WS-HR-011",2,"workstation",false,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true],["K8S-NODE-04",2,"k8s-node",true,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true],["DEV-BUILD-07",2,"build-server",false,false,85,"FULL_ISOLATION",true,0,"FULL_ISOLATION",true]];
+window.ACRS_MATRIX={"risks":[40,50,60,70,80,85,90,95,100],"classes":["Tier-2 user device","Tier-1 server (redundant)","Tier-0 identity","Safety-critical device"],"grid":{"Tier-2 user device":{"40":["MONITOR",false,0],"50":["MONITOR",false,0],"60":["RESTRICT",true,1],"70":["RESTRICT",true,1],"80":["RESTRICT",true,1],"85":["FULL_ISOLATION",true,0],"90":["FULL_ISOLATION",true,0],"95":["FULL_ISOLATION",true,0],"100":["FULL_ISOLATION",true,0]},"Tier-1 server (redundant)":{"40":["MONITOR",false,0],"50":["MONITOR",false,0],"60":["RESTRICT",true,1],"70":["RESTRICT",true,1],"80":["RESTRICT",true,1],"85":["RESTRICT",true,1],"90":["SURGICAL",true,1],"95":["SURGICAL",true,1],"100":["SURGICAL",true,1]},"Tier-0 identity":{"40":["MONITOR",false,0],"50":["MONITOR",false,0],"60":["MONITOR",false,2],"70":["MONITOR",false,2],"80":["MONITOR",false,2],"85":["MONITOR",false,2],"90":["MONITOR",false,2],"95":["EMERGENCY_RESTRICT",true,2],"100":["EMERGENCY_RESTRICT",true,2]},"Safety-critical device":{"40":["MONITOR",false,0],"50":["MONITOR",false,0],"60":["COMPENSATING",true,0],"70":["COMPENSATING",true,0],"80":["COMPENSATING",true,0],"85":["COMPENSATING",true,0],"90":["COMPENSATING",true,0],"95":["COMPENSATING",true,0],"100":["COMPENSATING",true,0]}},"single":{"Tier-2 user device":["RESTRICT",false],"Tier-1 server (redundant)":["RESTRICT",false],"Tier-0 identity":["RESTRICT",false],"Safety-critical device":["COMPENSATING",true]}};
+window.ACRS_THRESH=[[50,7,38,39],[55,7,37,38],[60,7,36,37],[65,7,34,35],[70,7,33,34],[75,5,32,32],[80,5,32,32],[85,5,24,24],[90,2,18,18],[95,2,10,10],[100,1,7,7]];
+
+(function(){
+"use strict";
+var DATA = window.ACRS_INCIDENTS || [];
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+
+/* ================= copy (Arabic written as Arabic, not translated) ================= */
+var T = {
+ar:{
+ nav_evidence:"تحقق", nav_res:"النتائج", rs_eyebrow:"النتائج", sound_label:"تشغيل الصوت أو إيقافه",
+ in_breach:"تم اختراق الجهاز", in_stat:"فيروس الفدية (يقفل الملفات ويطلب مالًا) صار في قرابة نصف الاختراقات",
+ in_scale:"",
+ in_src:"نسبة الاختراقات التي فيها فدية · المصدر: تقارير Verizon السنوية للتحقيق في الاختراقات (DBIR) ‏2022–2026 · في 2024 تشمل الفدية وأساليب الابتزاز الأخرى",
+ in_problem:"والحل المعتاد؟ <em>عزل كل جهاز مصاب عزلًا كاملًا</em>… حتى لو كان من الأنظمة التي تقوم عليها المنشأة.",
+ in_tag:"يوقف الهجوم… لا المستشفى", in_c1:"أجهزة توقفت عن العمل", in_c2:"أنظمة مهمة توقفت",
+ in_skip:"تخطَّ", in_sound:"شغّل الصوت", in_next:"التالي", in_prev:"السابق", in_enter:"ادخل الموقع",
+ hero_eyebrow:"بحث في الاستجابة للحوادث السيبرانية", hero_full:"نظام الاستجابة السيبرانية المتكيّفة",
+ hero_lede:"حين يُخترق جهاز، لا يلزم أن تتوقف المنشأة كلها.", hero_simple:"ACRS يوقف المخترق بأخف طريقة تكفي، عشان الأجهزة المهمة تبقى شغّالة. مثل الطبيب الشاطر: ما يبتر اليد عشان جرح في الإصبع.",
+ hero_sig:"بحث وتطوير: <b>حسان عبدالله الينبعاوي</b>",
+ btn_watch:"شاهد الفكرة في 90 ثانية", btn_evidence:"شاهد النتائج",
+ v1_l:"جهاز توقف عن العمل", v1_t:"أقل بـ46%", v2_l:"نظام مهم توقف", v2_t:"نجت 5 أنظمة", v3_l:"هجومًا أُوقف فيه المهاجم (من\u00A041)", v3_t:"بنفس القوة",
+ leg_u:"الطريقة المعتادة: عزل كامل", leg_note:"النتائج من تجربة على 42 حادثة محاكاة",
+ ev_eyebrow:"تحقق بنفسك", ev_title:"هل الأرقام حقيقية؟ افتحها وتأكد بنفسك.",
+ ev_note:"كل البيانات هنا من محاكاة على الكمبيوتر: 40 سيناريو هجوم على 20 جهازًا وهميًا، نتجت عنها 42 حالة (41 هجومًا وحالة سليمة واحدة). لم تُلمس أي شبكة حقيقية، وكل رقم خرج من التجربة نفسها ولم يُكتب باليد.",
+ a1_t:"ورقة البحث", a1_s:"الورقة كاملة، وملفا PDF بالعربي والإنجليزي", a1_read:"اقرأ الورقة كاملة",
+ a2_t:"الحوادث الـ42 كاملة", a2_s:"كل حادثة والقرار في الطريقتين، وزر يعدّ النتائج أمامك",
+ a2_intro:"كل صف حادثة واحدة، وبجانبها ماذا فعلت كل طريقة. اضغط «احسبها بنفسك» وسيعدّ الموقع النتائج أمامك من هذه البيانات.",
+ a2_count:"احسبها بنفسك", dl:"تنزيل",
+ f_all:"كل الحوادث", f_diff:"اختلف فيها الرد", f_saved:"الجهاز بقي يعمل مع ACRS",
+ th_n:"#", th_host:"الجهاز", th_attack:"نوع الهجوم", th_risk:"الخطورة", th_u:"الطريقة المعتادة", th_a:"ACRS",
+ st_off:"توقف", st_on:"بقي يعمل",
+ r_title:"النتيجة محسوبة من الـ42 صفًا أعلاه:", r1:"أجهزة توقفت عن العمل", r2:"أنظمة مهمة توقفت", r3:"هجمات أُوقف فيها المهاجم",
+ a3_t:"ملخص النتائج", a3_s:"7 أرقام، وكيف حُسب كل رقم",
+ sum_h:["ماذا قسنا","الطريقة المعتادة","ACRS","كيف حُسب"],
+ a4_t:"هل تتكرر النتائج؟", a4_s:"أعدنا التجربة فخرجت نفس الأرقام",
+ a5_t:"المصادر", a5_s:"3 تقارير و4 مراجع معيارية"
+},
+en:{
+ nav_evidence:"Check", nav_res:"Results", rs_eyebrow:"Results", sound_label:"Turn sound on or off",
+ in_breach:"System compromised", in_stat:"Ransomware (malware that locks files and demands money) is now in almost half of all breaches",
+ in_scale:"",
+ in_src:"Share of breaches involving ransomware · Source: Verizon Data Breach Investigations Report (DBIR), 2022–2026 · 2024 counts ransomware with other extortion",
+ in_problem:"The usual answer? <em>Fully isolate every compromised machine</em>, even the systems the organization runs on.",
+ in_tag:"Stops the attack, not the hospital.", in_c1:"machines stopped", in_c2:"important systems stopped",
+ in_skip:"Skip", in_sound:"Sound on", in_next:"Next", in_prev:"Back", in_enter:"Enter the site",
+ hero_eyebrow:"Research · Automated incident response", hero_full:"Adaptive Cyber Response System",
+ hero_lede:"When one machine is hacked, the whole organization should not stop.", hero_simple:"ACRS stops the intruder in the lightest way that works, so important machines keep running. Like a good doctor: you do not amputate a hand for a cut finger.",
+ hero_sig:"Research &amp; development by <b>Hassan Abdullah Alyenbawi</b>",
+ btn_watch:"Watch it in 90 seconds", btn_evidence:"See the results",
+ v1_l:"machines stopped", v1_t:"46% fewer", v2_l:"important systems stopped", v2_t:"5 systems kept running", v3_l:"attacks where the attacker was stopped (of 41)", v3_t:"just as many",
+ leg_u:"The usual way: full isolation", leg_note:"Results from a test on 42 simulated incidents",
+ ev_eyebrow:"Check it yourself", ev_title:"Are the numbers real? Open them and check.",
+ ev_note:"All data here comes from a computer simulation: 40 attack scenarios on 20 virtual machines, producing 42 cases (41 attacks and one harmless case). No real network was touched, and every number comes out of the experiment itself, not typed by hand.",
+ a1_t:"Research paper", a1_s:"The full paper, plus PDFs in Arabic and English", a1_read:"Read the full paper",
+ a2_t:"All 42 incidents", a2_s:"Every incident and both decisions, with a button that counts the results in front of you",
+ a2_intro:"Each row is one incident, with what each approach did next to it. Press “Count it yourself” and the page counts the results from this data in front of you.",
+ a2_count:"Count it yourself", dl:"Download",
+ f_all:"All incidents", f_diff:"Responses differ", f_saved:"Machine kept running with ACRS",
+ th_n:"#", th_host:"Machine", th_attack:"Attack type", th_risk:"Risk", th_u:"The usual way", th_a:"ACRS",
+ st_off:"stopped", st_on:"kept running",
+ r_title:"Counted from the 42 rows below:", r1:"Machines stopped", r2:"Important systems stopped", r3:"Attacks where the attacker was stopped",
+ a3_t:"Results summary", a3_s:"7 numbers, and how each one is counted",
+ sum_h:["What we measured","The usual way","ACRS","How it is counted"],
+ a4_t:"Do the results repeat?", a4_s:"We ran it again and got the same numbers",
+ a5_t:"Sources", a5_s:"3 reports and 4 standard references"
+}};
+var LEVEL = {
+ ar:{FULL_ISOLATION:"عزل كامل",SURGICAL:"عزل ذكي",EMERGENCY_RESTRICT:"تقييد فوري",RESTRICT:"تقييد والجهاز يعمل",COMPENSATING:"حجب من الشبكة فقط",MONITOR:"مراقبة"},
+ en:{FULL_ISOLATION:"Full isolation",SURGICAL:"Smart isolation",EMERGENCY_RESTRICT:"Immediate restriction",RESTRICT:"Restricted, keeps working",COMPENSATING:"Blocked on the network only",MONITOR:"Monitor"}};
+var CAT = {
+ ar:{ransomware:"فدية",network_c2:"اتصال بخادم المهاجم",identity:"سرقة هوية ودخول",initial_access:"دخول أولي",edge_cases:"حالات خاصة",cloud_k8s:"سحابة وحاويات",web_api:"تطبيقات ويب",data_insider:"تسريب من الداخل"},
+ en:{ransomware:"Ransomware",network_c2:"Attacker command channel",identity:"Identity theft",initial_access:"Initial access",edge_cases:"Edge cases",cloud_k8s:"Cloud & containers",web_api:"Web apps & APIs",data_insider:"Insider data theft"}};
+var PAPER = {
+ ar:[["المشكلة","أنظمة الرد الآلي تعزل أي جهاز مخترق عزلًا كاملًا في كل مرة. هذا يوقف المهاجم، لكنه يوقف معه خوادم الدخول وقواعد البيانات والأجهزة الطبية التي تعتمد عليها المنشأة."],
+  ["سؤال البحث","هل يمكن لنظام يوازن بين خطورة الهجوم وأهمية الجهاز أن يوقف أجهزة أقل من العزل الكامل، ويوقف المهاجم بنفس القوة؟"],
+  ["الفرضية","النظام الذكي يوقف أجهزة أقل وأنظمة مهمة أقل، دون أن يقل عدد الهجمات التي يوقف فيها المهاجم."],
+  ["طريقة التجربة","40 سيناريو هجوم نتجت عنها 42 حادثة. مرّت كل حادثة على الطريقتين بنفس المعلومات تمامًا، والشيء الوحيد المختلف هو القرار. ثم حُسبت النتائج من الأوامر التي أصدرتها كل طريقة فعلًا."],
+  ["النتائج","توقف 20 جهازًا بدل 37، وتوقف نظامان مهمان بدل 7، وأُوقف المهاجم في 36 هجومًا من 41 في الطريقتين. ولم ينجح أي رقم ثابت بين 50 و100 في تحقيق النتيجتين معًا."],
+  ["الثمن","يحتاج تدخلًا بشريًا في مواضع محددة: شخص يؤكد رجوع الجهاز في 16 حالة، والعزل الكامل للخوادم الأساسية يحتاج موافقة شخصين."],
+  ["حدود البحث","البيانات محاكاة وليست من شبكة حقيقية. أثر التوقف محسوب من وصف الأجهزة وليس مقاسًا على خدمات تعمل فعلًا. الأوزان لم تُضبط على هجمات حقيقية. ونفس الشخص كتب السيناريوهات والقواعد، وهذا قد يميل لصالح ACRS."]],
+ en:[["The problem","Automated response tools fully isolate an infected machine every time. That stops the attacker, but it also stops the login servers, databases and medical devices the organization depends on."],
+  ["Research question","Can a system that weighs how dangerous the attack is and how important the machine is stop fewer machines than full isolation, and still stop the attacker just as often?"],
+  ["Hypothesis","The smarter system stops fewer machines and fewer important systems, without stopping the attacker any less often."],
+  ["How we tested it","40 attack scenarios produced 42 incidents. Each incident went through both approaches with exactly the same information; the only thing that changed was the decision. Results were counted from the commands each approach actually issued."],
+  ["Results","20 machines stopped instead of 37, 2 important systems stopped instead of 7, and the attacker stopped in 36 of 41 attacks with both approaches. No fixed number from 50 to 100 achieved both results."],
+  ["The cost","It needs people at specific points: someone confirms a machine's return in 16 cases, and fully isolating a core server needs two people to approve."],
+  ["Limitations","The data is simulated, not from a real network. The impact of an outage is estimated from the machine descriptions, not measured on live services. The weights were not tuned on real attacks. And the same person wrote the scenarios and the rules, which may favour ACRS."]]};
+var SUM = [ /* [ar, en, uniform, acrs, how-ar, how-en] — values from summary.csv */
+ ["أجهزة توقفت عن العمل","Machines stopped",37,20,"عدد الصفوف التي توقف فيها الجهاز","rows where the machine was stopped"],
+ ["أنظمة مهمة توقفت","Important systems stopped",7,2,"خادم أساسي أو مهم ليس له بديل، أو جهاز طبي، توقف","a core or important server with no backup, or a medical device, was stopped"],
+ ["هجمات أُوقف فيها المهاجم (من 41)","Attacker stopped (of 41)",36,36,"الهجمات التي انقطع فيها اتصال المهاجم من الخارج","attacks where the attacker's outside connection was cut"],
+ ["طرق مقطوعة نحو الأنظمة المهمة","Paths to important systems cut",36,30,"أقل مع ACRS عن قصد: الخوادم الأساسية تنتظر موافقة شخصين، والجهاز الطبي لا يُطفأ","fewer with ACRS on purpose: core servers wait for two people, and the medical device is not switched off"],
+ ["أجهزة طبية أُطفئت","Medical devices switched off",1,0,"أجهزة السلامة التي توقفت","safety devices that were stopped"],
+ ["خوادم أساسية عُزلت دون قرار إنسان","Core servers isolated with no person",4,0,"خوادم الدخول والشهادات التي عُزلت آليًا","login and certificate servers isolated automatically"],
+ ["حالة سليمة أُوقفت بالخطأ","Harmless case stopped by mistake",1,0,"الحالة السليمة الوحيدة: هل أُطفئ جهازها؟","the one harmless case: was its machine switched off?"]];
+var FACTS = {
+ ar:["أعدنا التجربة من الصفر، فخرجت نفس الأرقام تمامًا.",
+  "بصمة القواعد: <span class='mono'>87893ca0</span>. هذا رمز يُحسب من ملف القرارات، ولو تغيّر حرف واحد في القواعد يتغيّر الرمز.",
+  "6 اختبارات آلية تتأكد في كل تشغيل أن النتائج لم تتغير.",
+  "سرعة الرد في 5 تشغيلات: بين 0.29 و0.34 ثانية في الطريقتين، أي نفس السرعة. ولم يتأخر أي رد عن وقته في 365 عملية.",
+  "الكود نفسه يُعرض عند الطلب في جناح المعرض."],
+ en:["We ran the experiment again from scratch and got exactly the same numbers.",
+  "Rules fingerprint: <span class='mono'>87893ca0</span>. It is a code calculated from the decision file; change one letter in the rules and the code changes.",
+  "6 automated tests check on every run that the results have not changed.",
+  "Response speed across 5 runs: 0.29 to 0.34 seconds for both approaches, the same speed. No response was late in 365 actions.",
+  "The code itself is shown on request at the exhibition booth."]};
+var SRC = [
+ ["[1]","Verizon — Data Breach Investigations Report 2026","نسبة الاختراقات التي فيها فدية: 48% في 2026، و44% في 2025، وسلسلة 2022–2024 من تقارير السنوات السابقة","ransomware in 48% of breaches (2026) and 44% (2025); 2022–2024 from earlier editions","https://www.verizon.com/business/resources/reports/dbir/"],
+ ["[2]","CrowdStrike — 2026 Global Threat Report","متوسط زمن انتشار المهاجم 29 دقيقة (2025)","average attacker breakout time of 29 minutes (2025)","https://www.crowdstrike.com/en-us/press-releases/2026-crowdstrike-global-threat-report/"],
+ ["[3]","IBM — Cost of a Data Breach Report 2026","المنشآت التي تستخدم الذكاء الاصطناعي والأتمتة تدفع قرابة مليوني دولار أقل لكل اختراق","organizations using AI and automation pay close to $2 million less per breach","https://www.ibm.com/reports/data-breach"],
+ ["NIST","SP 800-61r3 — Incident Response (2025)","إرشادات الاستجابة للحوادث","incident response guidance","https://csrc.nist.gov/pubs/sp/800/61/r3/final"],
+ ["NIST","SP 800-207 — Zero Trust Architecture (2020)","هندسة انعدام الثقة","zero trust architecture","https://csrc.nist.gov/pubs/sp/800/207/final"],
+ ["MITRE","ATT&CK Enterprise Matrix","مرجع أساليب المهاجمين","reference of attacker techniques","https://attack.mitre.org/"],
+ ["NCA","Essential Cybersecurity Controls (ECC)","الضوابط الأساسية للأمن السيبراني — الهيئة الوطنية للأمن السيبراني","Saudi National Cybersecurity Authority","https://nca.gov.sa/"]];
+var FOOT = {ar:"© 2026 حسان عبدالله الينبعاوي. جميع الحقوق محفوظة.", en:"© 2026 Hassan Abdullah Alyenbawi. All rights reserved."};
+var REPLAY = {ar:"أعد مشاهدة المقدمة", en:"Replay the intro"};
+
+/* ================= language ================= */
+function autoLang(){var L=((navigator.languages&&navigator.languages[0])||navigator.language||"ar")+"";return /^ar/i.test(L)?"ar":"en";}
+var lang = (function(){var q=null;try{q=new URLSearchParams(location.search).get("lang");}catch(e){} if(q==="ar"||q==="en")return q; var s=store("acrs_lang"); if(s==="ar"||s==="en")return s; return autoLang();})();
+var filter = "all";
+function applyLang(){
+  var t=T[lang], root=document.documentElement;
+  root.lang=lang; root.dir=(lang==="ar")?"rtl":"ltr";
+  document.title=(lang==="ar")?"ACRS · نظام الاستجابة السيبرانية المتكيّفة":"ACRS · Adaptive Cyber Response System";
+  document.querySelectorAll("[data-i18n]").forEach(function(el){var k=el.getAttribute("data-i18n"); if(t[k]!==undefined) el.textContent=t[k];});
+  document.querySelectorAll("[data-i18n-html]").forEach(function(el){var k=el.getAttribute("data-i18n-html"); if(t[k]!==undefined) el.innerHTML=t[k];});
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(el){el.setAttribute("aria-label",t[el.getAttribute("data-i18n-aria")]);});
+  document.getElementById("langBtn").setAttribute("data-lang",lang);
+  document.querySelector('[data-i18n="foot_copy"]').textContent=FOOT[lang];
+  document.getElementById("replay").textContent=REPLAY[lang];
+  renderFilters(); renderTable(); renderFacts(); renderSources(); renderStory(); renderCompare(); renderLearn(); if(typeof vm!=="undefined"&&!vm.hidden)vLoad(true);
+  if(lastCount) showCount(lastCount,false);
+}
+document.getElementById("langBtn").addEventListener("click",function(){lang=(lang==="ar")?"en":"ar";store("acrs_lang",lang);applyLang();sfx("tick");});
+
+function tx(s){return esc(s).replace(/ACRS|Tier-0\/1|Tier-[012]|\(من 41\)|\(of 41\)|SHA-256/g,function(m){return '<bdi class="nw">'+m+"</bdi>";});}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function renderPaper(){
+  document.getElementById("paper").innerHTML = PAPER[lang].map(function(p){return "<div><h4>"+esc(p[0])+"</h4><p>"+tx(p[1])+"</p></div>";}).join("");
+}
+function renderFilters(){
+  var t=T[lang], box=document.getElementById("filters");
+  box.innerHTML = [["all",t.f_all],["diff",t.f_diff],["saved",t.f_saved]].map(function(f){
+    return '<button type="button" class="chip" data-f="'+f[0]+'" aria-pressed="'+(filter===f[0])+'">'+esc(f[1])+"</button>";}).join("");
+  box.querySelectorAll(".chip").forEach(function(b){b.addEventListener("click",function(){filter=b.dataset.f;renderFilters();renderTable();sfx("tick");});});
+}
+function lv(code){return '<span class="lv lv-'+code+'"><i></i>'+esc(LEVEL[lang][code])+"</span>";}
+function renderTable(){
+  var t=T[lang];
+  var rows = DATA.filter(function(r){
+    if(filter==="diff") return r[8]!==r[12];
+    if(filter==="saved") return r[9] && !r[13];
+    return true;});
+  var h="<thead><tr><th>"+t.th_n+"</th><th>"+t.th_host+"</th><th>"+t.th_attack+"</th><th>"+t.th_risk+"</th><th>"+t.th_u+"</th><th>"+t.th_a+"</th></tr></thead><tbody>";
+  rows.forEach(function(r){
+    var saved = r[9] && !r[13];
+    h+='<tr data-n="'+r[0]+'"'+(saved?' class="saved"':"")+'><td class="mono">'+r[0]+'</td><td><bdi class="mono">'+esc(r[3])+'</bdi>'+(r[4]===null?"":'<span class="tier">T'+r[4]+"</span>")+
+      "</td><td>"+esc(CAT[lang][r[2]])+(r[5]?' <span class="pill">'+(lang==="ar"?"سليم":"benign")+"</span>":"")+'</td><td class="mono">'+r[6]+"</td>"+
+      "<td>"+lv(r[8])+' <small class="'+(r[9]?"off":"on")+'">'+(r[9]?t.st_off:t.st_on)+"</small></td>"+
+      "<td>"+lv(r[12])+' <small class="'+(r[13]?"off":"on")+'">'+(r[13]?t.st_off:t.st_on)+"</small></td></tr>";});
+  document.getElementById("incTable").innerHTML=h+"</tbody>";
+}
+function renderSummary(){
+  var t=T[lang], i=lang==="ar"?0:1, how=lang==="ar"?4:5;
+  var h="<thead><tr>"+t.sum_h.map(function(x){return "<th>"+esc(x)+"</th>";}).join("")+"</tr></thead><tbody>";
+  SUM.forEach(function(s){h+='<tr><td class="m">'+tx(s[i])+'</td><td class="n" style="color:var(--uniform)">'+s[2]+'</td><td class="n" style="color:var(--acrs-2)">'+s[3]+'</td><td class="how" style="color:var(--muted)">'+tx(s[how])+"</td></tr>";});
+  document.getElementById("sumTable").innerHTML=h+"</tbody>";
+}
+function renderFacts(){document.getElementById("facts").innerHTML=FACTS[lang].map(function(f){return "<li><span>"+f+"</span></li>";}).join("");}
+function renderSources(){
+  var d=lang==="ar"?2:3;
+  document.getElementById("srcs").innerHTML=SRC.map(function(s){return '<li><a href="'+s[4]+'" target="_blank" rel="noopener"><span class="k">'+esc(s[0])+'</span><span class="d"><bdi>'+esc(s[1])+"</bdi><br><small>"+esc(s[d])+"</small></span></a></li>";}).join("");
+}
+
+/* ================= accordions ================= */
+document.querySelectorAll(".item > button").forEach(function(b){
+  b.addEventListener("click",function(){
+    var it=b.parentElement, open=it.getAttribute("data-open")!=="true";
+    it.setAttribute("data-open",open); b.setAttribute("aria-expanded",open); sfx(open?"open":"tick");
+  });
+});
+
+/* ================= count it yourself (computed from the rows) ================= */
+var lastCount=null, counting=false;
+function tally(){
+  var c={u1:0,a1:0,u2:0,a2:0,u3:0,a3:0};
+  DATA.forEach(function(r){ if(r[9])c.u1++; if(r[13])c.a1++; if(r[10])c.u2++; if(r[14])c.a2++;
+    if(!r[5]){ if(r[11])c.u3++; if(r[15])c.a3++; } });
+  return c;
+}
+function showCount(c,animate){
+  var t=T[lang], el=document.getElementById("result");
+  el.innerHTML='<b>'+esc(t.r_title)+'</b><div class="grid3">'+
+    [[t.r1,"u1","a1"],[t.r2,"u2","a2"],[t.r3+" (41)","u3","a3"]].map(function(x){
+      return '<div class="cell"><b>'+esc(x[0])+'</b><span><em class="u" data-k="'+x[1]+'">'+(animate?0:c[x[1]])+'</em> → <em class="a" data-k="'+x[2]+'">'+(animate?0:c[x[2]])+"</em></span></div>";}).join("")+"</div>";
+  el.querySelectorAll("em").forEach(function(e){e.style.fontStyle="normal";});
+  el.classList.add("show");
+  if(animate) el.querySelectorAll("em").forEach(function(e){countTo(e,c[e.dataset.k],900);});
+}
+document.getElementById("countBtn").addEventListener("click",function(){
+  if(counting) return; counting=true;
+  if(filter!=="all"){filter="all";renderFilters();renderTable();}
+  var trs=[].slice.call(document.querySelectorAll("#incTable tbody tr")), i=0, step=reduce?0:28;
+  var box=document.querySelector(".tablebox");
+  (function scan(){
+    if(i>0) trs[i-1].classList.remove("scan");
+    if(i<trs.length && step){ trs[i].classList.add("scan"); var tr=trs[i]; box.scrollTop=tr.offsetTop-box.clientHeight/2; if(i%3===0) sfx("tick"); i++; setTimeout(scan,step); return; }
+    box.scrollTop=0; lastCount=tally(); showCount(lastCount,!reduce); sfx("chime"); counting=false;
+  })();
+});
+
+function countTo(el,to,ms){
+  if(reduce){el.textContent=to;return;}
+  var t0=null, from=0;
+  function f(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/ms,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(f);}
+  requestAnimationFrame(f);
+}
+
+/* ================= sound: short synthesized cues, off by default, no music ================= */
+var AC=null, soundOn=false;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;} } if(AC&&AC.state==="suspended")AC.resume(); return AC; }
+function tone(f1,f2,dur,type,gain,delay){
+  var c=ac(); if(!c)return; var t=c.currentTime+(delay||0), o=c.createOscillator(), g=c.createGain();
+  o.type=type||"sine"; o.frequency.setValueAtTime(f1,t); if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(gain,t+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur+0.05);
+}
+function sfx(name){
+  if(!soundOn) return;
+  switch(name){
+    case "ping":  tone(1180,760,.55,"sine",.05); break;                    // detection
+    case "alarm": tone(220,160,.35,"triangle",.05); tone(233,170,.35,"triangle",.035,.18); break; // breach
+    case "thud":  tone(110,55,.45,"sine",.09); break;                      // isolation
+    case "rise":  tone(420,700,.6,"sine",.045); break;                     // ACRS restricts
+    case "tick":  tone(1500,null,.03,"square",.008); break;
+    case "open":  tone(520,780,.18,"sine",.025); break;
+    case "chime": tone(660,null,.5,"sine",.04); tone(990,null,.6,"sine",.03,.14); break; // confirmation
+    case "beat":  tone(70,50,.14,"sine",.08); tone(70,50,.14,"sine",.06,.2); break; // steady pulse
+  }
+}
+var SILENT="data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA", unlocked=false;
+function unlock(){ /* runs inside the tap: lets iPhones play Web Audio even with the ring/silent switch on */
+  if(unlocked) return; unlocked=true;
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
+  try{ var el=new Audio(SILENT); el.setAttribute("playsinline",""); var p=el.play(); if(p&&p.catch)p.catch(function(){}); }catch(e){}
+  var c=ac(); if(c){ try{ var b=c.createBuffer(1,1,22050), s=c.createBufferSource(); s.buffer=b; s.connect(c.destination); s.start(0); }catch(e){} }
+}
+function showIcon(on){ var a=document.getElementById("sndOn"), b=document.getElementById("sndOff");
+  if(on){a.removeAttribute("hidden");b.setAttribute("hidden","");}else{b.removeAttribute("hidden");a.setAttribute("hidden","");} }
+function setSound(on){
+  soundOn=on; var b=document.getElementById("soundBtn"); b.setAttribute("aria-pressed",on);
+  showIcon(on);
+  if(on){unlock(); ac(); setTimeout(function(){sfx("chime");},60);}
+  store("acrs_sound",on?"1":"0");
+}
+document.getElementById("soundBtn").addEventListener("click",function(){setSound(!soundOn);});
+
+/* ================= intro timeline ================= */
+var intro=document.getElementById("intro"), runId=0;
+function sleep(ms,id){return new Promise(function(res,rej){setTimeout(function(){ id===runId?res():rej("cancel"); },ms);});}
+function scene(n){for(var i=1;i<=4;i++){document.getElementById("sc"+i).classList.toggle("on",i===n);}}
+function progress(ms){var p=document.getElementById("prog");p.style.transition="none";p.style.width="0";void p.offsetWidth;p.style.transition="width "+ms+"ms linear";p.style.width="100%";}
+function closeIntro(){runId++; intro.classList.add("done"); store("acrs_intro","1"); setTimeout(function(){intro.hidden=true;},750);}
+var cur=1, NSC=4;
+function dots(){document.querySelectorAll("#inDots i").forEach(function(d,k){d.classList.toggle("on",k===cur-1);});
+  var p=document.getElementById("prog");p.style.transition="width .5s ease";p.style.width=(cur/NSC*100)+"%";
+  document.getElementById("inPrev").disabled=(cur===1);
+  var nx=document.getElementById("inNext");nx.classList.toggle("wide",cur===NSC);document.getElementById("inNextLbl").textContent=T[lang].in_enter;}
+function playScene(n){var id=++runId; cur=n; scene(n); dots();
+  var s1=document.getElementById("sc1");
+  if(n===1){ s1.classList.remove("breached"); sfx("ping"); sleep(1400,id).then(function(){ s1.classList.add("breached"); sfx("alarm"); }).catch(function(){}); }
+  if(n===2){ document.querySelectorAll(".bar .fill").forEach(function(f){f.style.transition="none";f.style.width="0";void f.offsetWidth;f.style.transition="";});
+    document.querySelectorAll(".bar .val").forEach(function(v){v.textContent="0%";});
+    sleep(450,id).then(function(){ document.querySelectorAll(".bar").forEach(function(b,i){ setTimeout(function(){ if(id!==runId)return;
+      b.querySelector(".fill").style.width=(b.querySelector(".fill").dataset.w*2)+"%"; var v=b.querySelector(".val"); countPct(v,+v.dataset.v); sfx("tick"); },i*220);}); }).catch(function(){}); }
+  if(n===3) sfx("thud");
+  if(n===4) sfx("rise");
+}
+function runIntro(){ intro.hidden=false; intro.classList.remove("done"); playScene(1); setTimeout(function(){document.getElementById("inNext").focus({preventScroll:true});},50); }
+function introNext(){ if(cur<NSC){sfx("tick");playScene(cur+1);} else { sfx("chime"); closeIntro(); } }
+function introPrev(){ if(cur>1){sfx("tick");playScene(cur-1);} }
+document.getElementById("inNext").addEventListener("click",introNext);
+document.getElementById("inPrev").addEventListener("click",introPrev);
+addEventListener("keydown",function(e){ if(intro.hidden||intro.classList.contains("done"))return;
+  if(e.key==="ArrowRight"||e.key==="Enter"||e.key===" "){e.preventDefault();introNext();}
+  else if(e.key==="ArrowLeft"){e.preventDefault();introPrev();}
+  else if(e.key==="Escape"){closeIntro();} });
+(function(){var x0=null,y0=null;intro.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  intro.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){ if(dx<0)introNext(); else introPrev(); }},{passive:true});})();
+function countPct(el,to){ var t0=null; function f(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/900,1);el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+"%";if(p<1)requestAnimationFrame(f);} requestAnimationFrame(f); }
+function fall(el,from,to){ var t0=null,ms=1300; function f(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/ms,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);
+    if(p>0.55)el.classList.add("fell"); if(p<1)requestAnimationFrame(f);} requestAnimationFrame(f); }
+document.getElementById("introSkip").addEventListener("click",closeIntro);
+document.getElementById("introSound").addEventListener("click",function(){ setSound(true); playScene(cur); });
+document.getElementById("replay").addEventListener("click",function(){ scrollTo(0,0); runIntro(); });
+document.addEventListener("keydown",function(e){ if(e.key==="Escape" && !intro.hidden) closeIntro(); });
+
+/* ================= background network ================= */
+(function(){
+  var cv=document.getElementById("net"), cx=cv.getContext("2d"), N=[], w=0, h=0, raf=0, dpr=Math.min(window.devicePixelRatio||1,2);
+  function size(){ w=cv.clientWidth; h=cv.clientHeight; cv.width=w*dpr; cv.height=h*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.round(Math.min(46,Math.max(18,w/30))); N=[];
+    for(var i=0;i<n;i++) N.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,r:Math.random()<.12});
+  }
+  function draw(){
+    cx.clearRect(0,0,w,h);
+    for(var i=0;i<N.length;i++){ var a=N[i]; a.x+=a.vx; a.y+=a.vy; if(a.x<0||a.x>w)a.vx*=-1; if(a.y<0||a.y>h)a.vy*=-1;
+      for(var j=i+1;j<N.length;j++){ var b=N[j], dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy;
+        if(d<16000){ cx.strokeStyle="rgba(120,210,240,"+(0.12*(1-d/16000))+")"; cx.lineWidth=1; cx.beginPath(); cx.moveTo(a.x,a.y); cx.lineTo(b.x,b.y); cx.stroke(); } } }
+    var t=performance.now()/1000;
+    for(var k=0;k<N.length;k++){ var p=N[k]; var pulse=p.r?(0.5+0.5*Math.sin(t*1.6+k)):0;
+      cx.fillStyle=p.r?"rgba(255,122,90,"+(0.35+0.4*pulse)+")":"rgba(150,225,250,.5)";
+      cx.beginPath(); cx.arc(p.x,p.y,p.r?2.2+pulse*1.4:1.5,0,6.283); cx.fill(); }
+    if(!reduce) raf=requestAnimationFrame(draw);
+  }
+  size(); draw();
+  addEventListener("resize",function(){cancelAnimationFrame(raf);size();draw();});
+  document.addEventListener("visibilitychange",function(){ if(document.hidden)cancelAnimationFrame(raf); else if(!reduce){cancelAnimationFrame(raf);draw();} });
+})();
+
+var MATRIX=window.ACRS_MATRIX, THRESH=window.ACRS_THRESH;
+/* ================= stage 2: story ================= */
+var T2={
+ar:{nav_story:"القرار", st_eyebrow:"كيف يقرر",
+ st1_t:"نفس الـ42 حادثة، بطريقتين مختلفتين",
+ st1_s:"كل دائرة في الخريطة جهاز في المنشأة، وكل نبضة حمراء هجوم يصيبه. الخريطتان تتعرضان لنفس الهجمات بالضبط، والفرق الوحيد هو طريقة الرد.",
+ map_u:"الطريقة المعتادة: عزل كامل لكل جهاز مصاب", map_a:"مع ACRS: رد على قدر الخطر",
+ c_off:"أجهزة توقفت عن العمل", c_crit:"أنظمة مهمة توقفت", c_cut:"هجمات أُوقف فيها المهاجم",
+ ecg_l:"جهاز الرنين المغناطيسي", ecg_on:"يعمل", ecg_off:"توقف",
+ run:"شغّل الهجمات", rerun:"أعد التشغيل", now_pre:"الهجوم", now_of:"من",
+ k_off:"عزل كامل: الجهاز يتوقف", k_tgt:"عزل ذكي: الجهاز يُعزل والعمل يستمر على جهاز بديل", k_rst:"تقييد: يُحجب المهاجم والجهاز يعمل", k_mon:"مراقبة فقط", k_t0:"إطار ذهبي: خادم أساسي تعتمد عليه المنشأة كلها",
+ st1_fine:"هذا عرض لنتائج التجربة كما حُفظت بالضبط، وليس تمثيلًا جديدًا.",
+ st2_t:"جرّبه بنفسك",
+ st2_s:"اختر جهازًا، وحرّك مؤشر الخطورة، وشاهد ماذا يفعل ACRS. هذه نفس القواعد التي استُخدمت في التجربة.",
+ risk_l:"درجة الخطورة", single_l:"رأت الهجومَ أداة مراقبة واحدة فقط", single_n:"إذا رأت الهجوم أداة مراقبة واحدة فقط، فالنظام ليس متأكدًا بما يكفي. (جُرّبت هذه الحالة عند خطورة 95.)",
+ out_l:"ماذا يفعل ACRS؟",
+ as:[["جهاز موظف","جهاز عادي"],["خادم له نسخة بديلة","مهم"],["خادم الدخول","أساسي: الكل يدخل عن طريقه"],["جهاز طبي","قد يعتمد عليه مريض"]],
+ how_mon:"لا يتدخل الآن، يراقب فقط", how_mon2:"يراقب فقط، وأي عزل يحتاج موافقة شخصين", how_auto:"ينفّذ فورًا وحده", how_auto1:"ينفّذ فورًا، والخطوة الأقوى تحتاج موافقة شخص",
+ how_auto2:"ينفّذ فورًا، والعزل الكامل يحتاج موافقة شخصين", how_wait:"ينتظر قرار إنسان قبل أن يفعل شيئًا",
+ why:{MONITOR:"الخطر ما زال منخفضًا، فيراقب الجهاز ويجمع أدلة أكثر.",
+  MONITOR2:"كل الموظفين يدخلون عن طريق هذا الخادم، وإيقافه يوقف الجميع. لذلك لا يتحرك وحده إلا إذا وصلت الخطورة 95.",
+  RESTRICT:"يحجب اتصالات المهاجم، والجهاز يستمر في العمل.",
+  COMPENSATING:"لا يُطفأ الجهاز لأن مريضًا قد يعتمد عليه. بدلًا من ذلك يُحجب المهاجم من الشبكة.",
+  SURGICAL:"يُعزل الخادم المصاب، والعمل يستمر على نسخته البديلة.",
+  EMERGENCY_RESTRICT:"يُقيَّد الخادم فورًا، والموظفون يستمرون في الدخول عن طريق الخوادم الأخرى.",
+  FULL_ISOLATION:"جهاز عادي، فيُعزل بالكامل فورًا. إيقافه لا يضر المنشأة.",
+  SINGLE:"أداة مراقبة واحدة لا تكفي للتأكد، فلا يعزل الجهاز وحده ويسأل إنسانًا."},
+ st3_t:"الطريقة المعتادة تُجبرك على الاختيار",
+ st3_s:"إما أن تحمي أنظمتك، أو توقف المهاجم. الطريقة المعتادة تعزل الجهاز إذا تجاوزت خطورة الهجوم رقمًا معيّنًا. جرّبنا كل الأرقام من 50 إلى 100، وكل نقطة برتقالية رقم منها. إذا خفّضت الرقم أوقفت المهاجم لكن توقفت أنظمة مهمة، وإذا رفعته حميت الأنظمة لكن أفلت المهاجم. ACRS وحده جمع الاثنين.",
+ ax_x:"أنظمة مهمة توقفت (الأقل أفضل)", ax_y:"أُوقف المهاجم (الأكثر أفضل)", zone:"الأفضل في الاثنين",
+ st4_t:"بعد إيقاف المهاجم: الجهاز يرجع بأمان",
+ st4_s:"إيقاف المهاجم نصف المهمة. بعده يتأكد النظام أن الجهاز نظيف، ثم يرجعه للعمل خطوة خطوة.",
+ steps:[["تأكّد","9 فحوص تتأكد أن المهاجم انقطع فعلًا."],["نظّف","تنظيف الجهاز أو إعادة تثبيته، وتحديثه، وتغيير كلمات المرور."],["سُدّ الثغرة","إغلاق الطريق الذي دخل منه المهاجم."],["راقب","مراقبة مشددة للتأكد أن المهاجم لم يرجع."],["رجوع تدريجي","يرجع الجهاز للعمل خطوة خطوة، لا دفعة واحدة."]],
+ stages:["معزول","مقيّد","عمل جزئي","عمل كامل"],
+ st4_fine:"هذه الخطوات موجودة في النظام وتعمل على أدوات محاكاة، ولكل خطوة أداة حقيقية مقابلة في التصميم."},
+en:{nav_story:"Decisions", st_eyebrow:"How it decides",
+ st1_t:"The same 42 incidents, two ways to respond",
+ st1_s:"Each pulsing red dot is an attack hitting a machine. Both maps get exactly the same attacks. The only difference is how they respond.",
+ map_u:"The usual way: fully isolate every infected machine", map_a:"With ACRS: respond to match the danger",
+ c_off:"machines stopped", c_crit:"important systems stopped", c_cut:"attacks where the attacker was stopped",
+ ecg_l:"MRI controller", ecg_on:"running", ecg_off:"stopped",
+ run:"Run the attacks", rerun:"Run again", now_pre:"Attack", now_of:"of",
+ k_off:"Full isolation: the machine stops", k_tgt:"Smart isolation: the machine is cut off, work moves to a backup", k_rst:"Restricted: attacker blocked, machine keeps working", k_mon:"Watch only", k_t0:"Gold ring: a core server everyone depends on",
+ st1_fine:"This replays the saved experiment results exactly. It is not a new simulation.",
+ st2_t:"Try it yourself",
+ st2_s:"Pick a machine, move the danger slider, and see what ACRS does. These are the same rules used in the experiment.",
+ risk_l:"Danger level", single_l:"Only one sensor saw the attack", single_n:"If only one sensor saw the attack, the system is not sure enough. (This case was tested at danger 95.)",
+ out_l:"What does ACRS do?",
+ as:[["Employee laptop","ordinary machine"],["Server with a backup","important"],["Login server","core: everyone signs in through it"],["Medical device","a patient may depend on it"]],
+ how_mon:"Does nothing yet, just watches", how_mon2:"Watches only; any isolation needs two people", how_auto:"Acts right away on its own", how_auto1:"Acts right away; a stronger step needs one person",
+ how_auto2:"Acts right away; full isolation needs two people", how_wait:"Waits for a person before doing anything",
+ why:{MONITOR:"The danger is still low, so it watches the machine and collects more evidence.",
+  MONITOR2:"Every employee signs in through this server, so stopping it stops everyone. It only acts on its own at danger 95.",
+  RESTRICT:"It blocks the attacker's connections and the machine keeps working.",
+  COMPENSATING:"The device is not switched off because a patient may depend on it. The attacker is blocked on the network instead.",
+  SURGICAL:"The infected server is cut off, and work continues on its backup.",
+  EMERGENCY_RESTRICT:"The server is restricted at once, and people keep signing in through the other servers.",
+  FULL_ISOLATION:"An ordinary machine, so it is fully isolated at once. Stopping it does not hurt the organization.",
+  SINGLE:"One sensor is not enough to be sure, so it does not isolate on its own and asks a person."},
+ st3_t:"The usual way makes you choose",
+ st3_s:"Either protect your systems, or stop the attacker. The usual way isolates a machine when the attack's danger passes a set number. We tried every number from 50 to 100; each orange dot is one of them. A lower number stops the attacker but important systems go down. A higher number protects the systems but the attacker gets away. Only ACRS gets both.",
+ ax_x:"Important systems stopped (fewer is better)", ax_y:"Attacker stopped (more is better)", zone:"Best of both",
+ st4_t:"After the attacker is stopped: a safe return",
+ st4_s:"Stopping the attacker is half the job. Then the system makes sure the machine is clean and brings it back step by step.",
+ steps:[["Check","9 checks confirm the attacker is really cut off."],["Clean","Clean or reinstall the machine, update it, and change passwords."],["Close the hole","Shut the way the attacker got in."],["Watch","Close monitoring to make sure the attacker does not come back."],["Step-by-step return","The machine returns to work in steps, not all at once."]],
+ stages:["Isolated","Restricted","Partly working","Fully working"],
+ st4_fine:"These steps are built into the system and run on simulated tools; each one has a matching real tool in the design."}};
+Object.keys(T2).forEach(function(l){Object.keys(T2[l]).forEach(function(k){if(typeof T2[l][k]==="string")T[l][k]=T2[l][k];});});
+
+/* ---------- twin maps ---------- */
+var SVGNS="http://www.w3.org/2000/svg";
+function mk(tag,attrs,parent){var e=document.createElementNS(SVGNS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+var HOSTS=(function(){var seen={},list=[];DATA.forEach(function(r){if(!seen[r[3]]){seen[r[3]]=1;list.push({h:r[3],t:r[4]});}});return list;})();
+var POS={};
+(function layout(){
+  var rings={0:[],1:[],2:[]};
+  HOSTS.forEach(function(x){rings[x.t===null?2:x.t].push(x.h);});
+  var R={0:62,1:122,2:176}, off={0:Math.PI/4,1:0.1,2:0.35};
+  [0,1,2].forEach(function(t){rings[t].forEach(function(h,i){var a=off[t]+i*2*Math.PI/rings[t].length;POS[h]={x:200+R[t]*Math.cos(a),y:200+R[t]*Math.sin(a),t:t};});});
+})();
+function nearest(h,tier){var p=POS[h],best=null,bd=1e9;Object.keys(POS).forEach(function(k){var q=POS[k];if(q.t!==tier)return;var d=(p.x-q.x)*(p.x-q.x)+(p.y-q.y)*(p.y-q.y);if(d<bd){bd=d;best=q;}});return best;}
+var MAPS={};
+function buildMap(id){
+  var svg=document.getElementById(id); svg.innerHTML="";
+  var gl=mk("g",{},svg), gn=mk("g",{},svg), gr=mk("g",{},svg);
+  mk("circle",{cx:200,cy:200,r:176,fill:"none",stroke:"rgba(255,255,255,.04)"},gl);
+  mk("circle",{cx:200,cy:200,r:122,fill:"none",stroke:"rgba(255,255,255,.04)"},gl);
+  Object.keys(POS).forEach(function(h){var p=POS[h];if(p.t===0)return;var q=nearest(h,p.t-1);mk("line",{class:"lk",x1:p.x,y1:p.y,x2:q.x,y2:q.y},gl);});
+  var nodes={};
+  Object.keys(POS).forEach(function(h){var p=POS[h];var r=p.t===0?11:9;
+    var c=mk("circle",{class:"nd"+(p.t===0?" t0":""),cx:p.x,cy:p.y,r:r},gn); mk("title",{},c).textContent=h;
+    var x=mk("path",{class:"xx",d:"M"+(p.x-4)+" "+(p.y-4)+"L"+(p.x+4)+" "+(p.y+4)+"M"+(p.x+4)+" "+(p.y-4)+"L"+(p.x-4)+" "+(p.y+4)},gn);
+    nodes[h]={c:c,x:x,state:""};
+    if(h==="MRI-CTRL-02"){var lx=p.x+(p.x>200?-2:2);mk("text",{class:"mri",x:p.x,y:p.y-15,"text-anchor":"middle"},gn).textContent="MRI";}
+  });
+  mk("text",{class:"core",x:200,y:204,"text-anchor":"middle"},gn).textContent=(lang==="ar"?"خوادم أساسية":"core servers");
+  MAPS[id]={nodes:nodes,rings:gr};
+}
+var RANK={"":0,mon:1,rst:2,tgt:3,off:4};
+function setState(map,h,st){var n=MAPS[map].nodes[h];if(!n||RANK[st]<=RANK[n.state])return;n.state=st;n.c.setAttribute("class","nd"+(POS[h].t===0?" t0":"")+" "+st);n.x.setAttribute("class","xx"+(st==="off"?" on":""));}
+function pulse(map,h){var p=POS[h];if(!p||reduce)return;var r=mk("circle",{class:"ring",cx:p.x,cy:p.y,r:9},MAPS[map].rings);setTimeout(function(){r.remove();},750);}
+function acrsState(level){return level==="FULL_ISOLATION"?"off":(level==="SURGICAL"||level==="EMERGENCY_RESTRICT")?"tgt":(level==="RESTRICT"||level==="COMPENSATING")?"rst":"mon";}
+var runTok=0, ran=false, cnt={u1:0,u2:0,u3:0,a1:0,a2:0,a3:0}, curRow=null;
+function paintCounts(){["u1","u2","u3","a1","a2","a3"].forEach(function(k){document.getElementById((k[0]==="u"?"uc":"ac")+k[1]).textContent=cnt[k];});}
+function ecg(id,alive){var e=document.getElementById(id);e.classList.toggle("dead",!alive);e.querySelector("em").textContent=alive?T[lang].ecg_on:T[lang].ecg_off;}
+function nowText(){var el=document.getElementById("now");if(!curRow){el.textContent="";return;}var t=T[lang];
+  el.innerHTML=esc(t.now_pre)+' <b class="mono">'+curRow[0]+'</b> '+esc(t.now_of)+' 42 · <bdi class="mono">'+esc(curRow[3])+"</bdi> · "+esc(CAT[lang][curRow[2]]);}
+function resetRun(){buildMap("mapU");buildMap("mapA");cnt={u1:0,u2:0,u3:0,a1:0,a2:0,a3:0};paintCounts();ecg("ecgU",true);ecg("ecgA",true);curRow=null;nowText();}
+function step(r){
+  pulse("mapU",r[3]);pulse("mapA",r[3]);
+  setState("mapU",r[3],r[9]?"off":"mon"); setState("mapA",r[3],acrsState(r[12]));
+  if(r[9])cnt.u1++; if(r[13])cnt.a1++; if(r[10])cnt.u2++; if(r[14])cnt.a2++; if(!r[5]&&r[11])cnt.u3++; if(!r[5]&&r[15])cnt.a3++;
+  if(r[3]==="MRI-CTRL-02"){ ecg("ecgU",!r[9]); ecg("ecgA",!r[13]); sfx("alarm"); setTimeout(function(){sfx("beat");},450); }
+  else sfx(r[13]?"tick":"rise");
+  curRow=r; nowText(); paintCounts();
+}
+function run(){
+  var tok=++runTok; ran=true; resetRun(); document.getElementById("runLbl").textContent=T[lang].rerun;
+  var rows=DATA.slice().sort(function(a,b){return a[0]-b[0];}), i=0;
+  if(reduce){rows.forEach(step);return;}
+  sfx("ping");
+  (function tick(){ if(tok!==runTok)return; if(i>=rows.length){sfx("chime");return;} step(rows[i++]); setTimeout(tick,300); })();
+}
+document.getElementById("runBtn").addEventListener("click",run);
+
+/* ---------- decision explorer ---------- */
+var CLS=MATRIX.classes, cls=2, rIdx=6;
+function renderAssets(){var box=document.getElementById("assets");
+  box.innerHTML=T2[lang].as.map(function(a,i){return '<button type="button" class="asset" data-i="'+i+'" aria-pressed="'+(i===cls)+'"><b>'+esc(a[0])+'</b><small><bdi>'+esc(a[1])+"</bdi></small></button>";}).join("");
+  box.querySelectorAll(".asset").forEach(function(b){b.addEventListener("click",function(){cls=+b.dataset.i;renderAssets();decide();sfx("tick");});});}
+var LVCOL={off:"var(--uniform)",tgt:"var(--acrs-2)",rst:"var(--alive)",mon:"#b7c3ca"};
+function decide(){
+  var t=T2[lang], single=document.getElementById("single").checked, c=CLS[cls], lvl, auto, ap, why;
+  var slider=document.getElementById("risk"); slider.disabled=single; if(single){rIdx=7;slider.value=7;}
+  document.getElementById("singleNote").hidden=!single;
+  var risk=MATRIX.risks[rIdx]; document.getElementById("riskV").textContent=risk;
+  if(single){var s=MATRIX.single[c];lvl=s[0];auto=s[1];ap=0;why=(lvl==="COMPENSATING")?t.why.COMPENSATING:t.why.SINGLE;}
+  else{var g=MATRIX.grid[c][String(risk)];lvl=g[0];auto=g[1];ap=g[2];why=(lvl==="MONITOR"&&ap>=2)?t.why.MONITOR2:t.why[lvl];}
+  var how = lvl==="MONITOR" ? (ap>=2?t.how_mon2:t.how_mon) : auto ? (ap>=2?t.how_auto2:ap===1?t.how_auto1:t.how_auto) : t.how_wait;
+  var col=LVCOL[acrsState(lvl)];
+  var L=document.getElementById("outLvl"); L.textContent=LEVEL[lang][lvl]; L.style.color=col;
+  document.getElementById("outGlow").style.background=col;
+  document.getElementById("outHow").textContent=how; document.getElementById("outWhy").innerHTML=tx(why);
+}
+document.getElementById("risk").addEventListener("input",function(e){rIdx=+e.target.value;decide();sfx("tick");});
+document.getElementById("single").addEventListener("change",function(){decide();sfx("open");});
+
+/* ---------- threshold frontier ---------- */
+function renderThresh(){
+  var t=T2[lang], svg=document.getElementById("tsvg"); svg.innerHTML="";
+  var X=function(v){return 70+v*(430-70)/8;}, Y=function(v){return 250-v*(250-30)/42;};
+  for(var v=0;v<=40;v+=10){mk("line",{class:"gl",x1:70,x2:430,y1:Y(v),y2:Y(v)},svg);mk("text",{x:60,y:Y(v)+4,"text-anchor":"end"},svg).textContent=v;}
+  for(var u=0;u<=8;u++)mk("text",{x:X(u),y:268,"text-anchor":"middle"},svg).textContent=u;
+  mk("line",{class:"ax",x1:70,x2:430,y1:250,y2:250},svg);
+  mk("text",{class:"lab2",x:250,y:292,"text-anchor":"middle"},svg).textContent=t.ax_x;
+  mk("text",{class:"lab2",x:18,y:140,"text-anchor":"middle",transform:"rotate(-90 18 140)"},svg).textContent=t.ax_y;
+  mk("rect",{class:"zone",x:X(0),y:Y(42),width:X(3.4)-X(0),height:Y(30)-Y(42),rx:6},svg);
+  mk("text",{class:"zl",x:X(0)+8,y:Y(42)+15},svg).textContent=t.zone;
+  var pts=THRESH.slice().sort(function(a,b){return a[0]-b[0];});
+  mk("path",{class:"ul",pathLength:1,d:pts.map(function(p,i){return(i?"L":"M")+X(p[1])+" "+Y(p[2]);}).join("")},svg);
+  pts.forEach(function(p){mk("circle",{class:"up",cx:X(p[1]),cy:Y(p[2]),r:4.5},svg);});
+  [["50–70",7,35.5,12],["75, 80",5,33.5,-44],["85",5,24,12],["90",2,18,-24],["95",2,10,12],["100",1,7,-28]].forEach(function(l){mk("text",{class:"tl",x:X(l[1])+l[3],y:Y(l[2])+4},svg).textContent=l[0];});
+  mk("circle",{class:"ap",cx:X(A_CRIT),cy:Y(A_CUT),r:8},svg);
+  mk("text",{class:"apl",x:X(A_CRIT)+13,y:Y(A_CUT)+5},svg).textContent="ACRS";
+}
+var A_CRIT=2, A_CUT=36; /* ACRS result from the 42-incident experiment (same as the poster) */
+
+/* ---------- lifecycle ---------- */
+function renderSteps(){
+  var t=T2[lang];
+  document.getElementById("steps").innerHTML=t.steps.map(function(s,i){return '<div class="step glass" data-i="'+i+'"><span class="k">0'+(i+1)+"</span><b>"+esc(s[0])+"</b><p>"+tx(s[1])+"</p></div>";}).join("");
+  var arrow=lang==="ar"?" ← ":" → ";
+  document.getElementById("stagesRow").innerHTML=t.stages.map(function(s,i){return '<span data-i="'+i+'">'+esc(s)+"</span>";}).join('<b aria-hidden="true">'+arrow+"</b>");
+  if(reduce) document.querySelectorAll(".step,.stages span").forEach(function(e){e.classList.add("on");});
+}
+var lcTimer=null;
+function cycleLife(){ if(reduce||lcTimer)return; var i=0;
+  lcTimer=setInterval(function(){ var st=document.querySelectorAll(".step"), sg=document.querySelectorAll(".stages span"), n=st.length+sg.length;
+    st.forEach(function(e,k){e.classList.toggle("on",k===Math.min(i,st.length-1));});
+    sg.forEach(function(e,k){e.classList.toggle("on",i>=st.length && k<=i-st.length);});
+    i=(i+1)%(n+2); },1300); }
+
+/* ---------- start on view ---------- */
+if("IntersectionObserver" in window){
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;
+    if(e.target.id==="mapA"&&!ran){run();} if(e.target.id==="tchart")e.target.classList.add("drawn"); if(e.target.id==="steps")cycleLife(); so.unobserve(e.target);});},{threshold:.35});
+  ["mapA","tchart","steps"].forEach(function(id){so.observe(document.getElementById(id));});
+} else { document.getElementById("tchart").classList.add("drawn"); }
+function renderStory(){ document.querySelectorAll(".map .core").forEach(function(e){e.textContent=(lang==="ar"?"خوادم أساسية":"core servers");}); if(!ran) resetRun(); else { nowText(); ecg("ecgU",!document.getElementById("ecgU").classList.contains("dead")); ecg("ecgA",!document.getElementById("ecgA").classList.contains("dead")); }
+  document.getElementById("runLbl").textContent=ran?T[lang].rerun:T[lang].run; renderAssets(); decide(); renderThresh(); renderSteps(); }
+
+
+/* ================= stage 2b: compare ================= */
+var T3={
+ar:{nav_cmp:"الفرق", cp_eyebrow:"مقارنة",
+ cp_t:"وفروقات أخرى من نفس التجربة",
+ cp_s:"كل رقم هنا من التجربة، إلا الأخير (المال) فهو من مصدر خارجي.",
+ cp_without:"بدون ACRS (الطريقة المعتادة)", cp_with:"مع ACRS",
+ tag_exp:"من التجربة", tag_src:"من مصدر", l_u:"بدون", l_a:"مع",
+ cp_cost_t:"الثمن، بصراحة",
+ cp_cost:"ACRS يحتاج الإنسان أكثر: شخص يؤكد رجوع الجهاز في 16 حالة، و4 خوادم أساسية تنتظر موافقة شخصين. ويقطع طرقًا أقل نحو الأنظمة المهمة (30 بدل 36)، وهذا مقصود لحماية الخوادم الأساسية.",
+ cp2_t:"وما الفرق عن الأنظمة الموجودة؟",
+ cp2_s:"العزل الآلي موجود في أدوات الأمن التجارية، ولا ندّعي أننا اخترعناه. الجديد في ACRS هو طريقة القرار، وأنه مقاس بتجربة.",
+ cp_honest:"للأمانة: ACRS نموذج بحثي جُرّب على بيانات محاكاة، أما الأدوات التجارية فتعمل في شبكات حقيقية منذ سنوات. المقارنة هنا عن طريقة القرار، وليست عن جودة المنتج كله.",
+ v_h:["","العزل الكامل المعتاد","أدوات حماية الأجهزة (مثل Microsoft Defender وCrowdStrike)","الرد المتدرّج (مثل Darktrace)","ACRS"],
+ v_r:[["كيف يحدد قوة الرد؟","إذا تجاوزت الخطورة رقمًا واحدًا: عزل كامل","عزل كامل، أو عزل جزئي باستثناءات يضعها المسؤول بيده","يبدأ بحجب اتصالات محددة، ثم يشدّد إذا استمر الخطر","تلقائيًا من 4 أشياء: الخطورة، والتأكد، وأهمية الجهاز، وهل له بديل"],
+  ["هل يعرف أن الجهاز طبي أو أساسي؟","لا","فقط إذا ضبطه المسؤول بيده","غير منشور","نعم، وهذا جزء من القرار نفسه"],
+  ["كيف يقرر؟","قاعدة واحدة","سياسات وقواعد يضبطها المسؤول","ذكاء اصطناعي يتعلم نمط الشبكة","9 قواعد مكتوبة، ولكل قرار سبب مكتوب"],
+  ["هل نشر رقمًا عن التعطيل مقارنة بالعزل الكامل؟","لا ينطبق","لم نجد رقمًا منشورًا","لم نجد رقمًا منشورًا","نعم: 20 جهازًا بدل 37، في تجربة تُعاد بنفس النتائج"],
+  ["الخوادم الأساسية","تُعزل تلقائيًا مثل أي جهاز","حسب إعدادات المسؤول","غير منشور","لا تُعزل أبدًا دون موافقة شخصين"]],
+ src:"المصادر: وثائق Microsoft عن العزل الانتقائي · مدونة Darktrace عن الرد الذاتي · IBM Cost of a Data Breach 2026",
+ d:[["نفس الهجوم على 20 جهازًا مختلفًا: كم جهازًا عُزل كاملًا؟",20,6,"less","exp","الطريقة المعتادة ردّت على الـ20 بنفس الرد. ACRS أعطى 5 ردود مختلفة حسب أهمية كل جهاز."],
+  ["خوادم عُزلت والخدمة استمرت على بديلها",0,9,"more","exp","الطريقة المعتادة لا تعرف أن للخادم نسخة بديلة، فتوقف الخدمة كلها."],
+  ["أجهزة طبية أُطفئت",1,0,"less","exp","جهاز الرنين المغناطيسي بقي يعمل، والمهاجم حُجب من الشبكة."],
+  ["خوادم أساسية عُزلت دون قرار إنسان",4,0,"less","exp","العزل الكامل لخادم أساسي صار يحتاج موافقة شخصين."],
+  ["حالة سليمة أُوقفت بالخطأ",1,0,"less","exp","عمل صيانة مشروع لم يُعامل كهجوم."],
+  ["أنواع الرد المتاحة",2,6,"more","exp","بدل «عزل كامل أو لا شيء»: 6 مستويات من المراقبة إلى العزل الكامل."],
+  ["لماذا اتُّخذ القرار؟",["«الخطورة فوق 60»، لكل الأجهزة","سبب مكتوب لكل قرار، يذكر الخطورة وأهمية الجهاز"],null,"text","exp","وللقواعد بصمة (87893ca0) تتغير لو تغيّر فيها حرف واحد، فلا يمكن تعديلها بالسر."],
+  ["المال",["توقف أكثر يعني خسارة أكثر","توقف أقل يعني خسارة أقل"],null,"text","src","المنشآت التي تستخدم الذكاء الاصطناعي والأتمتة في الاستجابة تدفع [[قرابة مليوني دولار أقل]] لكل اختراق (IBM 2026).","لم نقس المال في تجربتنا. هذا رقم عن الأتمتة عمومًا، وليس رقمًا مقاسًا لـ ACRS."]],
+ same_t:"والعداد الثالث متساوٍ… وهذا بالضبط المطلوب",
+ same_s:"36 مقابل 36. الهدف لم يكن إيقاف المهاجم أكثر، بل إيقافه بنفس القوة مع ضرر أقل. ولم نخسر السرعة أيضًا:",
+ same:[["سرعة الاحتواء","0.29–0.34","0.29–0.34","ثانية"]],
+ same_ok:"بدون تنازل",
+ pw_t:"أوقف المهاجم بنفس العدد… لكن بقوة أقل",
+ pw_s:"في الـ36 هجومًا التي أُوقف فيها المهاجم، استخدمت الطريقة المعتادة العزل الكامل في كل مرة. ACRS احتاج العزل الكامل 7 مرات فقط، وفي الـ29 الباقية أوقف المهاجم بإجراء أخف.",
+ pw_u:"الطريقة المعتادة", pw_l1:"عزل كامل", pw_l2:"عزل ذكي (البديل يعمل)", pw_l3:"تقييد فوري", pw_l4:"تقييد والجهاز يعمل", pw_l5:"حجب من الشبكة",
+ pw_k:"<mark>أخف رد يكفي</mark> يعني نفس النتيجة (المهاجم انقطع) بضرر أقل. وهذي ميزة ACRS الأساسية."},
+en:{nav_cmp:"Compare", cp_eyebrow:"Compare",
+ cp_t:"More differences from the same experiment",
+ cp_s:"Every number here comes from the experiment, except the last one (money), which comes from an outside source.",
+ cp_without:"Without ACRS (the usual way)", cp_with:"With ACRS",
+ tag_exp:"from the experiment", tag_src:"from a source", l_u:"without", l_a:"with",
+ cp_cost_t:"The cost, honestly",
+ cp_cost:"ACRS needs people more: someone confirms a machine's return in 16 cases, and 4 core servers wait for two people to approve. It also cuts fewer paths to important systems (30 instead of 36), on purpose, to protect core servers.",
+ cp2_t:"How is it different from existing systems?",
+ cp2_s:"Automatic isolation already exists in commercial security tools, and we do not claim to have invented it. What is new in ACRS is how it decides, and that it is measured in an experiment.",
+ cp_honest:"To be fair: ACRS is a research model tested on simulated data, while commercial tools have run on real networks for years. This compares how they decide, not the quality of the whole product.",
+ v_h:["","Usual full isolation","Endpoint protection tools (e.g. Microsoft Defender, CrowdStrike)","Graduated response (e.g. Darktrace)","ACRS"],
+ v_r:[["How does it set the strength of the response?","If danger passes one number: full isolation","Full isolation, or partial isolation with exceptions an admin sets by hand","Starts by blocking specific connections, then escalates if the danger continues","Automatically from 4 things: danger, certainty, machine importance, and whether it has a backup"],
+  ["Does it know a machine is medical or core?","No","Only if an admin sets it by hand","Not published","Yes, it is part of the decision itself"],
+  ["How does it decide?","One rule","Policies and rules an admin sets","AI that learns the network's pattern","9 written rules, with a written reason for every decision"],
+  ["Has it published a disruption number versus full isolation?","Not applicable","We found no published number","We found no published number","Yes: 20 machines instead of 37, in a test that repeats with the same results"],
+  ["Core servers","Isolated automatically like any machine","Depends on admin settings","Not published","Never fully isolated without two people approving"]],
+ src:"Sources: Microsoft documentation on selective isolation · Darktrace blog on autonomous response · IBM Cost of a Data Breach 2026",
+ d:[["Same attack on 20 different machines: how many fully isolated?",20,6,"less","exp","The usual way gave all 20 the same response. ACRS gave 5 different responses, based on how important each machine is."],
+  ["Servers isolated while the service kept running on a backup",0,9,"more","exp","The usual way does not know a server has a backup, so the whole service stops."],
+  ["Medical devices switched off",1,0,"less","exp","The MRI controller kept running; the attacker was blocked on the network."],
+  ["Core servers isolated with no person",4,0,"less","exp","Fully isolating a core server now needs two people to approve."],
+  ["Harmless case stopped by mistake",1,0,"less","exp","Legitimate maintenance was not treated as an attack."],
+  ["Kinds of response available",2,6,"more","exp","Instead of \u201cfull isolation or nothing\u201d: 6 levels from watching to full isolation."],
+  ["Why was the decision made?",["\u201cDanger above 60\u201d, for every machine","A written reason for every decision, naming the danger and the machine's importance"],null,"text","exp","The rules have a fingerprint (87893ca0) that changes if a single letter changes, so they cannot be edited quietly."],
+  ["Money",["More downtime means more loss","Less downtime means less loss"],null,"text","src","Organizations using AI and automation in response pay [[close to $2 million less]] per breach (IBM 2026).","We did not measure money in our experiment. This number is about automation in general, not measured for ACRS."]],
+ same_t:"And the third counter is equal… exactly what we wanted",
+ same_s:"36 and 36. The goal was never to stop the attacker more often, but just as often with less damage. And no speed was lost either:",
+ same:[["Containment speed","0.29–0.34","0.29–0.34","s"]],
+ same_ok:"no trade-off",
+ pw_t:"Stopped the attacker just as often… with less force",
+ pw_s:"In the 36 attacks where the attacker was stopped, the usual way used full isolation every time. ACRS needed full isolation only 7 times; in the other 29 it stopped the attacker with a lighter action.",
+ pw_u:"The usual way", pw_l1:"Full isolation", pw_l2:"Smart isolation (backup runs)", pw_l3:"Immediate restriction", pw_l4:"Restricted, keeps working", pw_l5:"Blocked on the network",
+ pw_k:"<mark>The lightest response that works</mark> means the same result (attacker cut off) with less damage. That is the core of ACRS."}};
+Object.keys(T3).forEach(function(l){Object.keys(T3[l]).forEach(function(k){if(typeof T3[l][k]==="string")T[l][k]=T3[l][k];});});
+var cmpSeen=false;
+function renderCompare(){
+  var t=T3[lang], box=document.getElementById("diffs");
+  box.innerHTML=t.d.map(function(d,i){
+    var h='<div class="df glass'+(cmpSeen?' in':'')+'" style="transition-delay:'+(cmpSeen?0:i*60)+'ms"><div class="top"><span class="k">'+(i<9?"0":"")+(i+1)+'</span><b class="t">'+tx(d[0])+'</b><span class="tag'+(d[4]==="src"?" src":"")+'">'+esc(d[4]==="src"?t.tag_src:t.tag_exp)+'</span></div>';
+    if(d[3]!=="text"){var m=Math.max(d[1],d[2],1);
+      h+='<div class="vs"><span class="lb">'+esc(t.l_u)+'</span><span class="tr u"><i data-w="'+(d[1]/m*100)+'"'+(cmpSeen?' style="width:'+(d[1]/m*100)+'%"':'')+'></i></span><span class="v u">'+d[1]+'</span>'+
+         '<span class="lb">'+esc(t.l_a)+'</span><span class="tr a"><i data-w="'+(d[2]/m*100)+'"'+(cmpSeen?' style="width:'+(d[2]/m*100)+'%"':'')+'></i></span><span class="v a">'+d[2]+'</span></div>';}
+    else h+='<div class="txt"><div class="u"><em>'+esc(t.l_u)+'</em><span>'+tx(d[1][0])+'</span></div><div class="a"><em>'+esc(t.l_a)+'</em><span>'+tx(d[1][1])+'</span></div></div>';
+    h+='<p class="note">'+tx(d[5]).replace(/\[\[(.*?)\]\]/g,"<mark>$1</mark>")+'</p>'+(d[6]?'<p class="fine">'+tx(d[6])+'</p>':'')+'</div>';
+    return h;}).join("");
+  var v='<table><thead><tr>'+t.v_h.map(function(x,j){return '<th'+(j===4?' class="me"':'')+'>'+tx(x)+'</th>';}).join("")+'</tr></thead><tbody>'+
+    t.v_r.map(function(r){return '<tr><th>'+tx(r[0])+'</th>'+r.slice(1).map(function(c,j){return '<td data-l="'+esc(t.v_h[j+1])+'"'+(j===3?' class="me"':'')+'>'+tx(c)+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table>';
+  document.getElementById("vtab").innerHTML=v;
+  document.getElementById("cpSrc").textContent=t.src;
+}
+function showDiffs(){cmpSeen=true;document.querySelectorAll(".df").forEach(function(e){e.classList.add("in");});
+  setTimeout(function(){document.querySelectorAll(".df .tr i").forEach(function(i){i.style.width=i.getAttribute("data-w")+"%";});},250);}
+if("IntersectionObserver" in window && !reduce){
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){showDiffs();sfx("chime");co.disconnect();}});},{threshold:.15});
+  co.observe(document.getElementById("diffs"));
+} else { cmpSeen=true; }
+
+
+/* ================= video ================= */
+var VT={ar:{l:"عرضي",p:"طولي"},en:{l:"Landscape",p:"Portrait"}};
+var vOrient=null, vm=document.getElementById("vmodal"), vid=document.getElementById("vid");
+function vPick(){return (matchMedia("(orientation: portrait)").matches && innerWidth<820)?"9x16":"16x9";}
+function vLoad(keep){var o=vOrient||vPick(), t=keep?vid.currentTime:0;
+  vid.className=o==="9x16"?"p":"l";
+  vid.poster="media/poster_"+(lang==="ar"?"AR":"EN")+"_"+o+".jpg";
+  vid.src="media/ACRS_Film_"+(lang==="ar"?"AR":"EN")+"_"+o+".mp4";
+  if(keep){vid.addEventListener("loadedmetadata",function f(){vid.currentTime=t;vid.removeEventListener("loadedmetadata",f);});}
+  document.querySelectorAll("#vseg button").forEach(function(b){b.textContent=VT[lang][b.dataset.o==="9x16"?"p":"l"];b.setAttribute("aria-pressed",b.dataset.o===o);});}
+function vOpen(){vOrient=null;vLoad(false);vm.hidden=false;requestAnimationFrame(function(){vm.classList.add("on");});var p=vid.play();if(p&&p.catch)p.catch(function(){});}
+function vClose(){vid.pause();vm.classList.remove("on");setTimeout(function(){vm.hidden=true;},300);}
+document.getElementById("watchBtn").addEventListener("click",function(){sfx("open");vOpen();});
+document.getElementById("vclose").addEventListener("click",vClose);
+vm.addEventListener("click",function(e){if(e.target===vm)vClose();});
+addEventListener("keydown",function(e){if(e.key==="Escape"&&!vm.hidden)vClose();});
+document.querySelectorAll("#vseg button").forEach(function(b){b.addEventListener("click",function(){var play=!vid.paused;vOrient=b.dataset.o;vLoad(true);if(play)vid.play();});});
+
+
+/* ================= learning experiment ================= */
+var LN={U:[5, 5, 9, 9, 7, 7, 9, 9],A:[5, 5, 11, 11, 15, 15, 15, 15],M:[5, 1, 9, 4, 11, 4, 9, 4]};
+var T4={
+ar:{ln_eyebrow:"التعلّم من الفشل",
+ ln_t:"لا يوجد معنى للفشل",
+ ln_s:"إذا فات ACRS هجوم، يصدّه المهندس بيده، وACRS يحفظ طريقته. وإذا رجع هجوم يشبهه (بنسبة 96% أو أكثر)، يصدّه ACRS وحده. جرّبنا هذا في تجربة ثانية: 8 جولات من نفس الـ41 هجومًا، والمهاجم يغيّر حيلته كل جولتين.",
+ ln_honest:"للأمانة: الحيلة الجديدة لا تُكشف من أول مرة، فلازم يشوفها المهندس مرة. والمهندس في التجربة محاكى، ونفترض أنه يعرف الهجوم صح. وأقوى ما يفعله الرد المتعلَّم هو حجب المهاجم والجهاز يعمل، فلا يعزل أي جهاز. ومع التجربة 3 اختبارات آلية، ونتيجتها تتكرر في كل تشغيل.",
+ ln_y:"هجمات لم تتوقف تلقائيًا", ln_leg:["الطريقة المعتادة","ACRS بدون تعلّم","ACRS مع التعلّم"],
+ ln_g:["الهجمات الأصلية","عناوين إنترنت جديدة","الاختباء من أداة مراقبة","الحيلتان معًا"], ln_gs:["الأصلية","عناوين جديدة","الاختباء","الحيلتان"], ln_r:["أول مرة","تكرار"],
+ ln_f:[["4","بعد التعلّم لم يبقَ إلا 4 من 41","وكلها خوادم أساسية تنتظر قرار إنسان عن قصد. في بقية الأجهزة: صفر."],
+       ["1×","كل حيلة جديدة تنجح مرة واحدة فقط","عناوين جديدة: من 9 إلى 4. الاختباء: من 11 إلى 4. الحيلتان معًا: من 9 إلى 4."],
+       ["0","صفر أخطاء","لم يُستخدم الرد المتعلَّم ولا مرة على الحالة السليمة، ولا على خادم أساسي."]]},
+en:{ln_eyebrow:"Learning from failure",
+ ln_t:"Failure is never final",
+ ln_s:"If ACRS misses an attack, an engineer blocks it by hand and ACRS saves how it was done. If a similar attack comes back (96% alike or more), ACRS blocks it on its own. We tested this in a second experiment: 8 rounds of the same 41 attacks, with the attacker changing tricks every two rounds.",
+ ln_honest:"To be fair: a brand-new trick is not caught the first time; the engineer has to see it once. The engineer in the experiment is simulated and assumed to identify the attack correctly. The strongest thing a learned response does is block the attacker while the machine keeps working; it never isolates a machine. The experiment has 3 automated tests and gives the same result on every run.",
+ ln_y:"attacks not stopped automatically", ln_leg:["The usual way","ACRS without learning","ACRS with learning"],
+ ln_g:["Original attacks","New internet addresses","Hiding from a monitoring tool","Both tricks"], ln_gs:["Original","New addr.","Hiding","Both"], ln_r:["first","repeat"],
+ ln_f:[["4","After learning, only 4 of 41 remain","All of them core servers that wait for a person on purpose. On every other machine: zero."],
+       ["1×","Each new trick works only once","New addresses: 9 down to 4. Hiding: 11 down to 4. Both tricks: 9 down to 4."],
+       ["0","Zero mistakes","The learned response was never used on the harmless case, or on a core server."]]}};
+Object.keys(T4).forEach(function(l){Object.keys(T4[l]).forEach(function(k){if(typeof T4[l][k]==="string")T[l][k]=T4[l][k];});});
+var T5={ar:{rl_eyebrow:"تجربة حقيقية",rl_t:"مو بس محاكاة: جربته بجدار حماية حقيقي",
+ rl_s:"نفس الـ41 هجوم، بس هالمرة قرار ACRS ينفّذه جدار حماية Linux حقيقي على اتصالات حقيقية، ونقيس بالساعة متى ينقطع المهاجم فعلاً.",
+ rl_f1:"هجمات انقطع اتصالها فعلاً",rl_f1s:"نفس العدد بالضبط مع العزل الكامل ومع ACRS.",
+ rl_f2:"أجهزة انقطعت عنها الخدمة",rl_f2s:"العزل الكامل قطع الخدمة عن 37 جهاز، وACRS عن 16 بس.",
+ rl_unit:"ثانية",rl_f3:"أبطأ وقت من التنبيه لين انقطع المهاجم",rl_f3s:"أبطأ حالة في 3 تشغيلات كاملة، والنتائج نفسها كل مرة.",
+ rl_d_aria:"رسم المعمل: جدار الحماية يقطع طريق الجهاز المخترق للمهاجم وللسيرفر المهم، والخدمة تكمل",
+ rl_d1:"سيرفر المهاجم",rl_d2:"سيرفر مهم",rl_d3:"الخدمة",rl_d4:"جهاز مخترق",rl_d_fw:"جدار الحماية",
+ rl_ok_t:"✅ وش الحقيقي",rl_ok:"قرار ACRS الحقيقي، وجدار حماية Linux حقيقي، واتصالات حقيقية، و3 تشغيلات.",
+ rl_wr_t:"⚠️ وش مو حقيقي بعد",rl_wr:"كله على جهاز واحد، ومافيه شبكة مستشفى، وما قسنا وقت اكتشاف الهجوم.",
+ rl_try_t:"جرّبه بنفسك",rl_try_l:"ملف النتائج الكامل (real_lab.json)"},
+en:{rl_eyebrow:"Real test",rl_t:"Not just a simulation: tested with a real firewall",
+ rl_s:"The same 41 attacks, but this time ACRS's decision is enforced by a real Linux firewall on real connections, and we time when the attacker is actually cut off.",
+ rl_f1:"attacks actually cut off",rl_f1s:"Exactly the same number with full isolation and with ACRS.",
+ rl_f2:"machines cut off from their service",rl_f2s:"Full isolation cut the service on 37 machines; ACRS on only 16.",
+ rl_unit:"s",rl_f3:"slowest time from alert to attacker cut off",rl_f3s:"Slowest case across 3 full runs, with identical results every time.",
+ rl_d_aria:"Lab diagram: the firewall blocks the hacked machine's path to the attacker and to the critical server, while the service keeps working",
+ rl_d1:"Attacker server",rl_d2:"Critical server",rl_d3:"Service",rl_d4:"Hacked machine",rl_d_fw:"Firewall",
+ rl_ok_t:"✅ What is real",rl_ok:"The real ACRS decision, a real Linux firewall, real connections, and 3 runs.",
+ rl_wr_t:"⚠️ What is not real yet",rl_wr:"Everything runs on one machine, there is no hospital network, and detection time was not measured.",
+ rl_try_t:"Try it yourself",rl_try_l:"Full results file (real_lab.json)"}};
+Object.keys(T5).forEach(function(l){Object.keys(T5[l]).forEach(function(k){T[l][k]=T5[l][k];});});
+var lnSeen=false;
+function renderLearn(){
+  var t=T4[lang], nar=innerWidth<600, W=nar?440:720,H=nar?300:330,Lf=46,R=12,Tp=16,B=70, X0=function(i){return Lf+i*(W-Lf-R)/8;}, gw=(W-Lf-R)/8, bw=gw*0.24, max=16;
+  var Y=function(v){return Tp+(max-v)*(H-Tp-B)/max;};
+  var cols=["var(--uniform)","#6f8a97","var(--acrs)"], S=[LN.U,LN.A,LN.M], s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(t.ln_t)+'">';
+  [0,4,8,12,16].forEach(function(v){s+='<line x1="'+Lf+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.07)"/><text x="'+(Lf-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+'</text>';});
+  for(var g=0;g<4;g++){var x=X0(g*2),x2=X0(g*2+2);if(g)s+='<line x1="'+x+'" x2="'+x+'" y1="'+Tp+'" y2="'+(H-B+42)+'" stroke="rgba(255,255,255,.1)" stroke-dasharray="3 4"/>';
+    s+='<text class="lab" x="'+((x+x2)/2)+'" y="'+(H-12)+'" text-anchor="middle">'+esc((nar?t.ln_gs:t.ln_g)[g])+'</text>';}
+  for(var i=0;i<8;i++){var cx=X0(i)+gw/2;
+    S.forEach(function(ser,k){var v=ser[i],bx=cx+(k-1.5)*(bw+2)+1,h=(H-B-Y(v));
+      s+='<rect class="bar-l" x="'+bx+'" y="'+(lnSeen?Y(v):H-B)+'" width="'+bw+'" height="'+(lnSeen?h:0)+'" data-y="'+Y(v)+'" data-h="'+h+'" rx="3" fill="'+cols[k]+'"/>';
+      if(k===2)s+='<text class="vl" x="'+(bx+bw/2)+'" y="'+(Y(v)-6)+'" text-anchor="middle" style="fill:#7fe3ff">'+v+'</text>';});
+    s+='<text class="lab" x="'+cx+'" y="'+(H-B+18)+'" text-anchor="middle" style="fill:var(--muted);font-size:11px">'+esc(t.ln_r[i%2])+'</text>';}
+  s+='<line x1="'+Lf+'" x2="'+(W-R)+'" y1="'+(H-B)+'" y2="'+(H-B)+'" stroke="rgba(255,255,255,.25)"/></svg>';
+  document.getElementById("lchart").classList.toggle("nar",nar);document.getElementById("lchart").innerHTML='<div class="lleg">'+t.ln_leg.map(function(n,k){return '<span><i style="background:'+cols[k]+'"></i>'+esc(n)+'</span>';}).join("")+'<span style="color:var(--muted)">'+esc(t.ln_y)+'</span></div>'+s;
+  document.getElementById("lfacts").innerHTML=t.ln_f.map(function(f,i){return '<div class="lf glass"><b class="'+(i===2?'g':'')+'">'+esc(f[0])+'</b><span>'+esc(f[1])+'</span><small>'+esc(f[2])+'</small></div>';}).join("");
+}
+function growLearn(){lnSeen=true;document.querySelectorAll("#lchart .bar-l").forEach(function(r,i){setTimeout(function(){r.setAttribute("y",r.dataset.y);r.setAttribute("height",r.dataset.h);},i*25);});}
+if("IntersectionObserver" in window && !reduce){var lo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){growLearn();lo.disconnect();}});},{threshold:.3});lo.observe(document.getElementById("lchart"));} else lnSeen=true;
+
+/* ================= start ================= */
+applyLang();
+if(store("acrs_sound")==="1"){ /* sound stays off until the visitor taps: browsers block audio before a tap */ }
+if(reduce || store("acrs_intro")==="1"){ intro.hidden=true; intro.classList.add("done"); } else { runIntro(); }
+})();
+</script>
+
+</body>
+</html>
