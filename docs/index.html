@@ -488,6 +488,29 @@ svg[hidden]{display:none!important}
 .lf b.g{color:var(--alive)}
 .lf span{font-size:.95rem;color:#e8f1f5;line-height:1.5}
 .lf small{color:var(--muted);font-size:.8rem;line-height:1.45}
+/* real firewall lab */
+.rl .lf b .u{color:var(--uniform)}.rl .lf b .a{color:var(--acrs-2)}.rl .lf b span{font-size:inherit;color:inherit}.rl .lf b .u{color:var(--uniform)}.rl .lf b .a{color:var(--acrs-2)}.rl .lf b em{font-size:1rem;font-weight:600;color:var(--acrs-2);font-style:normal;margin-inline-start:.4rem}
+.rlrow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:.8rem;margin-top:.8rem}
+@media (max-width:860px){.rlrow{grid-template-columns:minmax(0,1fr)}}
+.rlab{padding:.8rem}.rlab svg{width:100%;height:auto;display:block}
+.rlab text{fill:#dbe8ee;font-size:15px;font-weight:600;text-anchor:middle;font-family:inherit}
+.rlab .mut{fill:#8aa0aa}.rlab .fw{fill:#f07a45;font-size:13px}.rlab .hk{fill:#ffb4b6}
+.rlhon{display:grid;gap:.8rem}
+.qbox{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem;align-content:start}
+.qbox svg text{font-size:13px;fill:#e8f1f5;text-anchor:middle}
+.qt{width:100%;min-width:0;border-collapse:collapse;font-size:.92rem}
+.qt th{color:var(--muted);font-weight:600;font-size:.8rem;text-align:start;padding:.35rem .5rem;border-bottom:1px solid var(--edge)}
+.qt td{padding:.35rem .5rem;border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--mono);direction:ltr;text-align:start}
+.qt td.a{color:var(--acrs-2);font-weight:600}
+.qnote{margin:0;color:var(--muted);font-size:.8rem;line-height:1.5}
+#quantum .rlhon,#quantum .rbox,#quantum .rlab{min-width:0}
+#quantum .qt th,#quantum .qt td{text-align:center}
+.rbox{padding:1rem 1.1rem}.rbox h4{margin:0 0 .35rem;font-size:1.02rem}.rbox p{margin:0;color:#dbe8ee;font-size:.93rem;line-height:1.6}
+.rbox.ok{border-color:rgba(74,222,128,.55)}.rbox.ok h4{color:#4ade80}
+.rbox.wr{border-color:rgba(245,184,61,.55)}.rbox.wr h4{color:#f5b83d}
+.rbox.try h4{color:var(--acrs-2)}
+.rcode{display:block;direction:ltr;text-align:left;font:500 .85rem var(--mono);background:rgba(0,0,0,.35);padding:.55rem .75rem;border-radius:8px;overflow-x:auto;white-space:nowrap;margin:.4rem 0}
+.rbox.try a{color:var(--acrs-2);font-size:.9rem}
 .lchart .bar-l{transition:height 1s cubic-bezier(.2,.8,.2,1),y 1s cubic-bezier(.2,.8,.2,1)}
 </style>
 
@@ -637,6 +660,97 @@ svg[hidden]{display:none!important}
       <div class="cmp-legend"><span><i style="background:var(--uniform)"></i><b data-i18n="cp_without"></b></span><span><i style="background:var(--acrs)"></i><b data-i18n="cp_with"></b></span></div>
       <div class="diffs" id="diffs"></div>
 
+    </div>
+  </section>
+
+  <!-- ============ real firewall lab ============ -->
+  <section class="block rl" id="real">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="rl_eyebrow"></div>
+        <h2 data-i18n="rl_t"></h2>
+        <p class="sub" data-i18n="rl_s"></p>
+      </div>
+      <div class="lfacts">
+        <div class="lf glass"><b><bdi><span class="u">36</span> = <span class="a">36</span></bdi></b><span data-i18n="rl_f1"></span><small data-i18n="rl_f1s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">37</span> → <span class="a">16</span></bdi></b><span data-i18n="rl_f2"></span><small data-i18n="rl_f2s"></small></div>
+        <div class="lf glass"><b><bdi><span class="a">0.03</span></bdi><em data-i18n="rl_unit"></em></b><span data-i18n="rl_f3"></span><small data-i18n="rl_f3s"></small></div>
+      </div>
+      <div class="rlrow">
+        <div class="rlab glass">
+          <svg viewBox="0 0 520 265" role="img" data-i18n-aria="rl_d_aria">
+            <rect x="20" y="30" width="150" height="44" rx="8" fill="#10222f" stroke="#1f3a4a"/>
+            <rect x="20" y="108" width="150" height="44" rx="8" fill="#10222f" stroke="#1f3a4a"/>
+            <rect x="20" y="186" width="150" height="44" rx="8" fill="#10222f" stroke="#4ade80"/>
+            <text x="95" y="57" class="mut" data-i18n="rl_d1"></text>
+            <text x="95" y="135" class="mut" data-i18n="rl_d2"></text>
+            <text x="95" y="213" data-i18n="rl_d3"></text>
+            <line x1="366" y1="130" x2="276" y2="52" stroke="#f07a45" stroke-width="2.5"/>
+            <line x1="366" y1="130" x2="276" y2="130" stroke="#f07a45" stroke-width="2.5"/>
+            <line x1="366" y1="130" x2="276" y2="208" stroke="#7fe3ff" stroke-width="2.5"/>
+            <line x1="170" y1="208" x2="250" y2="208" stroke="#7fe3ff" stroke-width="2.5"/>
+            <rect x="250" y="20" width="26" height="215" rx="6" fill="#3a1d10" stroke="#f07a45"/>
+            <text x="263" y="252" class="fw" data-i18n="rl_d_fw"></text>
+            <path d="M256 45l14 14M270 45l-14 14M256 123l14 14M270 123l-14 14" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="212" cy="208" r="11" fill="#4ade80"/><path d="M206 208l4 4 8-8" stroke="#06140c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <rect x="366" y="92" width="146" height="76" rx="10" fill="#3a1216" stroke="#e5484d" stroke-width="2"/>
+            <text x="439" y="136" class="hk" data-i18n="rl_d4"></text>
+          </svg>
+        </div>
+        <div class="rlhon">
+          <div class="rbox glass ok"><h4 data-i18n="rl_ok_t"></h4><p data-i18n="rl_ok"></p></div>
+          <div class="rbox glass wr"><h4 data-i18n="rl_wr_t"></h4><p data-i18n="rl_wr"></p></div>
+          <div class="rbox glass try"><h4 data-i18n="rl_try_t"></h4><code class="rcode">sudo python -m research.real_lab</code>
+            <a href="data/real_lab.json" target="_blank" rel="noopener" data-i18n="rl_try_l"></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ Q-ACRS (quantum) ============ -->
+  <section class="block rl" id="quantum">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="qa_eyebrow"></div>
+        <h2 data-i18n="qa_t"></h2>
+        <p class="sub" data-i18n="qa_s"></p>
+      </div>
+      <div class="lfacts">
+        <div class="lf glass"><b><bdi><span class="a">96.5%</span></bdi></b><span data-i18n="qa_f1"></span><small data-i18n="qa_f1s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">23</span> → <span class="a">0</span></bdi></b><span data-i18n="qa_f2"></span><small data-i18n="qa_f2s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">31</span> → <span class="a">36</span><em>/38</em></bdi></b><span data-i18n="qa_f3"></span><small data-i18n="qa_f3s"></small></div>
+      </div>
+      <div class="rlrow">
+        <div class="rlab glass qbox">
+          <svg viewBox="0 0 520 120" role="img" data-i18n-aria="qa_d_aria">
+            <rect x="8" y="34" width="150" height="52" rx="10" fill="#10222f" stroke="#7fe3ff"/>
+            <rect x="185" y="34" width="150" height="52" rx="10" fill="#10222f" stroke="#f5b83d"/>
+            <rect x="362" y="34" width="150" height="52" rx="10" fill="#0f2a1b" stroke="#4ade80"/>
+            <text x="83" y="65" data-i18n="qa_d1"></text>
+            <text x="260" y="65" data-i18n="qa_d2"></text>
+            <text x="437" y="65" data-i18n="qa_d3"></text>
+            <path d="M160 60h22M337 60h22" stroke="#cfdbe1" stroke-width="2.4"/>
+            <path d="M176 54l7 6-7 6M353 54l7 6-7 6" stroke="#cfdbe1" stroke-width="2.4" fill="none"/>
+          </svg>
+          <table class="qt">
+            <thead><tr><th data-i18n="qa_th1"></th><th data-i18n="qa_th2"></th><th data-i18n="qa_th3"></th></tr></thead>
+            <tbody>
+              <tr><td>4</td><td class="a">53.7%</td><td>7.0%</td></tr>
+              <tr><td>7</td><td class="a">12.2%</td><td>0.8%</td></tr>
+              <tr><td>10</td><td class="a">10.4%</td><td>0.1%</td></tr>
+              <tr><td>12</td><td class="a">10.2%</td><td>0.02%</td></tr>
+            </tbody>
+          </table>
+          <p class="qnote" data-i18n="qa_tnote"></p>
+        </div>
+        <div class="rlhon">
+          <div class="rbox glass ok"><h4 data-i18n="qa_ok_t"></h4><p data-i18n="qa_ok"></p></div>
+          <div class="rbox glass wr"><h4 data-i18n="qa_wr_t"></h4><p data-i18n="qa_wr"></p></div>
+          <div class="rbox glass try"><h4 data-i18n="qa_try_t"></h4><code class="rcode">python -m qacrs.lesson3_ibm --job db0mcf6egvvc73bghe70</code>
+            <a href="https://github.com/hasa32054-crypto/ACRS/tree/main/backend/qacrs" target="_blank" rel="noopener" data-i18n="qa_try_l"></a></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -815,7 +929,7 @@ ar:{
  in_scale:"",
  in_src:"نسبة الاختراقات التي فيها فدية · المصدر: تقارير Verizon السنوية للتحقيق في الاختراقات (DBIR) ‏2022–2026 · في 2024 تشمل الفدية وأساليب الابتزاز الأخرى",
  in_problem:"والحل المعتاد؟ <em>عزل كل جهاز مصاب عزلًا كاملًا</em>… حتى لو كان من الأنظمة التي تقوم عليها المنشأة.",
- in_tag:"يوقف الهجوم… لا المستشفى", in_c1:"أجهزة توقفت عن العمل", in_c2:"أنظمة مهمة توقفت",
+ in_tag:"أسرع من المهاجم… وأثبت من الهجوم", in_c1:"أجهزة توقفت عن العمل", in_c2:"أنظمة مهمة توقفت",
  in_skip:"تخطَّ", in_sound:"شغّل الصوت", in_next:"التالي", in_prev:"السابق", in_enter:"ادخل الموقع",
  hero_eyebrow:"بحث في الاستجابة للحوادث السيبرانية", hero_full:"نظام الاستجابة السيبرانية المتكيّفة",
  hero_lede:"حين يُخترق جهاز، لا يلزم أن تتوقف المنشأة كلها.", hero_simple:"ACRS يوقف المخترق بأخف طريقة تكفي، عشان الأجهزة المهمة تبقى شغّالة. مثل الطبيب الشاطر: ما يبتر اليد عشان جرح في الإصبع.",
@@ -844,7 +958,7 @@ en:{
  in_scale:"",
  in_src:"Share of breaches involving ransomware · Source: Verizon Data Breach Investigations Report (DBIR), 2022–2026 · 2024 counts ransomware with other extortion",
  in_problem:"The usual answer? <em>Fully isolate every compromised machine</em>, even the systems the organization runs on.",
- in_tag:"Stops the attack, not the hospital.", in_c1:"machines stopped", in_c2:"important systems stopped",
+ in_tag:"Faster than the attacker. Steadier than the attack.", in_c1:"machines stopped", in_c2:"important systems stopped",
  in_skip:"Skip", in_sound:"Sound on", in_next:"Next", in_prev:"Back", in_enter:"Enter the site",
  hero_eyebrow:"Research · Automated incident response", hero_full:"Adaptive Cyber Response System",
  hero_lede:"When one machine is hacked, the whole organization should not stop.", hero_simple:"ACRS stops the intruder in the lightest way that works, so important machines keep running. Like a good doctor: you do not amputate a hand for a cut finger.",
@@ -925,6 +1039,7 @@ var filter = "all";
 function applyLang(){
   var t=T[lang], root=document.documentElement;
   root.lang=lang; root.dir=(lang==="ar")?"rtl":"ltr";
+  document.title=(lang==="ar")?"ACRS · نظام الاستجابة السيبرانية المتكيّفة":"ACRS · Adaptive Cyber Response System";
   document.querySelectorAll("[data-i18n]").forEach(function(el){var k=el.getAttribute("data-i18n"); if(t[k]!==undefined) el.textContent=t[k];});
   document.querySelectorAll("[data-i18n-html]").forEach(function(el){var k=el.getAttribute("data-i18n-html"); if(t[k]!==undefined) el.innerHTML=t[k];});
   document.querySelectorAll("[data-i18n-aria]").forEach(function(el){el.setAttribute("aria-label",t[el.getAttribute("data-i18n-aria")]);});
@@ -1448,6 +1563,52 @@ en:{ln_eyebrow:"Learning from failure",
        ["1×","Each new trick works only once","New addresses: 9 down to 4. Hiding: 11 down to 4. Both tricks: 9 down to 4."],
        ["0","Zero mistakes","The learned response was never used on the harmless case, or on a core server."]]}};
 Object.keys(T4).forEach(function(l){Object.keys(T4[l]).forEach(function(k){if(typeof T4[l][k]==="string")T[l][k]=T4[l][k];});});
+var T5={ar:{rl_eyebrow:"تجربة حقيقية",rl_t:"مو بس محاكاة: جربته بجدار حماية حقيقي",
+ rl_s:"نفس الـ41 هجوم، بس هالمرة قرار ACRS ينفّذه جدار حماية Linux حقيقي على اتصالات حقيقية، ونقيس بالساعة متى ينقطع المهاجم فعلاً.",
+ rl_f1:"هجمات انقطع اتصالها فعلاً",rl_f1s:"نفس العدد بالضبط مع العزل الكامل ومع ACRS.",
+ rl_f2:"أجهزة انقطعت عنها الخدمة",rl_f2s:"العزل الكامل قطع الخدمة عن 37 جهاز، وACRS عن 16 بس.",
+ rl_unit:"ثانية",rl_f3:"أبطأ وقت من التنبيه لين انقطع المهاجم",rl_f3s:"أبطأ حالة على لابتوبي. وجربتها على جهاز ثاني: نفس النتائج بالضبط، وأسرع (0.007 ثانية).",
+ rl_d_aria:"رسم المعمل: جدار الحماية يقطع طريق الجهاز المخترق للمهاجم وللسيرفر المهم، والخدمة تكمل",
+ rl_d1:"سيرفر المهاجم",rl_d2:"سيرفر مهم",rl_d3:"الخدمة",rl_d4:"جهاز مخترق",rl_d_fw:"جدار الحماية",
+ rl_ok_t:"✅ وش الحقيقي",rl_ok:"قرار ACRS الحقيقي، وجدار حماية Linux حقيقي، واتصالات حقيقية، وعلى جهازين مختلفين.",
+ rl_wr_t:"⚠️ وش مو حقيقي بعد",rl_wr:"كله على جهاز واحد، ومافيه شبكة مستشفى، وما قسنا وقت اكتشاف الهجوم.",
+ rl_try_t:"جرّبه بنفسك",rl_try_l:"ملف النتائج الكامل (real_lab.json)"},
+en:{rl_eyebrow:"Real test",rl_t:"Not just a simulation: tested with a real firewall",
+ rl_s:"The same 41 attacks, but this time ACRS's decision is enforced by a real Linux firewall on real connections, and we time when the attacker is actually cut off.",
+ rl_f1:"attacks actually cut off",rl_f1s:"Exactly the same number with full isolation and with ACRS.",
+ rl_f2:"machines cut off from their service",rl_f2s:"Full isolation cut the service on 37 machines; ACRS on only 16.",
+ rl_unit:"s",rl_f3:"slowest time from alert to attacker cut off",rl_f3s:"Slowest case on my laptop. On a second machine: exactly the same results, and faster (0.007 s).",
+ rl_d_aria:"Lab diagram: the firewall blocks the hacked machine's path to the attacker and to the critical server, while the service keeps working",
+ rl_d1:"Attacker server",rl_d2:"Critical server",rl_d3:"Service",rl_d4:"Hacked machine",rl_d_fw:"Firewall",
+ rl_ok_t:"✅ What is real",rl_ok:"The real ACRS decision, a real Linux firewall, real connections, on two different machines.",
+ rl_wr_t:"⚠️ What is not real yet",rl_wr:"Everything runs on one machine, there is no hospital network, and detection time was not measured.",
+ rl_try_t:"Try it yourself",rl_try_l:"Full results file (real_lab.json)"}};
+Object.keys(T5).forEach(function(l){Object.keys(T5[l]).forEach(function(k){T[l][k]=T5[l][k];});});
+var T6={ar:{qa_eyebrow:"المرحلة الجاية: Q-ACRS",qa_t:"نفس الفكرة… على كمبيوتر كمومي حقيقي",
+ qa_s:"بدال ما يقرر لكل جهاز لحاله، Q-ACRS يقرر للشبكة كلها مرة وحدة: يحوّل الاختيار لمعادلة QUBO، والكمبيوتر الكمومي (QAOA) يقترح القرار، وفحص كلاسيكي يتأكد إنه آمن قبل التنفيذ.",
+ qa_f1:"وصل لأفضل قرار على جهاز IBM كمومي حقيقي",qa_f1s:"جهاز ibm_marrakesh ‏(156 كيوبت)، 4000 قياس. المحاكي المثالي: 98.1%، والتخمين العشوائي: 25%.",
+ qa_f2:"خدمات طاحت في 40 سيناريو",qa_f2s:"العزل الكامل طيّح 23 خدمة وعزل أجهزة ممنوع عزلها 12 مرة. Q-ACRS: صفر وصفر.",
+ qa_f3:"سيناريو وصل فيه لأفضل قرار خلال 100 قياس",qa_f3s:"بعد تحسين CVaR. كان 31 من 38.",
+ qa_d_aria:"الكمومي يقترح، والفحص الكلاسيكي يتحقق، وبعدها القرار",
+ qa_d1:"الكمومي يقترح",qa_d2:"فحص أمان كلاسيكي",qa_d3:"قرار آمن",
+ qa_th1:"كيوبت",qa_th2:"احتمال أفضل قرار (QAOA)",qa_th3:"تخمين عشوائي",
+ qa_tnote:"محاكاة بدون ضوضاء. من 10 كيوبت وفوق بعد تحسين CVaR.",
+ qa_ok_t:"✅ وش الحقيقي",qa_ok:"تشغيل على جهاز IBM كمومي حقيقي (رقم الطلب منشور)، و40 سيناريو، وكل الكود والنتائج على GitHub.",
+ qa_wr_t:"⚠️ وش مو حقيقي بعد",qa_wr:"اللي اشتغل على الجهاز الحقيقي قرار 3 أجهزة بس. الأوزان افتراضات. والكمومي مو أسرع من الكمبيوتر العادي بهالحجم.",
+ qa_try_t:"تحقق بنفسك",qa_try_l:"الكود والنتائج كاملة على GitHub"},
+en:{qa_eyebrow:"Next stage: Q-ACRS",qa_t:"The same idea… on a real quantum computer",
+ qa_s:"Instead of deciding for each machine alone, Q-ACRS decides for the whole network at once: the choice becomes a QUBO, a quantum algorithm (QAOA) proposes the decision, and a classical check makes sure it is safe before anything runs.",
+ qa_f1:"best decision reached on a real IBM quantum computer",qa_f1s:"ibm_marrakesh (156 qubits), 4000 shots. Ideal simulator: 98.1%; random guessing: 25%.",
+ qa_f2:"services taken down across 40 scenarios",qa_f2s:"Full isolation took down 23 services and isolated must-never-isolate devices 12 times. Q-ACRS: zero and zero.",
+ qa_f3:"scenarios where the best decision was found within 100 shots",qa_f3s:"After the CVaR improvement. It was 31 of 38.",
+ qa_d_aria:"The quantum part proposes, a classical check verifies, then the decision",
+ qa_d1:"Quantum proposes",qa_d2:"Classical check",qa_d3:"Safe decision",
+ qa_th1:"Qubits",qa_th2:"Chance of best decision (QAOA)",qa_th3:"Random guess",
+ qa_tnote:"Noiseless simulation. From 10 qubits up, after the CVaR improvement.",
+ qa_ok_t:"✅ What is real",qa_ok:"A run on a real IBM quantum computer (job id published), 40 scenarios, and all code and results on GitHub.",
+ qa_wr_t:"⚠️ What is not real yet",qa_wr:"Only a 3-machine decision has run on real hardware. The weights are assumptions. Quantum is not faster than a normal computer at this size.",
+ qa_try_t:"Check it yourself",qa_try_l:"Full code and results on GitHub"}};
+Object.keys(T6).forEach(function(l){Object.keys(T6[l]).forEach(function(k){T[l][k]=T6[l][k];});});
 var lnSeen=false;
 function renderLearn(){
   var t=T4[lang], nar=innerWidth<600, W=nar?440:720,H=nar?300:330,Lf=46,R=12,Tp=16,B=70, X0=function(i){return Lf+i*(W-Lf-R)/8;}, gw=(W-Lf-R)/8, bw=gw*0.24, max=16;
