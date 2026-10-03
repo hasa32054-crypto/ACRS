@@ -1,0 +1,39 @@
+{
+ "backend": "ibm_marrakesh",
+ "job_id": "db0mcf6egvvc73bghe70",
+ "shots": 4000,
+ "p": 2,
+ "best_decisions": [
+  [
+   0,
+   1,
+   1
+  ],
+  [
+   1,
+   0,
+   1
+  ]
+ ],
+ "best_cost": 5,
+ "hit_real": 0.9653,
+ "hit_ideal": 0.9814,
+ "hit_random": 0.25,
+ "expected_cost_real": 5.164,
+ "top_real": [
+  0,
+  1,
+  1
+ ],
+ "safety_check_pass": true,
+ "counts": {
+  "110": 1999,
+  "101": 1862,
+  "100": 49,
+  "111": 19,
+  "010": 39,
+  "001": 31,
+  "000": 1
+ },
+ "saved_at": "2026-10-03 23:34:27"
+}
