@@ -1,0 +1,16 @@
+{
+ "purpose": "Re-run of the unchanged v1 scripts in a second environment to check reproducibility. Original v1 files in qacrs/results/ are untouched.",
+ "date_utc": "2026-10-10T18:00:34Z",
+ "git_commit_of_code": "d721b12",
+ "python": "3.13.16",
+ "numpy": "2.5.3",
+ "scipy": "1.18.1",
+ "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+ "command": "OUT redirected to this folder; scripts otherwise unchanged",
+ "scripts": [
+  "network",
+  "phase3_compare",
+  "phase4_qaoa_sim",
+  "phase4b_cvar"
+ ]
+}
