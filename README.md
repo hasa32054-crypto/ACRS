@@ -200,7 +200,7 @@ python -m pytest tests/test_research.py
 
 ## Q-ACRS (الامتداد البحثي الكمّي) — v3
 
-- النتائج: [docs/qacrs/RESULTS_v3.md](docs/qacrs/RESULTS_v3.md) · التحقق: [docs/qacrs/VERIFICATION_v2.md](docs/qacrs/VERIFICATION_v2.md)
+- النتائج: [RESULTS_v4_v5.md](docs/qacrs/RESULTS_v4_v5.md) و[RESULTS_v3.md](docs/qacrs/RESULTS_v3.md) · سجل البحث: [RESEARCH_LOG.md](docs/qacrs/RESEARCH_LOG.md) · التحقق: [docs/qacrs/VERIFICATION_v2.md](docs/qacrs/VERIFICATION_v2.md)
 - المعايير المثبتة مسبقًا: [PREREGISTRATION.md](docs/qacrs/PREREGISTRATION.md) و[PREREGISTRATION_v3.md](docs/qacrs/PREREGISTRATION_v3.md)
 - الأعمال السابقة وقواعد ISEF: [docs/qacrs/RELATED_WORK_NOTES.md](docs/qacrs/RELATED_WORK_NOTES.md)
 - أوامر التشغيل: [backend/qacrs/README.md](backend/qacrs/README.md)
