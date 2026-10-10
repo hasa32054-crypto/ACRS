@@ -1,0 +1,17 @@
+{
+ "author_role": "e.g. computer science teacher / IT colleague (no name required)",
+ "author_name_optional": "",
+ "created_date": "2026-10-12",
+ "consent_to_publish": false,
+ "saw_qacrs_decisions_before_writing": false,
+ "notes": "Set consent_to_publish to true only if the author agrees that these scenarios and their results are published in the project.",
+ "scenarios": [
+  {
+   "id": "ind_01",
+   "network": "net12",
+   "hacked": {"web1": 6, "pc_recep": 4},
+   "description": "EXAMPLE ONLY - delete and write your own: phishing on reception PC, attacker reaches website twin 1",
+   "expert_view": "optional: what you think a careful responder should do (not scored)"
+  }
+ ]
+}
