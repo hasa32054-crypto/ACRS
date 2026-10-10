@@ -127,6 +127,34 @@ python -m unittest tests.test_qacrs -v   # 27 tests: QUBO, penalty, reduction, s
 > v2 status: see [`docs/qacrs/VERIFICATION_v2.md`](../../docs/qacrs/VERIFICATION_v2.md) and the criteria
 > fixed in advance in [`docs/qacrs/PREREGISTRATION.md`](../../docs/qacrs/PREREGISTRATION.md).
 
+### v3 (criteria fixed in advance: [`docs/qacrs/PREREGISTRATION_v3.md`](../../docs/qacrs/PREREGISTRATION_v3.md))
+
+```bash
+cd backend
+python -m qacrs.phase5_escalation          # E1 escalation gate          -> results/v3/escalation.json
+python -m qacrs.phase5_sensitivity         # E2 weights ±50% + λ curve    -> results/v3/sensitivity.json/.csv
+python -m qacrs.phase5_scaling             # E3 12-52 machines            -> results/v3/scaling.json/.csv
+python -m qacrs.phase4c_seeds 0 1 2 3 4    # E4 QAOA/CVaR, 5 seeds (~25 min per seed)
+python -m qacrs.phase4c_seeds --aggregate  #    -> results/v3/qaoa_seeds_summary.json
+python -m qacrs.figures_v3                 # docs/qacrs/figures/*.png from the result files
+python -m qacrs.report_v3                  # docs/qacrs/RESULTS_v3.md from the result files
+python -m unittest tests.test_qacrs tests.test_qacrs_v3 -v
+
+# E5 blind scenarios (someone else writes them; code is locked in qacrs/independent/LOCK.json)
+python -m qacrs.independent_test --validate their_file.json
+python -m qacrs.independent_test their_file.json        # runs once, keeps every result
+
+# E7 IBM hardware (your machine, saved IBM account; never put a key in the repo)
+python -m qacrs.lesson4_ibm_scaled --check     # no job
+python -m qacrs.lesson4_ibm_scaled --dry-run   # no job
+python -m qacrs.lesson4_ibm_scaled --run       # one job, asks for 'yes'
+```
+
+`qacrs/policy_executor.py` (E6) is a **mock** firewall adapter: no real network or firewall is ever touched.
+
+**Use of AI tools (disclosure):** Claude (Anthropic) was used to write and review parts of the v2/v3 code and tests,
+re-run experiments, search for and check sources, and generate figures and reports from the result files.
+
 ## References used so far
 
 - Farhi, Goldstone, Gutmann (2014). *A Quantum Approximate Optimization Algorithm*. arXiv:1411.4028
