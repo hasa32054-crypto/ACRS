@@ -117,7 +117,15 @@ python -m qacrs.network             # networks + 40 scenarios
 python -m qacrs.phase3_compare      # 3-way comparison
 python -m qacrs.phase4_qaoa_sim     # QAOA on 38 scenarios (~4 min)
 python -m qacrs.phase4b_cvar        # CVaR vs mean (~3.5 min)
+
+# v2 verification (numpy only, no Qiskit needed)
+python -m qacrs.phase3b_containment # pre-registered containment check -> results/v2/containment.json
+python -m qacrs.report_v2           # rebuilds docs/qacrs/VERIFICATION_v2.md from the result files
+python -m unittest tests.test_qacrs -v   # 27 tests: QUBO, penalty, reduction, safety layer, result files
 ```
+
+> v2 status: see [`docs/qacrs/VERIFICATION_v2.md`](../../docs/qacrs/VERIFICATION_v2.md) and the criteria
+> fixed in advance in [`docs/qacrs/PREREGISTRATION.md`](../../docs/qacrs/PREREGISTRATION.md).
 
 ## References used so far
 

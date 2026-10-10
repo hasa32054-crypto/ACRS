@@ -1,0 +1,3806 @@
+{
+ "meta": {
+  "experiment": "phase3b_containment",
+  "version": "v2",
+  "preregistration": "docs/qacrs/PREREGISTRATION.md",
+  "date_utc": "2026-10-10T18:01:29Z",
+  "git_commit": "e8819c6",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "phase3_compare.py": "e7807f52c3cd",
+   "phase3b_containment.py": "9993f01f2f6e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "scenario_seed": 2027,
+  "n_random_per_network": 15,
+  "weights": {
+   "SPREAD": 0.5,
+   "note": "disruption, service values and risks exactly as in network.py (unchanged since v1)"
+  },
+  "solver_for_q_acrs": "exact brute force over all 2^n reduced decisions",
+  "primary_threshold": 7,
+  "secondary_thresholds": [
+   6,
+   8
+  ],
+  "seconds": 0.02,
+  "status": "complete",
+  "warnings": []
+ },
+ "summary": {
+  "full_isolation": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 12,
+    "NOT_CONTAINED": 0,
+    "CONTAINED_PENDING_APPROVAL": 7,
+    "CONTAINED": 21
+   },
+   "contained": 28,
+   "services_down": 23,
+   "healthy_isolated": 0,
+   "risk_left": 0,
+   "total_cost": 697.0,
+   "needs_two_person": 7,
+   "owner_review": 0,
+   "contained_at_secondary": {
+    "6": 28,
+    "8": 28
+   }
+  },
+  "full_isolation_safe": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 4,
+    "CONTAINED_PENDING_APPROVAL": 11,
+    "CONTAINED": 25
+   },
+   "contained": 36,
+   "services_down": 23,
+   "healthy_isolated": 0,
+   "risk_left": 80,
+   "total_cost": 727.5,
+   "needs_two_person": 12,
+   "owner_review": 5,
+   "contained_at_secondary": {
+    "6": 36,
+    "8": 36
+   }
+  },
+  "per_machine": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 15,
+    "CONTAINED_PENDING_APPROVAL": 0,
+    "CONTAINED": 25
+   },
+   "contained": 25,
+   "services_down": 1,
+   "healthy_isolated": 0,
+   "risk_left": 269,
+   "total_cost": 355.5,
+   "needs_two_person": 0,
+   "owner_review": 5,
+   "contained_at_secondary": {
+    "6": 23,
+    "8": 27
+   }
+  },
+  "q_acrs": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 8,
+    "CONTAINED_PENDING_APPROVAL": 0,
+    "CONTAINED": 32
+   },
+   "contained": 32,
+   "services_down": 0,
+   "healthy_isolated": 0,
+   "risk_left": 155,
+   "total_cost": 233.5,
+   "needs_two_person": 0,
+   "owner_review": 5,
+   "contained_at_secondary": {
+    "6": 28,
+    "8": 34
+   }
+  }
+ },
+ "h1": {
+  "containment_ratio": 0.889,
+  "containment_ok": true,
+  "fewer_services_down": true,
+  "fewer_healthy_isolated": false,
+  "H1_supported": false,
+  "rule": "q_acrs contained >= 80% of full_isolation_safe contained, AND fewer services down, AND fewer healthy machines isolated"
+ },
+ "rows": [
+  {
+   "scenario": "net12_h01",
+   "network": "net12",
+   "hacked": {
+    "web1": 6,
+    "web2": 6
+   },
+   "description": "Website exploit hits both website twins",
+   "full_isolation": {
+    "isolated": [
+     "web1",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 22.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "web1",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 22.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web1",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 22.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h02",
+   "network": "net12",
+   "hacked": {
+    "web1": 7
+   },
+   "description": "One website twin runs a web shell",
+   "full_isolation": {
+    "isolated": [
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h03",
+   "network": "net12",
+   "hacked": {
+    "app1": 6,
+    "pc_nurse": 5
+   },
+   "description": "Phishing on the nurse PC, attacker reaches app server 1",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "app1"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 6.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h04",
+   "network": "net12",
+   "hacked": {
+    "db": 8
+   },
+   "description": "Database sends records out (exfiltration)",
+   "full_isolation": {
+    "isolated": [
+     "db"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 48.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 48.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 8 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 8.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 8 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 8.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h05",
+   "network": "net12",
+   "hacked": {
+    "mri": 7
+   },
+   "description": "MRI console beacons to an attacker (cannot be isolated)",
+   "full_isolation": {
+    "isolated": [
+     "mri"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'mri' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 5.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h06",
+   "network": "net12",
+   "hacked": {
+    "pc_admin": 8,
+    "dc": 7
+   },
+   "description": "Admin PC stolen credentials used on the domain controller",
+   "full_isolation": {
+    "isolated": [
+     "dc",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "dc"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 36.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "dc",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "dc"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 36.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'dc' has risk 7 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'dc' has risk 7 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h07",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 4,
+    "pc_nurse": 4,
+    "pc_admin": 4
+   },
+   "description": "Ransomware spreading across staff PCs",
+   "full_isolation": {
+    "isolated": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 4.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 4.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path pc_admin -> db (critical)",
+      "C1 open path pc_admin -> dc (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 12,
+    "cost": 16.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 4.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h08",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "pc_recep": 5
+   },
+   "description": "Infected file share and the PC that opened it",
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h09",
+   "network": "net12",
+   "hacked": {
+    "lab": 5,
+    "db": 6
+   },
+   "description": "Lab analyzer used as a jump box to the database",
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "lab"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 52.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 53.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11,
+    "cost": 11.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11,
+    "cost": 11.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_h10",
+   "network": "net12",
+   "hacked": {
+    "web2": 5,
+    "app2": 5,
+    "db": 5
+   },
+   "description": "Full chain: website -> app -> database on side 2",
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "db",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 50.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app2",
+     "db",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 50.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 15,
+    "cost": 15.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r01",
+   "network": "net12",
+   "hacked": {
+    "mri": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "mri"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'mri' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 5.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r02",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 5.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r03",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 4,
+    "web1": 5,
+    "db": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "pc_nurse",
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 50.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db",
+     "pc_nurse",
+     "web1"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 50.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 7 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 16,
+    "cost": 16.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse",
+     "web1"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 7 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r04",
+   "network": "net12",
+   "hacked": {
+    "app1": 8,
+    "pc_admin": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r05",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r06",
+   "network": "net12",
+   "hacked": {
+    "app1": 5,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path app1 -> db (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 9.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r07",
+   "network": "net12",
+   "hacked": {
+    "app1": 4,
+    "db": 8,
+    "lab": 5,
+    "web2": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "db",
+     "lab",
+     "web2"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 54.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "db",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 55.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web2"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 8 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17,
+    "cost": 18.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "web2"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C2 'db' has risk 8 >= 7 but is only restricted"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 13,
+    "cost": 15.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r08",
+   "network": "net12",
+   "hacked": {
+    "web2": 6,
+    "db": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 49.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db",
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 49.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r09",
+   "network": "net12",
+   "hacked": {
+    "mri": 8,
+    "app2": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "mri"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'mri' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 6.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 9.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "app2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 9.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 9.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r10",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 9,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r11",
+   "network": "net12",
+   "hacked": {
+    "dc": 6,
+    "app2": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "dc"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "dc"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 35.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app2",
+     "dc"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "dc"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 35.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path app2 -> db (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11,
+    "cost": 13.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r12",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "app1": 7,
+    "db": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "db",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 51.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "db",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 51.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 6.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 6.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r13",
+   "network": "net12",
+   "hacked": {
+    "app1": 3,
+    "pc_recep": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path app1 -> db (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r14",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 3,
+    "lab": 6,
+    "pc_nurse": 4,
+    "db": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "lab",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 54.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 56.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17,
+    "cost": 17.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10,
+    "cost": 12.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net12_r15",
+   "network": "net12",
+   "hacked": {
+    "files": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path files -> dc (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 7.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r01",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path app1_b -> db_b (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3,
+    "cost": 4.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r02",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 5.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r03",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 4,
+    "app2_a": 5,
+    "web1_b": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path app2_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 9,
+    "cost": 12.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r04",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 8,
+    "pc_recep_a": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "pc_recep_a"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab_a' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 5.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_recep_a"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 13.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_recep_a"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 13.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_a"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8,
+    "cost": 13.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r05",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r06",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_a": 5,
+    "web1_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 6.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r07",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 4,
+    "web2_b": 8,
+    "db_b": 5,
+    "mri_a": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "db_b",
+     "lab_a",
+     "mri_a",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab_a' must never be isolated",
+      "S1 'mri_a' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 58.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db_b",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [
+      "db_b"
+     ],
+     "owner_review": [
+      "mri_a"
+     ]
+    },
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 13,
+    "cost": 64.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 18,
+    "cost": 21.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "mri_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 18,
+    "cost": 21.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r08",
+   "network": "net22",
+   "hacked": {
+    "mri_a": 6,
+    "web1_b": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "mri_a",
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'mri_a' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 6.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r09",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 8,
+    "pc_admin_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r10",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 9,
+    "web2_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 2.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r11",
+   "network": "net22",
+   "hacked": {
+    "files": 6,
+    "pc_nurse_a": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 7.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 3.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r12",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 6,
+    "lab_a": 7,
+    "web2_b": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "web2_a",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab_a' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 6.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "web2_a",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 12.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10,
+    "cost": 14.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_a",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": [
+      "lab_a"
+     ]
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7,
+    "cost": 12.5,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r13",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 3,
+    "lab_b": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "lab_b"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'lab_a' must never be isolated",
+      "S1 'lab_b' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 8.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)",
+      "C1 open path lab_b -> db_b (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)",
+      "C1 open path lab_b -> db_b (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [],
+    "verdict": {
+     "status": "NOT_CONTAINED",
+     "reasons": [
+      "C1 open path lab_a -> db_a (critical)",
+      "C1 open path lab_b -> db_b (critical)"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 9.0,
+    "secondary": {
+     "6": "NOT_CONTAINED",
+     "8": "NOT_CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r14",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 3,
+    "mri_b": 6,
+    "db_b": 4,
+    "web2_b": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "db_b",
+     "mri_b",
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "REJECTED",
+     "reasons": [
+      "S1 'mri_b' must never be isolated"
+     ],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 55.0,
+    "secondary": {
+     "6": "REJECTED",
+     "8": "REJECTED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "db_b",
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED_PENDING_APPROVAL",
+     "reasons": [],
+     "needs_two_person": [
+      "db_b"
+     ],
+     "owner_review": []
+    },
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 6,
+    "cost": 56.0,
+    "secondary": {
+     "6": "CONTAINED_PENDING_APPROVAL",
+     "8": "CONTAINED_PENDING_APPROVAL"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17,
+    "cost": 17.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10,
+    "cost": 12.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  },
+  {
+   "scenario": "net22_r15",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "isolated": [
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "full_isolation_safe": {
+    "isolated": [
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "per_machine": {
+    "isolated": [],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5,
+    "cost": 5.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_a"
+    ],
+    "verdict": {
+     "status": "CONTAINED",
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    },
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0,
+    "cost": 1.0,
+    "secondary": {
+     "6": "CONTAINED",
+     "8": "CONTAINED"
+    }
+   }
+  }
+ ]
+}
