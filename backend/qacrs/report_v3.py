@@ -106,9 +106,9 @@ def build() -> str:
               f"| Hard scenarios: QAOA CVaR objective | {rng(m['hard_hits_100_qaoa_cvar'])} / {per[0]['hard']} |",
               f"| Hard scenarios: annealing 100 steps | {rng(m['hard_hits_100_sa_100'])} / {per[0]['hard']} |",
               f"| Hard scenarios: random 100 | {rng(m['hard_hits_100_random'])} / {per[0]['hard']} |",
-              f"| Unsafe samples drawn (all seeds) | {m['unsafe_samples_total']} |", "",
+              f"| Unsafe samples drawn (all seeds; never-isolate devices are removed before QAOA, so this checks the pipeline) | {m['unsafe_samples_total']} |", "",
               "QAOA angle tuning (classical) is outside the 100-sample budget, which favours QAOA. Exact search and "
-              "full annealing (5×4000 steps) find the optimum in 40/40. **No quantum advantage is claimed.**", "",
+              "full annealing (5×4000 steps) find the optimum in 40/40. On 4-qubit problems random sampling does as well or better. Results are noiseless; real hardware adds noise. **No quantum advantage is claimed.**", "",
               "![qaoa](figures/fig4_qaoa_budget.png)", ""]
     else:
         L += ["Not finished yet (run `python -m qacrs.phase4c_seeds 0 1 2 3 4` then `--aggregate`).", ""]

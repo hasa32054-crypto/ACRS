@@ -63,7 +63,23 @@ Reading: decisions are identical for every λ from 0.3 to 2. Rejected (unsafe) d
 
 ## E4 — QAOA / CVaR over seeds, real 100-sample budget
 
-Not finished yet (run `python -m qacrs.phase4c_seeds 0 1 2 3 4` then `--aggregate`).
+Seeds: [0, 1, 2, 3, 4]. Scenarios with a quantum step: 38 (hard ≥ 7 qubits: 17). Median and range over seeds:
+
+| Metric | Value |
+|---|---|
+| Mean p_best at p=3 (chance one shot is optimal) | 24.5% (range 23.4%–26.0%) |
+| Scenarios where best of 100 QAOA samples is optimal | 36 (range 33–37) / 38 |
+| …same budget, simulated annealing 100 steps | 28 (range 22–29) / 38 |
+| …same budget, random 100 samples | 25 (range 23–27) / 38 |
+| Hard scenarios: QAOA mean objective | 15 (range 13–16) / 17 |
+| Hard scenarios: QAOA CVaR objective | 17 (range 17–17) / 17 |
+| Hard scenarios: annealing 100 steps | 10 (range 6–12) / 17 |
+| Hard scenarios: random 100 | 6 (range 2–7) / 17 |
+| Unsafe samples drawn (all seeds; never-isolate devices are removed before QAOA, so this checks the pipeline) | 0 |
+
+QAOA angle tuning (classical) is outside the 100-sample budget, which favours QAOA. Exact search and full annealing (5×4000 steps) find the optimum in 40/40. On 4-qubit problems random sampling does as well or better. Results are noiseless; real hardware adds noise. **No quantum advantage is claimed.**
+
+![qaoa](figures/fig4_qaoa_budget.png)
 
 ## E5 — Blind scenarios
 

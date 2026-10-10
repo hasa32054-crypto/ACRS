@@ -12,6 +12,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.ticker  # noqa: E402,F401
 
 R = Path(__file__).parent / "results" / "v3"
 FIG = Path(__file__).resolve().parents[2] / "docs" / "qacrs" / "figures"
@@ -129,7 +130,7 @@ def fig_qaoa():
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 3.9))
     a1.plot(x, [100 * t[q]["mean_p_best_p3"] for q in qs], color=BLUE, lw=2, marker="o", mec=SURFACE, label="QAOA p=3")
     a1.plot(x, [100 * t[q]["random_p_best"] for q in qs], color=ORANGE, lw=2, marker="o", mec=SURFACE, label="Random guess")
-    a1.set_yscale("log"); a1.set_xlabel("Qubits"); a1.set_ylabel("Chance one shot is optimal (%)")
+    a1.set_yscale("log"); a1.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}%")); a1.set_xlabel("Qubits"); a1.set_ylabel("Chance one shot is optimal (%)")
     a1.set_title("One measurement"); a1.legend(fontsize=8)
     w = 0.27
     for i, (key, col, lab) in enumerate((("qaoa_hit_rate_100", BLUE, "QAOA (100 samples)"),
@@ -137,10 +138,11 @@ def fig_qaoa():
                                          ("random_hit_rate_100", ORANGE, "Random (100 samples)"))):
         a2.bar([xx + (i - 1) * w for xx in x], [100 * t[q][key] for q in qs], width=w - 0.03, color=col, label=lab)
     a2.set_xlabel("Qubits"); a2.set_ylabel("Runs where best of 100 is optimal (%)")
-    a2.set_ylim(0, 105); a2.set_title("Same budget: 100 evaluations"); a2.legend(fontsize=7.5, loc="lower left")
+    a2.set_ylim(0, 105); a2.set_title("Same budget: 100 evaluations")
+    a2.legend(fontsize=7.5, loc="upper center", bbox_to_anchor=(0.5, -0.16), ncol=3)
     a2.grid(axis="x", visible=False)
     foot(fig, f"Noiseless simulation, 38 scenarios × {nseeds} optimiser seeds. QAOA angle-tuning cost is NOT inside the budget "
-              "(this favours QAOA). Exact solver and full annealing find the optimum 40/40.")
+              "(this favours QAOA). Exact solver and full annealing find the optimum 40/40.", y=-0.12)
     save(fig, "fig4_qaoa_budget.png")
 
 
