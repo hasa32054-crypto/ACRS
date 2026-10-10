@@ -1,0 +1,22 @@
+{
+ "experiment": "independent_lock",
+ "version": "v3",
+ "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+ "date_utc": "2026-10-10T18:29:42Z",
+ "git_commit": "8d1714e",
+ "code_sha256_prefix": {
+  "network.py": "71c872b912d4",
+  "qubo_builder.py": "aa5cc3110408",
+  "safety_checks.py": "be05442575ab",
+  "escalation.py": "63cf9703d3ce",
+  "phase3_compare.py": "e7807f52c3cd",
+  "phase3b_containment.py": "9993f01f2f6e",
+  "independent_test.py": "e55cabc69b87"
+ },
+ "python": "3.13.16",
+ "numpy": "2.5.3",
+ "settings": {},
+ "status": "complete",
+ "warnings": [],
+ "note": "Written before any blind scenario existed. Do not edit."
+}
