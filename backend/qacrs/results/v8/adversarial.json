@@ -1,0 +1,178 @@
+{
+ "meta": {
+  "experiment": "phase10_adversarial",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:17:46Z",
+  "git_commit": "4112935",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "hassan.py": "09b50ed5531a",
+   "phase10_adversarial.py": "05c083dc9bb9",
+   "qubo_v7.py": "1114421bea7e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": [],
+  "seconds": 162.5
+ },
+ "harm_bound_exhaustive": {
+  "net12": {
+   "forged_sets": 298,
+   "hassan_worst": {
+    "services_down": 0
+   },
+   "full_isolation_safe_worst": {
+    "services_down": 1,
+    "isolated": 2,
+    "set": [
+     "web1",
+     "web2"
+    ]
+   },
+   "violations": {
+    "critical_isolated_auto": 0,
+    "isolated_not_reported": 0,
+    "cert_fail": 0
+   }
+  },
+  "net22": {
+   "forged_sets": 1793,
+   "hassan_worst": {
+    "services_down": 0
+   },
+   "full_isolation_safe_worst": {
+    "services_down": 1,
+    "isolated": 2,
+    "set": [
+     "web1_a",
+     "web2_a"
+    ]
+   },
+   "violations": {
+    "critical_isolated_auto": 0,
+    "isolated_not_reported": 0,
+    "cert_fail": 0
+   }
+  },
+  "H9_supported": true
+ },
+ "certificate_validity_random": {
+  "net12": {
+   "sets": 10000,
+   "violations": {
+    "critical_isolated_auto": 0,
+    "isolated_not_reported": 0,
+    "cert_fail": 0
+   },
+   "worst_services_down": 0
+  },
+  "net22": {
+   "sets": 10000,
+   "violations": {
+    "critical_isolated_auto": 0,
+    "isolated_not_reported": 0,
+    "cert_fail": 0
+   },
+   "worst_services_down": 0
+  }
+ },
+ "flood": {
+  "alerts": 1000,
+  "window_s": 60,
+  "auto_isolations_total": 3,
+  "rate_limit": 3,
+  "isolated_not_reported": 0,
+  "latency_ms": {
+   "median": 0.44643399996857625,
+   "p99": 2.3439660000121876,
+   "max": 13.112441000089348
+  },
+  "p99_target_met": true,
+  "rate_limit_respected": true
+ },
+ "inflation": {
+  "development": {
+   "scenarios": 40,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  },
+  "heldout_9001": {
+   "scenarios": 482,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  },
+  "heldout_9002": {
+   "scenarios": 456,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  },
+  "ood_7007": {
+   "scenarios": 291,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  },
+  "chains_7008": {
+   "scenarios": 259,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  },
+  "random_9003": {
+   "scenarios": 428,
+   "critical_isolated_automatically": 0,
+   "services_down": 0
+  }
+ },
+ "failsafe": {
+  "injected": 1000,
+  "fell_back_correctly": {
+   "exception": 334,
+   "timeout": 333,
+   "malformed": 333
+  },
+  "crashes": 0,
+  "silent": 0,
+  "target_met": true
+ },
+ "consistency_guard": {
+  "detection": {
+   "naive": {
+    "detected": 406,
+    "n": 500,
+    "rate": 0.812
+   },
+   "path_aware": {
+    "detected": 61,
+    "n": 500,
+    "rate": 0.122
+   }
+  },
+  "detection_overall": 0.467,
+  "false_flags": {
+   "ood_7007": {
+    "scenarios": 291,
+    "flagged": 1,
+    "rate": 0.003436426116838488
+   },
+   "chains_7008": {
+    "scenarios": 259,
+    "flagged": 0,
+    "rate": 0.0
+   },
+   "heldout_9001_random": {
+    "scenarios": 482,
+    "flagged": 363,
+    "rate": 0.7531120331950207
+   }
+  },
+  "false_flag_rate_chains": 0.0018181818181818182,
+  "target_detection_met": false,
+  "target_false_flag_met": true,
+  "caveat": "chains are generated with the same 'reachable from a hacked predecessor or entry' idea the guard uses, so their false-flag rate is optimistic; the random sets show the opposite extreme"
+ }
+}
