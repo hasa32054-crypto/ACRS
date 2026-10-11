@@ -1,4 +1,4 @@
-.PHONY: up down logs seed test test-api test-ui migrate reset ps
+.PHONY: up down logs seed test test-api test-ui migrate reset ps hassan-test hassan-repro
 up:        ## build and start postgres, redis, backend, frontend
 	docker compose up --build -d
 	@echo "Console: http://localhost:8080   API docs: http://localhost:8000/docs"
@@ -20,3 +20,13 @@ reset:     ## wipe everything including the database volume
 	docker compose down -v
 ps:
 	docker compose ps
+
+HASSAN_TESTS = tests.test_qacrs tests.test_qacrs_v3 tests.test_qacrs_v7 tests.test_hassan_engine \
+               tests.test_executor_v8 tests.test_realism_v8 tests.test_hassan_service
+hassan-test:   ## Q-ACRS / HASSAN unit tests (standard library only, no Docker)
+	cd backend && python3 -m unittest $(HASSAN_TESTS)
+hassan-repro:  ## regenerate the core v7/v8 results (no IBM, no root sandbox, no 25-min QAOA seeds)
+	cd backend && time sh -c 'python3 -m unittest $(HASSAN_TESTS) && python3 -m qacrs.phase9_v7 && \
+	  python3 -m qacrs.phase10_adversarial && python3 -m qacrs.phase11_executor && \
+	  python3 -m qacrs.phase12_realism_scale && python3 -m qacrs.phase13_integration'
+	git status --short backend/qacrs/results
