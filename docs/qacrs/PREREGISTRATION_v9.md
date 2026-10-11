@@ -60,3 +60,16 @@ twin trials seed **8121**.
 ### ملخص عربي
 لن نغيّر نتائج v8 الفاشلة؛ تبقى منشورة. v9 تعالج السبب الجذري لكل إخفاق وتُختبر على بيانات جديدة لم تُستخدم، بأهداف
 مثبتة هنا قبل كتابة أي كود. أي هدف يفشل هنا يُنشر أيضًا.
+
+## Amendment 1 (2026-10-11, before any fresh-seed run; only development seed 555 was used)
+
+A pre-run on a development seed showed that in the spread model **every policy that isolates all isolatable infected
+machines stops at the floor** = the machines already infected when the decision is taken (1 hop per tick, decision at
+tick 2). Safe full isolation already reaches that floor, so the original R-v9 target "HASSAN < safe full isolation" cannot
+be met by *any* policy acting at tick 2; it stays reported, unchanged, and will be listed as not met if equal.
+Added targets on seed 7203, both networks, two infection models — (i) entry machine, as in v8; (ii) any machine,
+including non-isolatable medical devices:
+- **R-v9a:** HASSAN v9 (portfolio solver + SHIELD) ends at the floor in **100%** of runs (optimal in this model);
+- **R-v9b:** mean services unavailable HASSAN v9 ≤ safe full isolation;
+- **R-v9c:** HASSAN v9 ≤ HASSAN v7 on machines encrypted and on services unavailable (in the development run v7 did
+  not reach the floor on Hospital-60 under model ii).
