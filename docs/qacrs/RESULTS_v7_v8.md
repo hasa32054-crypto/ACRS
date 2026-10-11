@@ -77,7 +77,8 @@ Rules fixed before code: `PREREGISTRATION_v7.md`, `PREREGISTRATION_v8.md`. Misse
 - API `/hassan/decide` (stdlib, 127.0.0.1): 1000 requests, round-trip p95 9.9 ms; bad requests → [400, 400, 400] — ✅ met.
 - ACRS tier-0 timer (7 s): 2156/2156 decisions inside; worst 0.22 s — ✅ met.
 - Incident replay: 100/100 — ✅ met.
-- CI: `.github/workflows/hassan-tests.yml`; reproduction: `make hassan-repro` (time it on your machine); STRIDE: `THREAT_MODEL_STRIDE.md`; comparison: `COMPETITIVE_ANALYSIS.md`.
+- One-command reproduction `make hassan-repro` in a fresh clone: 561 s (target < 600 s) — ✅ met; all 6 result files identical except timings. close to the 10-min limit; slower machines may exceed it. Root-only sandbox runs and IBM are excluded by design.
+- CI: `.github/workflows/hassan-tests.yml` (passing on GitHub Actions); STRIDE: `THREAT_MODEL_STRIDE.md`; comparison: `COMPETITIVE_ANALYSIS.md`.
 
 ## 7. Limits
 

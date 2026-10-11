@@ -55,3 +55,5 @@
 | 2026-10-11 18:37 | `bbe4dec` | HASSAN v8 G: API, ACRS timers adapter, replay CLI, integration runner, realism+API tests, make hassan-test/repro, CI, STRIDE, competitive analysis (code before results) |
 | 2026-10-11 18:40 | `027c567` | HASSAN v8 E/F/G results: hospital-60, ransomware, scale, portfolio, noise sweep, API, ACRS timers, replay |
 | 2026-10-11 18:42 | `594c413` | HASSAN v7/v8: generated results report (misses first), READMEs, run commands |
+| 2026-10-11 18:42 | `cc5e1de` | Research log regenerated from git |
+| 2026-10-11 18:42 | `d68a439` | Ibdaa fact sheet: v7/v8 numbers incl. misses |

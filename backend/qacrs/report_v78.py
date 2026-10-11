@@ -127,7 +127,10 @@ def main():
     w(f"- API `/hassan/decide` (stdlib, 127.0.0.1): {a['requests']} requests, round-trip p95 {a['round_trip_ms']['p95']:.1f} ms; bad requests → {a['malformed_requests_status']} — {ok(a['target_met'])}.")
     w(f"- ACRS tier-0 timer (7 s): {ig['acrs_timers_45']['within_7s']}/{ig['acrs_timers_45']['decisions']} decisions inside; worst {ig['acrs_timers_45']['worst_decision_s']:.2f} s — {ok(ig['acrs_timers_45']['target_met'])}.")
     w(f"- Incident replay: {ig['replay_46']['replayed_with_card']}/{ig['replay_46']['sampled']} — {ok(ig['replay_46']['target_met'])}.")
-    w("- CI: `.github/workflows/hassan-tests.yml`; reproduction: `make hassan-repro` (time it on your machine); STRIDE: `THREAT_MODEL_STRIDE.md`; "
+    rp = load("v8/repro.json")
+    w(f"- One-command reproduction `make hassan-repro` in a fresh clone: {rp['seconds']} s (target < {rp['target_s']} s) — {ok(rp['target_met'])}; "
+      f"all {len(rp['results_identical_except_timings'])} result files identical except timings. {rp['note']}")
+    w("- CI: `.github/workflows/hassan-tests.yml` (passing on GitHub Actions); STRIDE: `THREAT_MODEL_STRIDE.md`; "
       "comparison: `COMPETITIVE_ANALYSIS.md`.\n")
 
     w("## 7. Limits\n")
