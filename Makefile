@@ -26,7 +26,8 @@ HASSAN_TESTS = tests.test_qacrs tests.test_qacrs_v3 tests.test_qacrs_v7 tests.te
 hassan-test:   ## Q-ACRS / HASSAN unit tests (standard library only, no Docker)
 	cd backend && python3 -m unittest $(HASSAN_TESTS)
 hassan-repro:  ## regenerate the core v7/v8 results (no IBM, no root sandbox, no 25-min QAOA seeds)
-	cd backend && time sh -c 'python3 -m unittest $(HASSAN_TESTS) && python3 -m qacrs.phase9_v7 && \
+	cd backend && start=$$(date +%s) && python3 -m unittest $(HASSAN_TESTS) && python3 -m qacrs.phase9_v7 && \
 	  python3 -m qacrs.phase10_adversarial && python3 -m qacrs.phase11_executor && \
-	  python3 -m qacrs.phase12_realism_scale && python3 -m qacrs.phase13_integration'
+	  python3 -m qacrs.phase12_realism_scale && python3 -m qacrs.phase13_integration && \
+	  echo "hassan-repro: $$(( $$(date +%s) - start )) s"
 	git status --short backend/qacrs/results
