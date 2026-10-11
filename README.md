@@ -198,7 +198,9 @@ python -m pytest tests/test_research.py
 
 ---
 
-## Q-ACRS (الامتداد البحثي الكمّي) — v3
+## HASSAN — مشروع البحث (المحرك: Q-ACRS)
+
+**HASSAN** = *Hybrid Adaptive Safety-gated System for Attack Neutralization*: اختيار أقل إجراء احتواء يكفي لإيقاف الهجوم، مع بوابة سلامة مستقلة تحيل القرارات الحرجة للبشر بدل أن تتخذها بصمت.
 
 - النتائج: [RESULTS_v6.md](docs/qacrs/RESULTS_v6.md) و[RESULTS_v4_v5.md](docs/qacrs/RESULTS_v4_v5.md) و[RESULTS_v3.md](docs/qacrs/RESULTS_v3.md) · سجل البحث: [RESEARCH_LOG.md](docs/qacrs/RESEARCH_LOG.md) · التحقق: [docs/qacrs/VERIFICATION_v2.md](docs/qacrs/VERIFICATION_v2.md)
 - المعايير المثبتة مسبقًا: [PREREGISTRATION.md](docs/qacrs/PREREGISTRATION.md) و[PREREGISTRATION_v3.md](docs/qacrs/PREREGISTRATION_v3.md)

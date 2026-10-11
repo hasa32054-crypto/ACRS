@@ -1,4 +1,10 @@
-# Q-ACRS: Quantum-Assisted Adaptive Cyber Response System
+# HASSAN — Hybrid Adaptive Safety-gated System for Attack Neutralization
+
+**Project name: HASSAN. Engine: Q-ACRS (Quantum-Assisted Adaptive Cyber Response System).**
+The code, results and pre-registrations keep the engine name `qacrs` so every earlier commit, file and result
+stays valid; HASSAN is the name of the research project built on it.
+
+## Q-ACRS: Quantum-Assisted Adaptive Cyber Response System
 
 **A Hybrid Quantum-Classical Adaptive Cyber Response System for Optimizing Threat Containment and Service Availability**
 
