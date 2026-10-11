@@ -1,0 +1,43 @@
+{
+ "experiment": "E8",
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "depths": [
+  2,
+  3
+ ],
+ "primary_p": 2,
+ "gamma_max": 40.0,
+ "restarts": 30,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_fez",
+ "selfcheck_max_diff": {
+  "2": 8.881784197001252e-16,
+  "3": 3.3306690738754696e-16
+ },
+ "ideal_p_best": {
+  "2": 0.8822561560200167,
+  "3": 0.7406882232723335
+ },
+ "transpiled": {
+  "2": {
+   "depth": 16,
+   "two_qubit_gates": 4
+  },
+  "3": {
+   "depth": 20,
+   "two_qubit_gates": 6
+  }
+ },
+ "job_id": "db5srdclf4us73c4gkc0",
+ "error_suppression": {
+  "dynamical_decoupling.enable": true,
+  "dynamical_decoupling.sequence_type": "XpXm",
+  "twirling.enable_gates": true,
+  "twirling.enable_measure": true,
+  "twirling.num_randomizations": "auto"
+ },
+ "status": "submitted",
+ "saved_utc": "2026-10-11T17:56:05Z"
+}

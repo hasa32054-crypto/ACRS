@@ -1,0 +1,25 @@
+{
+ "experiment": "E8",
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "depths": [
+  2,
+  3
+ ],
+ "primary_p": 2,
+ "gamma_max": 40.0,
+ "restarts": 30,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_fez",
+ "selfcheck_max_diff": {
+  "2": 8.881784197001252e-16,
+  "3": 3.3306690738754696e-16
+ },
+ "ideal_p_best": {
+  "2": 0.8822561560200167,
+  "3": 0.7406882232723335
+ },
+ "status": "check_ok",
+ "saved_utc": "2026-10-11T17:53:26Z"
+}
