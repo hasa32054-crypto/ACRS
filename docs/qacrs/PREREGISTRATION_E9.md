@@ -46,3 +46,10 @@ random. Tuning with the CVaR objective (mean of the best 5% of outcomes; Barkout
 them to 3–5% on a simulator test. **Change:** angles and depth are chosen by the lowest CVaR(α = 0.05) instead of the
 lowest expected cost (still deployable: the optimum is not used). Everything else unchanged. The mean-cost design is kept
 in git history. Decided before any hardware data exist.
+
+## Amendment 2 (2026-10-11, before any E9 job; simulator only)
+With CVaR(5%) the large parts improved (16 qubits: 0.02% → 0.3% ideal; 10 qubits: 5%), but on small parts the CVaR is
+already at its minimum once the optimum has ≥ 5% probability, so the optimizer stops early (2-qubit part: 6.6%, below
+random). **Change:** each part is tuned with both objectives (CVaR 5% and mean cost) for every depth; the candidate with the
+lowest CVaR is chosen and **ties are broken by the lowest expected cost**. Still deployable (optimum not used).
+Decided before any hardware data exist; earlier designs are in git history.

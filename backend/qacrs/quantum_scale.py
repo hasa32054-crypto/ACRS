@@ -5,7 +5,7 @@
   * cluster(k): k copies of Hospital-60 joined by inter-site links
   * tight_qubo: v7 QUBO with never-isolate machines fixed to 0 and minimal sufficient one-hot penalties
   * components: independent sub-problems; exact_milp: exact optimum (HiGHS) used as ground truth
-  * design(): per-component QAOA depth/angles chosen by lowest CVaR(5%) on the noiseless simulator (amendment 1)
+  * design(): per-component QAOA depth/angles chosen by lowest CVaR(5%), ties by expected cost (amendments 1-2)
 """
 from __future__ import annotations
 
@@ -135,9 +135,12 @@ def cvar(probs, cost, alpha=CVAR_ALPHA) -> float:
     return float(w @ cost[idx][:k]) / alpha
 
 
-def tune(q: Qubo, p: int, seed: int = 0):
+def tune(q: Qubo, p: int, seed: int = 0, objective: str = "cvar"):
     vals, cost = norm_cost(q)
-    f = lambda t: cvar(qaoa_state(cost, q.n, t[:p], t[p:]), cost)
+    if objective == "cvar":
+        f = lambda t: cvar(qaoa_state(cost, q.n, t[:p], t[p:]), cost)
+    else:
+        f = lambda t: float(qaoa_state(cost, q.n, t[:p], t[p:]) @ cost)
     if q.n > BIG_COMPONENT:                                   # p = 1 grid + local refinement
         grid = [(f([g, b]), g, b) for g in np.linspace(0.5, GAMMA_MAX, 24) for b in np.linspace(0.1, np.pi - 0.1, 9)]
         _, g0, b0 = min(grid)
@@ -148,7 +151,7 @@ def tune(q: Qubo, p: int, seed: int = 0):
                           options={"maxiter": 400}) for _ in range(RESTARTS)), key=lambda z: z.fun)
     probs = qaoa_state(cost, q.n, r.x[:p], r.x[p:])
     opt = np.isclose(vals, vals.min())
-    return {"p": p, "theta": [float(v) for v in r.x], "cvar_norm": float(r.fun),
+    return {"p": p, "objective": objective, "theta": [float(v) for v in r.x], "cvar_norm": cvar(probs, cost),
             "expected_cost_norm": float(probs @ cost),
             "ideal_p_opt": float(probs[opt].sum()), "n_optima": int(opt.sum()), "opt_value": float(vals.min())}
 
@@ -174,9 +177,10 @@ def design() -> dict:
             row |= {"mode": "classical_singleton", "x": [1 if a < 0 else 0]}
         else:
             ps = (1,) if cq.n > BIG_COMPONENT else (1, 2, 3)
-            cands = [tune(cq, p) for p in ps]
-            best = min(cands, key=lambda c: c["cvar_norm"])                    # deployable choice, optimum not used
-            row |= {"mode": "qpu", **best, "candidates": [{k: c[k] for k in ("p", "cvar_norm", "ideal_p_opt")} for c in cands]}
+            cands = [tune(cq, p, objective=o) for p in ps for o in ("cvar", "mean")]
+            # lowest CVaR(5%); ties (CVaR saturated on small parts) broken by lowest expected cost. Optimum not used.
+            best = min(cands, key=lambda c: (round(c["cvar_norm"], 9), c["expected_cost_norm"]))
+            row |= {"mode": "qpu", **best, "candidates": [{k: c[k] for k in ("p", "objective", "cvar_norm", "expected_cost_norm", "ideal_p_opt")} for c in cands]}
             print(f"  component {cq.n:>2} qubits: p={best['p']} ideal p_opt {best['ideal_p_opt']:.3f} "
                   f"(random {best['n_optima'] / 2 ** cq.n:.4f})", flush=True)
         out["components"].append(row)
