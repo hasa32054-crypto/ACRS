@@ -30,6 +30,7 @@ The 3-machine decision from Lesson 1 (two web-server twins + one office PC). The
 | **Real IBM QPU: `ibm_marrakesh` (156-qubit Heron r2)** | **96.5%** |
 
 Second run, 5 qubits (`net12_h04`, `ibm_kingston`): 11.9% real vs 13.5% ideal vs 3.1% random — see [`RESULTS_IBM_E7.md`](../../docs/qacrs/RESULTS_IBM_E7.md).
+After fixing the angle range (E8, `ibm_fez`): **82.7% real vs 88.2% ideal vs 3.1% random** — see [`RESULTS_IBM_E8.md`](../../docs/qacrs/RESULTS_IBM_E8.md). Run it: `python -m qacrs.lesson5_ibm_tuned --check | --dry-run | --run`.
 
 - IBM job id: `db0mcf6egvvc73bghe70` (date: 2026-10-03)
 - The circuit on the chip had 16 layers and 2 two-qubit gates. Because it is short, the noise cost only 1.6 points.
