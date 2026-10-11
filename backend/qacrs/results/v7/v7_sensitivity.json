@@ -1,0 +1,159 @@
+{
+ "meta": {
+  "experiment": "phase9_v7_sensitivity",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:08:49Z",
+  "git_commit": "dc97fa6",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "qubo_v7.py": "1114421bea7e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": []
+ },
+ "note": "exploratory; no parameter chosen from it",
+ "grid": [
+  {
+   "rho": 0.1,
+   "d_seg": 0.5,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.1,
+   "d_seg": 1.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.1,
+   "d_seg": 2.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.2,
+   "d_seg": 0.5,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.2,
+   "d_seg": 1.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.2,
+   "d_seg": 2.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.3,
+   "d_seg": 0.5,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.3,
+   "d_seg": 1.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.3,
+   "d_seg": 2.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.5,
+   "d_seg": 0.5,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.5,
+   "d_seg": 1.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.5,
+   "d_seg": 2.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.7,
+   "d_seg": 0.5,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.7,
+   "d_seg": 1.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  },
+  {
+   "rho": 0.7,
+   "d_seg": 2.0,
+   "contained_v7": 253,
+   "fully_automatic": 253,
+   "escalated": 6,
+   "silent": 0,
+   "services_down": 0
+  }
+ ]
+}
