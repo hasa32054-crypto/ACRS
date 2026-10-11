@@ -37,6 +37,13 @@ committed before the job: `e9_design.json`. Run by the project owner on 2026-10-
 - A single shot that is optimal on *all* 11 parts at once: 0% (expected: product of the per-part rates ≈ 10⁻¹⁰). The
   decision is assembled per part, which is why the parts are independent by construction.
 
+## Replication on a second quantum computer (`ibm_fez`, job `db5u7084qg6s73c40er0`)
+Same design, same circuit, different machine (depth 259, 544 two-qubit gates): the QPU again found the **optimum of 11/11
+sub-problems**; the assembled decision **equals the exact optimum**; certificate verified; 0 unsafe. Every sub-problem beat
+random after Holm correction (largest p = 0.011, the 16-qubit part). The per-shot rates were lower than on `ibm_kingston`
+(e.g. 10 qubits: 0.35–0.94% vs 1.1–2.4%; 16 qubits: 0.02%), consistent with a noisier device at this depth, but enough
+for 10,000 shots to contain every optimum. Raw counts: `e9_run_fez.json`.
+
 ## What we claim and what we do not
 - Claim: to our knowledge (search on 2026-10-11), the largest safety-gated cyber-containment decision computed on real
   quantum hardware: a 240-machine, 80-compromise incident, with the quantum part (75 qubits, 11 parts) finding the exact
@@ -44,12 +51,12 @@ committed before the job: `e9_design.json`. Run by the project owner on 2026-10-
   we found (Cogburn, DeCusatis, Spillane 2026, arXiv:2606.09469) ran 110-qubit QAOA for traffic partitioning and reached
   ~70% of the optimum, with no safety gating.
 - Not claimed: quantum advantage (the exact solver takes milliseconds); that the QPU decided the 57 single choices; that
-  one shot gives the whole decision. The repeat ran on the same QPU (not a second machine) at a different time.
+  one shot gives the whole decision. Three runs in total: two on `ibm_kingston`, one on `ibm_fez`.
 - Key enabler found here: the **penalty-tight QUBO** — the standard "big" safety penalty hides the real cost differences
   from the quantum circuit; the smallest provably-safe penalty keeps the same optimum and makes QAOA work.
 
 ### ملخص عربي
 شغّلنا قرار حادث كامل — 80 جهازًا مخترقًا في شبكة 4 مستشفيات (240 جهازًا) — على شريحة IBM واحدة في مهمة واحدة:
-75 كيوبت في 11 مسألة مستقلة. الحاسوب الكمّي وجد **القرار الأمثل في 11 من 11** مسألة، في التشغيلين، وكل مسألة أفضل من
+75 كيوبت في 11 مسألة مستقلة. الحاسوب الكمّي وجد **القرار الأمثل في 11 من 11** مسألة، في ثلاثة تشغيلات على جهازين مختلفين (ibm_kingston وibm_fez)، وكل مسألة أفضل من
 العشوائي بفارق إحصائي (حتى 23 ضعفًا). القرار المجمّع **طابق الحل الدقيق تمامًا**، وتحققت منه الشهادة المستقلة، وصفر قرارات
 غير آمنة، وبوابة السلامة أحالت قرارين حرجين فقط للبشر. لا ندّعي تفوقًا كمّيًا.
