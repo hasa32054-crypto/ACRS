@@ -238,3 +238,46 @@ class TestIbmCircuitMaths(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestEscalationV5(unittest.TestCase):
+    """v5 G3 twin-dilemma gate (docs/qacrs/PREREGISTRATION_v5.md). Crafted cases only, not the 9002 set."""
+
+    def test_g3_both_twins_hacked(self):
+        from qacrs import escalation_v5 as E5
+        s = sc({"app1": 9, "app2": 4})
+        d = E5.decide(NET, s, {"app1"})                    # app2 restricted keeps app2 -> db open
+        self.assertEqual(d.status, E.ESCALATED)
+        g3 = [e for e in d.escalations if e["rule"] == "G3"]
+        self.assertEqual(g3[0]["target"], "app2")
+        self.assertIn("nurse_app", g3[0]["services_at_stake"])
+        self.assertEqual(d.isolate_now, ["app1"])           # never adds automatic isolation
+
+    def test_g3_not_used_when_isolation_is_free(self):
+        from qacrs import escalation_v5 as E5
+        d = E5.decide(NET, sc({"web1": 9}), set())          # isolating web1 alone downs no service
+        self.assertEqual(d.status, S.NOT_CONTAINED)
+
+    def test_v5_keeps_v3_outcomes_otherwise(self):
+        from qacrs import escalation_v5 as E5
+        for hk, iso in (({"mri": 9}, {"mri"}), ({"web1": 7}, {"web1"}), ({"db": 8}, {"db"}), ({"db": 8}, set()),
+                        ({"lab": 3}, set())):
+            self.assertEqual(E5.decide(NET, sc(hk), iso).status, E.decide(NET, sc(hk), iso).status, msg=str(hk))
+
+
+class TestStatsHelpers(unittest.TestCase):
+    def test_wilson_known_value(self):
+        from qacrs.stats import wilson
+        lo, hi = wilson(0, 100)
+        self.assertAlmostEqual(lo, 0.0, places=12); self.assertAlmostEqual(hi, 0.0370, places=3)
+
+    def test_mcnemar(self):
+        from qacrs.stats import mcnemar_exact
+        self.assertEqual(mcnemar_exact(0, 0), 1.0)
+        self.assertAlmostEqual(mcnemar_exact(0, 10), 2 * 0.5 ** 10, places=12)
+
+    def test_sandbox_adapter_refuses_non_loopback(self):
+        from qacrs.sandbox_lab import SandboxIptablesAdapter
+        with self.assertRaises(ValueError):
+            SandboxIptablesAdapter({"web1": "10.0.0.5"})
+        PolicyExecutor(NET, SandboxIptablesAdapter({"web1": "127.40.1.3"}), PolicyAuditLog())   # allowed

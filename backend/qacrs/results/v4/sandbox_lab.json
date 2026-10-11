@@ -1,0 +1,5535 @@
+{
+ "meta": {
+  "experiment": "sandbox_lab",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-10T18:52:44Z",
+  "git_commit": "eb8db81",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "sandbox_lab.py": "aebc1d8b81fe",
+   "policy_executor.py": "b79b2b9f9b0b"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "chain": "QACRS_SANDBOX",
+   "timeout_s": 0.05,
+   "attempts": 3,
+   "heldout_per_net": 50,
+   "scope": "real iptables + real TCP on loopback addresses in an isolated container; not a hospital network"
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "summary": {
+  "runs": 280,
+  "scenarios": 140,
+  "checks": 5824,
+  "mismatches": 0,
+  "agreement": 1.0,
+  "mismatches_by_check": {},
+  "H5_supported": true,
+  "baseline_connectivity_ok": true,
+  "executor_status_counts": {
+   "APPLIED_WITH_ESCALATION": 62,
+   "NOT_CONTAINED_ESCALATE": 1,
+   "APPLIED": 163,
+   "BLOCKED_AWAITING_APPROVAL": 54
+  },
+  "execute_ms_median": 5.59,
+  "notes_hacked_critical_target_links": 29
+ },
+ "rows": [
+  {
+   "scenario": "net12_h01",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.42,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h01",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.67,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h02",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.37,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h02",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.74,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h03",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.05,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h03",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.55,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h04",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.52,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h04",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h05",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.79,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h05",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.75,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h06",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.12,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h06",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "pc_admin->dc",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h07",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h07",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.9,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h08",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.94,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h08",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.57,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h09",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 3.73,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h09",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h10",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.62,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_h10",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app2->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r01",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.72,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r01",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.86,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r02",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.69,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r02",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.95,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r03",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.8,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r03",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r04",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.91,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r04",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.55,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r05",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.7,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r05",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.76,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r06",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.52,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r06",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.22,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r07",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.56,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r07",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    },
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r08",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.93,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r08",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r09",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.16,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r09",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.47,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r10",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.32,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r10",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.06,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r11",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.33,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r11",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r12",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.45,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r12",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.24,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r13",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.65,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r13",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.09,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r14",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.74,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r14",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r15",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.29,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_r15",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.5,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r01",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.29,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r01",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.44,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r02",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.35,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r02",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.51,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r03",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.63,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r03",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.37,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r04",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.38,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r04",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.17,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r05",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.24,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r05",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.71,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r06",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.55,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r06",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.35,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r07",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.92,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r07",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r08",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.05,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r08",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.92,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r09",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.61,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r09",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.47,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r10",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.4,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r10",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.78,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r11",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.57,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r11",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.28,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r12",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.08,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r12",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.3,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r13",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 3.49,
+   "checks": 29,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r13",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.69,
+   "checks": 29,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r14",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.35,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r14",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r15",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.61,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net22_r15",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.62,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "dev"
+  },
+  {
+   "scenario": "net12_ho01",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.83,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho01",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.18,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho02",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.55,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho02",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.36,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho03",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.07,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho03",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.15,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho04",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.92,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho04",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.54,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho05",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.33,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho05",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.88,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho06",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.92,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho06",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho07",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.01,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho07",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.53,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho08",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.5,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho08",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.46,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho10",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.76,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho10",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "pc_admin->dc",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho11",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.51,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho11",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho12",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.93,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho12",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.05,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho13",
+   "method": "q_acrs",
+   "executor_status": "NOT_CONTAINED_ESCALATE",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "app2",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.78,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho13",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 18,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "pc_admin->dc",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho14",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.43,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho14",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho15",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.23,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho15",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.69,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho16",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.08,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho16",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "files->dc",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho17",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.85,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho17",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.8,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho18",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.01,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho18",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.45,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho19",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.19,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho19",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.93,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho20",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.31,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho20",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho21",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.09,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho21",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.33,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho22",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.76,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho22",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.22,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho23",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.08,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho23",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho24",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.81,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho24",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.57,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho25",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.0,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho25",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.99,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho26",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.66,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho26",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho27",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.34,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho27",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho28",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 7.72,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho28",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.15,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho29",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.59,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho29",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.99,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho30",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.18,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho30",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.02,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho31",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.13,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho31",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.51,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho33",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.09,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho33",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho34",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.01,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho34",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho35",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.61,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho35",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho36",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.6,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho36",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.9,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho37",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.56,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho37",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app2->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho38",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.81,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho38",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.92,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho39",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.21,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho39",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.76,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho40",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "RESTRICT"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.57,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho40",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.48,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho41",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.87,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho41",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.59,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho42",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.84,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho42",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.4,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "files->dc",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho43",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.49,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho43",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.96,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho44",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.79,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho44",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho45",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 3.28,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho45",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho46",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.99,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho46",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.66,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho47",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.28,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho47",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.61,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho48",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1",
+     "ISOLATE"
+    ],
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "web1",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.39,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho48",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.16,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho49",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.71,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho49",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho51",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin",
+     "ISOLATE"
+    ],
+    [
+     "web2",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.0,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho51",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 16,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "pc_admin->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho52",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.54,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho52",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.15,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho53",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db",
+     "RESTRICT"
+    ],
+    [
+     "lab",
+     "RESTRICT"
+    ],
+    [
+     "mri",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.87,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net12_ho53",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 15,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "lab->db",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho01",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.1,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho01",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.67,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho02",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.87,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho02",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.24,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho03",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.28,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho03",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho04",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho04",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.07,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho05",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.6,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho05",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.83,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho06",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.59,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho06",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.73,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho07",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.09,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho07",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.68,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho08",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "lab_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.83,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho08",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 29,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho09",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.48,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho09",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.48,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho10",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db_a",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.13,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho10",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho11",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.35,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho11",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 29,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho12",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.79,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho12",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 30,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "pc_admin_b->db_b",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho13",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.76,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho13",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho14",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.3,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho14",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.52,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho15",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.18,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho15",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho16",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.2,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho16",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho17",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.88,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho17",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.92,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho18",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.98,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho18",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho19",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.2,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho19",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.72,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho20",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.03,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho20",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.44,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho21",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "db_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.45,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho21",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 29,
+   "mismatches": [],
+   "notes": [
+    {
+     "link": "app1_a->db_a",
+     "open": true,
+     "note": "target critical server is itself hacked; C1 does not count it by definition"
+    }
+   ],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho22",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.83,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho22",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.24,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho23",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.35,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho23",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 7.57,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho24",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 14.47,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho24",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.93,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho25",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.61,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho25",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.64,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho26",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.12,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho26",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_nurse_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.2,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho27",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.07,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho27",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.13,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho28",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.54,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho28",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho29",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.71,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho29",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "lab_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 2.48,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho30",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_a",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.32,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho30",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho31",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "db_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 6.42,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho31",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho32",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.24,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho32",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.84,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho33",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.57,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho33",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.49,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho34",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.15,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho34",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.16,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho35",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 11.18,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho35",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho36",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 10.46,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho36",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app1_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_b",
+     "ISOLATE"
+    ],
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.77,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho37",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 13.3,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho37",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 13.6,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho38",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.89,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho38",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_admin_a",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.8,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho39",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "mri_b",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 4.79,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho39",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.14,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho40",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.61,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho40",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "mri_a",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.69,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho41",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.45,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho41",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 8.73,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho42",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "RESTRICT"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.8,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho42",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "app2_b",
+     "ISOLATE"
+    ],
+    [
+     "files",
+     "ISOLATE"
+    ],
+    [
+     "web1_a",
+     "ISOLATE"
+    ],
+    [
+     "web2_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 14.72,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho43",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.57,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho43",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_recep_a",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 3.65,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho44",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 5.47,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho44",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.13,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho45",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app1_b",
+     "ISOLATE"
+    ],
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 5.18,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho45",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho46",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "db_a",
+     "RESTRICT"
+    ],
+    [
+     "db_b",
+     "RESTRICT"
+    ],
+    [
+     "pc_recep_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.35,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho46",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.12,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho47",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.42,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho47",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "pc_nurse_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 4.01,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho48",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 9.78,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho48",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "app2_a",
+     "ISOLATE"
+    ],
+    [
+     "lab_a",
+     "RESTRICT"
+    ],
+    [
+     "web1_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 12.09,
+   "checks": 28,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho49",
+   "method": "q_acrs",
+   "executor_status": "APPLIED_WITH_ESCALATION",
+   "applied": [
+    [
+     "dc",
+     "RESTRICT"
+    ]
+   ],
+   "execute_ms": 1.92,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho49",
+   "method": "full_isolation_safe",
+   "executor_status": "BLOCKED_AWAITING_APPROVAL",
+   "applied": [],
+   "execute_ms": 0.11,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho50",
+   "method": "q_acrs",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.13,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  },
+  {
+   "scenario": "net22_ho50",
+   "method": "full_isolation_safe",
+   "executor_status": "APPLIED",
+   "applied": [
+    [
+     "mri_b",
+     "RESTRICT"
+    ],
+    [
+     "web2_b",
+     "ISOLATE"
+    ]
+   ],
+   "execute_ms": 6.41,
+   "checks": 27,
+   "mismatches": [],
+   "notes": [],
+   "split": "heldout"
+  }
+ ]
+}

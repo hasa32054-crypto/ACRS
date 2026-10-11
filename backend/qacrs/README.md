@@ -150,6 +150,17 @@ python -m qacrs.lesson4_ibm_scaled --dry-run   # no job
 python -m qacrs.lesson4_ibm_scaled --run       # one job, asks for 'yes'
 ```
 
+### v4 / v5 (criteria: [`PREREGISTRATION_v4.md`](../../docs/qacrs/PREREGISTRATION_v4.md), [`PREREGISTRATION_v5.md`](../../docs/qacrs/PREREGISTRATION_v5.md))
+
+```bash
+cd backend
+python -m qacrs.phase6_heldout            # E8/E9: 482 held-out scenarios + statistics -> results/v4/heldout.json
+sudo python -m qacrs.sandbox_lab          # E10: real iptables + TCP on loopback, isolated container -> results/v4/sandbox_lab.json
+python -m qacrs.phase7_v5                 # v5 gate on a fresh held-out set (seed 9002) -> results/v5/v5_heldout.json
+python -m qacrs.report_v45                # docs/qacrs/RESULTS_v4_v5.md, RESEARCH_LOG.md, fig5
+python -m qacrs.independent_test_v5 FILE  # blind scenarios through the v5 gate (after independent_test FILE)
+```
+
 `qacrs/policy_executor.py` (E6) is a **mock** firewall adapter: no real network or firewall is ever touched.
 
 **Use of AI tools (disclosure):** Claude (Anthropic) was used to write and review parts of the v2/v3 code and tests,

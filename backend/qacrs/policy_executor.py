@@ -1,7 +1,8 @@
 """E6: turn a Q-ACRS decision into firewall policy, SAFELY, against a MOCK firewall only.
 
-    THIS MODULE NEVER TOUCHES A REAL NETWORK OR FIREWALL. There is no real adapter class in this code.
-    MockFirewallAdapter keeps an in-memory rule table. Anything else would need a new, reviewed adapter and an
+    THIS MODULE NEVER TOUCHES A REAL NETWORK. MockFirewallAdapter keeps an in-memory rule table. The only other
+    adapter allowed is qacrs.sandbox_lab.SandboxIptablesAdapter (v4, E10): real Linux iptables, but restricted to
+    loopback addresses (127.0.0.0/8) inside its own chain, for validation in an isolated container. Anything else would need a new, reviewed adapter and an
     authorised, isolated test environment (see docs/qacrs/PREREGISTRATION_v3.md, E6).
 
 Flow:  decision -> PolicyExecutor.execute()
@@ -81,8 +82,8 @@ class Result:
 class PolicyExecutor:
     def __init__(self, net: Network, adapter: MockFirewallAdapter, audit: PolicyAuditLog,
                  max_retries: int = 2, dry_run: bool = True):
-        if getattr(adapter, "is_real", True):
-            raise ValueError("only adapters with is_real = False are allowed in this project")
+        if getattr(adapter, "is_real", True) and not getattr(adapter, "sandbox_only", False):
+            raise ValueError("only mock adapters, or sandbox adapters limited to loopback addresses, are allowed")
         self.net, self.adapter, self.audit = net, adapter, audit
         self.max_retries, self.dry_run = max_retries, dry_run
         self.applied: dict[str, list[tuple[str, str]]] = {}
