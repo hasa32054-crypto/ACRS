@@ -28,3 +28,9 @@ simulator, widening the γ range to [0, 40] (same objective: mean cost, same cir
 ### ملخص عربي
 سبب انخفاض نتيجة E7 أن مدى البحث عن الزوايا كان ضيقًا. نثبت هنا قبل كتابة الكود: نفس المسألة، مدى زوايا صحيح، عمق 2 و3
 في مهمة واحدة، مع تقنيات تقليل الضوضاء من IBM. ننشر النتيجتين أيًا كانتا، ولا نعيد التشغيل لاختيار رقم أفضل.
+
+## Amendment 1 (2026-10-11, before any E8 job; simulator only)
+Running the exact pre-registered tuning procedure (seed 0, 30 restarts) gives ideal p_best **0.882 at p = 2** and
+0.679 at p = 3 (the exploratory numbers above were from a different random start). Because p = 2 has the higher ideal
+rate *and* the shallower circuit (less hardware noise), the **primary is changed to p = 2**; H-E8a/H-E8b apply to p = 2.
+p = 3 is still run in the same job and reported. Decided before any hardware data exist.
