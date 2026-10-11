@@ -1,0 +1,13 @@
+{
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "p": 2,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_kingston",
+ "backend_qubits": 156,
+ "selfcheck_max_diff": 2.220446049250313e-16,
+ "ideal_p_best": 0.1346413562759699,
+ "status": "check_ok",
+ "saved_utc": "2026-10-11T17:37:44Z"
+}

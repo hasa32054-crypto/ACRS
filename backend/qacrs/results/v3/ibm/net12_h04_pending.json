@@ -1,0 +1,23 @@
+{
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "p": 2,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_kingston",
+ "backend_qubits": 156,
+ "selfcheck_max_diff": 2.220446049250313e-16,
+ "ideal_p_best": 0.1346413562759699,
+ "isa_depth": 16,
+ "two_qubit_gates": 4,
+ "ops": {
+  "rz": 31,
+  "sx": 26,
+  "measure": 5,
+  "cz": 4,
+  "barrier": 1
+ },
+ "job_id": "db5sjrkvf2bc73d0bvkg",
+ "status": "submitted",
+ "saved_utc": "2026-10-11T17:40:00Z"
+}

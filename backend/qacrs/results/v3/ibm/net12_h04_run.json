@@ -1,0 +1,94 @@
+{
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "p": 2,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_kingston",
+ "backend_qubits": 156,
+ "selfcheck_max_diff": 2.220446049250313e-16,
+ "ideal_p_best": 0.1346413562759699,
+ "isa_depth": 16,
+ "two_qubit_gates": 4,
+ "ops": {
+  "rz": 31,
+  "sx": 26,
+  "measure": 5,
+  "cz": 4,
+  "barrier": 1
+ },
+ "hacked": {
+  "db": 8
+ },
+ "variables": [
+  "web1",
+  "web2",
+  "app1",
+  "app2",
+  "db"
+ ],
+ "shots": 4000,
+ "job_id": "db5sjrkvf2bc73d0bvkg",
+ "best_cost": 8.0,
+ "p_best_real": 0.11925,
+ "p_best_ideal": 0.1346413562759699,
+ "p_best_random": 0.03125,
+ "expected_cost_real": 9.6225,
+ "expected_cost_ideal": 9.424813900153303,
+ "worst_cost": 97.0,
+ "best_of_100_real_shots_is_optimal": true,
+ "most_frequent_real_decision": {
+  "isolate": [
+   "web2"
+  ],
+  "cost": 9.0,
+  "is_optimal": false,
+  "safety_gate": {
+   "status": "ESCALATED",
+   "isolate_now": [
+    "web2"
+   ],
+   "escalations": [
+    {
+     "rule": "G1",
+     "target": "db",
+     "approvals": 2,
+     "action": "isolate critical server 'db' (risk 8) after two-person approval"
+    }
+   ],
+   "reasons": [],
+   "needs_two_person": [],
+   "owner_review": []
+  }
+ },
+ "counts": {
+  "00110": 441,
+  "01010": 415,
+  "01000": 453,
+  "00010": 487,
+  "00001": 478,
+  "00000": 477,
+  "00101": 381,
+  "00100": 446,
+  "01001": 368,
+  "01110": 6,
+  "00011": 11,
+  "00111": 15,
+  "01011": 7,
+  "01100": 3,
+  "10101": 1,
+  "01101": 6,
+  "10110": 1,
+  "11010": 1,
+  "11001": 2,
+  "10001": 1
+ },
+ "theta": [
+  2.039292866485995,
+  5.135257118271466,
+  2.005082149589851,
+  2.6755721943303206
+ ],
+ "status": "complete",
+ "saved_utc": "2026-10-11T17:40:05Z"
+}
