@@ -169,6 +169,27 @@ python -m qacrs.phase8_ood                # v6: out-of-distribution attack chain
 python -m qacrs.report_v6                 # docs/qacrs/RESULTS_v6.md, fig6, research log
 ```
 
+### v7 / v8 — HASSAN (criteria: [`PREREGISTRATION_v7.md`](../../docs/qacrs/PREREGISTRATION_v7.md), [`PREREGISTRATION_v8.md`](../../docs/qacrs/PREREGISTRATION_v8.md); results: [`RESULTS_v7_v8.md`](../../docs/qacrs/RESULTS_v7_v8.md))
+
+```bash
+cd backend
+python -m qacrs.phase9_v7                 # v7 SEGMENT: chains 7008 + random 9003 + sensitivity -> results/v7
+sudo python -m qacrs.sandbox_v7           # SEGMENT + rollback in the real kernel (loopback)  -> results/v7/sandbox_v7.json
+python -m qacrs.phase10_adversarial       # anti-weaponization (forged alerts, flood, fail-safe, guard) -> results/v8
+python -m qacrs.phase11_executor          # hash-chained log, HMAC, TTL, certificates, decay -> results/v8
+sudo python -m qacrs.sandbox_v8           # digital-twin pre-check + self-drills (loopback) -> results/v8
+python -m qacrs.phase12_realism_scale     # Hospital-60, MITRE, patient-minutes, ransomware, scale, solvers
+python -m qacrs.phase13_integration       # API latency, ACRS 7 s timer, incident replay
+python -m qacrs.report_v78                # docs/qacrs/RESULTS_v7_v8.md from the result files
+python -m qacrs.hassan_service serve      # POST http://127.0.0.1:8765/hassan/decide (decides only)
+python -m qacrs.hassan_service replay net12_ood002_c7   # decision card of any stored scenario
+make -C .. hassan-test                    # all Q-ACRS/HASSAN unit tests
+make -C .. hassan-repro                   # regenerate core v7/v8 results (no IBM, no sudo)
+```
+
+Threat model: [`THREAT_MODEL_STRIDE.md`](../../docs/qacrs/THREAT_MODEL_STRIDE.md) · comparison with existing systems:
+[`COMPETITIVE_ANALYSIS.md`](../../docs/qacrs/COMPETITIVE_ANALYSIS.md).
+
 `qacrs/policy_executor.py` (E6) is a **mock** firewall adapter: no real network or firewall is ever touched.
 
 **Use of AI tools (disclosure):** Claude (Anthropic) was used to write and review parts of the v2/v3 code and tests,
