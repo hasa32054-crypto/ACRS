@@ -39,3 +39,10 @@
 نثبت قبل كتابة الكود: قرار حادث لـ 80 جهازًا مخترقًا في شبكة 4 مستشفيات (240 جهازًا) يُقسَّم إلى مسائل مستقلة تعمل
 كلها في مهمة واحدة على شريحة IBM. نستخدم «أصغر عقوبة آمنة» المثبتة رياضيًا. ما يفشل فيه الكمّي يُحل كلاسيكيًا ويُحسب
 فشلًا للكمّي وينشر.
+
+## Amendment 1 (2026-10-11, before any E9 job; simulator only)
+The first design (mean-cost objective) gave ideal chances of the optimum of 0.05–4% on the 10-qubit parts — one *below*
+random. Tuning with the CVaR objective (mean of the best 5% of outcomes; Barkoutsos et al. 2020, Quantum 4:256) raised
+them to 3–5% on a simulator test. **Change:** angles and depth are chosen by the lowest CVaR(α = 0.05) instead of the
+lowest expected cost (still deployable: the optimum is not used). Everything else unchanged. The mean-cost design is kept
+in git history. Decided before any hardware data exist.
