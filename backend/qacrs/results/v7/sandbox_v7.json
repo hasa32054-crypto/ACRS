@@ -1,0 +1,5365 @@
+{
+ "meta": {
+  "experiment": "sandbox_v7",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:14:52Z",
+  "git_commit": "466ca04",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "sandbox_v7.py": "df61f25ad15f",
+   "qubo_v7.py": "1114421bea7e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "scope": "real iptables + real TCP on loopback in an isolated container; not a hospital network"
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "summary": {
+  "runs": 280,
+  "scenarios": 140,
+  "checks": 6002,
+  "mismatches": 0,
+  "mismatches_by_check": {},
+  "segment_checks": 163,
+  "rollback_checks": 5412,
+  "rollback_failures": 0,
+  "first_attempt_blocked": 280,
+  "decision_to_block_ms": {
+   "median": 162.664,
+   "p95": 173.542,
+   "max": 318.594
+  },
+  "H5_v7_supported": true,
+  "agreement": 1.0
+ },
+ "rows": [
+  {
+   "scenario": "net12_h01",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.06,
+   "decision_to_first_blocked_attempt_ms": 157.924,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h01",
+   "method": "rule_segment",
+   "isolate": [
+    "web1",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.001,
+   "decision_to_first_blocked_attempt_ms": 158.999,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h02",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 4.448,
+   "decision_to_first_blocked_attempt_ms": 155.266,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h02",
+   "method": "rule_segment",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 4.254,
+   "decision_to_first_blocked_attempt_ms": 155.205,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h03",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.753,
+   "decision_to_first_blocked_attempt_ms": 158.639,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h03",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.486,
+   "decision_to_first_blocked_attempt_ms": 158.428,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h04",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 5.395,
+   "decision_to_first_blocked_attempt_ms": 156.404,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h04",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 3.733,
+   "decision_to_first_blocked_attempt_ms": 154.635,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h05",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 2.134,
+   "decision_to_first_blocked_attempt_ms": 154.801,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h05",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 2.091,
+   "decision_to_first_blocked_attempt_ms": 153.059,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h06",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.492,
+   "decision_to_first_blocked_attempt_ms": 160.602,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h06",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.269,
+   "decision_to_first_blocked_attempt_ms": 158.259,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h07",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 16.989,
+   "decision_to_first_blocked_attempt_ms": 167.924,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h07",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.83,
+   "decision_to_first_blocked_attempt_ms": 164.891,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h08",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.34,
+   "decision_to_first_blocked_attempt_ms": 160.379,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h08",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.14,
+   "decision_to_first_blocked_attempt_ms": 158.106,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h09",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.527,
+   "decision_to_first_blocked_attempt_ms": 159.537,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h09",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 6.985,
+   "decision_to_first_blocked_attempt_ms": 157.875,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h10",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.109,
+   "decision_to_first_blocked_attempt_ms": 163.063,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_h10",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.297,
+   "decision_to_first_blocked_attempt_ms": 163.377,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r01",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 2.249,
+   "decision_to_first_blocked_attempt_ms": 153.19,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r01",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 2.918,
+   "decision_to_first_blocked_attempt_ms": 153.715,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r02",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 3.887,
+   "decision_to_first_blocked_attempt_ms": 154.643,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r02",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 3.503,
+   "decision_to_first_blocked_attempt_ms": 154.533,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r03",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.135,
+   "decision_to_first_blocked_attempt_ms": 163.068,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r03",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.554,
+   "decision_to_first_blocked_attempt_ms": 161.472,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r04",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_admin"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.903,
+   "decision_to_first_blocked_attempt_ms": 159.313,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r04",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_admin"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.001,
+   "decision_to_first_blocked_attempt_ms": 160.371,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r05",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 4.033,
+   "decision_to_first_blocked_attempt_ms": 154.974,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r05",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 3.848,
+   "decision_to_first_blocked_attempt_ms": 154.748,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r06",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "files"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.665,
+   "decision_to_first_blocked_attempt_ms": 158.599,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r06",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "files"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.645,
+   "decision_to_first_blocked_attempt_ms": 158.559,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r07",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.641,
+   "decision_to_first_blocked_attempt_ms": 165.605,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r07",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.243,
+   "decision_to_first_blocked_attempt_ms": 165.276,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r08",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.601,
+   "decision_to_first_blocked_attempt_ms": 158.621,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r08",
+   "method": "rule_segment",
+   "isolate": [
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.214,
+   "decision_to_first_blocked_attempt_ms": 159.17,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r09",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 6.305,
+   "decision_to_first_blocked_attempt_ms": 157.235,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r09",
+   "method": "rule_segment",
+   "isolate": [
+    "app2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 6.95,
+   "decision_to_first_blocked_attempt_ms": 157.824,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r10",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.088,
+   "decision_to_first_blocked_attempt_ms": 161.538,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r10",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.174,
+   "decision_to_first_blocked_attempt_ms": 158.022,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r11",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.882,
+   "decision_to_first_blocked_attempt_ms": 160.668,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r11",
+   "method": "rule_segment",
+   "isolate": [
+    "app2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 6.977,
+   "decision_to_first_blocked_attempt_ms": 157.873,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r12",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "files"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.226,
+   "decision_to_first_blocked_attempt_ms": 162.101,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r12",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "files"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.55,
+   "decision_to_first_blocked_attempt_ms": 162.383,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r13",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.863,
+   "decision_to_first_blocked_attempt_ms": 158.894,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r13",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.99,
+   "decision_to_first_blocked_attempt_ms": 159.959,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r14",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 18.333,
+   "decision_to_first_blocked_attempt_ms": 169.453,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r14",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.708,
+   "decision_to_first_blocked_attempt_ms": 165.541,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r15",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 3.846,
+   "decision_to_first_blocked_attempt_ms": 154.719,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_r15",
+   "method": "rule_segment",
+   "isolate": [
+    "files"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 13,
+   "rollback_failures": [],
+   "rules_ms": 4.294,
+   "decision_to_first_blocked_attempt_ms": 155.171,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r01",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 4.177,
+   "decision_to_first_blocked_attempt_ms": 155.007,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r01",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 3.701,
+   "decision_to_first_blocked_attempt_ms": 154.588,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r02",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 3.948,
+   "decision_to_first_blocked_attempt_ms": 154.936,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r02",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 5.367,
+   "decision_to_first_blocked_attempt_ms": 156.184,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r03",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_a",
+    "pc_nurse_b",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.939,
+   "decision_to_first_blocked_attempt_ms": 162.899,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r03",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_a",
+    "pc_nurse_b",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 13.369,
+   "decision_to_first_blocked_attempt_ms": 168.699,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r04",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.652,
+   "decision_to_first_blocked_attempt_ms": 160.517,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r04",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 17.902,
+   "decision_to_first_blocked_attempt_ms": 168.923,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r05",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 4.915,
+   "decision_to_first_blocked_attempt_ms": 156.018,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r05",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 4.764,
+   "decision_to_first_blocked_attempt_ms": 155.728,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r06",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.786,
+   "decision_to_first_blocked_attempt_ms": 160.733,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r06",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.398,
+   "decision_to_first_blocked_attempt_ms": 161.349,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r07",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2_b"
+   ],
+   "segment": [
+    "db_a",
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 34,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 32.804,
+   "decision_to_first_blocked_attempt_ms": 183.85,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r07",
+   "method": "rule_segment",
+   "isolate": [
+    "web2_b"
+   ],
+   "segment": [
+    "db_a",
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 34,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 25.507,
+   "decision_to_first_blocked_attempt_ms": 176.626,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r08",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.911,
+   "decision_to_first_blocked_attempt_ms": 159.154,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r08",
+   "method": "rule_segment",
+   "isolate": [
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 10.696,
+   "decision_to_first_blocked_attempt_ms": 161.902,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r09",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_admin_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 27.041,
+   "decision_to_first_blocked_attempt_ms": 180.593,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r09",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "pc_admin_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.28,
+   "decision_to_first_blocked_attempt_ms": 158.276,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r10",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_b",
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.737,
+   "decision_to_first_blocked_attempt_ms": 159.855,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r10",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_b",
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.023,
+   "decision_to_first_blocked_attempt_ms": 159.038,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r11",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.19,
+   "decision_to_first_blocked_attempt_ms": 158.036,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r11",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.115,
+   "decision_to_first_blocked_attempt_ms": 160.262,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r12",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 18.198,
+   "decision_to_first_blocked_attempt_ms": 169.219,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r12",
+   "method": "rule_segment",
+   "isolate": [
+    "web2_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.575,
+   "decision_to_first_blocked_attempt_ms": 162.558,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r13",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [
+    "db_a",
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 33,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 18.457,
+   "decision_to_first_blocked_attempt_ms": 169.526,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r13",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [
+    "db_a",
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 33,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 14.753,
+   "decision_to_first_blocked_attempt_ms": 165.782,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r14",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_b",
+    "web2_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 14.292,
+   "decision_to_first_blocked_attempt_ms": 165.206,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r14",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_b",
+    "web2_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 13.971,
+   "decision_to_first_blocked_attempt_ms": 165.009,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r15",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 3.83,
+   "decision_to_first_blocked_attempt_ms": 154.656,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net22_r15",
+   "method": "rule_segment",
+   "isolate": [
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 3.871,
+   "decision_to_first_blocked_attempt_ms": 154.83,
+   "first_attempt_blocked": true,
+   "split": "development"
+  },
+  {
+   "scenario": "net12_ood002_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.806,
+   "decision_to_first_blocked_attempt_ms": 161.645,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood002_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.117,
+   "decision_to_first_blocked_attempt_ms": 161.921,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood003_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.011,
+   "decision_to_first_blocked_attempt_ms": 157.941,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood003_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.547,
+   "decision_to_first_blocked_attempt_ms": 158.49,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood004_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_nurse",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.271,
+   "decision_to_first_blocked_attempt_ms": 164.373,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood004_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_nurse",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.128,
+   "decision_to_first_blocked_attempt_ms": 160.871,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood005_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.004,
+   "decision_to_first_blocked_attempt_ms": 163.927,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood005_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.626,
+   "decision_to_first_blocked_attempt_ms": 162.549,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood006_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.211,
+   "decision_to_first_blocked_attempt_ms": 161.14,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood006_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.671,
+   "decision_to_first_blocked_attempt_ms": 162.557,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood007_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_nurse",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 15.185,
+   "decision_to_first_blocked_attempt_ms": 165.959,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood007_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_nurse",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 16.802,
+   "decision_to_first_blocked_attempt_ms": 167.754,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood009_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.982,
+   "decision_to_first_blocked_attempt_ms": 158.784,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood009_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.816,
+   "decision_to_first_blocked_attempt_ms": 160.644,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood010_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.115,
+   "decision_to_first_blocked_attempt_ms": 164.91,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood010_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.756,
+   "decision_to_first_blocked_attempt_ms": 161.681,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood011_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "files",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 17,
+   "rollback_failures": [],
+   "rules_ms": 19.362,
+   "decision_to_first_blocked_attempt_ms": 171.143,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood011_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "files",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 17,
+   "rollback_failures": [],
+   "rules_ms": 19.383,
+   "decision_to_first_blocked_attempt_ms": 170.436,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood012_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "files",
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [
+    "db",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 19,
+   "mismatches": [],
+   "rollback_checks": 18,
+   "rollback_failures": [],
+   "rules_ms": 28.178,
+   "decision_to_first_blocked_attempt_ms": 179.27,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood012_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "files",
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [
+    "db",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 19,
+   "mismatches": [],
+   "rollback_checks": 18,
+   "rollback_failures": [],
+   "rules_ms": 26.869,
+   "decision_to_first_blocked_attempt_ms": 177.98,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood016_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.913,
+   "decision_to_first_blocked_attempt_ms": 165.954,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood016_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 15.379,
+   "decision_to_first_blocked_attempt_ms": 166.582,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood017_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.926,
+   "decision_to_first_blocked_attempt_ms": 166.141,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood017_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.017,
+   "decision_to_first_blocked_attempt_ms": 164.959,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood020_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.192,
+   "decision_to_first_blocked_attempt_ms": 160.345,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood020_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.691,
+   "decision_to_first_blocked_attempt_ms": 158.589,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood021_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.712,
+   "decision_to_first_blocked_attempt_ms": 161.682,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood021_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 16.547,
+   "decision_to_first_blocked_attempt_ms": 167.552,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood023_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.858,
+   "decision_to_first_blocked_attempt_ms": 162.851,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood023_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "pc_recep",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.106,
+   "decision_to_first_blocked_attempt_ms": 165.327,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood024_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 10.997,
+   "decision_to_first_blocked_attempt_ms": 162.664,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood024_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 10.094,
+   "decision_to_first_blocked_attempt_ms": 161.169,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood025_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 19,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 16.587,
+   "decision_to_first_blocked_attempt_ms": 168.233,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood025_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 19,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.525,
+   "decision_to_first_blocked_attempt_ms": 165.523,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood028_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 10.996,
+   "decision_to_first_blocked_attempt_ms": 161.974,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood028_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web1",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 23.749,
+   "decision_to_first_blocked_attempt_ms": 174.785,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood030_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.702,
+   "decision_to_first_blocked_attempt_ms": 161.657,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood030_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.673,
+   "decision_to_first_blocked_attempt_ms": 163.742,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood031_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "pc_admin",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 19.317,
+   "decision_to_first_blocked_attempt_ms": 172.246,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood031_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "pc_admin",
+    "web2"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.428,
+   "decision_to_first_blocked_attempt_ms": 165.303,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood032_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "pc_admin",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 17,
+   "rollback_failures": [],
+   "rules_ms": 20.918,
+   "decision_to_first_blocked_attempt_ms": 171.882,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood032_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "pc_admin",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 17,
+   "rollback_failures": [],
+   "rules_ms": 18.023,
+   "decision_to_first_blocked_attempt_ms": 169.391,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood033_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 17.54,
+   "decision_to_first_blocked_attempt_ms": 168.529,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood033_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 17.998,
+   "decision_to_first_blocked_attempt_ms": 169.315,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood035_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.401,
+   "decision_to_first_blocked_attempt_ms": 164.463,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood035_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.062,
+   "decision_to_first_blocked_attempt_ms": 165.335,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood038_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.952,
+   "decision_to_first_blocked_attempt_ms": 161.058,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood038_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.139,
+   "decision_to_first_blocked_attempt_ms": 160.456,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood039_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.661,
+   "decision_to_first_blocked_attempt_ms": 162.586,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_ood039_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.802,
+   "decision_to_first_blocked_attempt_ms": 162.73,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood002_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.293,
+   "decision_to_first_blocked_attempt_ms": 163.439,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood002_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.872,
+   "decision_to_first_blocked_attempt_ms": 162.846,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood003_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.358,
+   "decision_to_first_blocked_attempt_ms": 163.597,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood003_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.397,
+   "decision_to_first_blocked_attempt_ms": 158.171,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood004_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_b",
+    "pc_recep_a",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.041,
+   "decision_to_first_blocked_attempt_ms": 163.175,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood004_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_b",
+    "pc_recep_a",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.534,
+   "decision_to_first_blocked_attempt_ms": 162.551,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood005_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 10.902,
+   "decision_to_first_blocked_attempt_ms": 161.87,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood005_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.693,
+   "decision_to_first_blocked_attempt_ms": 163.574,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood006_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 15.007,
+   "decision_to_first_blocked_attempt_ms": 165.971,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood006_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.338,
+   "decision_to_first_blocked_attempt_ms": 162.805,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood007_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "web1_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 17.583,
+   "decision_to_first_blocked_attempt_ms": 168.775,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood007_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "web1_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 13.713,
+   "decision_to_first_blocked_attempt_ms": 164.783,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood008_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 4.989,
+   "decision_to_first_blocked_attempt_ms": 156.056,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood008_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 4.202,
+   "decision_to_first_blocked_attempt_ms": 156.007,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood009_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin_a",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.83,
+   "decision_to_first_blocked_attempt_ms": 159.8,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood009_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin_a",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.435,
+   "decision_to_first_blocked_attempt_ms": 158.497,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood010_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_b",
+    "web2_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.293,
+   "decision_to_first_blocked_attempt_ms": 163.19,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood010_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_b",
+    "web2_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 13.511,
+   "decision_to_first_blocked_attempt_ms": 164.675,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood011_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "app1_b",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 27,
+   "rollback_failures": [],
+   "rules_ms": 26.876,
+   "decision_to_first_blocked_attempt_ms": 178.005,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood011_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "app1_b",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 27,
+   "rollback_failures": [],
+   "rules_ms": 19.423,
+   "decision_to_first_blocked_attempt_ms": 170.393,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood012_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "files",
+    "pc_nurse_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 31,
+   "mismatches": [],
+   "rollback_checks": 28,
+   "rollback_failures": [],
+   "rules_ms": 31.42,
+   "decision_to_first_blocked_attempt_ms": 182.311,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood012_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "files",
+    "pc_nurse_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 31,
+   "mismatches": [],
+   "rollback_checks": 28,
+   "rollback_failures": [],
+   "rules_ms": 26.519,
+   "decision_to_first_blocked_attempt_ms": 177.294,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood016_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_recep_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.927,
+   "decision_to_first_blocked_attempt_ms": 162.86,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood016_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_recep_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.872,
+   "decision_to_first_blocked_attempt_ms": 162.941,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood017_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_recep_b",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.226,
+   "decision_to_first_blocked_attempt_ms": 162.817,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood017_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "pc_recep_b",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.751,
+   "decision_to_first_blocked_attempt_ms": 163.872,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood019_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 13.023,
+   "decision_to_first_blocked_attempt_ms": 164.102,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood019_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 11.502,
+   "decision_to_first_blocked_attempt_ms": 162.962,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood020_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 11.342,
+   "decision_to_first_blocked_attempt_ms": 162.583,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood020_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 10.091,
+   "decision_to_first_blocked_attempt_ms": 163.018,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood022_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "app2_b",
+    "pc_nurse_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 27,
+   "rollback_failures": [],
+   "rules_ms": 21.924,
+   "decision_to_first_blocked_attempt_ms": 173.028,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood022_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "app2_b",
+    "pc_nurse_a",
+    "web2_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 27,
+   "rollback_failures": [],
+   "rules_ms": 17.823,
+   "decision_to_first_blocked_attempt_ms": 168.786,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood024_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 16.478,
+   "decision_to_first_blocked_attempt_ms": 167.536,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood024_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 17.742,
+   "decision_to_first_blocked_attempt_ms": 169.477,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood025_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin_a",
+    "pc_recep_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 18.364,
+   "decision_to_first_blocked_attempt_ms": 169.988,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood025_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin_a",
+    "pc_recep_a"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 15.347,
+   "decision_to_first_blocked_attempt_ms": 166.453,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood026_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "pc_nurse_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.753,
+   "decision_to_first_blocked_attempt_ms": 163.787,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood026_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "pc_nurse_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 14.279,
+   "decision_to_first_blocked_attempt_ms": 165.299,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood027_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.591,
+   "decision_to_first_blocked_attempt_ms": 160.845,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood027_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.999,
+   "decision_to_first_blocked_attempt_ms": 160.275,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood028_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_b",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 14.985,
+   "decision_to_first_blocked_attempt_ms": 166.298,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood028_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_b",
+    "web1_a",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 14.237,
+   "decision_to_first_blocked_attempt_ms": 165.446,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood029_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.525,
+   "decision_to_first_blocked_attempt_ms": 196.203,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood029_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 10.47,
+   "decision_to_first_blocked_attempt_ms": 161.415,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood031_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "pc_admin_b",
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 32.179,
+   "decision_to_first_blocked_attempt_ms": 183.328,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood031_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "pc_admin_b",
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 19.199,
+   "decision_to_first_blocked_attempt_ms": 170.345,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood032_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin_b",
+    "pc_recep_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 16.32,
+   "decision_to_first_blocked_attempt_ms": 167.136,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood032_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin_b",
+    "pc_recep_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 15.313,
+   "decision_to_first_blocked_attempt_ms": 166.283,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood034_c7",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.449,
+   "decision_to_first_blocked_attempt_ms": 162.388,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net22_ood034_c7",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_a",
+    "web2_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 10.848,
+   "decision_to_first_blocked_attempt_ms": 161.757,
+   "first_attempt_blocked": true,
+   "split": "chains_7008"
+  },
+  {
+   "scenario": "net12_r01_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.978,
+   "decision_to_first_blocked_attempt_ms": 162.959,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r01_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.881,
+   "decision_to_first_blocked_attempt_ms": 163.917,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r02_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.602,
+   "decision_to_first_blocked_attempt_ms": 160.669,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r02_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.542,
+   "decision_to_first_blocked_attempt_ms": 159.657,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r03_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.098,
+   "decision_to_first_blocked_attempt_ms": 159.131,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r03_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 12.373,
+   "decision_to_first_blocked_attempt_ms": 167.921,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r04_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 5.741,
+   "decision_to_first_blocked_attempt_ms": 156.801,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r04_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 5.278,
+   "decision_to_first_blocked_attempt_ms": 156.304,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r05_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.662,
+   "decision_to_first_blocked_attempt_ms": 165.762,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r05_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.03,
+   "decision_to_first_blocked_attempt_ms": 164.952,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r06_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 5.778,
+   "decision_to_first_blocked_attempt_ms": 156.872,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r06_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 5.721,
+   "decision_to_first_blocked_attempt_ms": 156.659,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r07_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.509,
+   "decision_to_first_blocked_attempt_ms": 162.745,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r07_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.173,
+   "decision_to_first_blocked_attempt_ms": 161.007,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r08_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.342,
+   "decision_to_first_blocked_attempt_ms": 159.351,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r08_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.467,
+   "decision_to_first_blocked_attempt_ms": 158.417,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r09_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "pc_nurse",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 16.607,
+   "decision_to_first_blocked_attempt_ms": 167.44,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r09_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "pc_nurse",
+    "pc_recep",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 17.269,
+   "decision_to_first_blocked_attempt_ms": 168.437,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r10_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.783,
+   "decision_to_first_blocked_attempt_ms": 160.803,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r10_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "web2"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.56,
+   "decision_to_first_blocked_attempt_ms": 160.64,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r11_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 10.664,
+   "decision_to_first_blocked_attempt_ms": 161.731,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r11_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 13.142,
+   "decision_to_first_blocked_attempt_ms": 164.764,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r12_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 18,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 10.807,
+   "decision_to_first_blocked_attempt_ms": 161.821,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r12_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1",
+    "app2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.934,
+   "decision_to_first_blocked_attempt_ms": 163.95,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r14_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.329,
+   "decision_to_first_blocked_attempt_ms": 159.306,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r14_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin",
+    "pc_nurse"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 6.831,
+   "decision_to_first_blocked_attempt_ms": 157.985,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r15_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.161,
+   "decision_to_first_blocked_attempt_ms": 162.151,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r15_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.433,
+   "decision_to_first_blocked_attempt_ms": 162.546,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r16_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.339,
+   "decision_to_first_blocked_attempt_ms": 158.354,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r16_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "web2"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.135,
+   "decision_to_first_blocked_attempt_ms": 160.011,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r17_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.62,
+   "decision_to_first_blocked_attempt_ms": 160.549,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r17_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 10.159,
+   "decision_to_first_blocked_attempt_ms": 161.355,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r18_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.776,
+   "decision_to_first_blocked_attempt_ms": 162.839,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r18_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.616,
+   "decision_to_first_blocked_attempt_ms": 160.846,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r21_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 7.442,
+   "decision_to_first_blocked_attempt_ms": 158.552,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r21_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse",
+    "pc_recep"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 13.562,
+   "decision_to_first_blocked_attempt_ms": 166.252,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r22_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 11.852,
+   "decision_to_first_blocked_attempt_ms": 163.079,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r22_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.238,
+   "decision_to_first_blocked_attempt_ms": 163.389,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r23_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 14.207,
+   "decision_to_first_blocked_attempt_ms": 165.2,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r23_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1"
+   ],
+   "segment": [
+    "db"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 8.465,
+   "decision_to_first_blocked_attempt_ms": 159.717,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r24_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 9.774,
+   "decision_to_first_blocked_attempt_ms": 161.115,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r24_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "web1"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 14,
+   "rollback_failures": [],
+   "rules_ms": 13.285,
+   "decision_to_first_blocked_attempt_ms": 164.695,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r25_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 12.083,
+   "decision_to_first_blocked_attempt_ms": 163.025,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r25_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 18.333,
+   "decision_to_first_blocked_attempt_ms": 169.426,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r26_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.459,
+   "decision_to_first_blocked_attempt_ms": 165.513,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r26_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 17,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.731,
+   "decision_to_first_blocked_attempt_ms": 165.055,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r27_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 14.759,
+   "decision_to_first_blocked_attempt_ms": 165.794,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r27_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin",
+    "web1"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 15,
+   "mismatches": [],
+   "rollback_checks": 15,
+   "rollback_failures": [],
+   "rules_ms": 13.494,
+   "decision_to_first_blocked_attempt_ms": 166.21,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r28_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2",
+    "files",
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 18.082,
+   "decision_to_first_blocked_attempt_ms": 169.115,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net12_r28_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2",
+    "files",
+    "pc_admin"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 16,
+   "mismatches": [],
+   "rollback_checks": 16,
+   "rollback_failures": [],
+   "rules_ms": 14.548,
+   "decision_to_first_blocked_attempt_ms": 165.676,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r01_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 13.416,
+   "decision_to_first_blocked_attempt_ms": 164.463,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r01_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_b"
+   ],
+   "segment": [
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 12.974,
+   "decision_to_first_blocked_attempt_ms": 164.277,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r02_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 12.357,
+   "decision_to_first_blocked_attempt_ms": 163.505,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r02_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 11.528,
+   "decision_to_first_blocked_attempt_ms": 162.697,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r03_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_a",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.333,
+   "decision_to_first_blocked_attempt_ms": 160.302,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r03_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_a",
+    "web1_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.813,
+   "decision_to_first_blocked_attempt_ms": 160.95,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r04_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_recep_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.379,
+   "decision_to_first_blocked_attempt_ms": 158.49,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r04_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "pc_recep_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 12.185,
+   "decision_to_first_blocked_attempt_ms": 163.21,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r05_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app2_a",
+    "pc_nurse_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 18.413,
+   "decision_to_first_blocked_attempt_ms": 169.402,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r05_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app2_a",
+    "pc_nurse_a",
+    "web1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 17.753,
+   "decision_to_first_blocked_attempt_ms": 168.861,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r06_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.884,
+   "decision_to_first_blocked_attempt_ms": 158.803,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r06_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.466,
+   "decision_to_first_blocked_attempt_ms": 159.575,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r07_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 9.533,
+   "decision_to_first_blocked_attempt_ms": 160.519,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r07_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "web1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 10.461,
+   "decision_to_first_blocked_attempt_ms": 164.191,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r08_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_nurse_a",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 9.8,
+   "decision_to_first_blocked_attempt_ms": 160.867,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r08_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_nurse_a",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 10.032,
+   "decision_to_first_blocked_attempt_ms": 161.546,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r09_r9",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 30,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 10.371,
+   "decision_to_first_blocked_attempt_ms": 161.41,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r09_r9",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 30,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 8.574,
+   "decision_to_first_blocked_attempt_ms": 159.836,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r11_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin_a",
+    "pc_admin_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 51.75,
+   "decision_to_first_blocked_attempt_ms": 202.977,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r11_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin_a",
+    "pc_admin_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 9.626,
+   "decision_to_first_blocked_attempt_ms": 160.73,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r12_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.146,
+   "decision_to_first_blocked_attempt_ms": 162.093,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r12_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 9.837,
+   "decision_to_first_blocked_attempt_ms": 160.926,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r13_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 11.337,
+   "decision_to_first_blocked_attempt_ms": 162.468,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r13_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.906,
+   "decision_to_first_blocked_attempt_ms": 159.268,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r14_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "pc_nurse_b",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 15.602,
+   "decision_to_first_blocked_attempt_ms": 166.646,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r14_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "app2_b",
+    "pc_nurse_b",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 15.622,
+   "decision_to_first_blocked_attempt_ms": 166.587,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r15_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "files",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 18.168,
+   "decision_to_first_blocked_attempt_ms": 169.739,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r15_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "files",
+    "pc_nurse_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 12.879,
+   "decision_to_first_blocked_attempt_ms": 164.09,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r17_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.635,
+   "decision_to_first_blocked_attempt_ms": 158.593,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r17_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_nurse_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.353,
+   "decision_to_first_blocked_attempt_ms": 158.395,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r18_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_recep_b",
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 18.152,
+   "decision_to_first_blocked_attempt_ms": 169.334,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r18_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_recep_b",
+    "web1_a"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 20.793,
+   "decision_to_first_blocked_attempt_ms": 171.858,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r19_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_b",
+    "web1_b",
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 13.669,
+   "decision_to_first_blocked_attempt_ms": 164.59,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r19_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_b",
+    "web1_b",
+    "web2_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 11.821,
+   "decision_to_first_blocked_attempt_ms": 162.772,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r20_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 88.782,
+   "decision_to_first_blocked_attempt_ms": 239.839,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r20_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 14.89,
+   "decision_to_first_blocked_attempt_ms": 166.422,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r21_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 6.516,
+   "decision_to_first_blocked_attempt_ms": 159.72,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r21_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 23,
+   "rollback_failures": [],
+   "rules_ms": 5.385,
+   "decision_to_first_blocked_attempt_ms": 156.333,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r22_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 12.089,
+   "decision_to_first_blocked_attempt_ms": 163.133,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r22_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "web2_b"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 10.639,
+   "decision_to_first_blocked_attempt_ms": 161.698,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r23_r9",
+   "method": "q_acrs_v7",
+   "isolate": [],
+   "segment": [
+    "db_b",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 31,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 14.45,
+   "decision_to_first_blocked_attempt_ms": 165.734,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r23_r9",
+   "method": "rule_segment",
+   "isolate": [],
+   "segment": [
+    "db_b",
+    "dc"
+   ],
+   "awaiting_two_person": [],
+   "checks": 31,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 11.845,
+   "decision_to_first_blocked_attempt_ms": 162.793,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r24_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "app1_a",
+    "app1_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 30,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 16.215,
+   "decision_to_first_blocked_attempt_ms": 167.859,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r24_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "app1_a",
+    "app1_b",
+    "app2_a"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 18.02,
+   "decision_to_first_blocked_attempt_ms": 168.913,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r25_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin_a",
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 167.57,
+   "decision_to_first_blocked_attempt_ms": 318.594,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r25_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin_a",
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_b"
+   ],
+   "awaiting_two_person": [],
+   "checks": 29,
+   "mismatches": [],
+   "rollback_checks": 26,
+   "rollback_failures": [],
+   "rules_ms": 17.09,
+   "decision_to_first_blocked_attempt_ms": 168.074,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r26_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "files",
+    "pc_admin_b",
+    "pc_recep_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 21.848,
+   "decision_to_first_blocked_attempt_ms": 172.884,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r26_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "files",
+    "pc_admin_b",
+    "pc_recep_a"
+   ],
+   "segment": [],
+   "awaiting_two_person": [],
+   "checks": 27,
+   "mismatches": [],
+   "rollback_checks": 25,
+   "rollback_failures": [],
+   "rules_ms": 13.773,
+   "decision_to_first_blocked_attempt_ms": 173.542,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r27_r9",
+   "method": "q_acrs_v7",
+   "isolate": [
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 20.61,
+   "decision_to_first_blocked_attempt_ms": 171.606,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  },
+  {
+   "scenario": "net22_r27_r9",
+   "method": "rule_segment",
+   "isolate": [
+    "pc_admin_b"
+   ],
+   "segment": [
+    "db_a"
+   ],
+   "awaiting_two_person": [],
+   "checks": 28,
+   "mismatches": [],
+   "rollback_checks": 24,
+   "rollback_failures": [],
+   "rules_ms": 7.84,
+   "decision_to_first_blocked_attempt_ms": 158.93,
+   "first_attempt_blocked": true,
+   "split": "random_9003"
+  }
+ ]
+}
