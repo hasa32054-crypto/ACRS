@@ -1,0 +1,19 @@
+{
+ "experiment": "E9",
+ "backend": "ibm_fez",
+ "backend_qubits": 156,
+ "packed_qubits": 75,
+ "selfcheck_max_diff": 7.216449660063518e-16,
+ "isa_depth": 259,
+ "two_qubit_gates": 544,
+ "job_id": "db5u7084qg6s73c40er0",
+ "error_suppression": {
+  "dynamical_decoupling.enable": true,
+  "dynamical_decoupling.sequence_type": "XpXm",
+  "twirling.enable_gates": true,
+  "twirling.enable_measure": true,
+  "twirling.num_randomizations": "auto"
+ },
+ "status": "submitted",
+ "saved_utc": "2026-10-11T19:29:04Z"
+}
