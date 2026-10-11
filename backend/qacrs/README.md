@@ -159,6 +159,8 @@ sudo python -m qacrs.sandbox_lab          # E10: real iptables + TCP on loopback
 python -m qacrs.phase7_v5                 # v5 gate on a fresh held-out set (seed 9002) -> results/v5/v5_heldout.json
 python -m qacrs.report_v45                # docs/qacrs/RESULTS_v4_v5.md, RESEARCH_LOG.md, fig5
 python -m qacrs.independent_test_v5 FILE  # blind scenarios through the v5 gate (after independent_test FILE)
+python -m qacrs.phase8_ood                # v6: out-of-distribution attack chains + decision latency -> results/v6
+python -m qacrs.report_v6                 # docs/qacrs/RESULTS_v6.md, fig6, research log
 ```
 
 `qacrs/policy_executor.py` (E6) is a **mock** firewall adapter: no real network or firewall is ever touched.
