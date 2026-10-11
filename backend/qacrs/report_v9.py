@@ -67,6 +67,9 @@ def main():
           f"{x['unsafe']} | {x['silent']} ({x['silent_wilson95'][1]:.1%}) | {ok(x['target_met'])} |")
     w("\nA ratio above 1 means HASSAN contained more scenarios than safe full isolation, which leaves critical servers "
       "waiting for approval.\n")
+    ig = json.loads((R / "v9" / "integration_v9.json").read_text())["api_44"]
+    w(f"API `/hassan/decide` now runs on EngineV9 (accepts an optional `ndr_lateral` flow list): p95 {ig['round_trip_ms']['p95']:.1f} ms over "
+      f"{ig['requests']} requests — {ok(ig['target_met'])}.\n")
     w("## 4. Honest notes\n")
     w(f"- The guard result rests on a threat model (the forger does not control the network sensor) and two design assumptions "
       f"(spurious lateral flows {g['assumptions']['p_spurious_lateral_flow_per_link']:.0%} per link, sensor misses "

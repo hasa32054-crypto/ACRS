@@ -187,6 +187,16 @@ make -C .. hassan-test                    # all Q-ACRS/HASSAN unit tests
 make -C .. hassan-repro                   # regenerate core v7/v8 results (no IBM, no sudo)
 ```
 
+### v9 — root-cause fixes (criteria: [`PREREGISTRATION_v9.md`](../../docs/qacrs/PREREGISTRATION_v9.md); results: [`RESULTS_v9.md`](../../docs/qacrs/RESULTS_v9.md))
+
+```bash
+cd backend
+python -m qacrs.phase14_v9                # fresh data: certificate, guard v2, ransomware floor, regret, v7 claims -> results/v9/v9.json
+sudo python -m qacrs.sandbox_v9           # kernel: atomic enforcement (time to contain), structural twin, SHIELD ports
+python -m qacrs.phase13_integration --v9  # API on EngineV9
+python -m qacrs.report_v9                 # docs/qacrs/RESULTS_v9.md
+```
+
 Threat model: [`THREAT_MODEL_STRIDE.md`](../../docs/qacrs/THREAT_MODEL_STRIDE.md) · comparison with existing systems:
 [`COMPETITIVE_ANALYSIS.md`](../../docs/qacrs/COMPETITIVE_ANALYSIS.md).
 

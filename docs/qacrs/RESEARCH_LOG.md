@@ -57,3 +57,9 @@
 | 2026-10-11 18:42 | `594c413` | HASSAN v7/v8: generated results report (misses first), READMEs, run commands |
 | 2026-10-11 18:42 | `cc5e1de` | Research log regenerated from git |
 | 2026-10-11 18:42 | `d68a439` | Ibdaa fact sheet: v7/v8 numbers incl. misses |
+| 2026-10-11 19:02 | `7e01e18` | Feature 48 result: make hassan-repro in a fresh clone, 561 s, results identical except timings |
+| 2026-10-11 20:01 | `ef80fc0` | HASSAN v9: pre-registration (root-cause fixes for v8 misses, fresh seeds) - committed alone before code |
+| 2026-10-11 20:06 | `0f38d12` | v9 pre-registration amendment 1: ransomware floor (before any fresh-seed run) |
+| 2026-10-11 20:08 | `6f8ec2e` | HASSAN v9: optimality certificate, corroborated-alert guard, SHIELD, constrained regret, atomic kernel enforcement, structural twin + runners and 7 tests (code before results) |
+| 2026-10-11 20:14 | `7ea4e6d` | HASSAN v9 results on fresh data: all v8 misses fixed (26: p95 41 ms; S5: 1000/1000; S6: 100/100; S10: 87.8%, FF 8.7%; regret 0 silent); ransomware at the floor 100% (original R-v9 equal, impossible by construction) |
+| 2026-10-11 20:15 | `e999d9a` | HASSAN v9 wired into the engine and API (EngineV9: corroboration guard + optimality certificate); report generator; engine test (code before results) |

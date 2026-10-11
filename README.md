@@ -202,8 +202,8 @@ python -m pytest tests/test_research.py
 
 **HASSAN** = *Hybrid Adaptive Safety-gated System for Attack Neutralization*: اختيار أقل إجراء احتواء يكفي لإيقاف الهجوم، مع بوابة سلامة مستقلة تحيل القرارات الحرجة للبشر بدل أن تتخذها بصمت.
 
-- النتائج: [RESULTS_v7_v8.md](docs/qacrs/RESULTS_v7_v8.md) (الأحدث) و[RESULTS_v6.md](docs/qacrs/RESULTS_v6.md) و[RESULTS_v4_v5.md](docs/qacrs/RESULTS_v4_v5.md) و[RESULTS_v3.md](docs/qacrs/RESULTS_v3.md) · سجل البحث: [RESEARCH_LOG.md](docs/qacrs/RESEARCH_LOG.md) · التحقق: [docs/qacrs/VERIFICATION_v2.md](docs/qacrs/VERIFICATION_v2.md)
-- المعايير المثبتة مسبقًا: [PREREGISTRATION.md](docs/qacrs/PREREGISTRATION.md) حتى [PREREGISTRATION_v8.md](docs/qacrs/PREREGISTRATION_v8.md)
+- النتائج: [RESULTS_v9.md](docs/qacrs/RESULTS_v9.md) (الأحدث: معالجة كل الإخفاقات) و[RESULTS_v7_v8.md](docs/qacrs/RESULTS_v7_v8.md) و[RESULTS_v6.md](docs/qacrs/RESULTS_v6.md) و[RESULTS_v4_v5.md](docs/qacrs/RESULTS_v4_v5.md) و[RESULTS_v3.md](docs/qacrs/RESULTS_v3.md) · سجل البحث: [RESEARCH_LOG.md](docs/qacrs/RESEARCH_LOG.md) · التحقق: [docs/qacrs/VERIFICATION_v2.md](docs/qacrs/VERIFICATION_v2.md)
+- المعايير المثبتة مسبقًا: [PREREGISTRATION.md](docs/qacrs/PREREGISTRATION.md) حتى [PREREGISTRATION_v9.md](docs/qacrs/PREREGISTRATION_v9.md)
 - نموذج التهديدات: [THREAT_MODEL_STRIDE.md](docs/qacrs/THREAT_MODEL_STRIDE.md) · المقارنة مع الأنظمة الموجودة: [COMPETITIVE_ANALYSIS.md](docs/qacrs/COMPETITIVE_ANALYSIS.md)
 - الأعمال السابقة وقواعد ISEF: [docs/qacrs/RELATED_WORK_NOTES.md](docs/qacrs/RELATED_WORK_NOTES.md)
 - أوامر التشغيل: [backend/qacrs/README.md](backend/qacrs/README.md)

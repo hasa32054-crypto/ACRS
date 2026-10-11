@@ -1,4 +1,4 @@
-.PHONY: up down logs seed test test-api test-ui migrate reset ps hassan-test hassan-repro
+.PHONY: up down logs seed test test-api test-ui migrate reset ps hassan-test hassan-repro hassan-repro-v9
 up:        ## build and start postgres, redis, backend, frontend
 	docker compose up --build -d
 	@echo "Console: http://localhost:8080   API docs: http://localhost:8000/docs"
@@ -31,3 +31,5 @@ hassan-repro:  ## regenerate the core v7/v8 results (no IBM, no root sandbox, no
 	  python3 -m qacrs.phase12_realism_scale && python3 -m qacrs.phase13_integration && \
 	  echo "hassan-repro: $$(( $$(date +%s) - start )) s"
 	git status --short backend/qacrs/results
+hassan-repro-v9:  ## v9 fresh-data results (kernel part needs: sudo python3 -m qacrs.sandbox_v9)
+	cd backend && python3 -m qacrs.phase14_v9 && python3 -m qacrs.phase13_integration --v9 && python3 -m qacrs.report_v9
