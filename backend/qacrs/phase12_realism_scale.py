@@ -160,19 +160,16 @@ def hybrid_cross_check():
 
 
 def noise_sweep():
-    from qacrs.phase4_qaoa_sim import qaoa_state
-    from qacrs.lesson1_qubo import cost
-    import itertools
-    from scipy.optimize import minimize
-    vals = np.array([cost([(k >> i) & 1 for i in range(3)]) for k in range(8)], float)
-    c = (vals - vals.min()) / (vals.max() - vals.min())
-    rng = np.random.default_rng(7)
-    best = min((minimize(lambda t: float(qaoa_state(c, 3, t[:2], t[2:]) @ c), rng.uniform(0, np.pi, 4), method="COBYLA")
-                for _ in range(8)), key=lambda r: r.fun)
-    probs = qaoa_state(c, 3, best.x[:2], best.x[2:])
-    opt = np.isclose(vals, vals.min())
-    p_ideal = float(probs[opt].sum()); p_rand = float(opt.mean())
-    rows, measured = [], 0.965
+    """Rebased on the STORED Lesson-3 ideal value (98.14%, qiskit-tuned p=2 circuit). The first version re-tuned a
+    numpy circuit and reached only 51% ideal, i.e. it was not the Lesson-3 circuit; that run is kept in git history."""
+    l3 = json.loads((Path(__file__).parent / "results" / "lesson3_ibm.json").read_text())
+    p_ideal, measured, p_rand = l3["hit_ideal"], l3["hit_real"], l3["hit_random"]
+    probs = np.full(8, (1 - p_ideal) / 6)
+    opt = np.zeros(8, bool)
+    for x in l3["best_decisions"]:
+        opt[sum(b << i for i, b in enumerate(x))] = True
+    probs[opt] = p_ideal / opt.sum()
+    rows = []
     for eps in np.round(np.arange(0, 0.051, 0.0025), 4):
         for ro in (0.0, 0.005, 0.01, 0.02):
             pg = (1 - eps) ** 2 * probs + (1 - (1 - eps) ** 2) / 8          # depolarizing after each of 2 two-qubit gates
@@ -181,12 +178,14 @@ def noise_sweep():
                 for b in range(8):
                     flips = bin(a ^ b).count("1"); conf[b, a] = (ro ** flips) * ((1 - ro) ** (3 - flips))
             pm = conf @ pg
-            rows.append({"two_qubit_error": float(eps), "readout_error": ro, "p_best": float(pm[opt].sum())})
+            rows.append({"two_qubit_error": float(eps), "readout_error": ro, "p_best": round(float(pm[opt].sum()), 4)})
     close = min(rows, key=lambda r: abs(r["p_best"] - measured))
-    return {"p_best_ideal": p_ideal, "p_best_random": p_rand, "recorded_hardware_p_best": measured,
-            "closest_setting": close, "grid": rows,
-            "note": "simple global-depolarizing + independent readout model; an inference about effective error, not a device characterisation"}
-
+    no_ro = min((r for r in rows if r["readout_error"] == 0), key=lambda r: abs(r["p_best"] - measured))
+    return {"p_best_ideal_stored": p_ideal, "p_best_random": p_rand, "recorded_hardware_p_best": measured,
+            "closest_setting": close, "closest_with_readout_0": no_ro, "grid": rows,
+            "note": "simple global-depolarizing + independent readout model on the stored ideal distribution "
+                    "(non-optimal mass spread evenly); an inference about effective error, not a device characterisation; "
+                    "several (gate, readout) pairs fit about equally well"}
 
 def regret_escalation(tau=5.0):
     fs, _ = fresh_sets()
