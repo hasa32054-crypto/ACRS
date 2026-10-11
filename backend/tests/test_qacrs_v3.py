@@ -281,3 +281,33 @@ class TestStatsHelpers(unittest.TestCase):
         with self.assertRaises(ValueError):
             SandboxIptablesAdapter({"web1": "10.0.0.5"})
         PolicyExecutor(NET, SandboxIptablesAdapter({"web1": "127.40.1.3"}), PolicyAuditLog())   # allowed
+
+
+class TestAttackChainGenerator(unittest.TestCase):
+    """v6 E11 generator (docs/qacrs/PREREGISTRATION_v6.md)."""
+
+    def test_chains_follow_links_from_entry_points(self):
+        from qacrs.phase8_ood import MAX_CHAIN, chain_scenarios, entry_points
+        for net in (build_net(1), build_net(2)):
+            links = set(net.links); entries = set(entry_points(net))
+            for s in chain_scenarios(net, 100, 7007):
+                for chain in s.description.split(": ", 1)[1].split(" | "):
+                    path = chain.split(" -> ")
+                    self.assertIn(path[0], entries)
+                    self.assertLessEqual(len(path), MAX_CHAIN)
+                    for a, b in zip(path, path[1:]):
+                        self.assertIn((a, b), links)
+                self.assertEqual(S.validate_scenario(net, s), [])
+
+    def test_seed_reproducible(self):
+        from qacrs.phase8_ood import chain_scenarios
+        a = [s.hacked for s in chain_scenarios(NET, 50, 7007)]
+        self.assertEqual(a, [s.hacked for s in chain_scenarios(NET, 50, 7007)])
+        self.assertNotEqual(a, [s.hacked for s in chain_scenarios(NET, 50, 7008)])
+
+    def test_crown_jewel_risk_range(self):
+        from qacrs.phase8_ood import chain_scenarios
+        for s in chain_scenarios(NET, 200, 7007):
+            for m in ("db", "dc"):
+                if m in s.hacked:
+                    self.assertGreaterEqual(s.hacked[m], 6)

@@ -1,0 +1,62 @@
+{
+ "meta": {
+  "experiment": "phase8_latency",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T02:32:07Z",
+  "git_commit": "ed4b961",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "phase8_ood.py": "1e2923d0ba0e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "reps": 3,
+   "machine": "x86_64",
+   "cpu_count": 2
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "sets": {
+  "development": {
+   "n": 40,
+   "median_ms": 0.07960100001014325,
+   "p95_ms": 0.27421100003266474,
+   "max_ms": 0.35852399997793327
+  },
+  "heldout_9001": {
+   "n": 482,
+   "median_ms": 0.09253799998987233,
+   "p95_ms": 0.3172389999690495,
+   "max_ms": 1.4435890000186191
+  },
+  "heldout_9002": {
+   "n": 456,
+   "median_ms": 0.0995279999642662,
+   "p95_ms": 0.5348269999672084,
+   "max_ms": 15.644433000034041
+  },
+  "ood_7007": {
+   "n": 291,
+   "median_ms": 0.12552900000173395,
+   "p95_ms": 0.2738730000260148,
+   "max_ms": 1.2891970000055153
+  },
+  "scaling_52_machines": {
+   "n": 15,
+   "median_ms": 0.15237399998113688,
+   "p95_ms": 61.51560999995809,
+   "max_ms": 62.76572000001579
+  }
+ },
+ "target": {
+  "p95_below_ms": 1000,
+  "max_below_ms": 7000
+ },
+ "target_met": true
+}

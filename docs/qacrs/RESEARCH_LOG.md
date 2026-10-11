@@ -32,3 +32,6 @@
 | 2026-10-10 21:55 | `ae8d9ef` | Q-ACRS v5 results: fresh held-out (seed 9002) confirms the twin-dilemma gate |
 | 2026-10-10 21:55 | `6a06c7d` | Q-ACRS v5: blind runner through the v5 gate |
 | 2026-10-10 21:55 | `c4b4200` | Q-ACRS v5: lock code before any blind scenario exists |
+| 2026-10-10 21:57 | `068c07c` | Q-ACRS v4/v5: generated results report, fig5, research log from git, updated fact sheet, Q&A, READMEs |
+| 2026-10-11 05:31 | `5cc7bc0` | Q-ACRS v6: pre-registration (out-of-distribution attack chains, decision latency) |
+| 2026-10-11 05:32 | `ed4b961` | Q-ACRS v6: attack-chain generator, OOD evaluation and latency benchmark (code before results) |
