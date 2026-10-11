@@ -52,7 +52,7 @@ def main():
         x = s[m]
         w(f"| {m} | {x['contained_v7']}/{x['n']} | {x['fully_automatic']} | {x['escalated']} | {x['silent']} | {x['services_down']} | {x['healthy_isolated']} |")
     w("")
-    w(f"- H1-v7: containment ratio vs safe full isolation **{t['H1_v7']['ratio']:.3f}** (threshold 0.56 unchanged) — {ok(t['H1_v7']['supported'])}.")
+    w(f"- H1-v7: containment ratio vs safe full isolation **{t['H1_v7']['ratio']:.3f}** (pre-registered threshold 0.80, unchanged; the v6 result was 0.56) — {ok(t['H1_v7']['supported'])}.")
     w(f"- H6: fully automatic v7 {t['H6_fully_automatic_vs_v5']['v7']} vs v5 {t['H6_fully_automatic_vs_v5']['v5']}, exact McNemar one-sided p = "
       f"{t['H6_fully_automatic_vs_v5']['p_one_sided']:.1e} — {ok(t['H6_fully_automatic_vs_v5']['supported'])}.")
     w(f"- H7: services down v7 {t['H7_services_vs_rule_segment']['v7']} vs rule_segment {t['H7_services_vs_rule_segment']['rule_segment']}, "

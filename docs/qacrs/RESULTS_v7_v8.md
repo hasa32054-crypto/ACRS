@@ -22,7 +22,7 @@ Rules fixed before code: `PREREGISTRATION_v7.md`, `PREREGISTRATION_v8.md`. Misse
 | q_acrs_v5 | 142/259 | 142 | 117 | 0 | 0 | 0 |
 | q_acrs_v7 | 253/259 | 253 | 6 | 0 | 0 | 0 |
 
-- H1-v7: containment ratio vs safe full isolation **0.977** (threshold 0.56 unchanged) — ✅ met.
+- H1-v7: containment ratio vs safe full isolation **0.977** (pre-registered threshold 0.80, unchanged; the v6 result was 0.56) — ✅ met.
 - H6: fully automatic v7 253 vs v5 142, exact McNemar one-sided p = 3.9e-34 — ✅ met.
 - H7: services down v7 0 vs rule_segment 7, Wilcoxon p = 0.0041 — ✅ met.
 - H2-v7: silent failures 0, Wilson 95% upper 1.5% — ✅ met.
