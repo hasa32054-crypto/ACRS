@@ -29,6 +29,8 @@ The 3-machine decision from Lesson 1 (two web-server twins + one office PC). The
 | Ideal simulator | 98.1% |
 | **Real IBM QPU: `ibm_marrakesh` (156-qubit Heron r2)** | **96.5%** |
 
+Second run, 5 qubits (`net12_h04`, `ibm_kingston`): 11.9% real vs 13.5% ideal vs 3.1% random — see [`RESULTS_IBM_E7.md`](../../docs/qacrs/RESULTS_IBM_E7.md).
+
 - IBM job id: `db0mcf6egvvc73bghe70` (date: 2026-10-03)
 - The circuit on the chip had 16 layers and 2 two-qubit gates. Because it is short, the noise cost only 1.6 points.
 - The worst decision isolates both twins, which takes the website down. It appeared in only 0.5% of measurements, and the safety layer rejects it anyway.
