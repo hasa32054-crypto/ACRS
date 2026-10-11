@@ -1,0 +1,4 @@
+{"feature": "48 one-command reproduction", "command": "make hassan-repro", "where": "fresh clone of v7-segment, cloud container (Python 3.13, numpy 2.5.3, scipy 1.18.1)",
+ "seconds": 561, "target_s": 600, "target_met": true, "tests": "94 passed",
+ "results_identical_except_timings": ["v7/v7.json", "v7/v7_sensitivity.json", "v8/adversarial.json", "v8/executor.json", "v8/realism_scale.json", "v8/integration.json"],
+ "note": "close to the 10-min limit; slower machines may exceed it. Root-only sandbox runs and IBM are excluded by design."}

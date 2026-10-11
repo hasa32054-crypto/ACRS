@@ -35,3 +35,31 @@
 | 2026-10-10 21:57 | `068c07c` | Q-ACRS v4/v5: generated results report, fig5, research log from git, updated fact sheet, Q&A, READMEs |
 | 2026-10-11 05:31 | `5cc7bc0` | Q-ACRS v6: pre-registration (out-of-distribution attack chains, decision latency) |
 | 2026-10-11 05:32 | `ed4b961` | Q-ACRS v6: attack-chain generator, OOD evaluation and latency benchmark (code before results) |
+| 2026-10-11 05:33 | `9c3165d` | Q-ACRS v6 results: out-of-distribution attack chains and decision latency |
+| 2026-10-11 05:37 | `00d2977` | Q-ACRS: record decision to keep H1=0.56 and the next research question |
+| 2026-10-11 06:37 | `a6b8273` | Q-ACRS: Ibdaa form drafts (section 2, references, AI disclosure), open items; published citation update |
+| 2026-10-11 13:16 | `9b2fea1` | Name the research project HASSAN (Hybrid Adaptive Safety-gated System for Attack Neutralization) |
+| 2026-10-11 17:10 | `8922363` | HASSAN v7: pre-registration (SEGMENT action for critical servers, fresh data, strong baseline) |
+| 2026-10-11 17:14 | `5d7ff24` | HASSAN v7: WIP qubo_v7.py (draft, not run, not reviewed; paused at owner's request) |
+| 2026-10-11 18:08 | `dc97fa6` | HASSAN v7: SEGMENT QUBO, exact semantics, gate, baselines, evaluation runner, 12 tests (code before results) |
+| 2026-10-11 18:09 | `75c15ac` | HASSAN v7 results: SEGMENT on fresh data (chains 7008, random 9003) |
+| 2026-10-11 18:10 | `f558ae0` | HASSAN v8: pre-register acceptance targets for the 50 + 10 feature programme |
+| 2026-10-11 18:10 | `466ca04` | HASSAN v7/v8: real-kernel sandbox for SEGMENT, rollback and time-to-contain (code before results) |
+| 2026-10-11 18:15 | `65893f4` | HASSAN v7 sandbox results: 6002 real checks, 0 mismatches; rollback 5412/5412 |
+| 2026-10-11 18:17 | `4112935` | HASSAN v8 B: hardened engine (fail-safe, rate limit, guard, certificates, HMAC, cards, TTL, portfolio) + adversarial runner, 9 tests (code before results) |
+| 2026-10-11 18:20 | `e42c813` | HASSAN v8 B results: anti-weaponization |
+| 2026-10-11 18:22 | `a051386` | HASSAN v8 C: audit chain, TTL, decay sim, digital-twin pre-check, self-drills + runners, 3 tests (code before results) |
+| 2026-10-11 18:23 | `acacb06` | HASSAN v8 C results: executor hardening |
+| 2026-10-11 18:27 | `f09ff05` | HASSAN v8 E/F code: hospital-60 realism, ransomware spread, scale runner (code before results) |
+| 2026-10-11 18:34 | `af0a16a` | phase12: rebase noise sweep on stored Lesson-3 ideal (first version re-tuned a different circuit, 51% ideal) |
+| 2026-10-11 18:37 | `bbe4dec` | HASSAN v8 G: API, ACRS timers adapter, replay CLI, integration runner, realism+API tests, make hassan-test/repro, CI, STRIDE, competitive analysis (code before results) |
+| 2026-10-11 18:40 | `027c567` | HASSAN v8 E/F/G results: hospital-60, ransomware, scale, portfolio, noise sweep, API, ACRS timers, replay |
+| 2026-10-11 18:42 | `594c413` | HASSAN v7/v8: generated results report (misses first), READMEs, run commands |
+| 2026-10-11 18:42 | `cc5e1de` | Research log regenerated from git |
+| 2026-10-11 18:42 | `d68a439` | Ibdaa fact sheet: v7/v8 numbers incl. misses |
+| 2026-10-11 19:02 | `7e01e18` | Feature 48 result: make hassan-repro in a fresh clone, 561 s, results identical except timings |
+| 2026-10-11 20:01 | `ef80fc0` | HASSAN v9: pre-registration (root-cause fixes for v8 misses, fresh seeds) - committed alone before code |
+| 2026-10-11 20:06 | `0f38d12` | v9 pre-registration amendment 1: ransomware floor (before any fresh-seed run) |
+| 2026-10-11 20:08 | `6f8ec2e` | HASSAN v9: optimality certificate, corroborated-alert guard, SHIELD, constrained regret, atomic kernel enforcement, structural twin + runners and 7 tests (code before results) |
+| 2026-10-11 20:14 | `7ea4e6d` | HASSAN v9 results on fresh data: all v8 misses fixed (26: p95 41 ms; S5: 1000/1000; S6: 100/100; S10: 87.8%, FF 8.7%; regret 0 silent); ransomware at the floor 100% (original R-v9 equal, impossible by construction) |
+| 2026-10-11 20:15 | `e999d9a` | HASSAN v9 wired into the engine and API (EngineV9: corroboration guard + optimality certificate); report generator; engine test (code before results) |
