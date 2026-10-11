@@ -1,0 +1,57 @@
+{
+ "meta": {
+  "experiment": "sandbox_v9",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T17:08:57Z",
+  "git_commit": "6f8ec2e",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "sandbox_v9.py": "a740727d311c",
+   "hassan_v9.py": "1bf6de3f81da"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "probe_timeout_s": 0.005,
+   "scope": "real iptables + real TCP on loopback addresses in an isolated container"
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "time_to_contain_26_v9": {
+  "decisions": 200,
+  "decision_to_first_failed_attempt_ms": {
+   "median": 10.933853999972598,
+   "p95": 41.396243000008326,
+   "max": 1083.7080889999697
+  },
+  "decisions_model_equals_measured": 200,
+  "probe_checks": 4494,
+  "target_met": true
+ },
+ "digital_twin_S6_v9": {
+  "healthy_committed": 100,
+  "healthy_trials": 100,
+  "faulty_aborted": 100,
+  "faulty_trials": 100,
+  "faulty_caught_by": {
+   "structure": 100
+  },
+  "precheck_ms": {
+   "median": 10.440385999913815,
+   "p95": 17.11731199998212,
+   "max": 28.79335499994795
+  },
+  "target_met": true
+ },
+ "shield_kernel": {
+  "checks": 22,
+  "agree": 22,
+  "target_met": true,
+  "meaning": "lateral (admin) port blocked and clinical port open on every shielded link"
+ }
+}

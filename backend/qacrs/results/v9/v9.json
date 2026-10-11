@@ -1,0 +1,242 @@
+{
+ "meta": {
+  "experiment": "phase14_v9",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T17:08:57Z",
+  "git_commit": "6f8ec2e",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "hassan_v9.py": "1bf6de3f81da",
+   "phase14_v9.py": "a94c7e275aa5",
+   "hassan.py": "09b50ed5531a",
+   "qubo_v7.py": "1114421bea7e"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": [],
+  "seconds": 47.5
+ },
+ "fresh_sizes": {
+  "chains_7009": 253,
+  "random_9004": 412,
+  "hospital60_7102": 187
+ },
+ "dropped_duplicates": {
+  "chains_7009": 147,
+  "random_9004": 88
+ },
+ "fresh_claims": {
+  "chains_7009": {
+   "n": 253,
+   "status": {
+    "CONTAINED": 248,
+    "ESCALATED": 5
+   },
+   "containment_ratio_vs_full_isolation": 0.9802371541501976,
+   "services_down": 0,
+   "full_isolation_services_down": 273,
+   "unsafe": 0,
+   "silent": 0,
+   "silent_wilson95": [
+    0.0,
+    0.014956537150709458
+   ],
+   "target_met": true
+  },
+  "random_9004": {
+   "n": 412,
+   "status": {
+    "CONTAINED": 390,
+    "ESCALATED": 22
+   },
+   "containment_ratio_vs_full_isolation": 1.1538461538461537,
+   "services_down": 0,
+   "full_isolation_services_down": 288,
+   "unsafe": 0,
+   "silent": 0,
+   "silent_wilson95": [
+    0.0,
+    0.009237796615056885
+   ],
+   "target_met": true
+  },
+  "hospital60_7102": {
+   "n": 187,
+   "status": {
+    "CONTAINED": 186,
+    "ESCALATED": 1
+   },
+   "containment_ratio_vs_full_isolation": 0.9946524064171123,
+   "services_down": 0,
+   "full_isolation_services_down": 234,
+   "unsafe": 0,
+   "silent": 0,
+   "silent_wilson95": [
+    0.0,
+    0.020129058142986548
+   ],
+   "target_met": true
+  }
+ },
+ "S5_v9_certificates": {
+  "genuine": 665,
+  "genuine_accepted": 665,
+  "checker_ms": {
+   "median": 1.2001210000107676,
+   "p95": 13.692568999999821
+  },
+  "tampered": 1000,
+  "rejected": 1000,
+  "by_kind": {
+   "naive_add_isolation": {
+    "rejected": 247,
+    "n": 247
+   },
+   "status_flip": {
+    "rejected": 247,
+    "n": 247
+   },
+   "claims_edit": {
+    "rejected": 246,
+    "n": 246
+   },
+   "smart_add_isolation": {
+    "rejected": 15,
+    "n": 15
+   },
+   "smart_remove_action": {
+    "rejected": 245,
+    "n": 245
+   }
+  },
+  "target_met": true
+ },
+ "S10_v9_guard": {
+  "model_A": {
+   "detection": {
+    "naive": {
+     "detected": 438,
+     "n": 500,
+     "rate": 0.876
+    },
+    "path_aware": {
+     "detected": 440,
+     "n": 500,
+     "rate": 0.88
+    }
+   },
+   "detection_overall": 0.878,
+   "false_flags_chains_7009": 22,
+   "chains": 253,
+   "false_flag_rate": 0.08695652173913043
+  },
+  "model_B_worst_services_down": 0,
+  "assumptions": {
+   "p_spurious_lateral_flow_per_link": 0.02,
+   "p_ndr_miss_per_hop": 0.05
+  },
+  "target_met": true
+ },
+ "R_v9_ransomware": {
+  "net12/entry": {
+   "mean_encrypted": {
+    "hassan_v9": 2.64,
+    "hassan_v7": 2.64,
+    "full_isolation_safe": 2.64,
+    "no_action": 4.05
+   },
+   "mean_services_unavailable": {
+    "hassan_v9": 0.66,
+    "hassan_v7": 0.66,
+    "full_isolation_safe": 0.66,
+    "no_action": 2.64
+   },
+   "hassan_v9_at_floor": 100,
+   "runs": 100,
+   "original_R_v9_less_than_full_isolation": null,
+   "R_v9a_floor_100pct": true,
+   "R_v9b_services_le_full": "True",
+   "R_v9c_le_v7": "True"
+  },
+  "net12/anywhere": {
+   "mean_encrypted": {
+    "hassan_v9": 1.98,
+    "hassan_v7": 1.98,
+    "full_isolation_safe": 1.98,
+    "no_action": 2.69
+   },
+   "mean_services_unavailable": {
+    "hassan_v9": 1.0,
+    "hassan_v7": 1.0,
+    "full_isolation_safe": 1.0,
+    "no_action": 1.96
+   },
+   "hassan_v9_at_floor": 100,
+   "runs": 100,
+   "original_R_v9_less_than_full_isolation": null,
+   "R_v9a_floor_100pct": true,
+   "R_v9b_services_le_full": "True",
+   "R_v9c_le_v7": "True"
+  },
+  "hospital60/entry": {
+   "mean_encrypted": {
+    "hassan_v9": 3.4,
+    "hassan_v7": 3.4,
+    "full_isolation_safe": 3.4,
+    "no_action": 6.4
+   },
+   "mean_services_unavailable": {
+    "hassan_v9": 0.72,
+    "hassan_v7": 0.72,
+    "full_isolation_safe": 0.72,
+    "no_action": 7.01
+   },
+   "hassan_v9_at_floor": 100,
+   "runs": 100,
+   "original_R_v9_less_than_full_isolation": null,
+   "R_v9a_floor_100pct": true,
+   "R_v9b_services_le_full": "True",
+   "R_v9c_le_v7": "True"
+  },
+  "hospital60/anywhere": {
+   "mean_encrypted": {
+    "hassan_v9": 2.55,
+    "hassan_v7": 2.6,
+    "full_isolation_safe": 2.55,
+    "no_action": 4.2
+   },
+   "mean_services_unavailable": {
+    "hassan_v9": 1.52,
+    "hassan_v7": 1.67,
+    "full_isolation_safe": 1.52,
+    "no_action": 5.05
+   },
+   "hassan_v9_at_floor": 100,
+   "runs": 100,
+   "original_R_v9_less_than_full_isolation": null,
+   "R_v9a_floor_100pct": true,
+   "R_v9b_services_le_full": "True",
+   "R_v9c_le_v7": "True"
+  },
+  "model": "1 hop per tick; decision at tick 2; floor = machines infected before the decision; SHIELD assumption: spread uses admin protocols"
+ },
+ "G_v9_regret": {
+  "chains_7009": {
+   "escalations": 5,
+   "resolved_automatically": 0,
+   "silent_introduced": 0
+  },
+  "random_9004": {
+   "escalations": 22,
+   "resolved_automatically": 0,
+   "silent_introduced": 0
+  },
+  "target_met": true
+ }
+}
