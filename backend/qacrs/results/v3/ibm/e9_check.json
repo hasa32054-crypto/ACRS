@@ -1,0 +1,9 @@
+{
+ "experiment": "E9",
+ "backend": "ibm_kingston",
+ "backend_qubits": 156,
+ "packed_qubits": 75,
+ "selfcheck_max_diff": 7.216449660063518e-16,
+ "status": "check_ok",
+ "saved_utc": "2026-10-11T19:17:35Z"
+}

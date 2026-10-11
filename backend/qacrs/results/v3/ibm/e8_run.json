@@ -1,0 +1,208 @@
+{
+ "experiment": "E8",
+ "scenario": "net12_h04",
+ "qubits": 5,
+ "depths": [
+  2,
+  3
+ ],
+ "primary_p": 2,
+ "gamma_max": 40.0,
+ "restarts": 30,
+ "qiskit": "2.5.2",
+ "qiskit_ibm_runtime": "0.50.0",
+ "backend": "ibm_fez",
+ "selfcheck_max_diff": {
+  "2": 8.881784197001252e-16,
+  "3": 3.3306690738754696e-16
+ },
+ "ideal_p_best": {
+  "2": 0.8822561560200167,
+  "3": 0.7406882232723335
+ },
+ "transpiled": {
+  "2": {
+   "depth": 16,
+   "two_qubit_gates": 4
+  },
+  "3": {
+   "depth": 20,
+   "two_qubit_gates": 6
+  }
+ },
+ "job_id": "db5srdclf4us73c4gkc0",
+ "error_suppression": {
+  "dynamical_decoupling.enable": true,
+  "dynamical_decoupling.sequence_type": "XpXm",
+  "twirling.enable_gates": true,
+  "twirling.enable_measure": true,
+  "twirling.num_randomizations": "auto"
+ },
+ "results": {
+  "p2": {
+   "scenario": "net12_h04",
+   "hacked": {
+    "db": 8
+   },
+   "qubits": 5,
+   "variables": [
+    "web1",
+    "web2",
+    "app1",
+    "app2",
+    "db"
+   ],
+   "p": 2,
+   "shots": 4000,
+   "backend": "ibm_fez",
+   "job_id": "db5srdclf4us73c4gkc0",
+   "best_cost": 8.0,
+   "p_best_real": 0.82725,
+   "p_best_ideal": 0.8822561560200167,
+   "p_best_random": 0.03125,
+   "expected_cost_real": 9.8565,
+   "expected_cost_ideal": 9.372114287755565,
+   "worst_cost": 97.0,
+   "best_of_100_real_shots_is_optimal": true,
+   "most_frequent_real_decision": {
+    "isolate": [],
+    "cost": 8.0,
+    "is_optimal": true,
+    "safety_gate": {
+     "status": "ESCALATED",
+     "isolate_now": [],
+     "escalations": [
+      {
+       "rule": "G1",
+       "target": "db",
+       "approvals": 2,
+       "action": "isolate critical server 'db' (risk 8) after two-person approval"
+      }
+     ],
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    }
+   },
+   "counts": {
+    "00000": 3309,
+    "00010": 140,
+    "01000": 74,
+    "00011": 124,
+    "01100": 101,
+    "01101": 3,
+    "00100": 57,
+    "00001": 139,
+    "01010": 10,
+    "10000": 22,
+    "01111": 4,
+    "10001": 1,
+    "00101": 4,
+    "01011": 1,
+    "10010": 1,
+    "00111": 2,
+    "10011": 3,
+    "00110": 3,
+    "01001": 1,
+    "01110": 1
+   },
+   "theta": [
+    17.419894765628783,
+    6.9224419570161455,
+    1.5902439247522384,
+    2.4032780117367354
+   ]
+  },
+  "p3": {
+   "scenario": "net12_h04",
+   "hacked": {
+    "db": 8
+   },
+   "qubits": 5,
+   "variables": [
+    "web1",
+    "web2",
+    "app1",
+    "app2",
+    "db"
+   ],
+   "p": 3,
+   "shots": 4000,
+   "backend": "ibm_fez",
+   "job_id": "db5srdclf4us73c4gkc0",
+   "best_cost": 8.0,
+   "p_best_real": 0.67875,
+   "p_best_ideal": 0.7406882232723335,
+   "p_best_random": 0.03125,
+   "expected_cost_real": 9.800249999999998,
+   "expected_cost_ideal": 9.11907083194993,
+   "worst_cost": 97.0,
+   "best_of_100_real_shots_is_optimal": true,
+   "most_frequent_real_decision": {
+    "isolate": [],
+    "cost": 8.0,
+    "is_optimal": true,
+    "safety_gate": {
+     "status": "ESCALATED",
+     "isolate_now": [],
+     "escalations": [
+      {
+       "rule": "G1",
+       "target": "db",
+       "approvals": 2,
+       "action": "isolate critical server 'db' (risk 8) after two-person approval"
+      }
+     ],
+     "reasons": [],
+     "needs_two_person": [],
+     "owner_review": []
+    }
+   },
+   "counts": {
+    "00000": 2715,
+    "10000": 24,
+    "00010": 346,
+    "00011": 101,
+    "00001": 387,
+    "01000": 144,
+    "00100": 122,
+    "01001": 20,
+    "01101": 6,
+    "01100": 55,
+    "00101": 14,
+    "00110": 18,
+    "01111": 3,
+    "01010": 12,
+    "00111": 5,
+    "01110": 10,
+    "11001": 1,
+    "10011": 4,
+    "01011": 7,
+    "10010": 3,
+    "10001": 2,
+    "11000": 1
+   },
+   "theta": [
+    17.60295284448668,
+    6.614390253215964,
+    3.4245640435202165,
+    1.6097947605585576,
+    0.8511141822992142,
+    1.694310761432571
+   ]
+  }
+ },
+ "tests": {
+  "H_E8a_vs_E7": {
+   "z": 63.416266762694555,
+   "p_one_sided": 0.0,
+   "supported": true
+  },
+  "H_E8b_vs_random": {
+   "p_one_sided": 0.0,
+   "supported": true
+  }
+ },
+ "status": "complete",
+ "saved_utc": "2026-10-11T17:56:17Z"
+}
