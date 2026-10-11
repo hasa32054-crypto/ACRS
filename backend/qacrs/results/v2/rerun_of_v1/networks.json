@@ -1,0 +1,848 @@
+{
+ "note": "Weights are design assumptions (1-10 scale), tested by sensitivity analysis in Phase 5.",
+ "networks": [
+  {
+   "name": "net12",
+   "machines": [
+    {
+     "name": "dc",
+     "role": "domain controller (logins)",
+     "isolatable": true,
+     "critical": true,
+     "disruption": 4
+    },
+    {
+     "name": "files",
+     "role": "file server",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 2
+    },
+    {
+     "name": "web1",
+     "role": "appointments website (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "web2",
+     "role": "appointments website (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app1",
+     "role": "nurse app server (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app2",
+     "role": "nurse app server (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "db",
+     "role": "patient records database",
+     "isolatable": true,
+     "critical": true,
+     "disruption": 3
+    },
+    {
+     "name": "mri",
+     "role": "MRI console",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 5
+    },
+    {
+     "name": "lab",
+     "role": "lab analyzer",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 4
+    },
+    {
+     "name": "pc_recep",
+     "role": "reception PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_nurse",
+     "role": "nurse station PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_admin",
+     "role": "admin PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 2
+    }
+   ],
+   "services": [
+    {
+     "name": "logins",
+     "value": 30,
+     "replicas": [
+      "dc"
+     ],
+     "depends_on": []
+    },
+    {
+     "name": "appointments",
+     "value": 20,
+     "replicas": [
+      "web1",
+      "web2"
+     ],
+     "depends_on": [
+      "db"
+     ]
+    },
+    {
+     "name": "nurse_app",
+     "value": 25,
+     "replicas": [
+      "app1",
+      "app2"
+     ],
+     "depends_on": [
+      "db"
+     ]
+    }
+   ],
+   "links": [
+    [
+     "files",
+     "dc"
+    ],
+    [
+     "web1",
+     "app1"
+    ],
+    [
+     "web2",
+     "app2"
+    ],
+    [
+     "app1",
+     "db"
+    ],
+    [
+     "app2",
+     "db"
+    ],
+    [
+     "pc_nurse",
+     "app1"
+    ],
+    [
+     "pc_admin",
+     "db"
+    ],
+    [
+     "pc_recep",
+     "web1"
+    ],
+    [
+     "lab",
+     "db"
+    ],
+    [
+     "pc_admin",
+     "dc"
+    ],
+    [
+     "pc_nurse",
+     "files"
+    ],
+    [
+     "pc_recep",
+     "files"
+    ]
+   ]
+  },
+  {
+   "name": "net22",
+   "machines": [
+    {
+     "name": "dc",
+     "role": "domain controller (logins)",
+     "isolatable": true,
+     "critical": true,
+     "disruption": 4
+    },
+    {
+     "name": "files",
+     "role": "file server",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 2
+    },
+    {
+     "name": "web1_a",
+     "role": "appointments website (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "web2_a",
+     "role": "appointments website (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app1_a",
+     "role": "nurse app server (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app2_a",
+     "role": "nurse app server (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "db_a",
+     "role": "patient records database",
+     "isolatable": true,
+     "critical": true,
+     "disruption": 3
+    },
+    {
+     "name": "mri_a",
+     "role": "MRI console",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 5
+    },
+    {
+     "name": "lab_a",
+     "role": "lab analyzer",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 4
+    },
+    {
+     "name": "pc_recep_a",
+     "role": "reception PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_nurse_a",
+     "role": "nurse station PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_admin_a",
+     "role": "admin PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 2
+    },
+    {
+     "name": "web1_b",
+     "role": "appointments website (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "web2_b",
+     "role": "appointments website (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app1_b",
+     "role": "nurse app server (twin 1)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "app2_b",
+     "role": "nurse app server (twin 2)",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "db_b",
+     "role": "patient records database",
+     "isolatable": true,
+     "critical": true,
+     "disruption": 3
+    },
+    {
+     "name": "mri_b",
+     "role": "MRI console",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 5
+    },
+    {
+     "name": "lab_b",
+     "role": "lab analyzer",
+     "isolatable": false,
+     "critical": false,
+     "disruption": 4
+    },
+    {
+     "name": "pc_recep_b",
+     "role": "reception PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_nurse_b",
+     "role": "nurse station PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 1
+    },
+    {
+     "name": "pc_admin_b",
+     "role": "admin PC",
+     "isolatable": true,
+     "critical": false,
+     "disruption": 2
+    }
+   ],
+   "services": [
+    {
+     "name": "logins",
+     "value": 30,
+     "replicas": [
+      "dc"
+     ],
+     "depends_on": []
+    },
+    {
+     "name": "appointments_a",
+     "value": 20,
+     "replicas": [
+      "web1_a",
+      "web2_a"
+     ],
+     "depends_on": [
+      "db_a"
+     ]
+    },
+    {
+     "name": "nurse_app_a",
+     "value": 25,
+     "replicas": [
+      "app1_a",
+      "app2_a"
+     ],
+     "depends_on": [
+      "db_a"
+     ]
+    },
+    {
+     "name": "appointments_b",
+     "value": 20,
+     "replicas": [
+      "web1_b",
+      "web2_b"
+     ],
+     "depends_on": [
+      "db_b"
+     ]
+    },
+    {
+     "name": "nurse_app_b",
+     "value": 25,
+     "replicas": [
+      "app1_b",
+      "app2_b"
+     ],
+     "depends_on": [
+      "db_b"
+     ]
+    }
+   ],
+   "links": [
+    [
+     "files",
+     "dc"
+    ],
+    [
+     "web1_a",
+     "app1_a"
+    ],
+    [
+     "web2_a",
+     "app2_a"
+    ],
+    [
+     "app1_a",
+     "db_a"
+    ],
+    [
+     "app2_a",
+     "db_a"
+    ],
+    [
+     "pc_nurse_a",
+     "app1_a"
+    ],
+    [
+     "pc_admin_a",
+     "db_a"
+    ],
+    [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    [
+     "lab_a",
+     "db_a"
+    ],
+    [
+     "pc_admin_a",
+     "dc"
+    ],
+    [
+     "pc_nurse_a",
+     "files"
+    ],
+    [
+     "pc_recep_a",
+     "files"
+    ],
+    [
+     "web1_b",
+     "app1_b"
+    ],
+    [
+     "web2_b",
+     "app2_b"
+    ],
+    [
+     "app1_b",
+     "db_b"
+    ],
+    [
+     "app2_b",
+     "db_b"
+    ],
+    [
+     "pc_nurse_b",
+     "app1_b"
+    ],
+    [
+     "pc_admin_b",
+     "db_b"
+    ],
+    [
+     "pc_recep_b",
+     "web1_b"
+    ],
+    [
+     "lab_b",
+     "db_b"
+    ],
+    [
+     "pc_admin_b",
+     "dc"
+    ],
+    [
+     "pc_nurse_b",
+     "files"
+    ],
+    [
+     "pc_recep_b",
+     "files"
+    ]
+   ]
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "net12_h01",
+   "network": "net12",
+   "hacked": {
+    "web1": 6,
+    "web2": 6
+   },
+   "description": "Website exploit hits both website twins"
+  },
+  {
+   "id": "net12_h02",
+   "network": "net12",
+   "hacked": {
+    "web1": 7
+   },
+   "description": "One website twin runs a web shell"
+  },
+  {
+   "id": "net12_h03",
+   "network": "net12",
+   "hacked": {
+    "app1": 6,
+    "pc_nurse": 5
+   },
+   "description": "Phishing on the nurse PC, attacker reaches app server 1"
+  },
+  {
+   "id": "net12_h04",
+   "network": "net12",
+   "hacked": {
+    "db": 8
+   },
+   "description": "Database sends records out (exfiltration)"
+  },
+  {
+   "id": "net12_h05",
+   "network": "net12",
+   "hacked": {
+    "mri": 7
+   },
+   "description": "MRI console beacons to an attacker (cannot be isolated)"
+  },
+  {
+   "id": "net12_h06",
+   "network": "net12",
+   "hacked": {
+    "pc_admin": 8,
+    "dc": 7
+   },
+   "description": "Admin PC stolen credentials used on the domain controller"
+  },
+  {
+   "id": "net12_h07",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 4,
+    "pc_nurse": 4,
+    "pc_admin": 4
+   },
+   "description": "Ransomware spreading across staff PCs"
+  },
+  {
+   "id": "net12_h08",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "pc_recep": 5
+   },
+   "description": "Infected file share and the PC that opened it"
+  },
+  {
+   "id": "net12_h09",
+   "network": "net12",
+   "hacked": {
+    "lab": 5,
+    "db": 6
+   },
+   "description": "Lab analyzer used as a jump box to the database"
+  },
+  {
+   "id": "net12_h10",
+   "network": "net12",
+   "hacked": {
+    "web2": 5,
+    "app2": 5,
+    "db": 5
+   },
+   "description": "Full chain: website -> app -> database on side 2"
+  },
+  {
+   "id": "net12_r01",
+   "network": "net12",
+   "hacked": {
+    "mri": 3
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net12_r02",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 5
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net12_r03",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 4,
+    "web1": 5,
+    "db": 7
+   },
+   "description": "random: 3 hacked machine(s)"
+  },
+  {
+   "id": "net12_r04",
+   "network": "net12",
+   "hacked": {
+    "app1": 8,
+    "pc_admin": 7
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r05",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 8
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net12_r06",
+   "network": "net12",
+   "hacked": {
+    "app1": 5,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r07",
+   "network": "net12",
+   "hacked": {
+    "app1": 4,
+    "db": 8,
+    "lab": 5,
+    "web2": 9
+   },
+   "description": "random: 4 hacked machine(s)"
+  },
+  {
+   "id": "net12_r08",
+   "network": "net12",
+   "hacked": {
+    "web2": 6,
+    "db": 6
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r09",
+   "network": "net12",
+   "hacked": {
+    "mri": 8,
+    "app2": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r10",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 9,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r11",
+   "network": "net12",
+   "hacked": {
+    "dc": 6,
+    "app2": 5
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r12",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "app1": 7,
+    "db": 3
+   },
+   "description": "random: 3 hacked machine(s)"
+  },
+  {
+   "id": "net12_r13",
+   "network": "net12",
+   "hacked": {
+    "app1": 3,
+    "pc_recep": 3
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net12_r14",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 3,
+    "lab": 6,
+    "pc_nurse": 4,
+    "db": 4
+   },
+   "description": "random: 4 hacked machine(s)"
+  },
+  {
+   "id": "net12_r15",
+   "network": "net12",
+   "hacked": {
+    "files": 5
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net22_r01",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 3
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net22_r02",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 5
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net22_r03",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 4,
+    "app2_a": 5,
+    "web1_b": 7
+   },
+   "description": "random: 3 hacked machine(s)"
+  },
+  {
+   "id": "net22_r04",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 8,
+    "pc_recep_a": 7
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r05",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 8
+   },
+   "description": "random: 1 hacked machine(s)"
+  },
+  {
+   "id": "net22_r06",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_a": 5,
+    "web1_a": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r07",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 4,
+    "web2_b": 8,
+    "db_b": 5,
+    "mri_a": 9
+   },
+   "description": "random: 4 hacked machine(s)"
+  },
+  {
+   "id": "net22_r08",
+   "network": "net22",
+   "hacked": {
+    "mri_a": 6,
+    "web1_b": 6
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r09",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 8,
+    "pc_admin_a": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r10",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 9,
+    "web2_a": 9
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r11",
+   "network": "net22",
+   "hacked": {
+    "files": 6,
+    "pc_nurse_a": 5
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r12",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 6,
+    "lab_a": 7,
+    "web2_b": 3
+   },
+   "description": "random: 3 hacked machine(s)"
+  },
+  {
+   "id": "net22_r13",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 3,
+    "lab_b": 3
+   },
+   "description": "random: 2 hacked machine(s)"
+  },
+  {
+   "id": "net22_r14",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 3,
+    "mri_b": 6,
+    "db_b": 4,
+    "web2_b": 4
+   },
+   "description": "random: 4 hacked machine(s)"
+  },
+  {
+   "id": "net22_r15",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 5
+   },
+   "description": "random: 1 hacked machine(s)"
+  }
+ ]
+}

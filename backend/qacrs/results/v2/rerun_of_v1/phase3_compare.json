@@ -1,0 +1,1785 @@
+{
+ "note": "Weights are design assumptions; per_machine is a simplified ACRS-style rule, not the full engine.",
+ "summary": {
+  "full_isolation": {
+   "total_cost": 697.0,
+   "services_down": 23,
+   "unsafe_decisions": 12,
+   "risk_left": 0,
+   "best_safe": 20
+  },
+  "per_machine": {
+   "total_cost": 355.5,
+   "services_down": 1,
+   "unsafe_decisions": 0,
+   "risk_left": 269,
+   "best_safe": 19
+  },
+  "q_acrs": {
+   "total_cost": 233.5,
+   "services_down": 0,
+   "unsafe_decisions": 0,
+   "risk_left": 155,
+   "best_safe": 40
+  }
+ },
+ "rows": [
+  {
+   "scenario": "net12_h01",
+   "hacked": {
+    "web1": 6,
+    "web2": 6
+   },
+   "description": "Website exploit hits both website twins",
+   "machines": 12,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "web1",
+     "web2"
+    ],
+    "cost": 22.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments"
+    ],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web1",
+     "web2"
+    ],
+    "cost": 22.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments"
+    ],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h02",
+   "hacked": {
+    "web1": 7
+   },
+   "description": "One website twin runs a web shell",
+   "machines": 12,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "web1"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web1"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h03",
+   "hacked": {
+    "app1": 6,
+    "pc_nurse": 5
+   },
+   "description": "Phishing on the nurse PC, attacker reaches app server 1",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_nurse"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "app1"
+    ],
+    "cost": 6.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_nurse"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h04",
+   "hacked": {
+    "db": 8
+   },
+   "description": "Database sends records out (exfiltration)",
+   "machines": 12,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "db"
+    ],
+    "cost": 48.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 8.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [],
+    "cost": 8.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h05",
+   "hacked": {
+    "mri": 7
+   },
+   "description": "MRI console beacons to an attacker (cannot be isolated)",
+   "machines": 12,
+   "qubits": 1,
+   "full_isolation": {
+    "isolated": [
+     "mri"
+    ],
+    "cost": 5.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "mri"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 7.0,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [],
+    "cost": 7.0,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h06",
+   "hacked": {
+    "pc_admin": 8,
+    "dc": 7
+   },
+   "description": "Admin PC stolen credentials used on the domain controller",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "dc",
+     "pc_admin"
+    ],
+    "cost": 36.0,
+    "risk_left": 0,
+    "services_down": [
+     "logins"
+    ],
+    "violations": [],
+    "two_person": [
+     "dc"
+    ]
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_admin"
+    ],
+    "cost": 9.0,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_admin"
+    ],
+    "cost": 9.0,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h07",
+   "hacked": {
+    "pc_recep": 4,
+    "pc_nurse": 4,
+    "pc_admin": 4
+   },
+   "description": "Ransomware spreading across staff PCs",
+   "machines": 12,
+   "qubits": 10,
+   "full_isolation": {
+    "isolated": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "cost": 4.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 16.0,
+    "risk_left": 12,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "cost": 4.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h08",
+   "hacked": {
+    "files": 6,
+    "pc_recep": 5
+   },
+   "description": "Infected file share and the PC that opened it",
+   "machines": 12,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "cost": 7.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h09",
+   "hacked": {
+    "lab": 5,
+    "db": 6
+   },
+   "description": "Lab analyzer used as a jump box to the database",
+   "machines": 12,
+   "qubits": 6,
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "lab"
+    ],
+    "cost": 52.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [
+     "lab"
+    ],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 11.0,
+    "risk_left": 11,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [],
+    "cost": 11.0,
+    "risk_left": 11,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_h10",
+   "hacked": {
+    "web2": 5,
+    "app2": 5,
+    "db": 5
+   },
+   "description": "Full chain: website -> app -> database on side 2",
+   "machines": 12,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "db",
+     "web2"
+    ],
+    "cost": 50.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 15.0,
+    "risk_left": 15,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2",
+     "web2"
+    ],
+    "cost": 7.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r01",
+   "hacked": {
+    "mri": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 12,
+   "qubits": 1,
+   "full_isolation": {
+    "isolated": [
+     "mri"
+    ],
+    "cost": 5.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "mri"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 3.0,
+    "risk_left": 3,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [],
+    "cost": 3.0,
+    "risk_left": 3,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r02",
+   "hacked": {
+    "pc_nurse": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 12,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 5.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r03",
+   "hacked": {
+    "pc_nurse": 4,
+    "web1": 5,
+    "db": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "pc_nurse",
+     "web1"
+    ],
+    "cost": 50.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 16.0,
+    "risk_left": 16,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse",
+     "web1"
+    ],
+    "cost": 9.0,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r04",
+   "hacked": {
+    "app1": 8,
+    "pc_admin": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_admin"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r05",
+   "hacked": {
+    "pc_nurse": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 12,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r06",
+   "hacked": {
+    "app1": 5,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "cost": 9.5,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r07",
+   "hacked": {
+    "app1": 4,
+    "db": 8,
+    "lab": 5,
+    "web2": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "machines": 12,
+   "qubits": 6,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "db",
+     "lab",
+     "web2"
+    ],
+    "cost": 54.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [
+     "lab"
+    ],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [
+     "web2"
+    ],
+    "cost": 18.0,
+    "risk_left": 17,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "web2"
+    ],
+    "cost": 15.0,
+    "risk_left": 13,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r08",
+   "hacked": {
+    "web2": 6,
+    "db": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "web2"
+    ],
+    "cost": 49.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [
+     "web2"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r09",
+   "hacked": {
+    "mri": 8,
+    "app2": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 6,
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "mri"
+    ],
+    "cost": 6.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "mri"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "app2"
+    ],
+    "cost": 9.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2"
+    ],
+    "cost": 9.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r10",
+   "hacked": {
+    "pc_recep": 9,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_recep"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r11",
+   "hacked": {
+    "dc": 6,
+    "app2": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 6,
+   "full_isolation": {
+    "isolated": [
+     "app2",
+     "dc"
+    ],
+    "cost": 35.0,
+    "risk_left": 0,
+    "services_down": [
+     "logins"
+    ],
+    "violations": [],
+    "two_person": [
+     "dc"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 13.5,
+    "risk_left": 11,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r12",
+   "hacked": {
+    "files": 6,
+    "app1": 7,
+    "db": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "db",
+     "files"
+    ],
+    "cost": 51.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "cost": 6.0,
+    "risk_left": 3,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "files"
+    ],
+    "cost": 6.0,
+    "risk_left": 3,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r13",
+   "hacked": {
+    "app1": 3,
+    "pc_recep": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 12,
+   "qubits": 7,
+   "full_isolation": {
+    "isolated": [
+     "app1",
+     "pc_recep"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 7.5,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1",
+     "pc_recep"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r14",
+   "hacked": {
+    "pc_recep": 3,
+    "lab": 6,
+    "pc_nurse": 4,
+    "db": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "machines": 12,
+   "qubits": 9,
+   "full_isolation": {
+    "isolated": [
+     "db",
+     "lab",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "cost": 54.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "violations": [
+     "lab"
+    ],
+    "two_person": [
+     "db"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 17.0,
+    "risk_left": 17,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "cost": 12.0,
+    "risk_left": 10,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net12_r15",
+   "hacked": {
+    "files": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 12,
+   "qubits": 2,
+   "full_isolation": {
+    "isolated": [
+     "files"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 7.5,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "files"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r01",
+   "hacked": {
+    "app1_b": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 22,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "app1_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 4.5,
+    "risk_left": 3,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r02",
+   "hacked": {
+    "pc_nurse_b": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 22,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 5.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r03",
+   "hacked": {
+    "pc_nurse_b": 4,
+    "app2_a": 5,
+    "web1_b": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "machines": 22,
+   "qubits": 11,
+   "full_isolation": {
+    "isolated": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_b"
+    ],
+    "cost": 12.5,
+    "risk_left": 9,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r04",
+   "hacked": {
+    "lab_a": 8,
+    "pc_recep_a": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 8,
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "pc_recep_a"
+    ],
+    "cost": 5.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "lab_a"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_recep_a"
+    ],
+    "cost": 13.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_a"
+    ],
+    "cost": 13.0,
+    "risk_left": 8,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r05",
+   "hacked": {
+    "pc_nurse_b": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 22,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_nurse_b"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r06",
+   "hacked": {
+    "pc_recep_a": 5,
+    "web1_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 6,
+   "full_isolation": {
+    "isolated": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_a"
+    ],
+    "cost": 6.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r07",
+   "hacked": {
+    "lab_a": 4,
+    "web2_b": 8,
+    "db_b": 5,
+    "mri_a": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "machines": 22,
+   "qubits": 12,
+   "full_isolation": {
+    "isolated": [
+     "db_b",
+     "lab_a",
+     "mri_a",
+     "web2_b"
+    ],
+    "cost": 58.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "violations": [
+     "lab_a",
+     "mri_a"
+    ],
+    "two_person": [
+     "db_b"
+    ]
+   },
+   "per_machine": {
+    "isolated": [
+     "web2_b"
+    ],
+    "cost": 21.0,
+    "risk_left": 18,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_b"
+    ],
+    "cost": 21.0,
+    "risk_left": 18,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r08",
+   "hacked": {
+    "mri_a": 6,
+    "web1_b": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "mri_a",
+     "web1_b"
+    ],
+    "cost": 6.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "mri_a"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web1_b"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web1_b"
+    ],
+    "cost": 7.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r09",
+   "hacked": {
+    "app1_b": 8,
+    "pc_admin_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 12,
+   "full_isolation": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r10",
+   "hacked": {
+    "pc_recep_b": 9,
+    "web2_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 8,
+   "full_isolation": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "cost": 2.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r11",
+   "hacked": {
+    "files": 6,
+    "pc_nurse_a": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 5,
+   "full_isolation": {
+    "isolated": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "files"
+    ],
+    "cost": 7.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "cost": 3.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r12",
+   "hacked": {
+    "web2_a": 6,
+    "lab_a": 7,
+    "web2_b": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "machines": 22,
+   "qubits": 10,
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "web2_a",
+     "web2_b"
+    ],
+    "cost": 6.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "lab_a"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [
+     "web2_a"
+    ],
+    "cost": 14.5,
+    "risk_left": 10,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_a",
+     "web2_b"
+    ],
+    "cost": 12.5,
+    "risk_left": 7,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r13",
+   "hacked": {
+    "lab_a": 3,
+    "lab_b": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "machines": 22,
+   "qubits": 12,
+   "full_isolation": {
+    "isolated": [
+     "lab_a",
+     "lab_b"
+    ],
+    "cost": 8.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [
+     "lab_a",
+     "lab_b"
+    ],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 9.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [],
+    "cost": 9.0,
+    "risk_left": 6,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r14",
+   "hacked": {
+    "pc_recep_b": 3,
+    "mri_b": 6,
+    "db_b": 4,
+    "web2_b": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "machines": 22,
+   "qubits": 8,
+   "full_isolation": {
+    "isolated": [
+     "db_b",
+     "mri_b",
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "cost": 55.0,
+    "risk_left": 0,
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "violations": [
+     "mri_b"
+    ],
+    "two_person": [
+     "db_b"
+    ]
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 17.0,
+    "risk_left": 17,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "cost": 12.0,
+    "risk_left": 10,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  },
+  {
+   "scenario": "net22_r15",
+   "hacked": {
+    "web2_a": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "machines": 22,
+   "qubits": 4,
+   "full_isolation": {
+    "isolated": [
+     "web2_a"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "per_machine": {
+    "isolated": [],
+    "cost": 5.0,
+    "risk_left": 5,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "q_acrs": {
+    "isolated": [
+     "web2_a"
+    ],
+    "cost": 1.0,
+    "risk_left": 0,
+    "services_down": [],
+    "violations": [],
+    "two_person": []
+   },
+   "annealing_found_optimum": true
+  }
+ ]
+}

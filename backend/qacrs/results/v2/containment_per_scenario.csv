@@ -1,0 +1,161 @@
+scenario,network,hacked,method,isolated,status,reasons,needs_two_person,owner_review,services_down,healthy_isolated,risk_left,cost,status_t6,status_t8
+net12_h01,net12,"{""web1"": 6, ""web2"": 6}",full_isolation,web1 web2,CONTAINED,,,,appointments,,0,22.0,CONTAINED,CONTAINED
+net12_h01,net12,"{""web1"": 6, ""web2"": 6}",full_isolation_safe,web1 web2,CONTAINED,,,,appointments,,0,22.0,CONTAINED,CONTAINED
+net12_h01,net12,"{""web1"": 6, ""web2"": 6}",per_machine,web1 web2,CONTAINED,,,,appointments,,0,22.0,CONTAINED,CONTAINED
+net12_h01,net12,"{""web1"": 6, ""web2"": 6}",q_acrs,web1,CONTAINED,,,,,,6,7.0,NOT_CONTAINED,CONTAINED
+net12_h02,net12,"{""web1"": 7}",full_isolation,web1,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_h02,net12,"{""web1"": 7}",full_isolation_safe,web1,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_h02,net12,"{""web1"": 7}",per_machine,web1,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_h02,net12,"{""web1"": 7}",q_acrs,web1,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_h03,net12,"{""app1"": 6, ""pc_nurse"": 5}",full_isolation,app1 pc_nurse,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_h03,net12,"{""app1"": 6, ""pc_nurse"": 5}",full_isolation_safe,app1 pc_nurse,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_h03,net12,"{""app1"": 6, ""pc_nurse"": 5}",per_machine,app1,CONTAINED,,,,,,5,6.0,CONTAINED,CONTAINED
+net12_h03,net12,"{""app1"": 6, ""pc_nurse"": 5}",q_acrs,app1 pc_nurse,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_h04,net12,"{""db"": 8}",full_isolation,db,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,48.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h04,net12,"{""db"": 8}",full_isolation_safe,db,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,48.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h04,net12,"{""db"": 8}",per_machine,,NOT_CONTAINED,C2 'db' has risk 8 >= 7 but is only restricted,,,,,8,8.0,NOT_CONTAINED,NOT_CONTAINED
+net12_h04,net12,"{""db"": 8}",q_acrs,,NOT_CONTAINED,C2 'db' has risk 8 >= 7 but is only restricted,,,,,8,8.0,NOT_CONTAINED,NOT_CONTAINED
+net12_h05,net12,"{""mri"": 7}",full_isolation,mri,REJECTED,S1 'mri' must never be isolated,,,,,0,5.0,REJECTED,REJECTED
+net12_h05,net12,"{""mri"": 7}",full_isolation_safe,,CONTAINED,,,mri,,,7,7.0,CONTAINED,CONTAINED
+net12_h05,net12,"{""mri"": 7}",per_machine,,CONTAINED,,,mri,,,7,7.0,CONTAINED,CONTAINED
+net12_h05,net12,"{""mri"": 7}",q_acrs,,CONTAINED,,,mri,,,7,7.0,CONTAINED,CONTAINED
+net12_h06,net12,"{""pc_admin"": 8, ""dc"": 7}",full_isolation,dc pc_admin,CONTAINED_PENDING_APPROVAL,,dc,,logins,,0,36.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h06,net12,"{""pc_admin"": 8, ""dc"": 7}",full_isolation_safe,dc pc_admin,CONTAINED_PENDING_APPROVAL,,dc,,logins,,0,36.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h06,net12,"{""pc_admin"": 8, ""dc"": 7}",per_machine,pc_admin,NOT_CONTAINED,C2 'dc' has risk 7 >= 7 but is only restricted,,,,,7,9.0,NOT_CONTAINED,CONTAINED
+net12_h06,net12,"{""pc_admin"": 8, ""dc"": 7}",q_acrs,pc_admin,NOT_CONTAINED,C2 'dc' has risk 7 >= 7 but is only restricted,,,,,7,9.0,NOT_CONTAINED,CONTAINED
+net12_h07,net12,"{""pc_recep"": 4, ""pc_nurse"": 4, ""pc_admin"": 4}",full_isolation,pc_admin pc_nurse pc_recep,CONTAINED,,,,,,0,4.0,CONTAINED,CONTAINED
+net12_h07,net12,"{""pc_recep"": 4, ""pc_nurse"": 4, ""pc_admin"": 4}",full_isolation_safe,pc_admin pc_nurse pc_recep,CONTAINED,,,,,,0,4.0,CONTAINED,CONTAINED
+net12_h07,net12,"{""pc_recep"": 4, ""pc_nurse"": 4, ""pc_admin"": 4}",per_machine,,NOT_CONTAINED,C1 open path pc_admin -> db (critical) | C1 open path pc_admin -> dc (critical),,,,,12,16.0,NOT_CONTAINED,NOT_CONTAINED
+net12_h07,net12,"{""pc_recep"": 4, ""pc_nurse"": 4, ""pc_admin"": 4}",q_acrs,pc_admin pc_nurse pc_recep,CONTAINED,,,,,,0,4.0,CONTAINED,CONTAINED
+net12_h08,net12,"{""files"": 6, ""pc_recep"": 5}",full_isolation,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_h08,net12,"{""files"": 6, ""pc_recep"": 5}",full_isolation_safe,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_h08,net12,"{""files"": 6, ""pc_recep"": 5}",per_machine,files,CONTAINED,,,,,,5,7.0,CONTAINED,CONTAINED
+net12_h08,net12,"{""files"": 6, ""pc_recep"": 5}",q_acrs,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_h09,net12,"{""lab"": 5, ""db"": 6}",full_isolation,db lab,REJECTED,S1 'lab' must never be isolated,,,appointments nurse_app,,0,52.0,REJECTED,REJECTED
+net12_h09,net12,"{""lab"": 5, ""db"": 6}",full_isolation_safe,db,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,5,53.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h09,net12,"{""lab"": 5, ""db"": 6}",per_machine,,CONTAINED,,,,,,11,11.0,NOT_CONTAINED,CONTAINED
+net12_h09,net12,"{""lab"": 5, ""db"": 6}",q_acrs,,CONTAINED,,,,,,11,11.0,NOT_CONTAINED,CONTAINED
+net12_h10,net12,"{""web2"": 5, ""app2"": 5, ""db"": 5}",full_isolation,app2 db web2,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,50.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h10,net12,"{""web2"": 5, ""app2"": 5, ""db"": 5}",full_isolation_safe,app2 db web2,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,50.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_h10,net12,"{""web2"": 5, ""app2"": 5, ""db"": 5}",per_machine,,CONTAINED,,,,,,15,15.0,CONTAINED,CONTAINED
+net12_h10,net12,"{""web2"": 5, ""app2"": 5, ""db"": 5}",q_acrs,app2 web2,CONTAINED,,,,,,5,7.0,CONTAINED,CONTAINED
+net12_r01,net12,"{""mri"": 3}",full_isolation,mri,REJECTED,S1 'mri' must never be isolated,,,,,0,5.0,REJECTED,REJECTED
+net12_r01,net12,"{""mri"": 3}",full_isolation_safe,,CONTAINED,,,,,,3,3.0,CONTAINED,CONTAINED
+net12_r01,net12,"{""mri"": 3}",per_machine,,CONTAINED,,,,,,3,3.0,CONTAINED,CONTAINED
+net12_r01,net12,"{""mri"": 3}",q_acrs,,CONTAINED,,,,,,3,3.0,CONTAINED,CONTAINED
+net12_r02,net12,"{""pc_nurse"": 5}",full_isolation,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r02,net12,"{""pc_nurse"": 5}",full_isolation_safe,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r02,net12,"{""pc_nurse"": 5}",per_machine,,CONTAINED,,,,,,5,5.0,CONTAINED,CONTAINED
+net12_r02,net12,"{""pc_nurse"": 5}",q_acrs,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r03,net12,"{""pc_nurse"": 4, ""web1"": 5, ""db"": 7}",full_isolation,db pc_nurse web1,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,50.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r03,net12,"{""pc_nurse"": 4, ""web1"": 5, ""db"": 7}",full_isolation_safe,db pc_nurse web1,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,50.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r03,net12,"{""pc_nurse"": 4, ""web1"": 5, ""db"": 7}",per_machine,,NOT_CONTAINED,C2 'db' has risk 7 >= 7 but is only restricted,,,,,16,16.0,NOT_CONTAINED,CONTAINED
+net12_r03,net12,"{""pc_nurse"": 4, ""web1"": 5, ""db"": 7}",q_acrs,pc_nurse web1,NOT_CONTAINED,C2 'db' has risk 7 >= 7 but is only restricted,,,,,7,9.0,NOT_CONTAINED,CONTAINED
+net12_r04,net12,"{""app1"": 8, ""pc_admin"": 7}",full_isolation,app1 pc_admin,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r04,net12,"{""app1"": 8, ""pc_admin"": 7}",full_isolation_safe,app1 pc_admin,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r04,net12,"{""app1"": 8, ""pc_admin"": 7}",per_machine,app1 pc_admin,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r04,net12,"{""app1"": 8, ""pc_admin"": 7}",q_acrs,app1 pc_admin,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r05,net12,"{""pc_nurse"": 8}",full_isolation,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r05,net12,"{""pc_nurse"": 8}",full_isolation_safe,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r05,net12,"{""pc_nurse"": 8}",per_machine,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r05,net12,"{""pc_nurse"": 8}",q_acrs,pc_nurse,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net12_r06,net12,"{""app1"": 5, ""files"": 9}",full_isolation,app1 files,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r06,net12,"{""app1"": 5, ""files"": 9}",full_isolation_safe,app1 files,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r06,net12,"{""app1"": 5, ""files"": 9}",per_machine,files,NOT_CONTAINED,C1 open path app1 -> db (critical),,,,,5,9.5,NOT_CONTAINED,NOT_CONTAINED
+net12_r06,net12,"{""app1"": 5, ""files"": 9}",q_acrs,app1 files,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r07,net12,"{""app1"": 4, ""db"": 8, ""lab"": 5, ""web2"": 9}",full_isolation,app1 db lab web2,REJECTED,S1 'lab' must never be isolated,,,appointments nurse_app,,0,54.0,REJECTED,REJECTED
+net12_r07,net12,"{""app1"": 4, ""db"": 8, ""lab"": 5, ""web2"": 9}",full_isolation_safe,app1 db web2,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,5,55.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r07,net12,"{""app1"": 4, ""db"": 8, ""lab"": 5, ""web2"": 9}",per_machine,web2,NOT_CONTAINED,C2 'db' has risk 8 >= 7 but is only restricted,,,,,17,18.0,NOT_CONTAINED,NOT_CONTAINED
+net12_r07,net12,"{""app1"": 4, ""db"": 8, ""lab"": 5, ""web2"": 9}",q_acrs,app1 web2,NOT_CONTAINED,C2 'db' has risk 8 >= 7 but is only restricted,,,,,13,15.0,NOT_CONTAINED,NOT_CONTAINED
+net12_r08,net12,"{""web2"": 6, ""db"": 6}",full_isolation,db web2,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,49.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r08,net12,"{""web2"": 6, ""db"": 6}",full_isolation_safe,db web2,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,49.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r08,net12,"{""web2"": 6, ""db"": 6}",per_machine,web2,CONTAINED,,,,,,6,7.0,NOT_CONTAINED,CONTAINED
+net12_r08,net12,"{""web2"": 6, ""db"": 6}",q_acrs,web2,CONTAINED,,,,,,6,7.0,NOT_CONTAINED,CONTAINED
+net12_r09,net12,"{""mri"": 8, ""app2"": 9}",full_isolation,app2 mri,REJECTED,S1 'mri' must never be isolated,,,,,0,6.0,REJECTED,REJECTED
+net12_r09,net12,"{""mri"": 8, ""app2"": 9}",full_isolation_safe,app2,CONTAINED,,,mri,,,8,9.0,CONTAINED,CONTAINED
+net12_r09,net12,"{""mri"": 8, ""app2"": 9}",per_machine,app2,CONTAINED,,,mri,,,8,9.0,CONTAINED,CONTAINED
+net12_r09,net12,"{""mri"": 8, ""app2"": 9}",q_acrs,app2,CONTAINED,,,mri,,,8,9.0,CONTAINED,CONTAINED
+net12_r10,net12,"{""pc_recep"": 9, ""files"": 9}",full_isolation,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r10,net12,"{""pc_recep"": 9, ""files"": 9}",full_isolation_safe,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r10,net12,"{""pc_recep"": 9, ""files"": 9}",per_machine,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r10,net12,"{""pc_recep"": 9, ""files"": 9}",q_acrs,files pc_recep,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net12_r11,net12,"{""dc"": 6, ""app2"": 5}",full_isolation,app2 dc,CONTAINED_PENDING_APPROVAL,,dc,,logins,,0,35.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r11,net12,"{""dc"": 6, ""app2"": 5}",full_isolation_safe,app2 dc,CONTAINED_PENDING_APPROVAL,,dc,,logins,,0,35.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r11,net12,"{""dc"": 6, ""app2"": 5}",per_machine,,NOT_CONTAINED,C1 open path app2 -> db (critical),,,,,11,13.5,NOT_CONTAINED,NOT_CONTAINED
+net12_r11,net12,"{""dc"": 6, ""app2"": 5}",q_acrs,app2,CONTAINED,,,,,,6,7.0,NOT_CONTAINED,CONTAINED
+net12_r12,net12,"{""files"": 6, ""app1"": 7, ""db"": 3}",full_isolation,app1 db files,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,51.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r12,net12,"{""files"": 6, ""app1"": 7, ""db"": 3}",full_isolation_safe,app1 db files,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,0,51.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r12,net12,"{""files"": 6, ""app1"": 7, ""db"": 3}",per_machine,app1 files,CONTAINED,,,,,,3,6.0,CONTAINED,CONTAINED
+net12_r12,net12,"{""files"": 6, ""app1"": 7, ""db"": 3}",q_acrs,app1 files,CONTAINED,,,,,,3,6.0,CONTAINED,CONTAINED
+net12_r13,net12,"{""app1"": 3, ""pc_recep"": 3}",full_isolation,app1 pc_recep,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_r13,net12,"{""app1"": 3, ""pc_recep"": 3}",full_isolation_safe,app1 pc_recep,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_r13,net12,"{""app1"": 3, ""pc_recep"": 3}",per_machine,,NOT_CONTAINED,C1 open path app1 -> db (critical),,,,,6,7.5,NOT_CONTAINED,NOT_CONTAINED
+net12_r13,net12,"{""app1"": 3, ""pc_recep"": 3}",q_acrs,app1 pc_recep,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_r14,net12,"{""pc_recep"": 3, ""lab"": 6, ""pc_nurse"": 4, ""db"": 4}",full_isolation,db lab pc_nurse pc_recep,REJECTED,S1 'lab' must never be isolated,,,appointments nurse_app,,0,54.0,REJECTED,REJECTED
+net12_r14,net12,"{""pc_recep"": 3, ""lab"": 6, ""pc_nurse"": 4, ""db"": 4}",full_isolation_safe,db pc_nurse pc_recep,CONTAINED_PENDING_APPROVAL,,db,,appointments nurse_app,,6,56.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net12_r14,net12,"{""pc_recep"": 3, ""lab"": 6, ""pc_nurse"": 4, ""db"": 4}",per_machine,,CONTAINED,,,,,,17,17.0,CONTAINED,CONTAINED
+net12_r14,net12,"{""pc_recep"": 3, ""lab"": 6, ""pc_nurse"": 4, ""db"": 4}",q_acrs,pc_nurse pc_recep,CONTAINED,,,,,,10,12.0,CONTAINED,CONTAINED
+net12_r15,net12,"{""files"": 5}",full_isolation,files,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_r15,net12,"{""files"": 5}",full_isolation_safe,files,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net12_r15,net12,"{""files"": 5}",per_machine,,NOT_CONTAINED,C1 open path files -> dc (critical),,,,,5,7.5,NOT_CONTAINED,NOT_CONTAINED
+net12_r15,net12,"{""files"": 5}",q_acrs,files,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r01,net22,"{""app1_b"": 3}",full_isolation,app1_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r01,net22,"{""app1_b"": 3}",full_isolation_safe,app1_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r01,net22,"{""app1_b"": 3}",per_machine,,NOT_CONTAINED,C1 open path app1_b -> db_b (critical),,,,,3,4.5,NOT_CONTAINED,NOT_CONTAINED
+net22_r01,net22,"{""app1_b"": 3}",q_acrs,app1_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r02,net22,"{""pc_nurse_b"": 5}",full_isolation,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r02,net22,"{""pc_nurse_b"": 5}",full_isolation_safe,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r02,net22,"{""pc_nurse_b"": 5}",per_machine,,CONTAINED,,,,,,5,5.0,CONTAINED,CONTAINED
+net22_r02,net22,"{""pc_nurse_b"": 5}",q_acrs,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r03,net22,"{""pc_nurse_b"": 4, ""app2_a"": 5, ""web1_b"": 7}",full_isolation,app2_a pc_nurse_b web1_b,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r03,net22,"{""pc_nurse_b"": 4, ""app2_a"": 5, ""web1_b"": 7}",full_isolation_safe,app2_a pc_nurse_b web1_b,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r03,net22,"{""pc_nurse_b"": 4, ""app2_a"": 5, ""web1_b"": 7}",per_machine,web1_b,NOT_CONTAINED,C1 open path app2_a -> db_a (critical),,,,,9,12.5,NOT_CONTAINED,NOT_CONTAINED
+net22_r03,net22,"{""pc_nurse_b"": 4, ""app2_a"": 5, ""web1_b"": 7}",q_acrs,app2_a pc_nurse_b web1_b,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r04,net22,"{""lab_a"": 8, ""pc_recep_a"": 7}",full_isolation,lab_a pc_recep_a,REJECTED,S1 'lab_a' must never be isolated,,,,,0,5.0,REJECTED,REJECTED
+net22_r04,net22,"{""lab_a"": 8, ""pc_recep_a"": 7}",full_isolation_safe,pc_recep_a,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,8,13.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r04,net22,"{""lab_a"": 8, ""pc_recep_a"": 7}",per_machine,pc_recep_a,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,8,13.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r04,net22,"{""lab_a"": 8, ""pc_recep_a"": 7}",q_acrs,pc_recep_a,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,8,13.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r05,net22,"{""pc_nurse_b"": 8}",full_isolation,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r05,net22,"{""pc_nurse_b"": 8}",full_isolation_safe,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r05,net22,"{""pc_nurse_b"": 8}",per_machine,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r05,net22,"{""pc_nurse_b"": 8}",q_acrs,pc_nurse_b,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r06,net22,"{""pc_recep_a"": 5, ""web1_a"": 9}",full_isolation,pc_recep_a web1_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r06,net22,"{""pc_recep_a"": 5, ""web1_a"": 9}",full_isolation_safe,pc_recep_a web1_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r06,net22,"{""pc_recep_a"": 5, ""web1_a"": 9}",per_machine,web1_a,CONTAINED,,,,,,5,6.0,CONTAINED,CONTAINED
+net22_r06,net22,"{""pc_recep_a"": 5, ""web1_a"": 9}",q_acrs,pc_recep_a web1_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r07,net22,"{""lab_a"": 4, ""web2_b"": 8, ""db_b"": 5, ""mri_a"": 9}",full_isolation,db_b lab_a mri_a web2_b,REJECTED,S1 'lab_a' must never be isolated | S1 'mri_a' must never be isolated,,,appointments_b nurse_app_b,,0,58.0,REJECTED,REJECTED
+net22_r07,net22,"{""lab_a"": 4, ""web2_b"": 8, ""db_b"": 5, ""mri_a"": 9}",full_isolation_safe,db_b web2_b,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),db_b,mri_a,appointments_b nurse_app_b,,13,64.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r07,net22,"{""lab_a"": 4, ""web2_b"": 8, ""db_b"": 5, ""mri_a"": 9}",per_machine,web2_b,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,mri_a,,,18,21.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r07,net22,"{""lab_a"": 4, ""web2_b"": 8, ""db_b"": 5, ""mri_a"": 9}",q_acrs,web2_b,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,mri_a,,,18,21.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r08,net22,"{""mri_a"": 6, ""web1_b"": 6}",full_isolation,mri_a web1_b,REJECTED,S1 'mri_a' must never be isolated,,,,,0,6.0,REJECTED,REJECTED
+net22_r08,net22,"{""mri_a"": 6, ""web1_b"": 6}",full_isolation_safe,web1_b,CONTAINED,,,,,,6,7.0,CONTAINED,CONTAINED
+net22_r08,net22,"{""mri_a"": 6, ""web1_b"": 6}",per_machine,web1_b,CONTAINED,,,,,,6,7.0,CONTAINED,CONTAINED
+net22_r08,net22,"{""mri_a"": 6, ""web1_b"": 6}",q_acrs,web1_b,CONTAINED,,,,,,6,7.0,CONTAINED,CONTAINED
+net22_r09,net22,"{""app1_b"": 8, ""pc_admin_a"": 9}",full_isolation,app1_b pc_admin_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r09,net22,"{""app1_b"": 8, ""pc_admin_a"": 9}",full_isolation_safe,app1_b pc_admin_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r09,net22,"{""app1_b"": 8, ""pc_admin_a"": 9}",per_machine,app1_b pc_admin_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r09,net22,"{""app1_b"": 8, ""pc_admin_a"": 9}",q_acrs,app1_b pc_admin_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r10,net22,"{""pc_recep_b"": 9, ""web2_a"": 9}",full_isolation,pc_recep_b web2_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r10,net22,"{""pc_recep_b"": 9, ""web2_a"": 9}",full_isolation_safe,pc_recep_b web2_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r10,net22,"{""pc_recep_b"": 9, ""web2_a"": 9}",per_machine,pc_recep_b web2_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r10,net22,"{""pc_recep_b"": 9, ""web2_a"": 9}",q_acrs,pc_recep_b web2_a,CONTAINED,,,,,,0,2.0,CONTAINED,CONTAINED
+net22_r11,net22,"{""files"": 6, ""pc_nurse_a"": 5}",full_isolation,files pc_nurse_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r11,net22,"{""files"": 6, ""pc_nurse_a"": 5}",full_isolation_safe,files pc_nurse_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r11,net22,"{""files"": 6, ""pc_nurse_a"": 5}",per_machine,files,CONTAINED,,,,,,5,7.0,CONTAINED,CONTAINED
+net22_r11,net22,"{""files"": 6, ""pc_nurse_a"": 5}",q_acrs,files pc_nurse_a,CONTAINED,,,,,,0,3.0,CONTAINED,CONTAINED
+net22_r12,net22,"{""web2_a"": 6, ""lab_a"": 7, ""web2_b"": 3}",full_isolation,lab_a web2_a web2_b,REJECTED,S1 'lab_a' must never be isolated,,,,,0,6.0,REJECTED,REJECTED
+net22_r12,net22,"{""web2_a"": 6, ""lab_a"": 7, ""web2_b"": 3}",full_isolation_safe,web2_a web2_b,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,7,12.5,NOT_CONTAINED,NOT_CONTAINED
+net22_r12,net22,"{""web2_a"": 6, ""lab_a"": 7, ""web2_b"": 3}",per_machine,web2_a,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,10,14.5,NOT_CONTAINED,NOT_CONTAINED
+net22_r12,net22,"{""web2_a"": 6, ""lab_a"": 7, ""web2_b"": 3}",q_acrs,web2_a web2_b,NOT_CONTAINED,C1 open path lab_a -> db_a (critical),,lab_a,,,7,12.5,NOT_CONTAINED,NOT_CONTAINED
+net22_r13,net22,"{""lab_a"": 3, ""lab_b"": 3}",full_isolation,lab_a lab_b,REJECTED,S1 'lab_a' must never be isolated | S1 'lab_b' must never be isolated,,,,,0,8.0,REJECTED,REJECTED
+net22_r13,net22,"{""lab_a"": 3, ""lab_b"": 3}",full_isolation_safe,,NOT_CONTAINED,C1 open path lab_a -> db_a (critical) | C1 open path lab_b -> db_b (critical),,,,,6,9.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r13,net22,"{""lab_a"": 3, ""lab_b"": 3}",per_machine,,NOT_CONTAINED,C1 open path lab_a -> db_a (critical) | C1 open path lab_b -> db_b (critical),,,,,6,9.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r13,net22,"{""lab_a"": 3, ""lab_b"": 3}",q_acrs,,NOT_CONTAINED,C1 open path lab_a -> db_a (critical) | C1 open path lab_b -> db_b (critical),,,,,6,9.0,NOT_CONTAINED,NOT_CONTAINED
+net22_r14,net22,"{""pc_recep_b"": 3, ""mri_b"": 6, ""db_b"": 4, ""web2_b"": 4}",full_isolation,db_b mri_b pc_recep_b web2_b,REJECTED,S1 'mri_b' must never be isolated,,,appointments_b nurse_app_b,,0,55.0,REJECTED,REJECTED
+net22_r14,net22,"{""pc_recep_b"": 3, ""mri_b"": 6, ""db_b"": 4, ""web2_b"": 4}",full_isolation_safe,db_b pc_recep_b web2_b,CONTAINED_PENDING_APPROVAL,,db_b,,appointments_b nurse_app_b,,6,56.0,CONTAINED_PENDING_APPROVAL,CONTAINED_PENDING_APPROVAL
+net22_r14,net22,"{""pc_recep_b"": 3, ""mri_b"": 6, ""db_b"": 4, ""web2_b"": 4}",per_machine,,CONTAINED,,,,,,17,17.0,CONTAINED,CONTAINED
+net22_r14,net22,"{""pc_recep_b"": 3, ""mri_b"": 6, ""db_b"": 4, ""web2_b"": 4}",q_acrs,pc_recep_b web2_b,CONTAINED,,,,,,10,12.0,CONTAINED,CONTAINED
+net22_r15,net22,"{""web2_a"": 5}",full_isolation,web2_a,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r15,net22,"{""web2_a"": 5}",full_isolation_safe,web2_a,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
+net22_r15,net22,"{""web2_a"": 5}",per_machine,,CONTAINED,,,,,,5,5.0,CONTAINED,CONTAINED
+net22_r15,net22,"{""web2_a"": 5}",q_acrs,web2_a,CONTAINED,,,,,,0,1.0,CONTAINED,CONTAINED
