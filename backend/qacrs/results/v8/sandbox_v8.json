@@ -1,0 +1,53 @@
+{
+ "meta": {
+  "experiment": "sandbox_v8",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:22:28Z",
+  "git_commit": "a051386",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "sandbox_v8.py": "2888348edbbd"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "fast_probe_timeout_s": 0.005
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "digital_twin_precheck": {
+  "healthy_committed": 100,
+  "healthy_trials": 100,
+  "faulty_aborted": 22,
+  "faulty_trials": 100,
+  "precheck_ms": {
+   "median": 55.16033300000345,
+   "p95": 104.52008200002183,
+   "max": 128.560370999935
+  },
+  "target_met": false,
+  "post_hoc_analysis": {
+   "faulty_trials_skipping_half_of_an_isolate_pair": 78,
+   "faulty_trials_with_observable_effect": 22,
+   "explanation": "ISOLATE is enforced with two rules (-s m DROP, -d m DROP); for TCP either one alone already blocks both directions (the other drops the replies), so skipping one has no observable effect and the twin correctly measures predicted==observed. Pre-registered target counted every skipped rule as a fault; it is reported as NOT met. Added after seeing results."
+  }
+ },
+ "self_drills": {
+  "faults_injected": 100,
+  "detected": {
+   "missing_jump": 25,
+   "rule_not_applied": 25,
+   "wrong_address": 25,
+   "adapter_raises": 25
+  },
+  "detected_total": 100,
+  "healthy_drills_passed": 20,
+  "healthy_drills": 20,
+  "target_met": true
+ }
+}
