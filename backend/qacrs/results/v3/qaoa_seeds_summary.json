@@ -1,0 +1,262 @@
+{
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "per_seed": [
+  {
+   "seed": 0,
+   "scenarios": 38,
+   "hard": 17,
+   "mean_p_best_p3": 0.2598894736842105,
+   "random_p_best": 0.03263132195723684,
+   "hits_100": {
+    "qaoa_mean": 36,
+    "random": 23,
+    "sa_100": 22
+   },
+   "hard_hits_100": {
+    "qaoa_mean": 15,
+    "qaoa_cvar": 17,
+    "random": 2,
+    "sa_100": 6
+   },
+   "hard_p_best_p3": {
+    "mean": 0.08535882352941175,
+    "cvar": 0.10020588235294119
+   },
+   "unsafe_samples": 0
+  },
+  {
+   "seed": 1,
+   "scenarios": 38,
+   "hard": 17,
+   "mean_p_best_p3": 0.24757105263157894,
+   "random_p_best": 0.03263132195723684,
+   "hits_100": {
+    "qaoa_mean": 33,
+    "random": 25,
+    "sa_100": 29
+   },
+   "hard_hits_100": {
+    "qaoa_mean": 13,
+    "qaoa_cvar": 17,
+    "random": 6,
+    "sa_100": 12
+   },
+   "hard_p_best_p3": {
+    "mean": 0.07490588235294118,
+    "cvar": 0.0968
+   },
+   "unsafe_samples": 0
+  },
+  {
+   "seed": 2,
+   "scenarios": 38,
+   "hard": 17,
+   "mean_p_best_p3": 0.23417105263157895,
+   "random_p_best": 0.03263132195723684,
+   "hits_100": {
+    "qaoa_mean": 36,
+    "random": 23,
+    "sa_100": 28
+   },
+   "hard_hits_100": {
+    "qaoa_mean": 15,
+    "qaoa_cvar": 17,
+    "random": 6,
+    "sa_100": 12
+   },
+   "hard_p_best_p3": {
+    "mean": 0.07727647058823528,
+    "cvar": 0.09412941176470588
+   },
+   "unsafe_samples": 0
+  },
+  {
+   "seed": 3,
+   "scenarios": 38,
+   "hard": 17,
+   "mean_p_best_p3": 0.24455263157894735,
+   "random_p_best": 0.03263132195723684,
+   "hits_100": {
+    "qaoa_mean": 37,
+    "random": 26,
+    "sa_100": 29
+   },
+   "hard_hits_100": {
+    "qaoa_mean": 16,
+    "qaoa_cvar": 17,
+    "random": 5,
+    "sa_100": 10
+   },
+   "hard_p_best_p3": {
+    "mean": 0.07741764705882354,
+    "cvar": 0.09491176470588235
+   },
+   "unsafe_samples": 0
+  },
+  {
+   "seed": 4,
+   "scenarios": 38,
+   "hard": 17,
+   "mean_p_best_p3": 0.23433421052631584,
+   "random_p_best": 0.03263132195723684,
+   "hits_100": {
+    "qaoa_mean": 37,
+    "random": 27,
+    "sa_100": 28
+   },
+   "hard_hits_100": {
+    "qaoa_mean": 16,
+    "qaoa_cvar": 17,
+    "random": 7,
+    "sa_100": 10
+   },
+   "hard_p_best_p3": {
+    "mean": 0.07992352941176471,
+    "cvar": 0.09367647058823529
+   },
+   "unsafe_samples": 0
+  }
+ ],
+ "summary": {
+  "mean_p_best_p3": {
+   "median": 0.24455263157894735,
+   "min": 0.23417105263157895,
+   "max": 0.2598894736842105
+  },
+  "hits_100_qaoa_mean": {
+   "median": 36.0,
+   "min": 33,
+   "max": 37
+  },
+  "hits_100_random": {
+   "median": 25.0,
+   "min": 23,
+   "max": 27
+  },
+  "hits_100_sa_100": {
+   "median": 28.0,
+   "min": 22,
+   "max": 29
+  },
+  "hard_hits_100_qaoa_mean": {
+   "median": 15.0,
+   "min": 13,
+   "max": 16
+  },
+  "hard_hits_100_qaoa_cvar": {
+   "median": 17.0,
+   "min": 17,
+   "max": 17
+  },
+  "hard_hits_100_random": {
+   "median": 6.0,
+   "min": 2,
+   "max": 7
+  },
+  "hard_hits_100_sa_100": {
+   "median": 10.0,
+   "min": 6,
+   "max": 12
+  },
+  "unsafe_samples_total": 0
+ },
+ "by_qubits": {
+  "2": {
+   "runs": 5,
+   "scenarios": 1,
+   "mean_p_best_p3": 0.9133600000000002,
+   "random_p_best": 0.25,
+   "qaoa_hit_rate_100": 1.0,
+   "sa100_hit_rate": 1.0,
+   "random_hit_rate_100": 1.0
+  },
+  "4": {
+   "runs": 40,
+   "scenarios": 8,
+   "mean_p_best_p3": 0.491065,
+   "random_p_best": 0.0703125,
+   "qaoa_hit_rate_100": 0.975,
+   "sa100_hit_rate": 0.875,
+   "random_hit_rate_100": 1.0
+  },
+  "5": {
+   "runs": 50,
+   "scenarios": 10,
+   "mean_p_best_p3": 0.25626000000000004,
+   "random_p_best": 0.03125,
+   "qaoa_hit_rate_100": 1.0,
+   "sa100_hit_rate": 0.8,
+   "random_hit_rate_100": 0.94
+  },
+  "6": {
+   "runs": 10,
+   "scenarios": 2,
+   "mean_p_best_p3": 0.26443000000000005,
+   "random_p_best": 0.015625,
+   "qaoa_hit_rate_100": 1.0,
+   "sa100_hit_rate": 0.6,
+   "random_hit_rate_100": 0.6
+  },
+  "7": {
+   "runs": 45,
+   "scenarios": 9,
+   "mean_p_best_p3": 0.10533555555555556,
+   "random_p_best": 0.0078125,
+   "qaoa_hit_rate_100": 1.0,
+   "sa100_hit_rate": 0.7777777777777778,
+   "random_hit_rate_100": 0.5111111111111111
+  },
+  "8": {
+   "runs": 10,
+   "scenarios": 2,
+   "mean_p_best_p3": 0.14866,
+   "random_p_best": 0.00390625,
+   "qaoa_hit_rate_100": 0.9,
+   "sa100_hit_rate": 0.3,
+   "random_hit_rate_100": 0.2
+  },
+  "9": {
+   "runs": 5,
+   "scenarios": 1,
+   "mean_p_best_p3": 0.01838,
+   "random_p_best": 0.001953125,
+   "qaoa_hit_rate_100": 0.8,
+   "sa100_hit_rate": 0.4,
+   "random_hit_rate_100": 0.2
+  },
+  "10": {
+   "runs": 15,
+   "scenarios": 3,
+   "mean_p_best_p3": 0.018420000000000002,
+   "random_p_best": 0.0009765625,
+   "qaoa_hit_rate_100": 0.8,
+   "sa100_hit_rate": 0.4666666666666667,
+   "random_hit_rate_100": 0.0
+  },
+  "11": {
+   "runs": 5,
+   "scenarios": 1,
+   "mean_p_best_p3": 0.006500000000000001,
+   "random_p_best": 0.00048828125,
+   "qaoa_hit_rate_100": 0.2,
+   "sa100_hit_rate": 0.2,
+   "random_hit_rate_100": 0.0
+  },
+  "12": {
+   "runs": 5,
+   "scenarios": 1,
+   "mean_p_best_p3": 0.017120000000000003,
+   "random_p_best": 0.000244140625,
+   "qaoa_hit_rate_100": 0.8,
+   "sa100_hit_rate": 0.4,
+   "random_hit_rate_100": 0.0
+  }
+ },
+ "note": "Noiseless simulation. 100 real samples per method. QAOA angle-tuning cost is outside the budget."
+}

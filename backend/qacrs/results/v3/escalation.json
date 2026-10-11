@@ -1,0 +1,2940 @@
+{
+ "meta": {
+  "experiment": "phase5_escalation",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-10T18:25:21Z",
+  "git_commit": "cf03879",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "phase5_escalation.py": "ff421fadd558"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "scenarios": "development (40)",
+   "threshold": 7,
+   "caveat": "gate designed after seeing v2 failures on these scenarios"
+  },
+  "status": "complete",
+  "warnings": []
+ },
+ "summary": {
+  "full_isolation": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 12,
+    "NOT_CONTAINED": 0,
+    "ESCALATED": 0,
+    "CONTAINED_PENDING_APPROVAL": 7,
+    "CONTAINED": 21
+   },
+   "contained": 28,
+   "silent_failures": 0,
+   "escalated": 0,
+   "escalation_actions": 0,
+   "services_down": 23,
+   "healthy_isolated": 0
+  },
+  "full_isolation_safe": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 0,
+    "ESCALATED": 4,
+    "CONTAINED_PENDING_APPROVAL": 11,
+    "CONTAINED": 25
+   },
+   "contained": 36,
+   "silent_failures": 0,
+   "escalated": 4,
+   "escalation_actions": 5,
+   "services_down": 23,
+   "healthy_isolated": 0
+  },
+  "per_machine": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 7,
+    "ESCALATED": 8,
+    "CONTAINED_PENDING_APPROVAL": 0,
+    "CONTAINED": 25
+   },
+   "contained": 25,
+   "silent_failures": 7,
+   "escalated": 8,
+   "escalation_actions": 9,
+   "services_down": 1,
+   "healthy_isolated": 0
+  },
+  "q_acrs": {
+   "scenarios": 40,
+   "status_counts": {
+    "REJECTED": 0,
+    "NOT_CONTAINED": 0,
+    "ESCALATED": 8,
+    "CONTAINED_PENDING_APPROVAL": 0,
+    "CONTAINED": 32
+   },
+   "contained": 32,
+   "silent_failures": 0,
+   "escalated": 8,
+   "escalation_actions": 9,
+   "services_down": 0,
+   "healthy_isolated": 0
+  }
+ },
+ "h1_v3_dev_set": {
+  "rule": "q_acrs contained >= 80% of full_isolation_safe contained AND strictly fewer services down",
+  "containment_ratio": 0.889,
+  "containment_ok": true,
+  "fewer_services_down": true,
+  "H1_v3_supported": true,
+  "healthy_isolated_reported": {
+   "q_acrs": 0,
+   "full_isolation_safe": 0
+  }
+ },
+ "rows": [
+  {
+   "scenario": "net12_h01",
+   "network": "net12",
+   "hacked": {
+    "web1": 6,
+    "web2": 6
+   },
+   "description": "Website exploit hits both website twins",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   }
+  },
+  {
+   "scenario": "net12_h02",
+   "network": "net12",
+   "hacked": {
+    "web1": 7
+   },
+   "description": "One website twin runs a web shell",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_h03",
+   "network": "net12",
+   "hacked": {
+    "app1": 6,
+    "pc_nurse": 5
+   },
+   "description": "Phishing on the nurse PC, attacker reaches app server 1",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_h04",
+   "network": "net12",
+   "hacked": {
+    "db": 8
+   },
+   "description": "Database sends records out (exfiltration)",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 8) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 8) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   }
+  },
+  {
+   "scenario": "net12_h05",
+   "network": "net12",
+   "hacked": {
+    "mri": 7
+   },
+   "description": "MRI console beacons to an attacker (cannot be isolated)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "mri"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'mri' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   }
+  },
+  {
+   "scenario": "net12_h06",
+   "network": "net12",
+   "hacked": {
+    "pc_admin": 8,
+    "dc": 7
+   },
+   "description": "Admin PC stolen credentials used on the domain controller",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "dc",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "dc"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "dc",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "dc"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_admin"
+    ],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "dc",
+      "approvals": 2,
+      "action": "isolate critical server 'dc' (risk 7) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_admin"
+    ],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "dc",
+      "approvals": 2,
+      "action": "isolate critical server 'dc' (risk 7) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   }
+  },
+  {
+   "scenario": "net12_h07",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 4,
+    "pc_nurse": 4,
+    "pc_admin": 4
+   },
+   "description": "Ransomware spreading across staff PCs",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [
+     "C1 open path pc_admin -> db (critical)",
+     "C1 open path pc_admin -> dc (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 12
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_admin",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_h08",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "pc_recep": 5
+   },
+   "description": "Infected file share and the PC that opened it",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_h09",
+   "network": "net12",
+   "hacked": {
+    "lab": 5,
+    "db": 6
+   },
+   "description": "Lab analyzer used as a jump box to the database",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "db",
+     "lab"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11
+   }
+  },
+  {
+   "scenario": "net12_h10",
+   "network": "net12",
+   "hacked": {
+    "web2": 5,
+    "app2": 5,
+    "db": 5
+   },
+   "description": "Full chain: website -> app -> database on side 2",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app2",
+     "db",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app2",
+     "db",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 15
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   }
+  },
+  {
+   "scenario": "net12_r01",
+   "network": "net12",
+   "hacked": {
+    "mri": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "mri"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'mri' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   }
+  },
+  {
+   "scenario": "net12_r02",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r03",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 4,
+    "web1": 5,
+    "db": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db",
+     "pc_nurse",
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db",
+     "pc_nurse",
+     "web1"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 7) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 16
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_nurse",
+     "web1"
+    ],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 7) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   }
+  },
+  {
+   "scenario": "net12_r04",
+   "network": "net12",
+   "hacked": {
+    "app1": 8,
+    "pc_admin": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_admin"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r05",
+   "network": "net12",
+   "hacked": {
+    "pc_nurse": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r06",
+   "network": "net12",
+   "hacked": {
+    "app1": 5,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [
+     "C1 open path app1 -> db (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r07",
+   "network": "net12",
+   "hacked": {
+    "app1": 4,
+    "db": 8,
+    "lab": 5,
+    "web2": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "app1",
+     "db",
+     "lab",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app1",
+     "db",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2"
+    ],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 8) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "app1",
+     "web2"
+    ],
+    "escalations": [
+     {
+      "rule": "G1",
+      "target": "db",
+      "approvals": 2,
+      "action": "isolate critical server 'db' (risk 8) after two-person approval"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 13
+   }
+  },
+  {
+   "scenario": "net12_r08",
+   "network": "net12",
+   "hacked": {
+    "web2": 6,
+    "db": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db",
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   }
+  },
+  {
+   "scenario": "net12_r09",
+   "network": "net12",
+   "hacked": {
+    "mri": 8,
+    "app2": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "app2",
+     "mri"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'mri' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   }
+  },
+  {
+   "scenario": "net12_r10",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 9,
+    "files": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r11",
+   "network": "net12",
+   "hacked": {
+    "dc": 6,
+    "app2": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app2",
+     "dc"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "dc"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app2",
+     "dc"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "dc"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "logins"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [
+     "C1 open path app2 -> db (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 11
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   }
+  },
+  {
+   "scenario": "net12_r12",
+   "network": "net12",
+   "hacked": {
+    "files": 6,
+    "app1": 7,
+    "db": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app1",
+     "db",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "app1",
+     "db",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   }
+  },
+  {
+   "scenario": "net12_r13",
+   "network": "net12",
+   "hacked": {
+    "app1": 3,
+    "pc_recep": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [
+     "C1 open path app1 -> db (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net12_r14",
+   "network": "net12",
+   "hacked": {
+    "pc_recep": 3,
+    "lab": 6,
+    "pc_nurse": 4,
+    "db": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "db",
+     "lab",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db",
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments",
+     "nurse_app"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse",
+     "pc_recep"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10
+   }
+  },
+  {
+   "scenario": "net12_r15",
+   "network": "net12",
+   "hacked": {
+    "files": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [
+     "C1 open path files -> dc (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r01",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 3
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [
+     "C1 open path app1_b -> db_b (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 3
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r02",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r03",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 4,
+    "app2_a": 5,
+    "web1_b": 7
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "NOT_CONTAINED",
+    "isolate_now": [
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "C1 open path app2_a -> db_a (critical)"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 9
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app2_a",
+     "pc_nurse_b",
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r04",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 8,
+    "pc_recep_a": 7
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "lab_a",
+     "pc_recep_a"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab_a' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_recep_a"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_recep_a"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "pc_recep_a"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 8
+   }
+  },
+  {
+   "scenario": "net22_r05",
+   "network": "net22",
+   "hacked": {
+    "pc_nurse_b": 8
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_nurse_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r06",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_a": 5,
+    "web1_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_a",
+     "web1_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r07",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 4,
+    "web2_b": 8,
+    "db_b": 5,
+    "mri_a": 9
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "db_b",
+     "lab_a",
+     "mri_a",
+     "web2_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab_a' must never be isolated",
+     "S1 'mri_a' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "db_b",
+     "web2_b"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [
+     "db_b"
+    ],
+    "owner_review": [
+     "mri_a"
+    ],
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 13
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2_b"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 18
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2_b"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "mri_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 18
+   }
+  },
+  {
+   "scenario": "net22_r08",
+   "network": "net22",
+   "hacked": {
+    "mri_a": 6,
+    "web1_b": 6
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "mri_a",
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'mri_a' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web1_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   }
+  },
+  {
+   "scenario": "net22_r09",
+   "network": "net22",
+   "hacked": {
+    "app1_b": 8,
+    "pc_admin_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "app1_b",
+     "pc_admin_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r10",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 9,
+    "web2_a": 9
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_b",
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r11",
+   "network": "net22",
+   "hacked": {
+    "files": 6,
+    "pc_nurse_a": 5
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "files",
+     "pc_nurse_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  },
+  {
+   "scenario": "net22_r12",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 6,
+    "lab_a": 7,
+    "web2_b": 3
+   },
+   "description": "random: 3 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "lab_a",
+     "web2_a",
+     "web2_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab_a' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2_a",
+     "web2_b"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2_a"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [
+     "web2_a",
+     "web2_b"
+    ],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [
+     "lab_a"
+    ],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 7
+   }
+  },
+  {
+   "scenario": "net22_r13",
+   "network": "net22",
+   "hacked": {
+    "lab_a": 3,
+    "lab_b": 3
+   },
+   "description": "random: 2 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "lab_a",
+     "lab_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'lab_a' must never be isolated",
+     "S1 'lab_b' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     },
+     {
+      "rule": "G2",
+      "target": "db_b",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_b' or accept the documented risk from never-isolatable 'lab_b'; owner applies compensating controls on 'lab_b'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "per_machine": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     },
+     {
+      "rule": "G2",
+      "target": "db_b",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_b' or accept the documented risk from never-isolatable 'lab_b'; owner applies compensating controls on 'lab_b'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "q_acrs": {
+    "status": "ESCALATED",
+    "isolate_now": [],
+    "escalations": [
+     {
+      "rule": "G2",
+      "target": "db_a",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_a' or accept the documented risk from never-isolatable 'lab_a'; owner applies compensating controls on 'lab_a'"
+     },
+     {
+      "rule": "G2",
+      "target": "db_b",
+      "approvals": 2,
+      "action": "two-person decision: isolate critical server 'db_b' or accept the documented risk from never-isolatable 'lab_b'; owner applies compensating controls on 'lab_b'"
+     }
+    ],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 6
+   }
+  },
+  {
+   "scenario": "net22_r14",
+   "network": "net22",
+   "hacked": {
+    "pc_recep_b": 3,
+    "mri_b": 6,
+    "db_b": 4,
+    "web2_b": 4
+   },
+   "description": "random: 4 hacked machine(s)",
+   "full_isolation": {
+    "status": "REJECTED",
+    "isolate_now": [
+     "db_b",
+     "mri_b",
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "escalations": [],
+    "reasons": [
+     "S1 'mri_b' must never be isolated"
+    ],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolate_now": [
+     "db_b",
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [
+     "db_b"
+    ],
+    "owner_review": [],
+    "services_down": [
+     "appointments_b",
+     "nurse_app_b"
+    ],
+    "healthy_isolated": [],
+    "risk_left": 6
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 17
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "pc_recep_b",
+     "web2_b"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 10
+   }
+  },
+  {
+   "scenario": "net22_r15",
+   "network": "net22",
+   "hacked": {
+    "web2_a": 5
+   },
+   "description": "random: 1 hacked machine(s)",
+   "full_isolation": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "full_isolation_safe": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   },
+   "per_machine": {
+    "status": "CONTAINED",
+    "isolate_now": [],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 5
+   },
+   "q_acrs": {
+    "status": "CONTAINED",
+    "isolate_now": [
+     "web2_a"
+    ],
+    "escalations": [],
+    "reasons": [],
+    "needs_two_person": [],
+    "owner_review": [],
+    "services_down": [],
+    "healthy_isolated": [],
+    "risk_left": 0
+   }
+  }
+ ]
+}
