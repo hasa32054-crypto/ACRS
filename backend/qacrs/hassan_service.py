@@ -5,7 +5,8 @@
     python -m qacrs.hassan_service replay <scenario_id> --json
 
 Standard library only. Binds to 127.0.0.1. The API decides; it never touches a network (no executor is wired in).
-Request:  {"network": "net12" | "net22" | "hospital60", "hacked": {"web1": 8, ...}, "id": "optional"}
+Request:  {"network": "net12" | "net22" | "hospital60", "hacked": {"web1": 8, ...}, "id": "optional",
+           "ndr_lateral": [["web1", "app1"], ...]  (optional: independent network-sensor lateral flows -> guard v2)}
 Response: the HassanDecision as JSON (+ "acrs" block from the timers adapter).
 """
 from __future__ import annotations
@@ -77,18 +78,20 @@ class _Handler(BaseHTTPRequestHandler):
             req = json.loads(self.rfile.read(n))
             eng = self.engines[req["network"]]
             hacked = {str(k): int(v) for k, v in dict(req["hacked"]).items()}
+            lateral = {(str(a), str(b)) for a, b in req["ndr_lateral"]} if "ndr_lateral" in req else None
         except (ValueError, KeyError, TypeError) as e:
             return self._send(400, {"error": f"bad request: {type(e).__name__}"})
         sc = Scenario(str(req.get("id", "api")), req["network"], hacked, "api")
         with self.lock:                               # engine state (rate limiter) is shared
-            d = eng.decide(sc)
+            d = eng.decide(sc, lateral)
         out = asdict(d)
         out["acrs"] = to_acrs(eng.net, d, int(req.get("tier", 0)) if str(req.get("tier", 0)) in "012" else 0)
         self._send(200, out)
 
 
 def make_server(port: int = 0, key: bytes = b"demo-key-not-secret", limiter_factory=None) -> ThreadingHTTPServer:
-    _Handler.engines = {name: H.Engine(net, key=key, limiter=(limiter_factory or H.RateLimiter)())
+    from qacrs.hassan_v9 import EngineV9
+    _Handler.engines = {name: EngineV9(net, key=key, limiter=(limiter_factory or H.RateLimiter)())
                         for name, net in networks().items()}
     return ThreadingHTTPServer(("127.0.0.1", port), _Handler)
 

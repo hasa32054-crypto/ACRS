@@ -1,6 +1,7 @@
 """Phase 13 (v8 G): integration targets — API latency (44), ACRS timers (45), incident replay (46).
 
-    cd backend && python -m qacrs.phase13_integration     -> results/v8/integration.json
+    cd backend && python -m qacrs.phase13_integration        -> results/v8/integration.json
+    cd backend && python -m qacrs.phase13_integration --v9   -> results/v9/integration_v9.json (API on EngineV9)
 
 Rules: docs/qacrs/PREREGISTRATION_v8.md, section G.
   44: 1,000 POST /hassan/decide over local HTTP (one keep-alive-free request each), p95 < 50 ms.
@@ -75,6 +76,8 @@ def replay_check(pairs, k=100, seed=8130):
 
 
 def main():
+    import sys
+    out_dir, out_name = (OUT.parent / "v9", "integration_v9.json") if "--v9" in sys.argv else (OUT, "integration.json")
     t = time.perf_counter()
     h60 = RV.hospital60()
     pairs = all_pairs() + [(h60, s) for s in chain_scenarios(h60, 200, 7101)]
@@ -84,8 +87,8 @@ def main():
         t0 = time.perf_counter(); res[name] = fn()
         print(f"== {name} ({time.perf_counter() - t0:.1f}s): {json.dumps(res[name])}", flush=True)
     res["meta"]["seconds"] = round(time.perf_counter() - t, 1)
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "integration.json").write_text(json.dumps(res, indent=1))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / out_name).write_text(json.dumps(res, indent=1))
 
 
 if __name__ == "__main__":

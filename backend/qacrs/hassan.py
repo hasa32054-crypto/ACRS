@@ -179,7 +179,7 @@ class Engine:
             return set(), set(), "fallback", "malformed solver output"
         return iso, seg, method, None
 
-    def decide(self, sc: Scenario) -> HassanDecision:
+    def decide(self, sc: Scenario, flags: list[str] | None = None) -> HassanDecision:
         t = time.perf_counter()
         errors = S.validate_scenario(self.net, sc)
         if errors:
@@ -188,7 +188,7 @@ class Engine:
                                   {"en": "; ".join(errors), "ar": "مدخلات غير صالحة"}, payload,
                                   sign(payload, self.key), 1000 * (time.perf_counter() - t))
         iso, seg, method, fallback = self._safe_solve(sc)
-        flags = consistency_flags(self.net, sc)
+        flags = consistency_flags(self.net, sc) if flags is None else list(flags)
         held = []
         if flags and iso:                                       # suspected forgery: no automatic isolation
             held += sorted(iso); iso = set()

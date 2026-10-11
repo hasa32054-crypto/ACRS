@@ -204,3 +204,23 @@ def regret_resolve(net, sc, tau=TAU):
     down = V7.services_down_v7(net, alt, seg2, set(sc.hacked))
     resolved = ok_safety and st == S.CONTAINED and not down and regret <= tau
     return {"resolved": resolved, "status_alt": st, "services_down_alt": len(down), "regret": regret}
+
+
+# ------------------------------------------------------------------ engine wiring ---------------------------------
+class EngineV9:
+    """HASSAN engine with the v9 fixes: corroborated-alert guard (when an NDR flow log is supplied) and the
+    optimality certificate. Everything else (fail-safe, rate limit, TTL, HMAC, card) is the v8 engine."""
+
+    def __init__(self, net, **kw):
+        from qacrs import hassan as H
+        self.H, self.net = H, net
+        self.base = H.Engine(net, **kw)
+        self.key = self.base.key
+
+    def decide(self, sc, lateral: set | None = None):
+        d = self.base.decide(sc, flags=guard_v2(self.net, sc, lateral) if lateral is not None else None)
+        if d.status == S.REJECTED:
+            return d
+        d.certificate = certificate_v9(self.net, sc, d.isolate, d.segment, d.held_for_humans, d.guard_flags, d.fallback)
+        d.signature = self.H.sign(d.certificate, self.base.key)
+        return d

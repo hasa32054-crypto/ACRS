@@ -66,5 +66,21 @@ class TestCanon(unittest.TestCase):
         self.assertEqual(canon(spec), canon(shown))
 
 
+
+class TestEngineV9(unittest.TestCase):
+    def test_certificate_and_guard(self):
+        net = build(1)
+        eng = V9.EngineV9(net, limiter=H.RateLimiter(limit=10 ** 9))
+        sc = Scenario("t", "net12", {"web1": 5, "app1": 6, "db": 8}, "x")
+        d = eng.decide(sc, lateral={("web1", "app1"), ("app1", "db")})
+        self.assertTrue(V9.verify_certificate_v9(net, sc, d.certificate))
+        self.assertTrue(H.verify_signature(d.certificate, d.signature, eng.base.key))
+        self.assertEqual(d.guard_flags, [])
+        d2 = eng.decide(sc, lateral=set())
+        self.assertTrue(d2.guard_flags)
+        self.assertEqual(d2.isolate, [])                     # uncorroborated: isolation held for humans
+        self.assertTrue(V9.verify_certificate_v9(net, sc, d2.certificate))
+
+
 if __name__ == "__main__":
     unittest.main()
