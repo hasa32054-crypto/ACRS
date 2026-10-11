@@ -1,0 +1,57 @@
+{
+ "meta": {
+  "experiment": "phase13_integration",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:37:32Z",
+  "git_commit": "bbe4dec",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "hassan.py": "09b50ed5531a",
+   "hassan_service.py": "0993862df3e3",
+   "phase13_integration.py": "cc0f28bcb5d3"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": [],
+  "seconds": 26.6
+ },
+ "api_44": {
+  "requests": 1000,
+  "status_codes": {
+   "200": 1000
+  },
+  "round_trip_ms": {
+   "median": 1.496186999929705,
+   "p95": 9.940115000063088,
+   "max": 106.15773000017725
+  },
+  "engine_ms": {
+   "median": 0.46774599991294963,
+   "p95": 8.817024999871137
+  },
+  "malformed_requests_status": [
+   400,
+   400,
+   400
+  ],
+  "target_met": true
+ },
+ "acrs_timers_45": {
+  "decisions": 2156,
+  "within_7s": 2156,
+  "worst_decision_s": 0.21806720099993981,
+  "target_met": true,
+  "note": "decision time only; ACRS executor/controller latency is measured separately in research/e2e_timing.py"
+ },
+ "replay_46": {
+  "sampled": 100,
+  "replayed_with_card": 100,
+  "target_met": true
+ }
+}

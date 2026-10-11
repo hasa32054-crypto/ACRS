@@ -1,0 +1,646 @@
+{
+ "meta": {
+  "experiment": "phase12_realism_scale",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-11T15:34:05Z",
+  "git_commit": "af0a16a",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "realism_v8.py": "6579b0d35834",
+   "hassan.py": "09b50ed5531a",
+   "phase12_realism_scale.py": "20556c59c8eb"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": [],
+  "seconds": 357.3
+ },
+ "explainability": {
+  "decisions": 1956,
+  "cards_complete_bilingual_with_counterfactual": 1956,
+  "target_met": true
+ },
+ "mitre": {
+  "scenarios": 2006,
+  "fully_tagged": 2006,
+  "technique_counts": {
+   "T1003": 352,
+   "T1005": 578,
+   "T1021": 915,
+   "T1041": 578,
+   "T1071": 5386,
+   "T1078": 352,
+   "T1190": 986,
+   "T1486": 367,
+   "T1566": 1482
+  },
+  "target_met": true
+ },
+ "patient_minutes": {
+  "chains_7008": {
+   "patient_minutes": {
+    "full_isolation_safe": 470700.0,
+    "rule_segment": 7200.0,
+    "q_acrs_v5": 0.0,
+    "q_acrs_v7": 0.0
+   },
+   "saved_vs_full_isolation_q_acrs_v7": 470700.0,
+   "scenarios": 259
+  },
+  "random_9003": {
+   "patient_minutes": {
+    "full_isolation_safe": 549000.0,
+    "rule_segment": 32400.0,
+    "q_acrs_v5": 0.0,
+    "q_acrs_v7": 0.0
+   },
+   "saved_vs_full_isolation_q_acrs_v7": 549000.0,
+   "scenarios": 428
+  },
+  "assumptions": {
+   "patients_per_hour": {
+    "logins": 120,
+    "nurse_app": 60,
+    "appointments": 30,
+    "ehr": 120,
+    "imaging": 20,
+    "hl7": 60,
+    "er_board": 25,
+    "portal": 30,
+    "pharmacy": 40,
+    "lab_results": 40
+   },
+   "outage_min": 60,
+   "formula": "patients arriving during the outage x mean wait (outage/2)"
+  }
+ },
+ "hospital60": {
+  "machines": 60,
+  "services": 8,
+  "links": 98,
+  "scenarios": 200,
+  "status_counts": {
+   "CONTAINED": 194,
+   "ESCALATED": 6
+  },
+  "unsafe": 0,
+  "silent_wilson95": [
+   1.734723475976807e-18,
+   0.018845326377266575
+  ],
+  "services_down": 0,
+  "full_isolation_safe_services_down": 252,
+  "patient_minutes": {
+   "hassan": 0.0,
+   "full_isolation_safe": 388200.0
+  },
+  "decision_ms": {
+   "median": 0.34020700013570604,
+   "p95": 163.53765500002737,
+   "max": 794.094757000039
+  },
+  "solver_used": {
+   "annealing": 13,
+   "exact": 187
+  },
+  "target_met": true
+ },
+ "ransomware_spread": {
+  "net12": {
+   "hassan_v7": {
+    "mean_encrypted": 2.66,
+    "mean_services_unavailable": 0.69,
+    "mean_isolated": 2.2
+   },
+   "full_isolation_safe": {
+    "mean_encrypted": 2.66,
+    "mean_services_unavailable": 0.69,
+    "mean_isolated": 2.2
+   },
+   "no_action": {
+    "mean_encrypted": 4.09,
+    "mean_services_unavailable": 2.66,
+    "mean_isolated": 0.0
+   }
+  },
+  "hospital60": {
+   "hassan_v7": {
+    "mean_encrypted": 3.42,
+    "mean_services_unavailable": 0.96,
+    "mean_isolated": 3.1
+   },
+   "full_isolation_safe": {
+    "mean_encrypted": 3.42,
+    "mean_services_unavailable": 0.96,
+    "mean_isolated": 3.1
+   },
+   "no_action": {
+    "mean_encrypted": 6.31,
+    "mean_services_unavailable": 7.14,
+    "mean_isolated": 0.0
+   }
+  },
+  "model": "1 hop per tick along links; decision at tick 2 on the infected set (risk 8); 10 ticks; restricted machines keep spreading"
+ },
+ "anticipatory": {
+  "chains_with_hidden_hop": 428,
+  "next_hop_already_blocked": {
+   "q_acrs_v7": 427,
+   "q_acrs_v5": 427,
+   "rule_segment": 428
+  },
+  "share": {
+   "q_acrs_v7": 0.9976635514018691,
+   "q_acrs_v5": 0.9976635514018691,
+   "rule_segment": 1.0
+  }
+ },
+ "scale_200": {
+  "machines": 202,
+  "scenarios": 20,
+  "solver_used": {
+   "exact": 20
+  },
+  "rejected": 0,
+  "decision_ms": {
+   "median": 0.2394300001924421,
+   "p95": 9.55050100014887,
+   "max": 25.38709000009476
+  },
+  "target_met": true
+ },
+ "portfolio_agreement": {
+  "scenarios": 1956,
+  "annealing_equals_exact": 1956,
+  "target_met": true
+ },
+ "hybrid_cross_check": {
+  "scenarios": 38,
+  "qaoa_best_of_100_disagrees_with_exact": 2,
+  "disagreeing": [
+   "net22_r03",
+   "net22_r07"
+  ],
+  "executed_disagreements": 0,
+  "rule": "disagreement -> human decision; never executed"
+ },
+ "noise_sweep": {
+  "p_best_ideal_stored": 0.9814,
+  "p_best_random": 0.25,
+  "recorded_hardware_p_best": 0.9653,
+  "closest_setting": {
+   "two_qubit_error": 0.01,
+   "readout_error": 0.0,
+   "p_best": 0.9668
+  },
+  "closest_with_readout_0": {
+   "two_qubit_error": 0.01,
+   "readout_error": 0.0,
+   "p_best": 0.9668
+  },
+  "grid": [
+   {
+    "two_qubit_error": 0.0,
+    "readout_error": 0.0,
+    "p_best": 0.9814
+   },
+   {
+    "two_qubit_error": 0.0,
+    "readout_error": 0.005,
+    "p_best": 0.9669
+   },
+   {
+    "two_qubit_error": 0.0,
+    "readout_error": 0.01,
+    "p_best": 0.9525
+   },
+   {
+    "two_qubit_error": 0.0,
+    "readout_error": 0.02,
+    "p_best": 0.9244
+   },
+   {
+    "two_qubit_error": 0.0025,
+    "readout_error": 0.0,
+    "p_best": 0.9777
+   },
+   {
+    "two_qubit_error": 0.0025,
+    "readout_error": 0.005,
+    "p_best": 0.9633
+   },
+   {
+    "two_qubit_error": 0.0025,
+    "readout_error": 0.01,
+    "p_best": 0.949
+   },
+   {
+    "two_qubit_error": 0.0025,
+    "readout_error": 0.02,
+    "p_best": 0.9211
+   },
+   {
+    "two_qubit_error": 0.005,
+    "readout_error": 0.0,
+    "p_best": 0.9741
+   },
+   {
+    "two_qubit_error": 0.005,
+    "readout_error": 0.005,
+    "p_best": 0.9597
+   },
+   {
+    "two_qubit_error": 0.005,
+    "readout_error": 0.01,
+    "p_best": 0.9455
+   },
+   {
+    "two_qubit_error": 0.005,
+    "readout_error": 0.02,
+    "p_best": 0.9177
+   },
+   {
+    "two_qubit_error": 0.0075,
+    "readout_error": 0.0,
+    "p_best": 0.9705
+   },
+   {
+    "two_qubit_error": 0.0075,
+    "readout_error": 0.005,
+    "p_best": 0.9562
+   },
+   {
+    "two_qubit_error": 0.0075,
+    "readout_error": 0.01,
+    "p_best": 0.942
+   },
+   {
+    "two_qubit_error": 0.0075,
+    "readout_error": 0.02,
+    "p_best": 0.9144
+   },
+   {
+    "two_qubit_error": 0.01,
+    "readout_error": 0.0,
+    "p_best": 0.9668
+   },
+   {
+    "two_qubit_error": 0.01,
+    "readout_error": 0.005,
+    "p_best": 0.9526
+   },
+   {
+    "two_qubit_error": 0.01,
+    "readout_error": 0.01,
+    "p_best": 0.9386
+   },
+   {
+    "two_qubit_error": 0.01,
+    "readout_error": 0.02,
+    "p_best": 0.911
+   },
+   {
+    "two_qubit_error": 0.0125,
+    "readout_error": 0.0,
+    "p_best": 0.9632
+   },
+   {
+    "two_qubit_error": 0.0125,
+    "readout_error": 0.005,
+    "p_best": 0.9491
+   },
+   {
+    "two_qubit_error": 0.0125,
+    "readout_error": 0.01,
+    "p_best": 0.9351
+   },
+   {
+    "two_qubit_error": 0.0125,
+    "readout_error": 0.02,
+    "p_best": 0.9077
+   },
+   {
+    "two_qubit_error": 0.015,
+    "readout_error": 0.0,
+    "p_best": 0.9596
+   },
+   {
+    "two_qubit_error": 0.015,
+    "readout_error": 0.005,
+    "p_best": 0.9455
+   },
+   {
+    "two_qubit_error": 0.015,
+    "readout_error": 0.01,
+    "p_best": 0.9316
+   },
+   {
+    "two_qubit_error": 0.015,
+    "readout_error": 0.02,
+    "p_best": 0.9044
+   },
+   {
+    "two_qubit_error": 0.0175,
+    "readout_error": 0.0,
+    "p_best": 0.956
+   },
+   {
+    "two_qubit_error": 0.0175,
+    "readout_error": 0.005,
+    "p_best": 0.942
+   },
+   {
+    "two_qubit_error": 0.0175,
+    "readout_error": 0.01,
+    "p_best": 0.9282
+   },
+   {
+    "two_qubit_error": 0.0175,
+    "readout_error": 0.02,
+    "p_best": 0.901
+   },
+   {
+    "two_qubit_error": 0.02,
+    "readout_error": 0.0,
+    "p_best": 0.9524
+   },
+   {
+    "two_qubit_error": 0.02,
+    "readout_error": 0.005,
+    "p_best": 0.9385
+   },
+   {
+    "two_qubit_error": 0.02,
+    "readout_error": 0.01,
+    "p_best": 0.9247
+   },
+   {
+    "two_qubit_error": 0.02,
+    "readout_error": 0.02,
+    "p_best": 0.8977
+   },
+   {
+    "two_qubit_error": 0.0225,
+    "readout_error": 0.0,
+    "p_best": 0.9489
+   },
+   {
+    "two_qubit_error": 0.0225,
+    "readout_error": 0.005,
+    "p_best": 0.935
+   },
+   {
+    "two_qubit_error": 0.0225,
+    "readout_error": 0.01,
+    "p_best": 0.9213
+   },
+   {
+    "two_qubit_error": 0.0225,
+    "readout_error": 0.02,
+    "p_best": 0.8944
+   },
+   {
+    "two_qubit_error": 0.025,
+    "readout_error": 0.0,
+    "p_best": 0.9453
+   },
+   {
+    "two_qubit_error": 0.025,
+    "readout_error": 0.005,
+    "p_best": 0.9315
+   },
+   {
+    "two_qubit_error": 0.025,
+    "readout_error": 0.01,
+    "p_best": 0.9178
+   },
+   {
+    "two_qubit_error": 0.025,
+    "readout_error": 0.02,
+    "p_best": 0.8911
+   },
+   {
+    "two_qubit_error": 0.0275,
+    "readout_error": 0.0,
+    "p_best": 0.9417
+   },
+   {
+    "two_qubit_error": 0.0275,
+    "readout_error": 0.005,
+    "p_best": 0.928
+   },
+   {
+    "two_qubit_error": 0.0275,
+    "readout_error": 0.01,
+    "p_best": 0.9144
+   },
+   {
+    "two_qubit_error": 0.0275,
+    "readout_error": 0.02,
+    "p_best": 0.8878
+   },
+   {
+    "two_qubit_error": 0.03,
+    "readout_error": 0.0,
+    "p_best": 0.9382
+   },
+   {
+    "two_qubit_error": 0.03,
+    "readout_error": 0.005,
+    "p_best": 0.9245
+   },
+   {
+    "two_qubit_error": 0.03,
+    "readout_error": 0.01,
+    "p_best": 0.911
+   },
+   {
+    "two_qubit_error": 0.03,
+    "readout_error": 0.02,
+    "p_best": 0.8846
+   },
+   {
+    "two_qubit_error": 0.0325,
+    "readout_error": 0.0,
+    "p_best": 0.9346
+   },
+   {
+    "two_qubit_error": 0.0325,
+    "readout_error": 0.005,
+    "p_best": 0.921
+   },
+   {
+    "two_qubit_error": 0.0325,
+    "readout_error": 0.01,
+    "p_best": 0.9076
+   },
+   {
+    "two_qubit_error": 0.0325,
+    "readout_error": 0.02,
+    "p_best": 0.8813
+   },
+   {
+    "two_qubit_error": 0.035,
+    "readout_error": 0.0,
+    "p_best": 0.9311
+   },
+   {
+    "two_qubit_error": 0.035,
+    "readout_error": 0.005,
+    "p_best": 0.9176
+   },
+   {
+    "two_qubit_error": 0.035,
+    "readout_error": 0.01,
+    "p_best": 0.9042
+   },
+   {
+    "two_qubit_error": 0.035,
+    "readout_error": 0.02,
+    "p_best": 0.878
+   },
+   {
+    "two_qubit_error": 0.0375,
+    "readout_error": 0.0,
+    "p_best": 0.9276
+   },
+   {
+    "two_qubit_error": 0.0375,
+    "readout_error": 0.005,
+    "p_best": 0.9141
+   },
+   {
+    "two_qubit_error": 0.0375,
+    "readout_error": 0.01,
+    "p_best": 0.9008
+   },
+   {
+    "two_qubit_error": 0.0375,
+    "readout_error": 0.02,
+    "p_best": 0.8748
+   },
+   {
+    "two_qubit_error": 0.04,
+    "readout_error": 0.0,
+    "p_best": 0.9241
+   },
+   {
+    "two_qubit_error": 0.04,
+    "readout_error": 0.005,
+    "p_best": 0.9107
+   },
+   {
+    "two_qubit_error": 0.04,
+    "readout_error": 0.01,
+    "p_best": 0.8975
+   },
+   {
+    "two_qubit_error": 0.04,
+    "readout_error": 0.02,
+    "p_best": 0.8716
+   },
+   {
+    "two_qubit_error": 0.0425,
+    "readout_error": 0.0,
+    "p_best": 0.9206
+   },
+   {
+    "two_qubit_error": 0.0425,
+    "readout_error": 0.005,
+    "p_best": 0.9072
+   },
+   {
+    "two_qubit_error": 0.0425,
+    "readout_error": 0.01,
+    "p_best": 0.8941
+   },
+   {
+    "two_qubit_error": 0.0425,
+    "readout_error": 0.02,
+    "p_best": 0.8683
+   },
+   {
+    "two_qubit_error": 0.045,
+    "readout_error": 0.0,
+    "p_best": 0.9171
+   },
+   {
+    "two_qubit_error": 0.045,
+    "readout_error": 0.005,
+    "p_best": 0.9038
+   },
+   {
+    "two_qubit_error": 0.045,
+    "readout_error": 0.01,
+    "p_best": 0.8907
+   },
+   {
+    "two_qubit_error": 0.045,
+    "readout_error": 0.02,
+    "p_best": 0.8651
+   },
+   {
+    "two_qubit_error": 0.0475,
+    "readout_error": 0.0,
+    "p_best": 0.9136
+   },
+   {
+    "two_qubit_error": 0.0475,
+    "readout_error": 0.005,
+    "p_best": 0.9004
+   },
+   {
+    "two_qubit_error": 0.0475,
+    "readout_error": 0.01,
+    "p_best": 0.8874
+   },
+   {
+    "two_qubit_error": 0.0475,
+    "readout_error": 0.02,
+    "p_best": 0.8619
+   },
+   {
+    "two_qubit_error": 0.05,
+    "readout_error": 0.0,
+    "p_best": 0.9101
+   },
+   {
+    "two_qubit_error": 0.05,
+    "readout_error": 0.005,
+    "p_best": 0.897
+   },
+   {
+    "two_qubit_error": 0.05,
+    "readout_error": 0.01,
+    "p_best": 0.884
+   },
+   {
+    "two_qubit_error": 0.05,
+    "readout_error": 0.02,
+    "p_best": 0.8587
+   }
+  ],
+  "note": "simple global-depolarizing + independent readout model on the stored ideal distribution (non-optimal mass spread evenly); an inference about effective error, not a device characterisation; several (gate, readout) pairs fit about equally well"
+ },
+ "regret_escalation": {
+  "chains_7008": {
+   "escalations_v7": 6,
+   "kept_by_regret_rule": 6,
+   "dropped_would_be_silent": 0,
+   "tau": 5.0
+  },
+  "random_9003": {
+   "escalations_v7": 18,
+   "kept_by_regret_rule": 17,
+   "dropped_would_be_silent": 1,
+   "tau": 5.0
+  },
+  "note": "dropping an escalation means accepting documented risk automatically, which the containment rules count as a silent failure; reported, not adopted"
+ }
+}
