@@ -146,10 +146,10 @@ def build_v7(net: Network, sc: Scenario, rho: float = RHO, d_seg: float = D_SEG)
             Q(X(a), X(b), w); Q(X(a), Sv(b), w)
     for n in base:                                                   # 3. disruption, hard rules, one-hot
         m = machines[n]
-        L(X(n), m.disruption + (0 if m.isolatable else big))
+        L(X(n), m.disruption + (0 if m.isolatable else 2 * big))
         if m.critical:
             L(Sv(n), d_seg)
-            Q(X(n), Sv(n), big)
+            Q(X(n), Sv(n), 2 * big)
     for s in net.services:                                           # 4. service down
         reps = s.replicas
         if len(reps) == 2:
