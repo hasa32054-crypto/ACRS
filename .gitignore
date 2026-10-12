@@ -4,3 +4,5 @@ __pycache__/
 plan_key
 booth_token
 attack_memory.json
+# design-tool working state (impeccable)
+.impeccable/
