@@ -1,1 +1,6 @@
 __pycache__/
+# booth secrets and visitor data never go in the repo (they live in ~/.hassan)
+.hassan/
+plan_key
+booth_token
+attack_memory.json

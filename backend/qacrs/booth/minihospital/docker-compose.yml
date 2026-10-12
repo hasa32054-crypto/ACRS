@@ -1,0 +1,146 @@
+# Mini hospital for the HASSAN booth (Linux Mint laptop). Generated from lab.json.
+# No ports are published: nothing here is reachable from the venue network. Containers run as nobody,
+# read-only, without capabilities. The 'c2' container is only a listener standing in for an attacker endpoint.
+name: hassan-lab
+services:
+  web1:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "patient portal"
+      CLINICAL_PORT: "8080"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.11}}
+    restart: unless-stopped
+  ehr-app1:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "EHR application"
+      CLINICAL_PORT: "8080"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.12}}
+    restart: unless-stopped
+  ehr-db:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "EHR database (critical)"
+      CLINICAL_PORT: "5432"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.13}}
+    restart: unless-stopped
+  pacs1:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "PACS server"
+      CLINICAL_PORT: "8080"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.14}}
+    restart: unless-stopped
+  lis:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "laboratory system"
+      CLINICAL_PORT: "8080"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.15}}
+    restart: unless-stopped
+  pc-recep1:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "reception workstation"
+      CLINICAL_PORT: "8080"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.16}}
+    restart: unless-stopped
+  c2:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "simulated attacker endpoint"
+      CLINICAL_PORT: "4444"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.66}}
+    restart: unless-stopped
+  nurse-station:
+    image: ${LAB_IMAGE:-python:3.12-alpine}
+    command: ["python", "-I", "/lab/node.py"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 64m
+    user: "65534:65534"
+    environment:
+      ROLE: "nurse station"
+      CLINICAL_PORT: "0"
+      LAB_IPS: "172.30.0.11,172.30.0.12,172.30.0.13,172.30.0.14,172.30.0.15,172.30.0.16,172.30.0.66,172.30.0.50"
+      ALLOWED_PORTS: "8080,5432,2222,4444"
+    volumes: ["./node.py:/lab/node.py:ro"]
+    networks: {hospital: {ipv4_address: 172.30.0.50}}
+    restart: unless-stopped
+networks:
+  hospital:
+    driver: bridge
+    driver_opts: {com.docker.network.bridge.name: br-hassan}
+    ipam: {config: [{subnet: 172.30.0.0/24}]}

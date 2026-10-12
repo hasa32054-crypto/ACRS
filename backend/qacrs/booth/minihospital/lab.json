@@ -1,0 +1,16 @@
+{
+  "comment": "Mini hospital on the Linux Mint laptop. Private Docker bridge only; nothing is published to the LAN. Names match Hospital-60 so HASSAN's plan maps 1:1.",
+  "subnet": "172.30.0.0/24",
+  "control_port": 7000,
+  "admin_port": 2222,
+  "c2": {"ip": "172.30.0.66", "port": 4444, "role": "simulated attacker endpoint (a listener; no malware)"},
+  "client": {"ip": "172.30.0.50", "role": "nurse station that uses the services"},
+  "nodes": {
+    "web1":      {"ip": "172.30.0.11", "clinical_port": 8080, "role": "patient portal"},
+    "ehr_app1":  {"ip": "172.30.0.12", "clinical_port": 8080, "role": "EHR application"},
+    "ehr_db":    {"ip": "172.30.0.13", "clinical_port": 5432, "role": "EHR database (critical)"},
+    "pacs1":     {"ip": "172.30.0.14", "clinical_port": 8080, "role": "PACS server"},
+    "lis":       {"ip": "172.30.0.15", "clinical_port": 8080, "role": "laboratory system"},
+    "pc_recep1": {"ip": "172.30.0.16", "clinical_port": 8080, "role": "reception workstation"}
+  }
+}
