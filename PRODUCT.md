@@ -60,6 +60,7 @@ Success means a judge leaves convinced by what they tried with their own hands, 
 ## Brand Commitments
 
 - Name: HASSAN, always written in Latin letters, also inside Arabic text (user decision, 2026-10-12).
+- SAIF registration name stays «ACRS: Automated Compromise Response System»; Ibdaa uses HASSAN. The booth shows «ACRS · HASSAN» (HASSAN = the engine of ACRS).
 - Language: Arabic first (RTL), with an English toggle.
 
 ## Evidence on Hand

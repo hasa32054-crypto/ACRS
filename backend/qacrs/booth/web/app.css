@@ -88,6 +88,8 @@ a { color: var(--human); text-underline-offset: 3px; }
 }
 .brand { display: flex; align-items: baseline; gap: var(--s2); flex: none; }
 .brand-ar { font-size: var(--t-xl); font-weight: 700; letter-spacing: 0; }
+.brand-sep { color: var(--ink-3); font-weight: 400; }
+.brand-engine { color: var(--ink-2); font-weight: 600; }
 .brand-en { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-3); letter-spacing: .08em; }
 .tabs { display: flex; gap: var(--s1); overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; padding-block: 2px; }
 .tabs::-webkit-scrollbar { display: none; }
@@ -404,3 +406,5 @@ html[dir="rtl"] .tl .from-to { text-align: end; }
 .lg .dash { stroke-dasharray: 3 2; } .lg .w2 { stroke-width: 1.8; } .lg .w3 { stroke-width: 3; }
 .link.is-hover { opacity: .85; stroke: var(--ink); stroke-width: 1.6; }
 @media (max-width: 720px) { .map-wrap { overflow-x: auto; } .map-wrap svg.map { min-width: 760px; } }
+
+[hidden] { display: none !important; }
