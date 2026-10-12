@@ -52,7 +52,7 @@ def static_table(root: Path = WEB) -> dict:
 def receipt_text(d: dict) -> str:
     """What the 'verify yourself' QR carries: status, SHA-256 of the certificate, signature prefix, repo."""
     sha = hashlib.sha256(secure.canonical(d["certificate"])).hexdigest()
-    return f"HASSAN v9|{d['status']}|cert-sha256:{sha}|hmac:{d['signature'][:16]}|{evidence.REPO}"
+    return f"ACRS v9|{d['status']}|cert-sha256:{sha}|hmac:{d['signature'][:16]}|{evidence.REPO}"
 
 
 class Agent:
@@ -186,7 +186,7 @@ class App:
 
 def make_handler(app: App, port_ref: list):
     class Handler(BaseHTTPRequestHandler):
-        server_version = "HASSAN-booth"
+        server_version = "ACRS-booth"
         sys_version = ""
 
         def log_message(self, *a):
@@ -311,7 +311,7 @@ def main(argv=None):
     agent = Agent(a.agent, key) if a.agent else None
     srv = make_server(a.port, key=key, agent=agent, solver_budget_s=a.solver_budget)
     sc = selfcheck(srv.app)
-    print(f"HASSAN booth: http://127.0.0.1:{srv.server_address[1]}/   (loopback only; secrets in {secure.secret_dir()})")
+    print(f"ACRS booth: http://127.0.0.1:{srv.server_address[1]}/   (loopback only; secrets in {secure.secret_dir()})")
     print(f"self-check: {sc['fail_safe']}/{sc['attacks']} reference attacks hit the solver budget "
           f"({a.solver_budget:.2f} s) and fell back to the safe path."
           + ("  On this laptop consider --solver-budget 0.3 (shown on screen as a deviation)." if sc["fail_safe"] else ""))

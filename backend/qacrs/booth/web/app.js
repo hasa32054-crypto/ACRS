@@ -1,4 +1,4 @@
-/* HASSAN booth UI. No framework, no network beyond this laptop's own server. */
+/* ACRS booth UI. No framework, no network beyond this laptop's own server. */
 (() => {
   "use strict";
   const $ = (s, r = document) => r.querySelector(s);
@@ -724,7 +724,7 @@
     for (const n of $$("[data-i18n-aria]")) n.setAttribute("aria-label", t(n.dataset.i18nAria));
     $("#langBtn").textContent = S.lang === "ar" ? "EN" : "ع";
     $("#langBtn").setAttribute("aria-label", S.lang === "ar" ? "English" : "العربية");
-    document.title = "ACRS · HASSAN";
+    document.title = "ACRS";
   }
 
   function buildAll() {

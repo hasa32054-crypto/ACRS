@@ -5,10 +5,10 @@ turns them into firewall rules for the small Docker hospital. It never runs a co
 
   * the only thing a plan can say is which known machine to isolate / segment / restrict;
   * machine -> container IP comes from the agent's own config (allowlist), never from the plan;
-  * rules are built from fixed templates, live in the agent's own chain HASSAN (jumped to from DOCKER-USER),
+  * rules are built from fixed templates, live in the agent's own chain ACRS (jumped to from DOCKER-USER),
     and are installed atomically with `iptables-restore --noflush` (fixed argv, rules on stdin, no shell);
-  * after installing, the chain is read back (`iptables -S HASSAN`) and compared with the plan (structural twin);
-    if it differs, the chain is emptied (fail closed to "no HASSAN rules", never to unknown rules);
+  * after installing, the chain is read back (`iptables -S ACRS`) and compared with the plan (structural twin);
+    if it differs, the chain is emptied (fail closed to "no ACRS rules", never to unknown rules);
   * every plan has a TTL; when it expires the chain is emptied (containment must be re-confirmed);
   * dry-run is the default: without --apply it prints the rules and touches nothing.
 
@@ -30,7 +30,7 @@ from pathlib import Path
 
 from qacrs.booth import secure
 
-CHAIN = "HASSAN"
+CHAIN = "ACRS"
 HERE = Path(__file__).resolve().parent
 DEFAULT_CONFIG = HERE / "minihospital" / "lab.json"
 MAX_BODY = 8 * 1024
@@ -52,7 +52,7 @@ def load_config(path: Path = DEFAULT_CONFIG) -> dict:
 
 # ------------------------------------------------------------------ rules from fixed templates -----------------------
 def rules(cfg: dict, plan: dict) -> tuple[list[str], list[str]]:
-    """Plan -> iptables rule lines for chain HASSAN (exactly as `iptables -S` prints them).
+    """Plan -> iptables rule lines for chain ACRS (exactly as `iptables -S` prints them).
     Returns (rules, machine names that are not in the lab and were ignored)."""
     nodes, admin = cfg["nodes"], cfg["admin_port"]
     out = [f"-A {CHAIN} -m conntrack --ctstate RELATED,ESTABLISHED -j RETURN"]
@@ -251,7 +251,7 @@ def main(argv=None):
         return
     agent = Agent(cfg, secure.load_secret("plan_key"), Firewall(a.apply))
     srv = make_server(a.bind, a.port, agent)
-    print(f"HASSAN lab agent on {a.bind}:{a.port} ({'APPLY' if a.apply else 'dry-run'}); sealed plans only")
+    print(f"ACRS lab agent on {a.bind}:{a.port} ({'APPLY' if a.apply else 'dry-run'}); sealed plans only")
     srv.serve_forever()
 
 

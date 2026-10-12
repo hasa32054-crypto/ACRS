@@ -13,7 +13,7 @@ attack.
 
 **Context (layer 0)**
 - Audience: SAIF judges and visitors, standing and short on time, many of them security professionals; Ibdaa judges.
-- Job: let a visitor attack the hospital, watch HASSAN contain it with services alive, and then check the evidence.
+- Job: let a visitor attack the hospital, watch ACRS contain it with services alive, and then check the evidence.
 - Personality: precise, calm, clinical.
 - Platform: an offline web page on a laptop or a large monitor.
 - Language: Arabic first, right to left, with an English toggle.

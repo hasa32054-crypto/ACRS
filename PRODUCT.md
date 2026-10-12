@@ -13,15 +13,15 @@ presenter's laptop. It has no CDN or internet dependency, because the user chose
 
 ## Users
 
-- **Primary:** judges and visitors at the booth named «HASSAN» at the SAIF cybersecurity competition (Ministry of
+- **Primary:** judges and visitors at the booth named «ACRS» at the SAIF cybersecurity competition (Ministry of
   Interior with Tuwaiq Academy, November 2026). They are standing, have a few minutes, and many are security
   professionals.
-- **Also:** Ibdaa / Mawhiba judges reviewing the research project (HASSAN).
+- **Also:** Ibdaa / Mawhiba judges reviewing the research project (ACRS).
 - **Presenter:** the student, Hassan Alyanbawi, driving the demo and answering questions.
 
 ## Product Purpose
 
-HASSAN, the Hybrid Adaptive Safety-gated System for Attack Neutralization, chooses the minimum effective containment
+ACRS, the Automated Compromise Response System, chooses the minimum effective containment
 for a hospital network under attack. It isolates, restricts or segments machines, keeps clinical services running,
 never breaks safety rules, and escalates critical decisions to humans. The booth app lets a visitor see this happen
 live and test it themselves.
@@ -43,7 +43,7 @@ Success means a judge leaves convinced by what they tried with their own hands, 
 - The screen is undecided: a laptop or a large monitor, so the app must work on both.
 - Venue Wi-Fi may be unreliable, so everything runs locally.
 - Optional two-laptop mini hospital: a Linux Mint laptop runs the hospital containers and firewall; a Windows laptop
-  runs HASSAN and the display.
+  runs ACRS and the display.
 
 ## Capabilities and Constraints
 
@@ -52,15 +52,15 @@ Success means a judge leaves convinced by what they tried with their own hands, 
 - No quantum-advantage claim.
 - The demo never runs real malware. Attacks are scenarios: which machines are compromised, and their risk.
 - No free-text attack converter. Visitors build attacks by picking machines on the map.
-- HASSAN itself must be hardened. The API needs a token, signed plans, and validated input, and the agent applies only
+- ACRS itself must be hardened. The API needs a token, signed plans, and validated input, and the agent applies only
   allowlisted rules in its own chain. A protection tool must not become a hole in the system it protects.
 - Locked files for the blind test must not be modified: `hassan.py`, `hassan_v9.py`, `qubo_v7.py`, `qubo_builder.py`,
   `escalation.py`, `safety_checks.py`, `network.py`, `realism_v8.py`, `hospital_ar.py`, `blind_v9.py`, `stats.py`.
 
 ## Brand Commitments
 
-- Name: HASSAN, always written in Latin letters, also inside Arabic text (user decision, 2026-10-12).
-- SAIF registration name stays «ACRS: Automated Compromise Response System»; Ibdaa uses HASSAN. The booth shows «ACRS · HASSAN» (HASSAN = the engine of ACRS).
+- Name: ACRS — Automated Compromise Response System — in every competition (SAIF and Ibdaa) and on the booth; always in Latin letters, also inside Arabic text (user decision, 2026-10-12).
+- Versions v7–v9 appear as «HASSAN» in the pre-registrations and result files; those historical records are not renamed.
 - Language: Arabic first (RTL), with an English toggle.
 
 ## Evidence on Hand

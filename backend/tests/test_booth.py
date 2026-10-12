@@ -150,12 +150,12 @@ class TestAgent(unittest.TestCase):
         lines, ignored = A.rules(self.cfg, {"isolate": ["web1", "web1 -j ACCEPT", "ct"], "segment": ["ehr_db"],
                                             "restrict": ["pc_recep1"]})
         self.assertEqual(ignored, ["ct", "web1 -j ACCEPT"])
-        self.assertTrue(all(l.startswith("-A HASSAN ") for l in lines))
-        self.assertIn("-A HASSAN -s 172.30.0.11/32 -j DROP", lines)
-        self.assertIn("-A HASSAN -d 172.30.0.13/32 -p tcp -m tcp --dport 5432 -j RETURN", lines)
-        self.assertEqual(lines[-1], "-A HASSAN -j RETURN")
+        self.assertTrue(all(l.startswith("-A ACRS ") for l in lines))
+        self.assertIn("-A ACRS -s 172.30.0.11/32 -j DROP", lines)
+        self.assertIn("-A ACRS -d 172.30.0.13/32 -p tcp -m tcp --dport 5432 -j RETURN", lines)
+        self.assertEqual(lines[-1], "-A ACRS -j RETURN")
         txt = A.restore_text(lines)
-        self.assertTrue(txt.startswith("*filter\n:HASSAN - [0:0]\n") and txt.endswith("COMMIT\n"))
+        self.assertTrue(txt.startswith("*filter\n:ACRS - [0:0]\n") and txt.endswith("COMMIT\n"))
 
     def test_plan_validation(self):
         ok = {"isolate": [], "segment": [], "restrict": [], "ttl_s": 30}
@@ -234,7 +234,7 @@ class TestServer(unittest.TestCase):
     def test_full_journey(self):
         s, _, b = self.req("POST", "/api/decide", {"hacked": {"pc_doc1": 8, "pacs1": 8, "pacs_store": 9}})
         d = json.loads(b)
-        self.assertEqual(s, 200); self.assertIn("receipt_qr", d); self.assertTrue(d["receipt"].startswith("HASSAN v9|"))
+        self.assertEqual(s, 200); self.assertIn("receipt_qr", d); self.assertTrue(d["receipt"].startswith("ACRS v9|"))
         s, _, b = self.req("POST", "/api/verify", {"hacked": {"pc_doc1": 8, "pacs1": 8, "pacs_store": 9},
                                                     "certificate": d["certificate"], "signature": d["signature"]})
         self.assertTrue(json.loads(b)["accepted"])
