@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>حسان — HASSAN</title>
+<title>HASSAN</title>
 <meta name="description" content="HASSAN booth: attack a simulated hospital and watch it contain the attack while clinical services keep running.">
 <link rel="stylesheet" href="app.css">
 <script src="i18n.js" defer></script>
@@ -12,7 +12,7 @@
 <body>
 <a class="sr-only" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
 <header class="top">
-  <div class="brand"><span class="brand-ar" data-i18n="brand">حسان</span><span class="brand-en">HASSAN v9</span></div>
+  <div class="brand"><span class="brand-ar" data-i18n="brand">HASSAN</span><span class="brand-en">v9</span></div>
   <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
     <button class="tab" role="tab" data-view="break" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.break">اكسره</span></button>
     <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.twin">مستشفيان</span></button>
@@ -39,7 +39,7 @@
   <section class="view is-active" id="view-break" role="tabpanel" aria-labelledby="break">
     <div class="view-head">
       <div>
-        <h1 class="view-title" data-i18n="break.title">هاجم المستشفى. وشاهد حسان يحتوي الهجوم والخدمات تعمل.</h1>
+        <h1 class="view-title" data-i18n="break.title">هاجم المستشفى. وشاهد HASSAN يحتوي الهجوم والخدمات تعمل.</h1>
         <p class="view-lede" data-i18n="break.lede">كل قسم منطقة، وكل جهاز محطة. اختر الأجهزة المخترقة على الخريطة، أو زوّر تنبيهات كاذبة، ثم اطلب القرار.</p>
       </div>
     </div>
@@ -54,7 +54,7 @@
             <input type="range" id="risk" min="1" max="10" value="8"><output id="riskOut" for="risk">8</output></label>
           <div class="row">
             <button class="btn btn-quiet" id="clearBtn" data-i18n="clear">مسح</button>
-            <button class="btn btn-attack" id="decideBtn" disabled data-i18n="decide">قرّر يا حسان</button>
+            <button class="btn btn-attack" id="decideBtn" disabled data-i18n="decide">قرّر يا HASSAN</button>
           </div>
         </div>
         <div class="hint" id="hint" aria-live="polite"></div>
@@ -72,7 +72,7 @@
             <ol class="steps">
               <li data-i18n="empty.s1">اضغط جهاز موظف أو بوابة المرضى: من هنا يدخل المهاجم عادة.</li>
               <li data-i18n="empty.s2">تنقّل إلى جهاز مرتبط به. الخطوط الحمراء مسار الهجوم.</li>
-              <li data-i18n="empty.s3">جرّب «تنبيه مزوّر» على خادم حرج، ثم اضغط «قرّر يا حسان».</li>
+              <li data-i18n="empty.s3">جرّب «تنبيه مزوّر» على خادم حرج، ثم اضغط «قرّر يا HASSAN».</li>
             </ol>
           </div>
         </div>
@@ -110,14 +110,14 @@
     <div class="view-head">
       <div>
         <h1 class="view-title" data-i18n="twin.title">نفس الهجوم، مستشفيان.</h1>
-        <p class="view-lede" data-i18n="twin.lede">اليمين يعزل كل جهاز مُبلَغ عنه (العزل الكامل الآمن). اليسار يقرر فيه حسان. راقب نبض الخدمات ودقائق انتظار المرضى.</p>
+        <p class="view-lede" data-i18n="twin.lede">اليمين يعزل كل جهاز مُبلَغ عنه (العزل الكامل الآمن). اليسار يقرر فيه HASSAN. راقب نبض الخدمات ودقائق انتظار المرضى.</p>
       </div>
       <div class="presets" id="twinPresets"></div>
     </div>
     <div class="twin">
       <div class="panel"><div class="twin-head"><h2 data-i18n="twin.full">العزل الكامل</h2><div><span class="counter bad" id="pmFull">0</span><span class="xs muted" data-i18n="pm"> دقيقة انتظار</span></div></div>
         <svg class="map small" id="mapFull" viewBox="0 0 1200 770" aria-hidden="true"></svg><div class="ecg" id="ecgFull"></div></div>
-      <div class="panel"><div class="twin-head"><h2 data-i18n="twin.hassan">حسان</h2><div><span class="counter good" id="pmHassan">0</span><span class="xs muted" data-i18n="pm"> دقيقة انتظار</span></div></div>
+      <div class="panel"><div class="twin-head"><h2 data-i18n="twin.hassan">HASSAN</h2><div><span class="counter good" id="pmHassan">0</span><span class="xs muted" data-i18n="pm"> دقيقة انتظار</span></div></div>
         <svg class="map small" id="mapHassan" viewBox="0 0 1200 770" aria-hidden="true"></svg><div class="ecg" id="ecgHassan"></div></div>
     </div>
     <p class="mt4 note" data-i18n="pm.note">دقائق الانتظار تقدير من افتراضات النموذج المنشورة (مرضى في الساعة لكل خدمة × توقف 60 دقيقة × متوسط انتظار نصف المدة)، وليست قياسًا من مستشفى.</p>
@@ -128,7 +128,7 @@
     <div class="view-head">
       <div>
         <h1 class="view-title" data-i18n="judge.title">أنت ضد الآلة: دقيقة واحدة لتقرر.</h1>
-        <p class="view-lede" data-i18n="judge.lede">الأجهزة الحمراء مخترقة. اضغط أي جهاز مرة ليُعزل، ومرتين ليُجزّأ (يبقى يخدم وتُقطع حركته الجانبية)، وثالثة للإلغاء. ثم قارن قرارك بقرار حسان على نفس القواعد.</p>
+        <p class="view-lede" data-i18n="judge.lede">الأجهزة الحمراء مخترقة. اضغط أي جهاز مرة ليُعزل، ومرتين ليُجزّأ (يبقى يخدم وتُقطع حركته الجانبية)، وثالثة للإلغاء. ثم قارن قرارك بقرار HASSAN على نفس القواعد.</p>
       </div>
       <div class="row"><span class="timer" id="timer">60</span>
         <button class="btn btn-primary" id="judgeStart" data-i18n="judge.start">ابدأ</button>
@@ -164,9 +164,9 @@
     <div class="trio">
       <div class="panel"><h2><span data-i18n="pol.none">بلا إجراء</span><span class="num" id="encNone"></span></h2><svg class="map small" id="mapNone" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
       <div class="panel"><h2><span data-i18n="pol.full">العزل الكامل</span><span class="num" id="encFull"></span></h2><svg class="map small" id="mapRFull" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
-      <div class="panel"><h2><span data-i18n="pol.hassan">حسان</span><span class="num" id="encHassan"></span></h2><svg class="map small" id="mapRHassan" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
+      <div class="panel"><h2><span data-i18n="pol.hassan">HASSAN</span><span class="num" id="encHassan"></span></h2><svg class="map small" id="mapRHassan" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
     </div>
-    <p class="mt4 note" id="ransomNote" data-i18n="ransom.note">النتيجة الصادقة: حسان والعزل الكامل يوقفان الانتشار عند نفس الحد الأدنى (لا يمكن لأي سياسة أن تنزل تحته في هذا النموذج). الفرق أن حسان يصل لذلك بأقل توقف للخدمات حين تكون التنبيهات مختلطة أو مزوّرة.</p>
+    <p class="mt4 note" id="ransomNote" data-i18n="ransom.note">النتيجة الصادقة: HASSAN والعزل الكامل يوقفان الانتشار عند نفس الحد الأدنى (لا يمكن لأي سياسة أن تنزل تحته في هذا النموذج). الفرق أن HASSAN يصل لذلك بأقل توقف للخدمات حين تكون التنبيهات مختلطة أو مزوّرة.</p>
   </section>
 
   <!-- 5. quantum ------------------------------------------------------------------------------------------------->
@@ -222,7 +222,7 @@
     <div class="view-head">
       <div>
         <h1 class="view-title" data-i18n="m.title">ذاكرة الهجمات: كل هجوم يُحفظ يُختبر كل مرة.</h1>
-        <p class="view-lede" data-i18n="m.lede">احفظ هجومك كزر، ليجرّبه الزائر التالي. حسان لا «يتعلم» وحده: الذاكرة تعيد اختبار كل هجوم محفوظ، وأي هجوم يكسر قاعدة يُصلح في الكود ويبقى اختبارًا دائمًا حتى لا يمر مرتين.</p>
+        <p class="view-lede" data-i18n="m.lede">احفظ هجومك كزر، ليجرّبه الزائر التالي. HASSAN لا «يتعلم» وحده: الذاكرة تعيد اختبار كل هجوم محفوظ، وأي هجوم يكسر قاعدة يُصلح في الكود ويبقى اختبارًا دائمًا حتى لا يمر مرتين.</p>
       </div>
       <button class="btn btn-primary" id="regressBtn" data-i18n="m.regress">أعد اختبار كل الهجمات</button>
     </div>

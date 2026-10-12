@@ -13,7 +13,7 @@ presenter's laptop. It has no CDN or internet dependency, because the user chose
 
 ## Users
 
-- **Primary:** judges and visitors at the booth named «حسان» at the SAIF cybersecurity competition (Ministry of
+- **Primary:** judges and visitors at the booth named «HASSAN» at the SAIF cybersecurity competition (Ministry of
   Interior with Tuwaiq Academy, November 2026). They are standing, have a few minutes, and many are security
   professionals.
 - **Also:** Ibdaa / Mawhiba judges reviewing the research project (HASSAN).
@@ -59,7 +59,7 @@ Success means a judge leaves convinced by what they tried with their own hands, 
 
 ## Brand Commitments
 
-- Name: HASSAN («حسان» on the booth).
+- Name: HASSAN, always written in Latin letters, also inside Arabic text (user decision, 2026-10-12).
 - Language: Arabic first (RTL), with an English toggle.
 
 ## Evidence on Hand

@@ -724,8 +724,7 @@
     for (const n of $$("[data-i18n-aria]")) n.setAttribute("aria-label", t(n.dataset.i18nAria));
     $("#langBtn").textContent = S.lang === "ar" ? "EN" : "ع";
     $("#langBtn").setAttribute("aria-label", S.lang === "ar" ? "English" : "العربية");
-    document.title = S.lang === "ar" ? "حسان — HASSAN" : "HASSAN — حسان";
-    $(".brand-en").textContent = S.lang === "ar" ? "HASSAN v9" : "v9";
+    document.title = "HASSAN";
   }
 
   function buildAll() {
