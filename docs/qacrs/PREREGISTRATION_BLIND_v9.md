@@ -61,3 +61,10 @@ about 11%. That is stated, not hidden.
 ### ملخص عربي
 شخص غير المطوّر يكتب هجمات بالعربية العادية. محوّل بقواعد ثابتة، مقفل قبل وصول أي سيناريو، يحوّل كل نص إلى سيناريو،
 والكاتب يؤكد الفهم بنفسه. يُشغَّل HASSAN v9 مرة واحدة، وتُنشر النتائج كما هي، ولا يُعدَّل شيء بعدها.
+
+## Amendment 1 (2026-10-12, before any blind tool or scenario exists)
+The text converter is **dropped**. The author builds each scenario by **picking machines from a numbered list**
+(Arabic name and role of every Hospital-60 machine, with its links) and giving each a risk 1–10, plus a short free-text
+description that is stored for the record only and never parsed. Everything else is unchanged: independent author,
+code locked before any scenario exists, file committed before the run, one run, all results published.
+The "converter acceptance" measure is removed.
