@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ACRS · نظام الاستجابة السيبرانية المتكيّفة</title>
-<meta name="description" content="ACRS: Adaptive Cyber Response System, by Hassan Abdullah Alyenbawi">
+<title>ACRS · نظام الاستجابة الآلية للاختراقات</title>
+<meta name="description" content="ACRS: Automated Compromise Response System. Contain the attack, keep the hospital running.">
 
 </head>
 <body>
@@ -49,6 +49,38 @@ button{font:inherit;color:inherit}
 .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
   background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%)}
 #net{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+
+
+/* ---------- research (Ibdaa 2027) ---------- */
+#research .head{margin-bottom:1.4rem}
+.ib-prob{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1rem 0 1.6rem}
+@media (max-width:760px){.ib-prob{grid-template-columns:1fr}}
+.ib-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.2rem 0 1.6rem}
+@media (max-width:760px){.ib-steps{grid-template-columns:1fr}}
+.ib-step{padding:1.1rem 1.2rem;min-width:0}
+.ib-step h3{font-size:1.08rem;margin:0 0 .45rem;display:flex;gap:.6rem;align-items:baseline}
+.ib-step h3 .n{font-family:var(--mono);font-size:.8rem;color:var(--acrs-2)}
+.ib-step p,.ib-step li{color:#dbe8ee;font-size:.94rem;line-height:1.7;margin:0}
+.ib-step ul{margin:.2rem 0 0;padding-inline-start:1.1rem}
+.ib-h{font-size:1.25rem;margin:2rem 0 .7rem}
+.ib-tables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+@media (max-width:860px){.ib-tables{grid-template-columns:1fr}}
+.ib-tables .glass{padding:1rem 1.1rem;min-width:0;overflow-x:auto}
+.ibt td.t{font-family:var(--font);direction:inherit}
+.ibt td.u{color:var(--uniform)}
+.ib-cap{color:var(--muted);font-size:.82rem;margin:.6rem 0 0}
+.ib-hon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:1.6rem}
+@media (max-width:860px){.ib-hon{grid-template-columns:1fr}}
+.ib-hon ul{margin:.3rem 0 0;padding-inline-start:1.1rem;color:#dbe8ee;font-size:.92rem;line-height:1.6}
+.ib-refs{margin-top:1.6rem;padding:1rem 1.2rem}
+.ib-refs summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+.ib-refs ol{margin:.6rem 0 0;padding-inline-start:1.4rem;font-size:.86rem;line-height:1.6;color:#cfdbe1}
+.ib-refs li{margin-bottom:.35rem;overflow-wrap:anywhere}
+.ib-refs li.en{direction:ltr;text-align:left}
+.ib-refs p{color:var(--muted);font-size:.86rem}
+#research .lf b span{font-size:inherit;color:inherit}#research .lf b .u{color:var(--uniform)}#research .lf b .a{color:var(--acrs-2)}
+:lang(ar) #research .lf b{text-align:end}
+#research .ib-mt{margin-top:.8rem}#research .ib-pad{padding:1rem 1.1rem;overflow-x:auto}
 
 /* ---------- glass + controls ---------- */
 .glass{background:linear-gradient(145deg,var(--glass-2),var(--glass));border:1px solid var(--edge);border-radius:var(--r);
@@ -567,7 +599,7 @@ svg[hidden]{display:none!important}
   <div class="in glass">
     <a class="brand" href="#top"><i></i>ACRS</a>
     <div class="tools">
-      <nav class="navs"><a class="navlink" href="#results" data-i18n="nav_res"></a><a class="navlink" href="#evidence" data-i18n="nav_evidence"></a><a class="navlink" href="#how" data-i18n="nav_story"></a><a class="navlink" href="#compare" data-i18n="nav_cmp"></a></nav>
+      <nav class="navs"><a class="navlink" href="#research" data-i18n="nav_research"></a><a class="navlink" href="#results" data-i18n="nav_res"></a><a class="navlink" href="#evidence" data-i18n="nav_evidence"></a><a class="navlink" href="#how" data-i18n="nav_story"></a><a class="navlink" href="#compare" data-i18n="nav_cmp"></a></nav>
       <button class="icon-btn" id="soundBtn" type="button" aria-pressed="false" data-i18n-aria="sound_label">
         <svg id="sndOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
         <svg id="sndOn" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>
@@ -594,6 +626,93 @@ svg[hidden]{display:none!important}
         <a class="btn btn-ghost" href="#results"><span class="glow"></span><span data-i18n="btn_evidence"></span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
       </div>
+    </div>
+  </section>
+
+
+  <!-- ============ research (Ibdaa 2027) ============ -->
+  <section class="block" id="research">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow" data-i18n="ib_eyebrow"></div>
+        <h2 data-i18n="ib_t"></h2>
+        <p class="sub" data-i18n="ib_s"></p>
+      </div>
+
+      <h3 class="ib-h" data-i18n="ib_p_h"></h3>
+      <div class="ib-prob">
+        <div class="lf glass"><b><bdi><span class="u">46</span> / 80</bdi></b><span data-i18n="ib_p1"></span><small data-i18n="ib_p1s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">+34–38%</span></bdi></b><span data-i18n="ib_p2"></span><small data-i18n="ib_p2s"></small></div>
+      </div>
+
+      <div class="ib-steps">
+        <div class="ib-step glass"><h3><span class="n">02</span><span data-i18n="ib_gap_t"></span></h3><ul data-i18n-html="ib_gap"></ul></div>
+        <div class="ib-step glass"><h3><span class="n">03</span><span data-i18n="ib_q_t"></span></h3><p data-i18n-html="ib_q"></p></div>
+        <div class="ib-step glass"><h3><span class="n">04</span><span data-i18n="ib_nov_t"></span></h3><ul data-i18n-html="ib_nov"></ul></div>
+        <div class="ib-step glass"><h3><span class="n">05</span><span data-i18n="ib_m_t"></span></h3><ul data-i18n-html="ib_m"></ul></div>
+      </div>
+
+      <h3 class="ib-h" data-i18n="ib_r_h"></h3>
+      <div class="lfacts">
+        <div class="lf glass"><b><bdi><span class="a">0.977</span></bdi></b><span data-i18n="ib_r1"></span><small data-i18n="ib_r1s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">292</span> → <span class="a">0</span></bdi></b><span data-i18n="ib_r2"></span><small data-i18n="ib_r2s"></small></div>
+        <div class="lf glass"><b><bdi><span class="u">45.2%</span> → <span class="a">2.3%</span></bdi></b><span data-i18n="ib_r3"></span><small data-i18n="ib_r3s"></small></div>
+        <div class="lf glass"><b><bdi><span class="a">0.980 · 0.995</span></bdi></b><span data-i18n="ib_r4"></span><small data-i18n="ib_r4s"></small></div>
+        <div class="lf glass"><b><bdi><span class="a">41</span> ms</bdi></b><span data-i18n="ib_r5"></span><small data-i18n="ib_r5s"></small></div>
+        <div class="lf glass"><b><bdi><span class="a">11</span>/11</bdi></b><span data-i18n="ib_r6"></span><small data-i18n="ib_r6s"></small></div>
+      </div>
+
+      <div class="ib-tables ib-mt">
+        <div class="glass">
+          <table class="qt ibt">
+            <thead><tr><th data-i18n="ib_t1_c1"></th><th>v8</th><th>v9</th><th data-i18n="ib_t1_c4"></th></tr></thead>
+            <tbody>
+              <tr><td class="t" data-i18n="ib_t1_r1"></td><td class="u">174 ms</td><td class="a">41.4 ms</td><td>&lt; 50 ms</td></tr>
+              <tr><td class="t" data-i18n="ib_t1_r2"></td><td class="u">726/1000</td><td class="a">1000/1000</td><td>100%</td></tr>
+              <tr><td class="t" data-i18n="ib_t1_r3"></td><td class="u">22/100</td><td class="a">100/100</td><td>100%</td></tr>
+              <tr><td class="t" data-i18n="ib_t1_r4"></td><td class="u">46.7%</td><td class="a">87.8%</td><td>≥ 80%</td></tr>
+            </tbody>
+          </table>
+          <p class="ib-cap" data-i18n="ib_t1_cap"></p>
+        </div>
+        <div class="glass">
+          <table class="qt ibt">
+            <thead><tr><th data-i18n="ib_t2_c1"></th><th data-i18n="ib_t2_c2"></th><th data-i18n="ib_t2_c3"></th><th data-i18n="ib_t2_c4"></th></tr></thead>
+            <tbody>
+              <tr><td>E7 · ibm_kingston</td><td>5</td><td class="u">11.9%</td><td>3.1%</td></tr>
+              <tr><td>E8 · ibm_fez</td><td>5</td><td class="a">82.7%</td><td>3.1%</td></tr>
+              <tr><td>E9 · 2 QPUs</td><td>75</td><td class="a">11/11</td><td data-i18n="ib_t2_e9"></td></tr>
+            </tbody>
+          </table>
+          <p class="ib-cap" data-i18n="ib_t2_cap"></p>
+        </div>
+      </div>
+
+      <div class="ib-hon">
+        <div class="rbox glass ok"><h4 data-i18n="ib_ok_t"></h4><ul data-i18n-html="ib_ok"></ul></div>
+        <div class="rbox glass wr"><h4 data-i18n="ib_wr_t"></h4><ul data-i18n-html="ib_wr"></ul></div>
+        <div class="rbox glass try"><h4 data-i18n="ib_try_t"></h4><code class="rcode">make hassan-repro-v9</code>
+          <a href="https://github.com/hasa32054-crypto/ACRS/tree/main/backend/qacrs/results" target="_blank" rel="noopener" data-i18n="ib_try_l"></a></div>
+      </div>
+
+      <h3 class="ib-h" data-i18n="ib_plan_h"></h3>
+      <div class="glass ib-pad">
+        <table class="qt ibt">
+          <thead><tr><th data-i18n="ib_pl_c1"></th><th data-i18n="ib_pl_c2"></th></tr></thead>
+          <tbody>
+            <tr><td class="t" data-i18n="ib_pl1d"></td><td class="t" data-i18n="ib_pl1"></td></tr>
+            <tr><td class="t" data-i18n="ib_pl2d"></td><td class="t" data-i18n="ib_pl2"></td></tr>
+            <tr><td class="t" data-i18n="ib_pl3d"></td><td class="t" data-i18n="ib_pl3"></td></tr>
+            <tr><td class="t" data-i18n="ib_pl4d"></td><td class="t" data-i18n="ib_pl4"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="ib-refs glass">
+        <summary data-i18n="ib_refs_t"></summary>
+        <ol id="ibRefs"></ol>
+        <p data-i18n="ib_ai"></p>
+      </details>
     </div>
   </section>
 
@@ -924,14 +1043,14 @@ function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localSto
 /* ================= copy (Arabic written as Arabic, not translated) ================= */
 var T = {
 ar:{
- nav_evidence:"تحقق", nav_res:"النتائج", rs_eyebrow:"النتائج", sound_label:"تشغيل الصوت أو إيقافه",
+ nav_evidence:"تحقق", nav_res:"النتائج", rs_eyebrow:"المرحلة الأولى (ACRS v1): النتائج", sound_label:"تشغيل الصوت أو إيقافه",
  in_breach:"تم اختراق الجهاز", in_stat:"فيروس الفدية (يقفل الملفات ويطلب مالًا) صار في قرابة نصف الاختراقات",
  in_scale:"",
  in_src:"نسبة الاختراقات التي فيها فدية · المصدر: تقارير Verizon السنوية للتحقيق في الاختراقات (DBIR) ‏2022–2026 · في 2024 تشمل الفدية وأساليب الابتزاز الأخرى",
  in_problem:"والحل المعتاد؟ <em>عزل كل جهاز مصاب عزلًا كاملًا</em>… حتى لو كان من الأنظمة التي تقوم عليها المنشأة.",
  in_tag:"أسرع من المهاجم… وأثبت من الهجوم", in_c1:"أجهزة توقفت عن العمل", in_c2:"أنظمة مهمة توقفت",
  in_skip:"تخطَّ", in_sound:"شغّل الصوت", in_next:"التالي", in_prev:"السابق", in_enter:"ادخل الموقع",
- hero_eyebrow:"بحث في الاستجابة للحوادث السيبرانية", hero_full:"نظام الاستجابة السيبرانية المتكيّفة",
+ hero_eyebrow:"بحث في الاستجابة للحوادث السيبرانية", hero_full:"نظام الاستجابة الآلية للاختراقات (Automated Compromise Response System)",
  hero_lede:"حين يُخترق جهاز، لا يلزم أن تتوقف المنشأة كلها.", hero_simple:"ACRS يوقف المخترق بأخف طريقة تكفي، عشان الأجهزة المهمة تبقى شغّالة. مثل الطبيب الشاطر: ما يبتر اليد عشان جرح في الإصبع.",
  hero_sig:"بحث وتطوير: <b>حسان عبدالله الينبعاوي</b>",
  btn_watch:"شاهد الفكرة في 90 ثانية", btn_evidence:"شاهد النتائج",
@@ -953,14 +1072,14 @@ ar:{
  a5_t:"المصادر", a5_s:"3 تقارير و4 مراجع معيارية"
 },
 en:{
- nav_evidence:"Check", nav_res:"Results", rs_eyebrow:"Results", sound_label:"Turn sound on or off",
+ nav_evidence:"Check", nav_res:"Results", rs_eyebrow:"Stage 1 (ACRS v1): results", sound_label:"Turn sound on or off",
  in_breach:"System compromised", in_stat:"Ransomware (malware that locks files and demands money) is now in almost half of all breaches",
  in_scale:"",
  in_src:"Share of breaches involving ransomware · Source: Verizon Data Breach Investigations Report (DBIR), 2022–2026 · 2024 counts ransomware with other extortion",
  in_problem:"The usual answer? <em>Fully isolate every compromised machine</em>, even the systems the organization runs on.",
  in_tag:"Faster than the attacker. Steadier than the attack.", in_c1:"machines stopped", in_c2:"important systems stopped",
  in_skip:"Skip", in_sound:"Sound on", in_next:"Next", in_prev:"Back", in_enter:"Enter the site",
- hero_eyebrow:"Research · Automated incident response", hero_full:"Adaptive Cyber Response System",
+ hero_eyebrow:"Research · Automated incident response", hero_full:"Automated Compromise Response System",
  hero_lede:"When one machine is hacked, the whole organization should not stop.", hero_simple:"ACRS stops the intruder in the lightest way that works, so important machines keep running. Like a good doctor: you do not amputate a hand for a cut finger.",
  hero_sig:"Research &amp; development by <b>Hassan Abdullah Alyenbawi</b>",
  btn_watch:"Watch it in 90 seconds", btn_evidence:"See the results",
@@ -1039,7 +1158,7 @@ var filter = "all";
 function applyLang(){
   var t=T[lang], root=document.documentElement;
   root.lang=lang; root.dir=(lang==="ar")?"rtl":"ltr";
-  document.title=(lang==="ar")?"ACRS · نظام الاستجابة السيبرانية المتكيّفة":"ACRS · Adaptive Cyber Response System";
+  document.title=(lang==="ar")?"ACRS · نظام الاستجابة الآلية للاختراقات":"ACRS · Automated Compromise Response System";
   document.querySelectorAll("[data-i18n]").forEach(function(el){var k=el.getAttribute("data-i18n"); if(t[k]!==undefined) el.textContent=t[k];});
   document.querySelectorAll("[data-i18n-html]").forEach(function(el){var k=el.getAttribute("data-i18n-html"); if(t[k]!==undefined) el.innerHTML=t[k];});
   document.querySelectorAll("[data-i18n-aria]").forEach(function(el){el.setAttribute("aria-label",t[el.getAttribute("data-i18n-aria")]);});
@@ -1584,7 +1703,7 @@ en:{rl_eyebrow:"Real test",rl_t:"Not just a simulation: tested with a real firew
  rl_wr_t:"⚠️ What is not real yet",rl_wr:"Everything runs on one machine, there is no hospital network, and detection time was not measured.",
  rl_try_t:"Try it yourself",rl_try_l:"Full results file (real_lab.json)"}};
 Object.keys(T5).forEach(function(l){Object.keys(T5[l]).forEach(function(k){T[l][k]=T5[l][k];});});
-var T6={ar:{qa_eyebrow:"المرحلة الجاية: Q-ACRS",qa_t:"نفس الفكرة… على كمبيوتر كمومي حقيقي",
+var T6={ar:{qa_eyebrow:"المرحلة الثانية: Q-ACRS (أول تشغيل كمّي)",qa_t:"نفس الفكرة… على كمبيوتر كمومي حقيقي",
  qa_s:"بدال ما يقرر لكل جهاز لحاله، Q-ACRS يقرر للشبكة كلها مرة وحدة: يحوّل الاختيار لمعادلة QUBO، والكمبيوتر الكمومي (QAOA) يقترح القرار، وفحص كلاسيكي يتأكد إنه آمن قبل التنفيذ.",
  qa_f1:"وصل لأفضل قرار على جهاز IBM كمومي حقيقي",qa_f1s:"جهاز ibm_marrakesh ‏(156 كيوبت)، 4000 قياس. المحاكي المثالي: 98.1%، والتخمين العشوائي: 25%.",
  qa_f2:"خدمات طاحت في 40 سيناريو",qa_f2s:"العزل الكامل طيّح 23 خدمة وعزل أجهزة ممنوع عزلها 12 مرة. Q-ACRS: صفر وصفر.",
@@ -1594,9 +1713,9 @@ var T6={ar:{qa_eyebrow:"المرحلة الجاية: Q-ACRS",qa_t:"نفس الف
  qa_th1:"كيوبت",qa_th2:"احتمال أفضل قرار (QAOA)",qa_th3:"تخمين عشوائي",
  qa_tnote:"محاكاة بدون ضوضاء. من 10 كيوبت وفوق بعد تحسين CVaR.",
  qa_ok_t:"✅ وش الحقيقي",qa_ok:"تشغيل على جهاز IBM كمومي حقيقي (رقم الطلب منشور)، و40 سيناريو، وكل الكود والنتائج على GitHub.",
- qa_wr_t:"⚠️ وش مو حقيقي بعد",qa_wr:"اللي اشتغل على الجهاز الحقيقي قرار 3 أجهزة بس. الأوزان افتراضات. والكمومي مو أسرع من الكمبيوتر العادي بهالحجم.",
+ qa_wr_t:"⚠️ وش مو حقيقي بعد",qa_wr:"هذا كان أول تشغيل (3 أجهزة). بعدها شغّلنا قرار 240 جهازًا على 75 كيوبت (شوف قسم البحث فوق). الأوزان افتراضات، والكمومي مو أسرع من الحل الكلاسيكي.",
  qa_try_t:"تحقق بنفسك",qa_try_l:"الكود والنتائج كاملة على GitHub"},
-en:{qa_eyebrow:"Next stage: Q-ACRS",qa_t:"The same idea… on a real quantum computer",
+en:{qa_eyebrow:"Stage 2: Q-ACRS (first quantum run)",qa_t:"The same idea… on a real quantum computer",
  qa_s:"Instead of deciding for each machine alone, Q-ACRS decides for the whole network at once: the choice becomes a QUBO, a quantum algorithm (QAOA) proposes the decision, and a classical check makes sure it is safe before anything runs.",
  qa_f1:"best decision reached on a real IBM quantum computer",qa_f1s:"ibm_marrakesh (156 qubits), 4000 shots. Ideal simulator: 98.1%; random guessing: 25%.",
  qa_f2:"services taken down across 40 scenarios",qa_f2s:"Full isolation took down 23 services and isolated must-never-isolate devices 12 times. Q-ACRS: zero and zero.",
@@ -1606,9 +1725,14 @@ en:{qa_eyebrow:"Next stage: Q-ACRS",qa_t:"The same idea… on a real quantum com
  qa_th1:"Qubits",qa_th2:"Chance of best decision (QAOA)",qa_th3:"Random guess",
  qa_tnote:"Noiseless simulation. From 10 qubits up, after the CVaR improvement.",
  qa_ok_t:"✅ What is real",qa_ok:"A run on a real IBM quantum computer (job id published), 40 scenarios, and all code and results on GitHub.",
- qa_wr_t:"⚠️ What is not real yet",qa_wr:"Only a 3-machine decision has run on real hardware. The weights are assumptions. Quantum is not faster than a normal computer at this size.",
+ qa_wr_t:"⚠️ What is not real yet",qa_wr:"This was the first run (3 machines). Later a 240-machine decision ran on 75 qubits (see the research section above). The weights are assumptions, and quantum is not faster than the classical solver.",
  qa_try_t:"Check it yourself",qa_try_l:"Full code and results on GitHub"}};
 Object.keys(T6).forEach(function(l){Object.keys(T6[l]).forEach(function(k){T[l][k]=T6[l][k];});});
+var T7={"ar": {"nav_research": "البحث", "ib_eyebrow": "البحث العلمي · إبداع 2027 · الإصدار الحالي v9", "ib_t": "ACRS: نحتوي الهجوم، والمستشفى يكمل يشتغل", "ib_s": "يختار ACRS أقل إجراء احتواء يكفي لإيقاف المهاجم في شبكة المستشفى كاملة (عزل، أو تقييد، أو تجزئة للخادم الحرج)، ويمر كل قرار ببوابة سلامة مستقلة تحيل الحرج لموافقة شخصين. كل رقم هنا من ملفات النتائج في المستودع، وكل معيار نجاح سُجّل في Git قبل التجربة.", "ib_p_h": "01 · المشكلة", "ib_p1": "جهة صحية في إنجلترا تعطّلت في هجوم WannaCry دون أن تُصاب", "ib_p1s": "من أصل 80 جهة تأثرت (34 أُصيبت فعلًا). الضرر الأكبر جاء من قرار الاحتواء نفسه [1].", "ib_p2": "ارتفاع وفيات المرضى المنوّمين داخل المستشفى أثناء هجمات الفدية", "ib_p2s": "مع انخفاض عدد المرضى 17–24% في أسبوع الهجوم، في المستشفيات الأمريكية [2].", "ib_gap_t": "الفجوة", "ib_gap": "<li>القرار يُتخذ لكل جهاز وحده، فلا يرى أن عزل الخادمين التوأمين معًا يوقف الخدمة [3][4].</li><li>لا ضمان مثبت أن المحلّل لن يكسر قاعدة سلامة، ولا آلية تحوّل الفشل الصامت إلى إحالة للبشر [5][6].</li><li>النظام الآلي نفسه هدف: تنبيهات مزوّرة قد تجبره على عزل المستشفى.</li>", "ib_q_t": "السؤال والفرضية", "ib_q": "هل يحقق احتواء تكيفي ببوابة سلامة احتواءً مقاربًا للعزل الكامل، مع إيقاف خدمات أقل، ودون كسر أي قاعدة سلامة؟ <b>الفرضية H1 (مسجلة مسبقًا):</b> نسبة الاحتواء أمام العزل الكامل الآمن ≥ 0.80 مع خدمات متوقفة أقل (اختبار Wilcoxon عند مستوى دلالة 0.05)، و0 قرارات غير آمنة.", "ib_nov_t": "الأصالة", "ib_nov": "<li><b>التجزئة:</b> إجراء ثالث يبقي الخادم الحرج يخدم ويقطع الحركة الجانبية فقط.</li><li><b>بوابة سلامة مستقلة</b> بشهادة موقّعة يعيد مدقق مستقل حسابها.</li><li><b>مقاومة التسليح:</b> تنبيهات مزوّرة لا تستطيع إيقاف أي خدمة.</li><li><b>«أصغر عقوبة آمنة»</b> جعلت الحاسوب الكمّي يجد الأمثل الدقيق، بينما وصل أقرب عمل [10] إلى نحو 70%.</li>", "ib_m_t": "المنهجية", "ib_m": "<li>تسجيل مسبق في Git قبل كل تجربة (11 تسجيلًا).</li><li>تصميم على 40 سيناريو فقط، ثم اختبار على قرابة 3,000 سيناريو جديد لم يُصمَّم عليها النظام.</li><li>تحقق حقيقي: جدار حماية Linux على اتصالات TCP، وثلاثة حواسيب IBM كمّية.</li><li>إحصاء: Wilson وMcNemar وWilcoxon وHolm، واختبار حساسية للأوزان ±50%.</li>", "ib_r_h": "06 · النتائج", "ib_r1": "نسبة الاحتواء أمام العزل الكامل الآمن", "ib_r1s": "259 سلسلة هجوم. الحد المسجل مسبقًا 0.80. 0 فشل صامت.", "ib_r2": "خدمات مستشفى توقفت", "ib_r2s": "العزل الكامل الآمن مقابل ACRS على نفس الهجمات.", "ib_r3": "نسبة الإحالة للبشر", "ib_r3s": "بعد إضافة التجزئة (v5 ← v7).", "ib_r4": "تأكيد على بيانات لم تُستخدم أبدًا", "ib_r4s": "253 سلسلة، و187 هجومًا على مستشفى من 60 جهازًا. 0 خدمات متوقفة.", "ib_r5": "زمن قطع المهاجم (p95)", "ib_r5s": "على جدار حماية Linux حقيقي. تطابق النموذج والواقع 6,002/6,002.", "ib_r6": "أجزاء القرار التي وجد فيها حاسوب IBM الأمثل", "ib_r6s": "قرار 240 جهازًا على 75 كيوبت، على جهازين. القرار المجمّع = الحل الدقيق.", "ib_t1_c1": "هدف فشل في v8 وأُصلح", "ib_t1_c4": "الهدف", "ib_t1_r1": "زمن قطع المهاجم", "ib_t1_r2": "تزوير رفضه مدقق الشهادة", "ib_t1_r3": "أخطاء أوقفها التوأم الرقمي", "ib_t1_r4": "كشف التنبيهات المزوّرة", "ib_t1_cap": "نتائج v8 منشورة كما هي، وأُعيد الاختبار بعد الإصلاح على بيانات جديدة.", "ib_t2_c1": "تجربة IBM", "ib_t2_c2": "كيوبت", "ib_t2_c3": "الحاسوب الحقيقي", "ib_t2_c4": "العشوائي", "ib_t2_e9": "كل جزء أفضل منه", "ib_t2_cap": "النسبة = احتمال أن تعطي القراءة الواحدة القرار الأمثل. E9: على ibm_kingston وibm_fez، وكل جزء أفضل من العشوائي إحصائيًا (Holm). لا ندّعي تفوقًا كمّيًا.", "ib_ok_t": "✅ ما ثبت", "ib_ok": "<li>تحققت الفرضية H1 على بيانات جديدة.</li><li>0 قرارات غير آمنة في كل التجارب.</li><li>كل الأهداف التي فشلت أُصلحت وأُعيد اختبارها.</li>", "ib_wr_t": "⚠️ الحدود", "ib_wr": "<li>الشبكات والهجمات اصطناعية، ولم يُختبر في مستشفى حقيقي.</li><li>النظام لا يكشف الهجوم، يستقبل التنبيهات.</li><li>لا تفوق كمّي، وفي الفدية يساوي العزل الكامل ولا يتفوق عليه.</li>", "ib_try_t": "أعد إنتاج النتائج", "ib_try_l": "ملفات النتائج على GitHub", "ib_plan_h": "08 · الخطة القادمة", "ib_pl_c1": "الفترة", "ib_pl_c2": "العمل", "ib_pl1d": "أواخر أكتوبر – منتصف نوفمبر 2026", "ib_pl1": "اختبار أعمى: شخص مستقل يكتب هجمات لم نرها، وتُشغَّل مرة واحدة بكود مقفل مسبقًا.", "ib_pl2d": "نوفمبر 2026", "ib_pl2": "مراجعة مختص أمن سيبراني لافتراضات النموذج والأوزان.", "ib_pl3d": "24–26 نوفمبر 2026", "ib_pl3": "عرض حي في معرض سيف: هجوم ← قرار ← قطع المهاجم مع بقاء الخدمات.", "ib_pl4d": "ديسمبر 2026 – يناير 2027", "ib_pl4": "اختبار على بيانات شبكة حقيقية عامة، وكتابة الورقة البحثية.", "ib_refs_t": "09 · المراجع (17) والإفصاح", "ib_ai": "الإفصاح: استُخدم Claude (Anthropic) في كتابة الكود وتحليل النتائج والبحث عن المصادر وصياغة النصوص، وChatGPT/Codex (OpenAI) مراجعًا مستقلًا. فكرة المشروع وقراراته البحثية وتشغيل تجارب IBM ومراجعة كل نتيجة من الطالب. صُمم ACRS ليدعم تحقيق ضوابط الهيئة الوطنية للأمن السيبراني ومبادئ سدايا، وليس اعتمادًا رسميًا. الإصدارات v7–v9 تظهر في سجلات المستودع باسم المحرّك HASSAN."}, "en": {"nav_research": "Research", "ib_eyebrow": "Research · Ibdaa 2027 · current version v9", "ib_t": "ACRS: contain the attack, keep the hospital running", "ib_s": "ACRS chooses the smallest containment action that stops the attacker across the whole hospital network (isolate, restrict, or segment a critical server), and every decision passes an independent safety gate that sends critical actions to two people. Every number here comes from the result files in the repository, and every success criterion was committed to Git before the experiment.", "ib_p_h": "01 · The problem", "ib_p1": "NHS bodies in England were disrupted by WannaCry without being infected", "ib_p1s": "Out of 80 affected (34 infected). Most of the harm came from the containment decision itself [1].", "ib_p2": "rise in in-hospital deaths of admitted patients during ransomware attacks", "ib_p2s": "With patient volume down 17–24% in the attack week, in US hospitals [2].", "ib_gap_t": "The gap", "ib_gap": "<li>Decisions are made per machine, blind to the fact that isolating both twin servers stops the service [3][4].</li><li>No proven guarantee that the solver never breaks a safety rule, and no way to turn a silent failure into a human escalation [5][6].</li><li>The automation itself is a target: forged alerts could make it shut the hospital down.</li>", "ib_q_t": "Question and hypothesis", "ib_q": "Can safety-gated adaptive containment come close to full isolation while stopping fewer services and never breaking a safety rule? <b>H1 (pre-registered):</b> containment ratio vs safe full isolation ≥ 0.80 with fewer services down (Wilcoxon, α = 0.05), and 0 unsafe decisions.", "ib_nov_t": "What is new", "ib_nov": "<li><b>SEGMENT:</b> a third action that keeps a critical server serving and cuts lateral movement only.</li><li><b>An independent safety gate</b> with a signed certificate that a separate checker recomputes.</li><li><b>Anti-weaponization:</b> forged alerts cannot take any service down.</li><li><b>“Smallest safe penalty”</b> let the quantum computer find the exact optimum; the closest work [10] reached about 70%.</li>", "ib_m_t": "Method", "ib_m": "<li>Pre-registered in Git before every experiment (11 pre-registrations).</li><li>Designed on 40 scenarios only, then tested on about 3,000 never-used scenarios.</li><li>Real checks: a Linux firewall on real TCP connections, and three IBM quantum computers.</li><li>Statistics: Wilson, McNemar, Wilcoxon, Holm, and a ±50% weight sensitivity test.</li>", "ib_r_h": "06 · Results", "ib_r1": "containment ratio vs safe full isolation", "ib_r1s": "259 attack chains. Pre-registered threshold 0.80. 0 silent failures.", "ib_r2": "hospital services taken down", "ib_r2s": "Safe full isolation vs ACRS on the same attacks.", "ib_r3": "escalation to humans", "ib_r3s": "After adding SEGMENT (v5 → v7).", "ib_r4": "confirmed on never-used data", "ib_r4s": "253 chains, and 187 attacks on a 60-machine hospital. 0 services down.", "ib_r5": "time to cut the attacker off (p95)", "ib_r5s": "On a real Linux firewall. Model and reality matched 6,002/6,002.", "ib_r6": "decision parts where the IBM computer found the optimum", "ib_r6s": "A 240-machine decision on 75 qubits, on two machines. Assembled decision = exact solution.", "ib_t1_c1": "Missed in v8, fixed", "ib_t1_c4": "Target", "ib_t1_r1": "Time to cut the attacker", "ib_t1_r2": "Forgeries rejected by the checker", "ib_t1_r3": "Faults stopped by the digital twin", "ib_t1_r4": "Forged-alert detection", "ib_t1_cap": "v8 results stay published as they were; the fixes were re-tested on fresh data.", "ib_t2_c1": "IBM experiment", "ib_t2_c2": "Qubits", "ib_t2_c3": "Real processor", "ib_t2_c4": "Random", "ib_t2_e9": "every part beats it", "ib_t2_cap": "Share = chance that one reading gives the optimal decision. E9 ran on ibm_kingston and ibm_fez; every part beats random (Holm). No quantum-advantage claim.", "ib_ok_t": "✅ What held", "ib_ok": "<li>H1 met on fresh data.</li><li>0 unsafe decisions in every experiment.</li><li>Every missed target was fixed and re-tested.</li>", "ib_wr_t": "⚠️ Limits", "ib_wr": "<li>Networks and attacks are synthetic; not tested in a real hospital.</li><li>ACRS does not detect attacks; it receives alerts.</li><li>No quantum advantage; on ransomware it equals full isolation, it does not beat it.</li>", "ib_try_t": "Reproduce the results", "ib_try_l": "Result files on GitHub", "ib_plan_h": "08 · Next steps", "ib_pl_c1": "When", "ib_pl_c2": "Work", "ib_pl1d": "Late Oct – mid Nov 2026", "ib_pl1": "Blind test: an independent author writes unseen attacks, run once on pre-locked code.", "ib_pl2d": "Nov 2026", "ib_pl2": "Review of the model assumptions and weights by a cybersecurity professional.", "ib_pl3d": "24–26 Nov 2026", "ib_pl3": "Live demo at SAIF: attack → decision → attacker cut off while services keep running.", "ib_pl4d": "Dec 2026 – Jan 2027", "ib_pl4": "Test on a public real-network dataset, and write the paper.", "ib_refs_t": "09 · References (17) and disclosure", "ib_ai": "Disclosure: Claude (Anthropic) was used for code, analysis, source search and drafting; ChatGPT/Codex (OpenAI) as an independent reviewer. The idea, research decisions, IBM runs and review of every result are the student's. ACRS is designed to support the NCA controls and SDAIA principles; this is not a certification. Versions v7–v9 appear in the repository records under the engine name HASSAN."}};
+Object.keys(T7).forEach(function(l){Object.keys(T7[l]).forEach(function(k){T[l][k]=T7[l][k];});});
+var IB_REFS=["National Audit Office (2017). Investigation: WannaCry cyber attack and the NHS. https://www.nao.org.uk/reports/investigation-wannacry-cyber-attack-and-the-nhs/", "Neprash, H., McGlave, C., & Nikpay, S. (2026). Hacked to Pieces? The Effects of Ransomware Attacks on Hospitals and Patients. American Economic Journal: Economic Policy, 18(1), 256–281. https://doi.org/10.1257/pol.20240594", "Islam, C., Babar, M. A., & Nepal, S. (2020). A Multi-Vocal Review of Security Orchestration. arXiv:2002.09190", "Microsoft. Automatic attack disruption in Microsoft Defender XDR. Microsoft Learn (retrieved Oct 11, 2026)", "Shameli-Sendi, A., Louafi, H., He, W., & Cheriet, M. (2018). Dynamic optimal countermeasure selection for intrusion response system. IEEE TDSC, 15(5), 755–770. https://doi.org/10.1109/TDSC.2016.2615622", "Bozorgchenani, A., et al. (2023). Joint Security-vs-QoS Game Theoretical Optimization for Intrusion Response Mechanisms. arXiv:2303.08544", "Bernardez Molina, S., Gómez Mármol, F., & Nespoli, P. (2023). Tackling Cyberattacks through AI-based Reactive Systems. arXiv:2312.06229", "Anwar, S., et al. (2017). From intrusion detection to an intrusion response system. Algorithms, 10(2), 39. https://doi.org/10.3390/a10020039", "Marini, R., & Arpe, R. (2025). Cyber Risk Scoring with QUBO: A Quantum and Hybrid Benchmark Study. arXiv:2512.18305", "Cogburn, C. V., DeCusatis, C., & Spillane, E. (2026). Hardware-Aware QAOA for Honeypot Traffic Partitioning on 100+ Qubit IBM Quantum Processors. arXiv:2606.09469", "Farhi, E., Goldstone, J., & Gutmann, S. (2014). A Quantum Approximate Optimization Algorithm. arXiv:1411.4028", "Barkoutsos, P. K., et al. (2020). Improving variational quantum optimization using CVaR. Quantum, 4, 256", "Lucas, A. (2014). Ising formulations of many NP problems. Frontiers in Physics, 2, 5. https://doi.org/10.3389/fphy.2014.00005", "Glover, F., Kochenberger, G., & Du, Y. (2019). Quantum Bridge Analytics I: a tutorial on formulating and using QUBO models. 4OR, 17(4), 335–371", "FIRST (2019). Common Vulnerability Scoring System v3.1: Specification Document", "الهيئة الوطنية للأمن السيبراني (2024). الضوابط الأساسية للأمن السيبراني ECC-2:2024", "الهيئة السعودية للبيانات والذكاء الاصطناعي (2023). مبادئ أخلاقيات الذكاء الاصطناعي"];
+(function(){var ol=document.getElementById('ibRefs');if(!ol)return;IB_REFS.forEach(function(r){var li=document.createElement('li');if(/^[A-Za-z]/.test(r))li.className='en';li.textContent=r;ol.appendChild(li);});})();
+
 var lnSeen=false;
 function renderLearn(){
   var t=T4[lang], nar=innerWidth<600, W=nar?440:720,H=nar?300:330,Lf=46,R=12,Tp=16,B=70, X0=function(i){return Lf+i*(W-Lf-R)/8;}, gw=(W-Lf-R)/8, bw=gw*0.24, max=16;
