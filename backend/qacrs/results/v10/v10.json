@@ -1,0 +1,484 @@
+{
+ "meta": {
+  "experiment": "phase15_v10",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v10.md",
+  "date_utc": "2026-10-14T16:14:36Z",
+  "git_commit": "144da4e",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "sectors_v10.py": "25a2ee8d8944",
+   "phase15_v10.py": "601c504f1509",
+   "hassan.py": "b0e8cd8fb9c7",
+   "qubo_v7.py": "1114421bea7e",
+   "hassan_v9.py": "e9bd41f00588"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {},
+  "status": "complete",
+  "warnings": [],
+  "seconds": 101.0
+ },
+ "A_sectors": {
+  "factory48": {
+   "machines": 48,
+   "services": 6,
+   "links": 92,
+   "never_isolate": 11,
+   "chains": {
+    "n": 192,
+    "status": {
+     "CONTAINED": 152,
+     "ESCALATED": 40
+    },
+    "contained": 152,
+    "contained_full_isolation": 192,
+    "containment_ratio_vs_full_isolation": 0.7916666666666666,
+    "unsafe": 0,
+    "silent": 0,
+    "silent_wilson95": [
+     1.734723475976807e-18,
+     0.01961514606675411
+    ],
+    "services_down": 0,
+    "full_isolation_services_down": 161,
+    "scenarios_with_any_service_down": 0,
+    "wilcoxon_services_down_less": {
+     "p": 8.35623743534725e-15,
+     "nonzero_pairs": 74,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 0.264875999960168,
+     "p95": 24.997717000019293
+    }
+   },
+   "random": {
+    "n": 199,
+    "status": {
+     "CONTAINED": 180,
+     "ESCALATED": 18,
+     "NOT_CONTAINED": 1
+    },
+    "contained": 180,
+    "contained_full_isolation": 199,
+    "containment_ratio_vs_full_isolation": 0.9045226130653267,
+    "unsafe": 0,
+    "silent": 1,
+    "silent_wilson95": [
+     0.0008876095100409567,
+     0.027910540802306198
+    ],
+    "services_down": 0,
+    "full_isolation_services_down": 72,
+    "scenarios_with_any_service_down": 0,
+    "wilcoxon_services_down_less": {
+     "p": 5.11107071451891e-10,
+     "nonzero_pairs": 45,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 0.26984999999513093,
+     "p95": 92.73518400004832
+    }
+   },
+   "dropped_duplicates": {
+    "chains": 8,
+    "random": 1
+   },
+   "G1": {
+    "ratio_ge_0_80": false,
+    "zero_unsafe": true,
+    "fewer_services_down": true,
+    "wilcoxon_applicable": true,
+    "pass": false
+   },
+   "G2": {
+    "pass": false
+   }
+  },
+  "bank42": {
+   "machines": 42,
+   "services": 10,
+   "links": 74,
+   "never_isolate": 1,
+   "chains": {
+    "n": 193,
+    "status": {
+     "CONTAINED": 174,
+     "ESCALATED": 19
+    },
+    "contained": 174,
+    "contained_full_isolation": 193,
+    "containment_ratio_vs_full_isolation": 0.9015544041450777,
+    "unsafe": 0,
+    "silent": 0,
+    "silent_wilson95": [
+     0.0,
+     0.01951549660172641
+    ],
+    "services_down": 1,
+    "full_isolation_services_down": 388,
+    "scenarios_with_any_service_down": 1,
+    "wilcoxon_services_down_less": {
+     "p": 4.262966297493311e-15,
+     "nonzero_pairs": 73,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 0.3424239999958445,
+     "p95": 240.81760400008534
+    }
+   },
+   "random": {
+    "n": 196,
+    "status": {
+     "CONTAINED": 164,
+     "ESCALATED": 32
+    },
+    "contained": 164,
+    "contained_full_isolation": 196,
+    "containment_ratio_vs_full_isolation": 0.8367346938775511,
+    "unsafe": 0,
+    "silent": 0,
+    "silent_wilson95": [
+     1.734723475976807e-18,
+     0.019222531917868144
+    ],
+    "services_down": 1,
+    "full_isolation_services_down": 139,
+    "scenarios_with_any_service_down": 1,
+    "wilcoxon_services_down_less": {
+     "p": 6.721656493158628e-13,
+     "nonzero_pairs": 60,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 7.509703999971862,
+     "p95": 642.65234100003
+    }
+   },
+   "dropped_duplicates": {
+    "chains": 7,
+    "random": 4
+   },
+   "G1": {
+    "ratio_ge_0_80": true,
+    "zero_unsafe": true,
+    "fewer_services_down": true,
+    "wilcoxon_applicable": true,
+    "pass": true
+   },
+   "G2": {
+    "pass": false
+   }
+  },
+  "univ45": {
+   "machines": 45,
+   "services": 8,
+   "links": 93,
+   "never_isolate": 2,
+   "chains": {
+    "n": 192,
+    "status": {
+     "CONTAINED": 161,
+     "ESCALATED": 31
+    },
+    "contained": 161,
+    "contained_full_isolation": 192,
+    "containment_ratio_vs_full_isolation": 0.8385416666666666,
+    "unsafe": 0,
+    "silent": 0,
+    "silent_wilson95": [
+     1.734723475976807e-18,
+     0.01961514606675411
+    ],
+    "services_down": 13,
+    "full_isolation_services_down": 218,
+    "scenarios_with_any_service_down": 13,
+    "wilcoxon_services_down_less": {
+     "p": 4.730936937636068e-18,
+     "nonzero_pairs": 93,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 0.13512999998965824,
+     "p95": 1.5946490000260383
+    }
+   },
+   "random": {
+    "n": 199,
+    "status": {
+     "CONTAINED": 160,
+     "ESCALATED": 39
+    },
+    "contained": 160,
+    "contained_full_isolation": 178,
+    "containment_ratio_vs_full_isolation": 0.898876404494382,
+    "unsafe": 0,
+    "silent": 0,
+    "silent_wilson95": [
+     0.0,
+     0.018938233056634942
+    ],
+    "services_down": 3,
+    "full_isolation_services_down": 101,
+    "scenarios_with_any_service_down": 3,
+    "wilcoxon_services_down_less": {
+     "p": 2.2150332674210426e-14,
+     "nonzero_pairs": 68,
+     "statistic": 0.0
+    },
+    "decision_ms": {
+     "median": 0.20863600002485327,
+     "p95": 41.05707799999436
+    }
+   },
+   "dropped_duplicates": {
+    "chains": 8,
+    "random": 1
+   },
+   "G1": {
+    "ratio_ge_0_80": true,
+    "zero_unsafe": true,
+    "fewer_services_down": true,
+    "wilcoxon_applicable": true,
+    "pass": true
+   },
+   "G2": {
+    "pass": false
+   }
+  }
+ },
+ "B_solvers": {
+  "problems": 1017,
+  "variables": {
+   "median": 8,
+   "max": 24
+  },
+  "exact_milp": {
+   "optimal": 1017,
+   "optimal_share": 1.0,
+   "mean_rel_gap": 0.0,
+   "ms_median": 9.230899999920439,
+   "ms_p95": 13.758127999949465
+  },
+  "engine": {
+   "optimal": 1017,
+   "optimal_share": 1.0,
+   "mean_rel_gap": 1.273364354453215e-17,
+   "ms_median": 0.1651050000646137,
+   "ms_p95": 93.7032489999865
+  },
+  "greedy": {
+   "optimal": 1017,
+   "optimal_share": 1.0,
+   "mean_rel_gap": 1.273364354453215e-17,
+   "ms_median": 0.06769600008738053,
+   "ms_p95": 0.3376780000508006
+  },
+  "annealing": {
+   "optimal": 1017,
+   "optimal_share": 1.0,
+   "mean_rel_gap": 1.273364354453215e-17,
+   "ms_median": 16.365344000064397,
+   "ms_p95": 29.04166799999075
+  },
+  "random_1000": {
+   "optimal": 661,
+   "optimal_share": 0.6499508357915438,
+   "mean_rel_gap": 0.20763768012165282,
+   "ms_median": 2.5480020000259174,
+   "ms_p95": 5.243220000011206
+  }
+ },
+ "B_large_incident": {
+  "machines": 240,
+  "hacked": 80,
+  "variables": 146,
+  "exact_milp": {
+   "value": 165.8,
+   "ms": 13.951018999932785
+  },
+  "greedy": {
+   "value": 165.8,
+   "rel_gap": 0.0,
+   "ms": 141.5475559999777
+  },
+  "annealing": {
+   "value": 165.8,
+   "rel_gap": 0.0,
+   "ms": 1028.400558000044
+  },
+  "random_1000": {
+   "value": 594229.3,
+   "rel_gap": 3583.0126658624845,
+   "ms": 22.70512300003702
+  }
+ },
+ "B_ibm_quoted": {
+  "note": "quoted from results/v3/ibm (E7-E9), not re-run",
+  "E7_ibm_kingston_optimal_share": 0.119,
+  "E8_ibm_fez_optimal_share": 0.827,
+  "E9_components_optimal": "11/11"
+ },
+ "C_mitre": {
+  "factory48": {
+   "scenarios": 192,
+   "scenarios_tagged": 192,
+   "techniques": {
+    "T1071": 192,
+    "T1566": 178,
+    "T1021": 128,
+    "T1486": 48,
+    "T1003": 43,
+    "T1078": 43,
+    "T1005": 43,
+    "T1041": 43,
+    "T1190": 21,
+    "ICS:T0886": 13,
+    "ICS:T0843": 7
+   },
+   "tactics": {
+    "Command and Control": 192,
+    "Initial Access": 199,
+    "Lateral Movement": 128,
+    "Lateral Movement (ICS)": 20,
+    "Credential Access": 43,
+    "Defense Evasion / Persistence": 43,
+    "Collection": 43,
+    "Exfiltration": 43,
+    "Impact": 48
+   }
+  },
+  "bank42": {
+   "scenarios": 193,
+   "scenarios_tagged": 193,
+   "techniques": {
+    "T1071": 193,
+    "T1566": 180,
+    "T1021": 140,
+    "T1486": 55,
+    "T1005": 52,
+    "T1041": 52,
+    "T1078": 42,
+    "T1003": 42,
+    "T1190": 23
+   },
+   "tactics": {
+    "Lateral Movement": 140,
+    "Command and Control": 193,
+    "Collection": 52,
+    "Exfiltration": 52,
+    "Initial Access": 203,
+    "Impact": 55,
+    "Defense Evasion / Persistence": 42,
+    "Credential Access": 42
+   }
+  },
+  "univ45": {
+   "scenarios": 192,
+   "scenarios_tagged": 192,
+   "techniques": {
+    "T1071": 192,
+    "T1566": 174,
+    "T1021": 142,
+    "T1005": 61,
+    "T1041": 61,
+    "T1003": 33,
+    "T1078": 33,
+    "T1486": 27,
+    "T1190": 26
+   },
+   "tactics": {
+    "Lateral Movement": 142,
+    "Command and Control": 192,
+    "Collection": 61,
+    "Exfiltration": 61,
+    "Initial Access": 200,
+    "Credential Access": 33,
+    "Defense Evasion / Persistence": 33,
+    "Impact": 27
+   }
+  },
+  "hospital60_7102": {
+   "scenarios": 187,
+   "scenarios_tagged": 187,
+   "techniques": {
+    "T1071": 187,
+    "T1566": 176,
+    "T1021": 127,
+    "T1486": 44,
+    "T1005": 44,
+    "T1041": 44,
+    "T1003": 37,
+    "T1078": 37,
+    "T1190": 25
+   },
+   "tactics": {
+    "Lateral Movement": 127,
+    "Command and Control": 187,
+    "Initial Access": 201,
+    "Credential Access": 37,
+    "Impact": 44,
+    "Defense Evasion / Persistence": 37,
+    "Collection": 44,
+    "Exfiltration": 44
+   }
+  },
+  "net12_7009": {
+   "scenarios": 112,
+   "scenarios_tagged": 112,
+   "techniques": {
+    "T1071": 112,
+    "T1021": 101,
+    "T1566": 77,
+    "T1190": 70,
+    "T1005": 50,
+    "T1041": 50,
+    "T1486": 26,
+    "T1003": 25,
+    "T1078": 25
+   },
+   "tactics": {
+    "Lateral Movement": 101,
+    "Command and Control": 112,
+    "Impact": 26,
+    "Initial Access": 147,
+    "Collection": 50,
+    "Exfiltration": 50,
+    "Credential Access": 25,
+    "Defense Evasion / Persistence": 25
+   }
+  },
+  "net22_7009": {
+   "scenarios": 141,
+   "scenarios_tagged": 141,
+   "techniques": {
+    "T1071": 141,
+    "T1021": 128,
+    "T1566": 95,
+    "T1190": 79,
+    "T1005": 56,
+    "T1041": 56,
+    "T1003": 30,
+    "T1078": 30,
+    "T1486": 29
+   },
+   "tactics": {
+    "Initial Access": 174,
+    "Command and Control": 141,
+    "Lateral Movement": 128,
+    "Credential Access": 30,
+    "Defense Evasion / Persistence": 30,
+    "Impact": 29,
+    "Collection": 56,
+    "Exfiltration": 56
+   }
+  }
+ }
+}
