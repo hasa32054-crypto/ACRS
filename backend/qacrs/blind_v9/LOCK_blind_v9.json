@@ -1,0 +1,31 @@
+{
+ "experiment": "blind_v9_lock",
+ "version": "v3",
+ "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+ "date_utc": "2026-10-12T02:24:08Z",
+ "git_commit": "d2e9645",
+ "code_sha256_prefix": {
+  "network.py": "71c872b912d4",
+  "qubo_builder.py": "aa5cc3110408",
+  "safety_checks.py": "be05442575ab",
+  "escalation.py": "63cf9703d3ce"
+ },
+ "python": "3.13.16",
+ "numpy": "2.5.3",
+ "settings": {},
+ "status": "complete",
+ "warnings": [],
+ "sha256": {
+  "hassan.py": "b0e8cd8fb9c77887711a34a5eaedea6dcb08da9f1d1e5b5dd1d1a1a7e5361e09",
+  "hassan_v9.py": "e9bd41f005887d72e585dcf3b6339af5e0291f5eed673a3076a6ed150a7155c5",
+  "qubo_v7.py": "1114421bea7e440a356c68c6a9993831e30be398150932bcc1521ae471e887d9",
+  "qubo_builder.py": "aa5cc3110408c28c622a1184569e5b3317bb0764176a4d99baed7745697da836",
+  "escalation.py": "63cf9703d3ce7f02b066f4a042f2dc09ca776b15778ff2eea77ed742a94bd805",
+  "safety_checks.py": "be05442575aba5ade6e3d8faa6e0dd200f90947b9a23e962e5ce5f06e94d0369",
+  "network.py": "71c872b912d4dce5bb78977e1f0b8345b5d328485f52bb64f65385f8e0e166b5",
+  "realism_v8.py": "6579b0d358344292214ad054b5bb8e4e3f92d83c0266bffa4245e1fc8d913437",
+  "hospital_ar.py": "46a1d303aee5617ed3e2cee1d58f9d780f86b6a652146ac0eaa6eb6a058d3073",
+  "blind_v9.py": "430b7cc9076eae1655aebfea8f0e16aade0eee93c893e50d0e2f19c28acbb114",
+  "stats.py": "58b43ab30eca5e27cc65614a9cd7bd6bb5434cab4802be9f938ac79bad2a3fd0"
+ }
+}
