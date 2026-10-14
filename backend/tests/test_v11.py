@@ -106,6 +106,23 @@ class FormalModel(unittest.TestCase):
             self.assertTrue(FV.milp_prove(spec, "G", p)["proved"], p)
         for mut, p in zip(FV.MUTATIONS, ("P1", "P5", "P4")):
             self.assertFalse(FV.milp_prove(spec, "G", p, mut)["proved"], mut)
+        # defence in depth: removing only the gate's own never-isolate filter is still safe (engine rejection remains)
+        self.assertTrue(FV.milp_prove(spec, "G", "P1", "skip_never_isolate_filter_only")["proved"])
+        self.assertTrue(FV.milp_prove(spec, "G", "P4", "segment_any_filter_only")["proved"])
+
+    @unittest.skipUnless(HAS_GATE, "gate_v11.py not added yet")
+    def test_service_marks_only_gated_actions_automatic(self):
+        from qacrs import hassan as H, hassan_service as HS
+        net = build(1)
+        sc = Scenario("probe", net.name, {"pc_nurse": 8}, "probe")
+        for bad in (["mri"], ["db"], ["web1"]):
+            eng = H.Engine(net, solver=lambda n_, s_, b=bad: (set(b), set(), "injected"),
+                           limiter=H.RateLimiter(limit=10 ** 9))
+            acts = HS.to_acrs(net, eng.decide(sc), sc=sc)["actions"]
+            self.assertFalse([a for a in acts if a["auto"] and a["level"] == "ISOLATE"], bad)
+            self.assertTrue([a for a in acts if not a["auto"] and a["target"] == bad[0]], bad)
+        acts = HS.to_acrs(net, eng.decide(sc))["actions"]          # no scenario given -> nothing automatic
+        self.assertFalse([a for a in acts if a["auto"] and a["level"] in ("ISOLATE", "SEGMENT")])
 
     @unittest.skipUnless(HAS_Z3, "z3-solver not installed (pip install z3-solver)")
     def test_z3_agrees_with_highs(self):

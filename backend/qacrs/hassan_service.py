@@ -34,17 +34,29 @@ def networks() -> dict:
 ACRS_TIER_DEADLINE_S = {0: 7.0, 1: 15.0, 2: 90.0}
 
 
-def to_acrs(net, d: H.HassanDecision, tier: int = 0) -> dict:
-    """Map a HASSAN decision onto ACRS actions. Automatic part = isolate + segment + restrict; the rest is queued
-    for approvals exactly as ACRS does for full containment (2 approvals at tier 0)."""
-    actions = ([{"level": "ISOLATE", "target": m, "auto": True} for m in d.isolate]
-               + [{"level": "SEGMENT", "target": m, "auto": True} for m in d.segment]
+def to_acrs(net, d: H.HassanDecision, tier: int = 0, sc=None) -> dict:
+    """Map a HASSAN decision onto ACRS actions. Since v11 every automatic action goes through gate_v11.enforce:
+    only what the gate allows is marked auto; anything else proposed (and every escalation) is queued for approvals,
+    exactly as ACRS does for full containment (2 approvals at tier 0). Without the scenario the gate cannot check
+    what was reported, so nothing is marked automatic (safe default)."""
+    from qacrs import gate_v11 as GV
+    if sc is not None:
+        g = GV.enforce(net, sc, d)
+    else:
+        g = {"auto_isolate": [], "auto_segment": [], "blocked_all": True, "reason": "scenario not given to to_acrs",
+             "held": [{"target": m, "action": "ISOLATE", "reason": "scenario not given"} for m in d.isolate]
+             + [{"target": m, "action": "SEGMENT", "reason": "scenario not given"} for m in d.segment]}
+    actions = ([{"level": "ISOLATE", "target": m, "auto": True} for m in g["auto_isolate"]]
+               + [{"level": "SEGMENT", "target": m, "auto": True} for m in g["auto_segment"]]
                + [{"level": "RESTRICT", "target": m, "auto": True} for m in d.restrict]
+               + [{"level": h["action"], "target": h["target"], "auto": False, "approvals": 2,
+                   "reason": f"gate: {h['reason']}"} for h in g["held"]]
                + [{"level": "APPROVAL", "target": e["target"], "auto": False, "approvals": e.get("approvals", 2),
                    "reason": e.get("rule")} for e in d.escalations])
     deadline = ACRS_TIER_DEADLINE_S[tier]
     return {"tier": tier, "deadline_s": deadline, "decision_s": d.ms / 1000,
-            "within_deadline": d.ms / 1000 < deadline, "actions": actions}
+            "within_deadline": d.ms / 1000 < deadline, "actions": actions,
+            "gate": {"blocked_all": g["blocked_all"], "reason": g["reason"], "held": len(g["held"])}}
 
 
 # ------------------------------------------------------------------ 44. HTTP API ------------------------------------
@@ -85,7 +97,7 @@ class _Handler(BaseHTTPRequestHandler):
         with self.lock:                               # engine state (rate limiter) is shared
             d = eng.decide(sc, lateral)
         out = asdict(d)
-        out["acrs"] = to_acrs(eng.net, d, int(req.get("tier", 0)) if str(req.get("tier", 0)) in "012" else 0)
+        out["acrs"] = to_acrs(eng.net, d, int(req.get("tier", 0)) if str(req.get("tier", 0)) in "012" else 0, sc=sc)
         self._send(200, out)
 
 
@@ -116,7 +128,7 @@ def replay(sid: str) -> dict | None:
         return None
     d = H.Engine(net, limiter=H.RateLimiter(limit=10 ** 9)).decide(sc)
     return {"scenario": {"id": sc.id, "network": sc.network, "hacked": sc.hacked, "description": sc.description},
-            "decision": asdict(d), "acrs": to_acrs(net, d)}
+            "decision": asdict(d), "acrs": to_acrs(net, d, sc=sc)}
 
 
 def main(argv=None):

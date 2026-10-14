@@ -6,8 +6,8 @@ Rules: docs/qacrs/PREREGISTRATION_v11.md (E2).
 
 Paths (all start at hassan.Engine.decide with an arbitrary solver output):
   X  firewall executor   PolicyExecutor.execute(sc, d.isolate), no approvals given
-  S  ACRS service        hassan_service.to_acrs(net, d), actions marked auto
-  G  S behind gate_v11   gate_v11.enforce(net, sc, d)   (the fix; only meaningful once gate_v11.py exists)
+  S  ACRS service        hassan_service.to_acrs as it was before v11 (to_acrs_v10 below), actions marked auto
+  G  the fix            hassan_service.to_acrs(net, d, sc=sc) since v11 (every auto action goes through gate_v11)
 
 Model inputs (per machine m): R reported hacked, I solver says isolate, G solver says segment, K rate limiter keeps it;
 global: F guard flag, C certificate verifies (path G only). Risks only matter to the rate limiter, which is modelled as
@@ -84,13 +84,15 @@ def model(spec: Spec, R, I, G, K, F, C=True, path="S", mutation=None):
     if path == "S":
         return [int(b) for b in iso], [int(b) for b in seg]
     if path == "G":
-        rejected = (any(iso[i] and not spec.isolatable[i] for i in range(n))
-                    or any(seg[i] and not spec.critical[i] for i in range(n)))
+        skip = mutation == "skip_never_isolate"           # the rule switched off everywhere in the gate path
+        rejected = ((not skip and any(iso[i] and not spec.isolatable[i] for i in range(n)))
+                    or (mutation != "segment_any" and any(seg[i] and not spec.critical[i] for i in range(n))))
         if rejected or not C:
             return [0] * n, [0] * n
-        a_iso = [int(iso[i] and (spec.isolatable[i] or mutation == "skip_never_isolate") and not spec.critical[i] and R[i])
+        a_iso = [int(iso[i] and (spec.isolatable[i] or mutation in ("skip_never_isolate", "skip_never_isolate_filter_only"))
+                     and not spec.critical[i] and R[i])
                  for i in range(n)]
-        a_seg = [int(seg[i] and (spec.critical[i] or mutation == "segment_any")) for i in range(n)]
+        a_seg = [int(seg[i] and (spec.critical[i] or mutation in ("segment_any", "segment_any_filter_only"))) for i in range(n)]
         return a_iso, a_seg
     raise ValueError(path)
 
@@ -111,8 +113,17 @@ def violates(spec: Spec, prop: str, R, F, a_iso, a_seg) -> bool:
 
 
 # ------------------------------------------------------------------ the real code, with an injected solver ---------
+def to_acrs_v10(net, d) -> dict:
+    """hassan_service.to_acrs exactly as it was before v11 (commit 179a20e), kept so path S stays reproducible."""
+    return {"actions": [{"level": "ISOLATE", "target": m, "auto": True} for m in d.isolate]
+            + [{"level": "SEGMENT", "target": m, "auto": True} for m in d.segment]
+            + [{"level": "RESTRICT", "target": m, "auto": True} for m in d.restrict]
+            + [{"level": "APPROVAL", "target": e["target"], "auto": False} for e in d.escalations]}
+
+
 def real(net: Network, R, I, G, F, risks, limit, path: str):
-    """Run the real engine (+ executor / adapter / gate) on one input. Returns (auto_iso, auto_seg, K-as-used)."""
+    """Run the real engine (+ executor / adapter / gate) on one input.
+    Returns (auto_iso, auto_seg, K-as-used) and, for path G, the certificate result the gate saw."""
     names = [m.name for m in net.machines]
     hacked = {names[i]: risks[i] for i in range(len(names)) if R[i]}
     sc = Scenario("fid", net.name, hacked, "fidelity")
@@ -127,15 +138,15 @@ def real(net: Network, R, I, G, F, risks, limit, path: str):
         r = PolicyExecutor(net, MockFirewallAdapter(), PolicyAuditLog()).execute(sc, d.isolate)
         auto = set(d.isolate) if r.status == "PLANNED_DRY_RUN" else set()
         return [int(x in auto) for x in names], [0] * len(names), K
-    if path == "S":
-        acts = HS.to_acrs(net, d)["actions"]
+    if path in ("S", "G"):
+        acts = (to_acrs_v10(net, d) if path == "S" else HS.to_acrs(net, d, sc=sc))["actions"]
         ai = {a["target"] for a in acts if a["auto"] and a["level"] == "ISOLATE"}
         sg = {a["target"] for a in acts if a["auto"] and a["level"] == "SEGMENT"}
-        return [int(x in ai) for x in names], [int(x in sg) for x in names], K
-    if path == "G":
-        from qacrs import gate_v11 as GV
-        g = GV.enforce(net, sc, d)
-        return ([int(x in g["auto_isolate"]) for x in names], [int(x in g["auto_segment"]) for x in names], K)
+        out = [int(x in ai) for x in names], [int(x in sg) for x in names], K
+        if path == "G":
+            from qacrs import gate_v11 as GV
+            out = out + (GV.certificate_ok(net, sc, d),)
+        return out
     raise ValueError(path)
 
 
@@ -154,8 +165,10 @@ def fidelity(net: Network, path: str, n: int, seed: int) -> dict:
         F = int(rng.random() < 0.2)
         risks = [rng.randint(1, 10) for _ in range(spec.n)]
         limit = rng.choice((0, 1, 2, 3, 10 ** 9))
-        a_iso, a_seg, K = real(net, R, I, G, F, risks, limit, path)
-        m_iso, m_seg = model(spec, R, I, G, K, F, True, path)
+        got = real(net, R, I, G, F, risks, limit, path)
+        a_iso, a_seg, K = got[:3]
+        C = got[3] if len(got) > 3 else True                  # path G: the certificate result the gate really saw
+        m_iso, m_seg = model(spec, R, I, G, K, F, C, path)
         if (a_iso, a_seg) != (list(m_iso), list(m_seg)):
             mism += 1
             first = first or {"R": R, "I": I, "G": G, "F": F, "risks": risks, "limit": limit}
@@ -217,11 +230,14 @@ def milp_prove(spec: Spec, path: str, prop: str, mutation=None) -> dict:
     elif path == "S":
         a_iso, a_seg = iso, seg
     elif path == "G":
-        rej = OR([iso[i] for i in range(n) if not spec.isolatable[i]] + [seg[i] for i in range(n) if not spec.critical[i]])
+        never = [] if mutation == "skip_never_isolate" else [iso[i] for i in range(n) if not spec.isolatable[i]]
+        nonc = [] if mutation == "segment_any" else [seg[i] for i in range(n) if not spec.critical[i]]
+        rej = OR(never + nonc)
         go = AND(NOT(rej), C)
-        a_iso = [AND(AND(iso[i], R[i]), go) if ((spec.isolatable[i] or mutation == "skip_never_isolate")
+        a_iso = [AND(AND(iso[i], R[i]), go) if ((spec.isolatable[i] or mutation in ("skip_never_isolate", "skip_never_isolate_filter_only"))
                                                  and not spec.critical[i]) else CONST(0) for i in range(n)]
-        a_seg = [AND(seg[i], go) if (spec.critical[i] or mutation == "segment_any") else CONST(0) for i in range(n)]
+        a_seg = [AND(seg[i], go) if (spec.critical[i] or mutation in ("segment_any", "segment_any_filter_only"))
+                 else CONST(0) for i in range(n)]
     else:
         raise ValueError(path)
     if prop == "P1":
@@ -283,12 +299,14 @@ def z3_prove(spec: Spec, path: str, prop: str, mutation=None) -> dict:
     elif path == "S":
         a_iso, a_seg = iso, seg
     elif path == "G":
-        rej = z3.Or(false, *[iso[i] for i in range(n) if not spec.isolatable[i]],
-                    *[seg[i] for i in range(n) if not spec.critical[i]])
+        never = [] if mutation == "skip_never_isolate" else [iso[i] for i in range(n) if not spec.isolatable[i]]
+        nonc = [] if mutation == "segment_any" else [seg[i] for i in range(n) if not spec.critical[i]]
+        rej = z3.Or(false, *never, *nonc)
         go = z3.And(z3.Not(rej), C)
-        a_iso = [z3.And(iso[i], R[i], go) if ((spec.isolatable[i] or mutation == "skip_never_isolate")
+        a_iso = [z3.And(iso[i], R[i], go) if ((spec.isolatable[i] or mutation in ("skip_never_isolate", "skip_never_isolate_filter_only"))
                                               and not spec.critical[i]) else false for i in range(n)]
-        a_seg = [z3.And(seg[i], go) if (spec.critical[i] or mutation == "segment_any") else false for i in range(n)]
+        a_seg = [z3.And(seg[i], go) if (spec.critical[i] or mutation in ("segment_any", "segment_any_filter_only"))
+                 else false for i in range(n)]
     else:
         raise ValueError(path)
     bad = {"P1": z3.Or(false, *[a_iso[i] for i in range(n) if not spec.isolatable[i]]),
@@ -335,7 +353,7 @@ def gate_available() -> bool:
 def run(use_z3: bool = False, fidelity_n: int = FIDELITY_N) -> dict:
     paths = ("X", "S", "G") if gate_available() else ("X", "S")
     nets = networks()
-    res = {"paths": list(paths), "proofs": {}, "fidelity": [], "mutations": {}, "P6": {}}
+    res = {"paths": list(paths), "proofs": {}, "fidelity": [], "mutations": {}, "defence_in_depth": {}, "P6": {}}
     for net in nets:
         spec = Spec.of(net)
         for path in paths:
@@ -351,6 +369,10 @@ def run(use_z3: bool = False, fidelity_n: int = FIDELITY_N) -> dict:
                 res["mutations"][key] = {"property": prop, "highs": milp_prove(spec, "G", prop, mut)}
                 if use_z3:
                     res["mutations"][key]["z3"] = z3_prove(spec, "G", prop, mut)
+            for mut, prop in (("skip_never_isolate_filter_only", "P1"), ("segment_any_filter_only", "P4")):
+                key = f"{net.name}/G/{mut}"                                   # descriptive: defence in depth
+                res["defence_in_depth"][key] = {"property": prop, "note": "gate filter removed, engine rejection kept",
+                                                "highs": milp_prove(spec, "G", prop, mut)}
     res["P6"]["exhaustive"] = exhaustive_median_p6()
     if use_z3:
         res["P6"]["z3"] = z3_median_p6()
@@ -379,6 +401,8 @@ def main():
         print("  mismatch", f["network"], f["path"], f["first_mismatch"])
     for key, v in res["mutations"].items():
         print(f"mutation {key:32s} caught: {not v['highs'].get('proved')}")
+    for key, v in res["defence_in_depth"].items():
+        print(f"one layer removed {key:40s} still safe: {v['highs'].get('proved')}")
     print("P6", res["P6"], f"total {time.time() - t:.0f} s")
 
 

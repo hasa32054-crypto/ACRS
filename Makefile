@@ -22,7 +22,7 @@ ps:
 	docker compose ps
 
 HASSAN_TESTS = tests.test_qacrs tests.test_qacrs_v3 tests.test_qacrs_v7 tests.test_hassan_engine \
-               tests.test_executor_v8 tests.test_realism_v8 tests.test_hassan_service tests.test_hassan_v9 tests.test_quantum_scale tests.test_blind_v9 tests.test_booth
+               tests.test_executor_v8 tests.test_realism_v8 tests.test_hassan_service tests.test_hassan_v9 tests.test_quantum_scale tests.test_blind_v9 tests.test_booth tests.test_v11
 hassan-test:   ## Q-ACRS / HASSAN unit tests (standard library only, no Docker)
 	cd backend && python3 -m unittest $(HASSAN_TESTS)
 hassan-repro:  ## regenerate the core v7/v8 results (no IBM, no root sandbox, no 25-min QAOA seeds)
