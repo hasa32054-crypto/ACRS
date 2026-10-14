@@ -1,0 +1,2886 @@
+{
+ "paths": [
+  "X",
+  "S",
+  "G"
+ ],
+ "proofs": {
+  "net12/X/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 11.7
+   }
+  },
+  "net12/X/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 10.2
+   }
+  },
+  "net12/X/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 8,
+    "proved": false,
+    "ms": 23.3,
+    "counterexample": {
+     "reported": [
+      "dc",
+      "db",
+      "mri",
+      "lab"
+     ],
+     "solver_isolate": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/X/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 10.2
+   }
+  },
+  "net12/X/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 11.6
+   }
+  },
+  "net12/S/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 2,
+    "proved": false,
+    "ms": 13.1,
+    "counterexample": {
+     "reported": [
+      "dc",
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "db",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_isolate": [
+      "mri",
+      "lab"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "mri",
+      "lab"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/S/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 2,
+    "proved": false,
+    "ms": 10.6,
+    "counterexample": {
+     "reported": [
+      "dc",
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "db",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_isolate": [
+      "dc",
+      "db"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc",
+      "db"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/S/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 11,
+    "proved": false,
+    "ms": 15.8,
+    "counterexample": {
+     "reported": [
+      "web2"
+     ],
+     "solver_isolate": [
+      "dc",
+      "files",
+      "web1",
+      "app1",
+      "app2",
+      "db",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc",
+      "files",
+      "web1",
+      "app1",
+      "app2",
+      "db",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/S/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 10,
+    "proved": false,
+    "ms": 9.5,
+    "counterexample": {
+     "reported": [
+      "app1"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/S/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 10.9
+   }
+  },
+  "net12/G/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 14.5
+   }
+  },
+  "net12/G/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 18.1
+   }
+  },
+  "net12/G/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 16.2
+   }
+  },
+  "net12/G/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 14.7
+   }
+  },
+  "net12/G/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 14.2
+   }
+  },
+  "net22/X/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 16.1
+   }
+  },
+  "net22/X/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 15.0
+   }
+  },
+  "net22/X/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 15,
+    "proved": false,
+    "ms": 33.4,
+    "counterexample": {
+     "reported": [
+      "dc",
+      "db_a",
+      "mri_a",
+      "lab_a",
+      "db_b",
+      "mri_b",
+      "lab_b"
+     ],
+     "solver_isolate": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/X/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 24.9
+   }
+  },
+  "net22/X/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 20.9
+   }
+  },
+  "net22/S/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 4,
+    "proved": false,
+    "ms": 17.2,
+    "counterexample": {
+     "reported": [
+      "pc_recep_b"
+     ],
+     "solver_isolate": [
+      "mri_a",
+      "lab_a",
+      "mri_b",
+      "lab_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "mri_a",
+      "lab_a",
+      "mri_b",
+      "lab_b"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/S/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 3,
+    "proved": false,
+    "ms": 44.7,
+    "counterexample": {
+     "reported": [
+      "lab_b"
+     ],
+     "solver_isolate": [
+      "dc",
+      "db_a",
+      "db_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc",
+      "db_a",
+      "db_b"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/S/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 21,
+    "proved": false,
+    "ms": 242.9,
+    "counterexample": {
+     "reported": [
+      "mri_b"
+     ],
+     "solver_isolate": [
+      "dc",
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "db_a",
+      "mri_a",
+      "lab_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "db_b",
+      "lab_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc",
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "db_a",
+      "mri_a",
+      "lab_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "db_b",
+      "lab_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/S/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 19,
+    "proved": false,
+    "ms": 26.8,
+    "counterexample": {
+     "reported": [
+      "mri_a"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "mri_a",
+      "lab_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "mri_b",
+      "lab_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/S/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 22.3
+   }
+  },
+  "net22/G/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 15.1
+   }
+  },
+  "net22/G/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 18.5
+   }
+  },
+  "net22/G/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 42.9
+   }
+  },
+  "net22/G/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 22.2
+   }
+  },
+  "net22/G/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 1572.3
+   }
+  },
+  "factory48/X/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 33.3
+   }
+  },
+  "factory48/X/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 69.2
+   }
+  },
+  "factory48/X/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 33,
+    "proved": false,
+    "ms": 56.3,
+    "counterexample": {
+     "reported": [
+      "dc1",
+      "dc2",
+      "historian",
+      "erp_db",
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/X/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 36.9
+   }
+  },
+  "factory48/X/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 43.9
+   }
+  },
+  "factory48/S/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 11,
+    "proved": false,
+    "ms": 43.8,
+    "counterexample": {
+     "reported": [
+      "plc5"
+     ],
+     "solver_isolate": [
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/S/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 4,
+    "proved": false,
+    "ms": 30.5,
+    "counterexample": {
+     "reported": [
+      "hmi4"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "historian",
+      "erp_db"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "historian",
+      "erp_db"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/S/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 47,
+    "proved": false,
+    "ms": 72.2,
+    "counterexample": {
+     "reported": [
+      "erp_app"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "historian",
+      "mes1",
+      "mes2",
+      "erp_db",
+      "web1",
+      "web2",
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "historian",
+      "mes1",
+      "mes2",
+      "erp_db",
+      "web1",
+      "web2",
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/S/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 44,
+    "proved": false,
+    "ms": 29.3,
+    "counterexample": {
+     "reported": [
+      "pc_office1"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/S/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 43.8
+   }
+  },
+  "factory48/G/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 34.7
+   }
+  },
+  "factory48/G/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 32.1
+   }
+  },
+  "factory48/G/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 43.7
+   }
+  },
+  "factory48/G/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 32.7
+   }
+  },
+  "factory48/G/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 49.1
+   }
+  },
+  "bank42/X/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 28.0
+   }
+  },
+  "bank42/X/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 27.9
+   }
+  },
+  "bank42/X/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 37,
+    "proved": false,
+    "ms": 41.7,
+    "counterexample": {
+     "reported": [
+      "dc1",
+      "dc2",
+      "core_db",
+      "swift",
+      "hsm"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/X/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 25.5
+   }
+  },
+  "bank42/X/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 37.3
+   }
+  },
+  "bank42/S/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 47.4,
+    "counterexample": {
+     "reported": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "core_db",
+      "pay_gw1",
+      "pay_gw2",
+      "swift",
+      "atm_sw1",
+      "atm_sw2",
+      "hsm",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "solver_isolate": [
+      "hsm"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "hsm"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/S/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 4,
+    "proved": false,
+    "ms": 31.2,
+    "counterexample": {
+     "reported": [
+      "pc_branch1"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "core_db",
+      "swift"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "core_db",
+      "swift"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/S/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 41,
+    "proved": false,
+    "ms": 48.6,
+    "counterexample": {
+     "reported": [
+      "pc_teller4"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "core_db",
+      "pay_gw1",
+      "pay_gw2",
+      "swift",
+      "atm_sw1",
+      "atm_sw2",
+      "hsm",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "core_db",
+      "pay_gw1",
+      "pay_gw2",
+      "swift",
+      "atm_sw1",
+      "atm_sw2",
+      "hsm",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/S/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 38,
+    "proved": false,
+    "ms": 20.1,
+    "counterexample": {
+     "reported": [
+      "pc_admin2"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "hsm",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/S/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 27.0
+   }
+  },
+  "bank42/G/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 30.7
+   }
+  },
+  "bank42/G/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 29.5
+   }
+  },
+  "bank42/G/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 32.2
+   }
+  },
+  "bank42/G/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 23.5
+   }
+  },
+  "bank42/G/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 46.3
+   }
+  },
+  "univ45/X/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 28.4
+   }
+  },
+  "univ45/X/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 27.2
+   }
+  },
+  "univ45/X/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 39,
+    "proved": false,
+    "ms": 45.3,
+    "counterexample": {
+     "reported": [
+      "dc1",
+      "dc2",
+      "sis_db",
+      "hpc_store",
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/X/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 27.2
+   }
+  },
+  "univ45/X/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 39.5
+   }
+  },
+  "univ45/S/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 2,
+    "proved": false,
+    "ms": 83.7,
+    "counterexample": {
+     "reported": [
+      "pc_staff3"
+     ],
+     "solver_isolate": [
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/S/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 4,
+    "proved": false,
+    "ms": 23.8,
+    "counterexample": {
+     "reported": [
+      "dc2"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "sis_db",
+      "hpc_store"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "sis_db",
+      "hpc_store"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/S/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 44,
+    "proved": false,
+    "ms": 57.3,
+    "counterexample": {
+     "reported": [
+      "web1"
+     ],
+     "solver_isolate": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "sis_db",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "hpc_store",
+      "lab_inst1",
+      "lab_inst2",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "dc1",
+      "dc2",
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "sis_db",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "hpc_store",
+      "lab_inst1",
+      "lab_inst2",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/S/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 41,
+    "proved": false,
+    "ms": 22.7,
+    "counterexample": {
+     "reported": [
+      "pc_lab12"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "lab_inst1",
+      "lab_inst2",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": false,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/S/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 33.3
+   }
+  },
+  "univ45/G/P1": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 83.8
+   }
+  },
+  "univ45/G/P2": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 34.8
+   }
+  },
+  "univ45/G/P3": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 44.0
+   }
+  },
+  "univ45/G/P4": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 34.5
+   }
+  },
+  "univ45/G/P5": {
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 51.3
+   }
+  }
+ },
+ "fidelity": [
+  {
+   "network": "net12",
+   "path": "X",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "net12",
+   "path": "S",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "net12",
+   "path": "G",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "net22",
+   "path": "X",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "net22",
+   "path": "S",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "net22",
+   "path": "G",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "factory48",
+   "path": "X",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "factory48",
+   "path": "S",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "factory48",
+   "path": "G",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "bank42",
+   "path": "X",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "bank42",
+   "path": "S",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "bank42",
+   "path": "G",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "univ45",
+   "path": "X",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "univ45",
+   "path": "S",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  },
+  {
+   "network": "univ45",
+   "path": "G",
+   "n": 100000,
+   "mismatches": 0,
+   "first_mismatch": null
+  }
+ ],
+ "mutations": {
+  "net12/G/skip_never_isolate": {
+   "property": "P1",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 2,
+    "proved": false,
+    "ms": 13.5,
+    "counterexample": {
+     "reported": [
+      "mri",
+      "lab"
+     ],
+     "solver_isolate": [
+      "mri",
+      "lab"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "mri",
+      "lab"
+     ],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/G/ignore_guard": {
+   "property": "P5",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 15.1,
+    "counterexample": {
+     "reported": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_isolate": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files"
+     ],
+     "guard_flag": true,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net12/G/segment_any": {
+   "property": "P4",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 10,
+    "proved": false,
+    "ms": 13.8,
+    "counterexample": {
+     "reported": [
+      "app2"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "web1",
+      "web2",
+      "app1",
+      "app2",
+      "mri",
+      "lab",
+      "pc_recep",
+      "pc_nurse",
+      "pc_admin"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/G/skip_never_isolate": {
+   "property": "P1",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 4,
+    "proved": false,
+    "ms": 21.8,
+    "counterexample": {
+     "reported": [
+      "mri_a",
+      "lab_a",
+      "mri_b",
+      "lab_b"
+     ],
+     "solver_isolate": [
+      "mri_a",
+      "lab_a",
+      "mri_b",
+      "lab_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "mri_a",
+      "lab_a",
+      "mri_b",
+      "lab_b"
+     ],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/G/ignore_guard": {
+   "property": "P5",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 18.7,
+    "counterexample": {
+     "reported": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "solver_isolate": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files"
+     ],
+     "guard_flag": true,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "net22/G/segment_any": {
+   "property": "P4",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 19,
+    "proved": false,
+    "ms": 14.9,
+    "counterexample": {
+     "reported": [
+      "web1_a"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "web1_a",
+      "web2_a",
+      "app1_a",
+      "app2_a",
+      "mri_a",
+      "lab_a",
+      "pc_recep_a",
+      "pc_nurse_a",
+      "pc_admin_a",
+      "web1_b",
+      "web2_b",
+      "app1_b",
+      "app2_b",
+      "mri_b",
+      "lab_b",
+      "pc_recep_b",
+      "pc_nurse_b",
+      "pc_admin_b"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/G/skip_never_isolate": {
+   "property": "P1",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 11,
+    "proved": false,
+    "ms": 48.9,
+    "counterexample": {
+     "reported": [
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "solver_isolate": [
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4"
+     ],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/G/ignore_guard": {
+   "property": "P5",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 56.3,
+    "counterexample": {
+     "reported": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files"
+     ],
+     "guard_flag": true,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "factory48/G/segment_any": {
+   "property": "P4",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 44,
+    "proved": false,
+    "ms": 42.1,
+    "counterexample": {
+     "reported": [
+      "files"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "scada1",
+      "scada2",
+      "mes1",
+      "mes2",
+      "erp_app",
+      "web1",
+      "web2",
+      "sis",
+      "plc1",
+      "plc2",
+      "plc3",
+      "plc4",
+      "plc5",
+      "plc6",
+      "hmi1",
+      "hmi2",
+      "hmi3",
+      "hmi4",
+      "pc_office1",
+      "pc_office2",
+      "pc_office3",
+      "pc_office4",
+      "pc_office5",
+      "pc_office6",
+      "pc_office7",
+      "pc_office8",
+      "pc_office9",
+      "pc_office10",
+      "pc_office11",
+      "pc_office12",
+      "pc_eng1",
+      "pc_eng2",
+      "pc_ops1",
+      "pc_ops2",
+      "pc_ops3",
+      "pc_ops4",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/G/skip_never_isolate": {
+   "property": "P1",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 112.0,
+    "counterexample": {
+     "reported": [
+      "hsm"
+     ],
+     "solver_isolate": [
+      "hsm"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "hsm"
+     ],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/G/ignore_guard": {
+   "property": "P5",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 63.6,
+    "counterexample": {
+     "reported": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files"
+     ],
+     "guard_flag": true,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "bank42/G/segment_any": {
+   "property": "P4",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 38,
+    "proved": false,
+    "ms": 34.8,
+    "counterexample": {
+     "reported": [
+      "crm"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "core_app1",
+      "core_app2",
+      "pay_gw1",
+      "pay_gw2",
+      "atm_sw1",
+      "atm_sw2",
+      "hsm",
+      "web1",
+      "web2",
+      "api_gw",
+      "fraud",
+      "crm",
+      "pc_teller1",
+      "pc_teller2",
+      "pc_teller3",
+      "pc_teller4",
+      "pc_teller5",
+      "pc_teller6",
+      "pc_teller7",
+      "pc_teller8",
+      "pc_teller9",
+      "pc_teller10",
+      "pc_branch1",
+      "pc_branch2",
+      "pc_branch3",
+      "pc_branch4",
+      "pc_branch5",
+      "pc_branch6",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_dev1",
+      "pc_dev2"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/G/skip_never_isolate": {
+   "property": "P1",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 2,
+    "proved": false,
+    "ms": 136.2,
+    "counterexample": {
+     "reported": [
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "solver_isolate": [
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "lab_inst1",
+      "lab_inst2"
+     ],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/G/ignore_guard": {
+   "property": "P5",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 1,
+    "proved": false,
+    "ms": 71.6,
+    "counterexample": {
+     "reported": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "solver_isolate": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "solver_segment": [],
+     "limiter_keeps": [
+      "files"
+     ],
+     "guard_flag": true,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  },
+  "univ45/G/segment_any": {
+   "property": "P4",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 41,
+    "proved": false,
+    "ms": 66.8,
+    "counterexample": {
+     "reported": [
+      "pc_admin2"
+     ],
+     "solver_isolate": [],
+     "solver_segment": [
+      "files",
+      "backup",
+      "email",
+      "vpn",
+      "wifi",
+      "lms1",
+      "lms2",
+      "sis_app",
+      "web1",
+      "web2",
+      "exam",
+      "lib",
+      "hpc",
+      "lab_inst1",
+      "lab_inst2",
+      "pc_lab1",
+      "pc_lab2",
+      "pc_lab3",
+      "pc_lab4",
+      "pc_lab5",
+      "pc_lab6",
+      "pc_lab7",
+      "pc_lab8",
+      "pc_lab9",
+      "pc_lab10",
+      "pc_lab11",
+      "pc_lab12",
+      "pc_staff1",
+      "pc_staff2",
+      "pc_staff3",
+      "pc_staff4",
+      "pc_staff5",
+      "pc_staff6",
+      "pc_staff7",
+      "pc_staff8",
+      "pc_admin1",
+      "pc_admin2",
+      "pc_admin3",
+      "pc_res1",
+      "pc_res2",
+      "pc_res3"
+     ],
+     "limiter_keeps": [],
+     "guard_flag": false,
+     "certificate_ok": true,
+     "reference_model_agrees": true
+    }
+   }
+  }
+ },
+ "defence_in_depth": {
+  "net12/G/skip_never_isolate_filter_only": {
+   "property": "P1",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 14.8
+   }
+  },
+  "net12/G/segment_any_filter_only": {
+   "property": "P4",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 12.2
+   }
+  },
+  "net22/G/skip_never_isolate_filter_only": {
+   "property": "P1",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 16.3
+   }
+  },
+  "net22/G/segment_any_filter_only": {
+   "property": "P4",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 15.8
+   }
+  },
+  "factory48/G/skip_never_isolate_filter_only": {
+   "property": "P1",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 49.8
+   }
+  },
+  "factory48/G/segment_any_filter_only": {
+   "property": "P4",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 52.3
+   }
+  },
+  "bank42/G/skip_never_isolate_filter_only": {
+   "property": "P1",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 41.3
+   }
+  },
+  "bank42/G/segment_any_filter_only": {
+   "property": "P4",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 30.6
+   }
+  },
+  "univ45/G/skip_never_isolate_filter_only": {
+   "property": "P1",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 47.3
+   }
+  },
+  "univ45/G/segment_any_filter_only": {
+   "property": "P4",
+   "note": "gate filter removed, engine rejection kept",
+   "highs": {
+    "prover": "highs",
+    "max_violations": 0,
+    "proved": true,
+    "ms": 60.5
+   }
+  }
+ },
+ "P6": {
+  "exhaustive": {
+   "prover": "exhaustive 0-10 (real fuse code)",
+   "cases": 1331,
+   "violations": 0,
+   "proved": true
+  }
+ },
+ "meta": {
+  "experiment": "v11_formal",
+  "version": "v3",
+  "preregistration": "docs/qacrs/PREREGISTRATION_v3.md",
+  "date_utc": "2026-10-14T19:49:40Z",
+  "git_commit": "668e176",
+  "code_sha256_prefix": {
+   "network.py": "71c872b912d4",
+   "qubo_builder.py": "aa5cc3110408",
+   "safety_checks.py": "be05442575ab",
+   "escalation.py": "63cf9703d3ce",
+   "hassan.py": "b0e8cd8fb9c7",
+   "hassan_service.py": "53c432809781",
+   "policy_executor.py": "b79b2b9f9b0b",
+   "formal_v11.py": "e73c36b5fd0a",
+   "sensors_v11.py": "34efb7b8b679",
+   "gate_v11.py": "f736251051f5"
+  },
+  "python": "3.13.16",
+  "numpy": "2.5.3",
+  "settings": {
+   "preregistration": "docs/qacrs/PREREGISTRATION_v11.md",
+   "fidelity_seed": 7541,
+   "fidelity_n": 100000,
+   "z3": false
+  },
+  "status": "complete",
+  "warnings": []
+ }
+}
