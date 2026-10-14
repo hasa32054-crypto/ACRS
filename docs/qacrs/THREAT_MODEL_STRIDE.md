@@ -29,3 +29,28 @@ Assets to protect: **availability of clinical services**, integrity of containme
 ### ملخص عربي
 لكل تهديد في نموذج STRIDE ربطنا ضابطًا في HASSAN واختبارًا يقيسه. أهم ما ينقص: الواجهة بلا مصادقة، والمفتاح تجريبي،
 وكاشف التنبيهات المزيفة الذكية ضعيف (12%)، والتوأم الرقمي لا يكشف الخطأ الذي لا أثر له. كلها منشورة كما هي.
+
+## Booth hardening (SAIF, October 2026): HASSAN must not become a hole in what it protects
+
+New code only (`backend/qacrs/booth/`); the engine and the blind-test locked files are unchanged (hashes in
+`backend/qacrs/blind_v9/LOCK_blind_v9.json` still match). Tests: `backend/tests/test_booth.py` (20 tests).
+
+| # | STRIDE | Threat at the booth | Control | Test |
+|---|---|---|---|---|
+| B1 | Spoofing | a visitor's phone or another site calls the booth API | server binds to 127.0.0.1 only; every POST needs the per-install token (constant-time compare); token handed only to a loopback client whose `Host` names this server; `Origin` must match | `test_host_and_token_checks` (no token 401, wrong token 401, foreign Host 421/403) |
+| B2 | Spoofing | DNS rebinding from a malicious page | strict `Host` allowlist (`127.0.0.1:<port>`, `localhost:<port>`) | same |
+| B3 | Tampering | containment plan altered on the Wi-Fi between the two laptops | plan = HMAC-SHA256 envelope over plan + timestamp + nonce; key in `~/.hassan/plan_key` (0600, never in the repo) | `test_seal_open_tamper_stale_replay`; real kernel run: tampered plan → 403 |
+| B4 | Tampering / replay | a captured plan is re-sent later | 30 s window + one-time nonce cache | stale → 403, replay → 403 (unit and real-kernel runs) |
+| B5 | Elevation | the agent runs whatever it is sent | the plan can only name machines; IPs come from the agent's own `lab.json`; rules from fixed templates in the agent's own chain `HASSAN`; `iptables-restore --noflush` with fixed argv, no shell; unknown names ignored | `test_rules_only_from_templates` (name `"web1 -j ACCEPT"` ignored) |
+| B6 | Tampering | rules installed differ from the plan | read-back `iptables -S HASSAN` compared line by line; mismatch → chain emptied (fail closed to no HASSAN rules) | real kernel run: twin ✓ |
+| B7 | DoS (self) | lab containment outlives the demo | every plan has a TTL; the agent empties the chain on expiry | real kernel run: chain back to `-j RETURN` |
+| B8 | Elevation | the lab reaches the venue network or the internet | no published ports; containers run as `nobody`, read-only, no capabilities, `no-new-privileges`; setup adds `DOCKER-USER -s 172.30.0.0/24 ! -d 172.30.0.0/24 -j DROP` | `docker-compose.yml`, `setup_linux.sh` |
+| B9 | Information disclosure | visitor data kept | attack memory stores machine names, risks and a button label only, after explicit consent; label sanitised and never interpreted | `test_validation`, `test_save_regress_delete` |
+| B10 | Tampering (input) | malformed / huge / unknown input | 16 KB body limit, JSON content type only, unknown fields rejected, machine names from the model only, risks integer 1–10, ≤ 20 machines | `test_validation`, `test_host_and_token_checks` |
+| B11 | DoS | request flood from one client | per-client limit 40 requests / 10 s (server), 20 / 10 s (agent) | `test_client_limiter` |
+| B12 | Tampering (UI) | script injection in the booth page | CSP `script-src 'self'` with no inline script or style; all visitor text set with `textContent`; static files from a fixed list built at start-up | `test_static_and_headers` (path traversal → 404) |
+
+What rows 3 and 4 above said was missing (API authentication, demo key) is closed **for the booth path** by B1–B4.
+The research API `hassan_service.py` is unchanged and still local-only without authentication.
+
+There is no free-text attack input anywhere: visitors build attacks only by picking machines on the map.

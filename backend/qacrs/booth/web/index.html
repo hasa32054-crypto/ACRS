@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACRS</title>
+<meta name="description" content="ACRS booth: attack a simulated hospital and watch it contain the attack while clinical services keep running.">
+<link rel="stylesheet" href="app.css">
+<script src="i18n.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="sr-only" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
+<header class="top">
+  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en">v9</span></div>
+  <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
+    <button class="tab" role="tab" data-view="break" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.break">اكسره</span></button>
+    <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.twin">مستشفيان</span></button>
+    <button class="tab" role="tab" data-view="judge" aria-selected="false"><span class="tab-n">3</span><span data-i18n="tab.judge">أنت ضد الآلة</span></button>
+    <button class="tab" role="tab" data-view="ransom" aria-selected="false"><span class="tab-n">4</span><span data-i18n="tab.ransom">الفدية</span></button>
+    <button class="tab" role="tab" data-view="quantum" aria-selected="false"><span class="tab-n">5</span><span data-i18n="tab.quantum">الحاسوب الكمّي</span></button>
+    <button class="tab" role="tab" data-view="verify" aria-selected="false"><span class="tab-n">6</span><span data-i18n="tab.verify">تحقّق بنفسك</span></button>
+    <button class="tab" role="tab" data-view="memory" aria-selected="false"><span class="tab-n">7</span><span data-i18n="tab.memory">ذاكرة الهجمات</span></button>
+    <button class="tab" role="tab" data-view="story" aria-selected="false"><span class="tab-n">8</span><span data-i18n="tab.story">القصة والأدلة</span></button>
+  </nav>
+  <div class="top-tools">
+    <span class="lab-chip" id="labChip" hidden><span class="dot" id="labDot"></span><span data-i18n="lab.chip">المختبر</span></span>
+    <button class="chip-btn" id="langBtn" aria-label="English">EN</button>
+    <button class="chip-btn" id="themeBtn" data-i18n-aria="theme" aria-label="تبديل المظهر">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <div id="fatal" class="error-box" hidden></div>
+
+  <!-- 1. break it ---------------------------------------------------------------------------------------------->
+  <section class="view is-active" id="view-break" role="tabpanel" aria-labelledby="break">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="break.title">هاجم المستشفى. وشاهد ACRS يحتوي الهجوم والخدمات تعمل.</h1>
+        <p class="view-lede" data-i18n="break.lede">كل قسم منطقة، وكل جهاز محطة. اختر الأجهزة المخترقة على الخريطة، أو زوّر تنبيهات كاذبة، ثم اطلب القرار.</p>
+      </div>
+    </div>
+    <div class="grid-break">
+      <div class="panel">
+        <div class="toolbar">
+          <div class="seg" role="group" data-i18n-aria="mode" aria-label="نوع الاختيار">
+            <button data-mode="real" aria-pressed="true" data-i18n="mode.real">هجوم حقيقي</button>
+            <button data-mode="forged" aria-pressed="false" data-i18n="mode.forged">تنبيه مزوّر</button>
+          </div>
+          <label class="risk"><span data-i18n="risk">الخطورة</span>
+            <input type="range" id="risk" min="1" max="10" value="8"><output id="riskOut" for="risk">8</output></label>
+          <div class="row">
+            <button class="btn btn-quiet" id="clearBtn" data-i18n="clear">مسح</button>
+            <button class="btn btn-attack" id="decideBtn" disabled data-i18n="decide">قرّر يا ACRS</button>
+          </div>
+        </div>
+        <div class="hint" id="hint" aria-live="polite"></div>
+        <div class="map-wrap"><svg class="map" id="mapMain" viewBox="0 0 1200 770" role="group" aria-label="Hospital map"></svg></div>
+        <div class="legend" id="legend"></div>
+        <div class="ecg" id="ecgMain" aria-label="Services"></div>
+      </div>
+
+      <aside class="rail">
+        <div class="panel panel-pad" id="pickPanel">
+          <p class="eyebrow" data-i18n="picks.title">الأجهزة المختارة</p>
+          <div class="picks" id="picks"></div>
+          <div class="empty" id="picksEmpty">
+            <h2 data-i18n="empty.title">ابدأ الهجوم من نقطة دخول</h2>
+            <ol class="steps">
+              <li data-i18n="empty.s1">اضغط جهاز موظف أو بوابة المرضى: من هنا يدخل المهاجم عادة.</li>
+              <li data-i18n="empty.s2">تنقّل إلى جهاز مرتبط به. الخطوط الحمراء مسار الهجوم.</li>
+              <li data-i18n="empty.s3">جرّب «تنبيه مزوّر» على خادم حرج، ثم اضغط «قرّر يا ACRS».</li>
+            </ol>
+          </div>
+        </div>
+        <div class="panel panel-pad" id="decisionPanel" hidden aria-live="polite">
+          <div class="status" id="status"></div>
+          <div class="mt3 metrics" id="metrics"></div>
+          <hr class="divider">
+          <p class="eyebrow" data-i18n="card.title">بطاقة القرار</p>
+          <ul class="actions-list" id="actions"></ul>
+          <div id="escalations" class="mt3"></div>
+          <ul class="mt3 why" id="why"></ul>
+          <hr class="divider">
+          <div class="between row-top row">
+            <div class="grow stack">
+              <button class="btn" id="toSave" data-i18n="save.open">احفظ الهجوم كزر</button>
+              <button class="btn" id="toVerify" data-i18n="verify.open">تحقّق من الشهادة</button>
+              <p class="xs muted" id="msLine"></p>
+            </div>
+            <figure class="m0 qr"><img id="receiptQr" alt="" hidden><figcaption class="xs muted" data-i18n="receipt">إيصال القرار</figcaption></figure>
+          </div>
+        </div>
+        <div class="panel panel-pad" id="labPanel" hidden>
+          <div class="between row">
+            <p class="eyebrow" data-i18n="lab.title">المستشفى المصغّر الحقيقي (لابتوب Linux)</p>
+            <label class="check"><input type="checkbox" id="liveToggle"><span data-i18n="lab.live">طبّق على المختبر</span></label>
+          </div>
+          <div id="labBody" class="small muted" data-i18n="lab.idle">القرار يُرسل موقّعًا إلى الوكيل، ويطبّق قواعد جدار حماية حقيقية على حاويات المستشفى.</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 2. two hospitals ------------------------------------------------------------------------------------------->
+  <section class="view" id="view-twin" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="twin.title">نفس الهجوم، مستشفيان.</h1>
+        <p class="view-lede" data-i18n="twin.lede">اليمين يعزل كل جهاز مُبلَغ عنه (العزل الكامل الآمن). اليسار يقرر فيه ACRS. راقب نبض الخدمات ودقائق انتظار المرضى.</p>
+      </div>
+      <div class="presets" id="twinPresets"></div>
+    </div>
+    <div class="twin">
+      <div class="panel"><div class="twin-head"><h2 data-i18n="twin.full">العزل الكامل</h2><div><span class="counter bad" id="pmFull">0</span><span class="xs muted" data-i18n="pm"> دقيقة انتظار</span></div></div>
+        <svg class="map small" id="mapFull" viewBox="0 0 1200 770" aria-hidden="true"></svg><div class="ecg" id="ecgFull"></div></div>
+      <div class="panel"><div class="twin-head"><h2 data-i18n="twin.hassan">ACRS</h2><div><span class="counter good" id="pmHassan">0</span><span class="xs muted" data-i18n="pm"> دقيقة انتظار</span></div></div>
+        <svg class="map small" id="mapHassan" viewBox="0 0 1200 770" aria-hidden="true"></svg><div class="ecg" id="ecgHassan"></div></div>
+    </div>
+    <p class="mt4 note" data-i18n="pm.note">دقائق الانتظار تقدير من افتراضات النموذج المنشورة (مرضى في الساعة لكل خدمة × توقف 60 دقيقة × متوسط انتظار نصف المدة)، وليست قياسًا من مستشفى.</p>
+  </section>
+
+  <!-- 3. judge vs machine ---------------------------------------------------------------------------------------->
+  <section class="view" id="view-judge" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="judge.title">أنت ضد الآلة: دقيقة واحدة لتقرر.</h1>
+        <p class="view-lede" data-i18n="judge.lede">الأجهزة الحمراء مخترقة. اضغط أي جهاز مرة ليُعزل، ومرتين ليُجزّأ (يبقى يخدم وتُقطع حركته الجانبية)، وثالثة للإلغاء. ثم قارن قرارك بقرار ACRS على نفس القواعد.</p>
+      </div>
+      <div class="row"><span class="timer" id="timer">60</span>
+        <button class="btn btn-primary" id="judgeStart" data-i18n="judge.start">ابدأ</button>
+        <button class="btn btn-attack" id="judgeDone" disabled data-i18n="judge.done">قرّرت</button></div>
+    </div>
+    <div class="grid-break">
+      <div class="panel"><svg class="map" id="mapJudge" viewBox="0 0 1200 770" role="group" aria-label="Judge map"></svg></div>
+      <aside class="rail"><div class="panel panel-pad" id="judgeOut"><div class="empty"><h2 data-i18n="judge.empty">الحادث جاهز</h2><p class="small" data-i18n="judge.empty2">اضغط «ابدأ» ليبدأ العدّاد.</p></div></div></aside>
+    </div>
+    <p class="mt4 note" data-i18n="judge.note">المقارنة على نفس النموذج ونفس قواعد السلامة، ولا تدّعي أن البشر أسوأ دائمًا. الهدف إظهار لماذا يفيد قرار محسوب سريع، مع بقاء القرار الحرج للبشر.</p>
+  </section>
+
+  <!-- 4. ransomware replay --------------------------------------------------------------------------------------->
+  <section class="view" id="view-ransom" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="ransom.title">الفدية تنتشر. ثلاث سياسات، نفس البداية.</h1>
+        <p class="view-lede" data-i18n="ransom.lede">تنتشر الفدية قفزة واحدة كل دقيقة عبر الروابط. في الدقيقة 2 يُتخذ القرار. نفس قواعد تجربة الفدية المسجلة مسبقًا (R-v9).</p>
+      </div>
+    </div>
+    <div class="mb4 stretch row">
+      <div class="grow quote">
+        <span class="big num">46</span>
+        <p class="small" data-i18n="wc.quote">جهة صحية في إنجلترا تعطّلت في هجوم WannaCry عام 2017 دون أن تُصاب، من أصل 80 تأثرت (34 أُصيبت).</p>
+        <p class="xs muted" data-i18n="wc.src">المصدر: National Audit Office, Investigation: WannaCry cyber attack and the NHS (2017)، الملخص، الفقرة 5.</p>
+      </div>
+      <div class="grow2 panel panel-pad">
+        <div class="mb2 row"><span class="small" data-i18n="ransom.start">تبدأ من:</span><div class="presets" id="ransomStarts"></div></div>
+        <div class="scrub"><button class="btn btn-primary" id="ransomPlay" data-i18n="play">شغّل</button>
+          <input type="range" id="tick" min="0" max="10" value="0" aria-label="minute"><span class="num" id="tickOut">0</span></div>
+      </div>
+    </div>
+    <div class="trio">
+      <div class="panel"><h2><span data-i18n="pol.none">بلا إجراء</span><span class="num" id="encNone"></span></h2><svg class="map small" id="mapNone" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
+      <div class="panel"><h2><span data-i18n="pol.full">العزل الكامل</span><span class="num" id="encFull"></span></h2><svg class="map small" id="mapRFull" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
+      <div class="panel"><h2><span data-i18n="pol.hassan">ACRS</span><span class="num" id="encHassan"></span></h2><svg class="map small" id="mapRHassan" viewBox="0 0 1200 770" aria-hidden="true"></svg></div>
+    </div>
+    <p class="mt4 note" id="ransomNote" data-i18n="ransom.note">النتيجة الصادقة: ACRS والعزل الكامل يوقفان الانتشار عند نفس الحد الأدنى (لا يمكن لأي سياسة أن تنزل تحته في هذا النموذج). الفرق أن ACRS يصل لذلك بأقل توقف للخدمات حين تكون التنبيهات مختلطة أو مزوّرة.</p>
+  </section>
+
+  <!-- 5. quantum ------------------------------------------------------------------------------------------------->
+  <section class="view" id="view-quantum" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="q.title">قراءات حاسوب IBM الكمّي الحقيقية. بلا مبالغة.</h1>
+        <p class="view-lede" data-i18n="q.lede">كل شريط قرار خرج فعلًا من المعالج الكمّي. اضغط أي قراءة لترى ماذا تفعل بوابة السلامة بها: الكمّي يقترح، والبوابة تقرر.</p>
+      </div>
+    </div>
+    <div class="shots">
+      <div class="panel"><div class="three" id="qThree"></div><div class="bars" id="bars" role="group"></div></div>
+      <aside class="rail"><div class="panel panel-pad" id="shotOut"><div class="empty"><h2 data-i18n="q.pick">اختر قراءة</h2></div></div>
+        <div class="panel panel-pad small"><p class="eyebrow" data-i18n="q.e9">E9: المستشفى كاملًا على المعالج</p><p id="e9Line"></p>
+          <p class="mt2 note" data-i18n="q.honest">لا ندّعي تفوقًا كمّيًا: نفس القرار يجده حلّ تقليدي دقيق (MILP) أسرع. ما نثبته أن القرار الكمّي يمر من نفس بوابة السلامة، وأن المعالج الحقيقي يجد الأمثل أعلى بكثير من العشوائي.</p></div></aside>
+    </div>
+  </section>
+
+  <!-- 6. verify yourself ----------------------------------------------------------------------------------------->
+  <section class="view" id="view-verify" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="v.title">تحقّق بنفسك: غيّر حرفًا واحدًا.</h1>
+        <p class="view-lede" data-i18n="v.lede">هذه شهادة آخر قرار، موقّعة. عدّل أي حرف أو رقم ثم اضغط «تحقّق»: المدقق يعيد حساب القرار ويفحص التوقيع.</p>
+      </div>
+    </div>
+    <div class="verify-grid">
+      <div class="panel panel-pad stack">
+        <label for="certText" class="eyebrow" data-i18n="v.cert">الشهادة (JSON)</label>
+        <textarea class="cert" id="certText" spellcheck="false"></textarea>
+        <div class="row"><button class="btn btn-primary" id="verifyBtn" data-i18n="v.check">تحقّق</button>
+          <button class="btn btn-quiet" id="restoreBtn" data-i18n="v.restore">أعد الأصل</button></div>
+        <div id="verdict" aria-live="polite"></div>
+      </div>
+      <aside class="rail">
+        <div class="panel panel-pad stack small">
+          <p class="eyebrow" data-i18n="v.qr">خذ الإيصال في جوالك</p>
+          <figure class="m0 qr"><img id="verifyQr" alt="" hidden></figure>
+          <p class="muted xs" data-i18n="v.qrnote">الإيصال يحمل بصمة SHA-256 للشهادة. يمكنك حسابها بنفسك بأي أداة من النص المعروض. التوقيع HMAC يتحقق منه الجهاز الذي يملك المفتاح فقط، ولهذا نعرضه هنا أمامك.</p>
+        </div>
+        <div class="panel panel-pad stack small">
+          <p class="eyebrow" data-i18n="v.repro">أعد إنتاج كل النتائج</p>
+          <figure class="m0 qr"><img id="repoQr" alt="" hidden></figure>
+          <p class="cmd" id="reproCmd"></p>
+          <p class="muted xs" id="evStat"></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 7. attack memory ------------------------------------------------------------------------------------------->
+  <section class="view" id="view-memory" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="m.title">ذاكرة الهجمات: كل هجوم يُحفظ يُختبر كل مرة.</h1>
+        <p class="view-lede" data-i18n="m.lede">احفظ هجومك كزر، ليجرّبه الزائر التالي. ACRS لا «يتعلم» وحده: الذاكرة تعيد اختبار كل هجوم محفوظ، وأي هجوم يكسر قاعدة يُصلح في الكود ويبقى اختبارًا دائمًا حتى لا يمر مرتين.</p>
+      </div>
+      <button class="btn btn-primary" id="regressBtn" data-i18n="m.regress">أعد اختبار كل الهجمات</button>
+    </div>
+    <div class="grid-break">
+      <div><div id="regressOut" aria-live="polite" class="mb4"></div><div class="mem-grid" id="memGrid"></div></div>
+      <aside class="rail"><div class="panel panel-pad">
+        <form class="save-form" id="saveForm" novalidate>
+          <p class="eyebrow" data-i18n="m.save">احفظ الهجوم الحالي</p>
+          <p class="small muted" id="saveWhat"></p>
+          <div class="field"><label for="attackName" data-i18n="m.name">اسم الزر (لا تكتب اسمك)</label>
+            <input type="text" id="attackName" maxlength="40" autocomplete="off"><div class="field-err" id="nameErr"></div></div>
+          <label class="check"><input type="checkbox" id="consent"><span data-i18n="m.consent">أوافق على حفظ هذا الهجوم على هذا الجهاز وعرضه للزوار. لا تُحفظ أي بيانات شخصية.</span></label>
+          <button class="btn btn-primary" id="saveBtn" type="submit" data-i18n="m.saveBtn">احفظ كزر</button>
+        </form></div></aside>
+    </div>
+  </section>
+
+  <!-- 8. story & evidence --------------------------------------------------------------------------------------->
+  <section class="view" id="view-story" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="s.title">فشلنا، فهمنا، أصلحنا. والأرقام كلها من ملفات النتائج.</h1>
+        <p class="view-lede" data-i18n="s.lede">كل رقم هنا يُقرأ عند التشغيل من ملف نتائج محفوظ في المستودع، ومعه مساره.</p>
+      </div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <h2 data-i18n="s.align" class="sec-h">مصمَّم لدعم الأطر الوطنية</h2>
+    <div class="panel panel-pad" id="align"></div>
+    <h2 data-i18n="s.ev" class="sec-h">جدول الأدلة</h2>
+    <div class="scroll-x panel"><table class="ev-table" id="evTable"></table></div>
+    <h2 data-i18n="s.limits" class="sec-h">حدود نعلنها</h2>
+    <div class="panel panel-pad"><ul class="why" id="limits"></ul></div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
