@@ -6,5 +6,3 @@ booth_token
 attack_memory.json
 # design-tool working state (impeccable)
 .impeccable/
-# v11 E1 per-scenario checkpoints (merged into attack.json at the end)
-backend/qacrs/results/v11/partial/

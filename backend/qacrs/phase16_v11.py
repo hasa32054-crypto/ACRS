@@ -2,6 +2,7 @@
 
     cd backend && python -m qacrs.phase16_v11            # -> results/v11/attack.json  (~2 h on 2 cores)
     cd backend && python -m qacrs.phase16_v11 --resume   # continue an interrupted run from results/v11/partial/
+    cd backend && python -m qacrs.phase16_v11 --resume --workers 8   # more CPU cores = faster (same results)
 
 Every scenario is written to results/v11/partial/<id>.json as soon as it is done, so a crash loses nothing.
 The v9 engine (hassan.py, hassan_v9.py, qubo_v7.py ...) is imported unchanged.
@@ -147,4 +148,5 @@ def main(resume: bool = False, workers: int = 2):
 
 
 if __name__ == "__main__":
-    main(resume="--resume" in sys.argv)
+    w = int(sys.argv[sys.argv.index("--workers") + 1]) if "--workers" in sys.argv else 2
+    main(resume="--resume" in sys.argv, workers=w)
