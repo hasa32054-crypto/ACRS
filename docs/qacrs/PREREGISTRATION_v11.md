@@ -1,7 +1,8 @@
 # ACRS — Pre-registration v11: attack the defender
 
 **Written:** 2026-10-14, **before any v11 result was computed**. Drafted with Claude (Anthropic) at the student's
-request; the targets below are proposed for the student's approval and are not changed after the first run. The v9
+request. **The student approved the targets H1–H3 on 2026-10-14 at 22:05 (UTC+3), before E1 was run**; they are not
+changed after the first run. The v9
 engine is used **unchanged**: no weight, threshold, rule or solver setting is modified, and the files locked for the
 blind test (`LOCK_blind_v9.json`) are not touched. Everything new lives in new files.
 
