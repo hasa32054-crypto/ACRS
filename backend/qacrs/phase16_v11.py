@@ -71,6 +71,14 @@ def run_one(net: Network, sc: Scenario) -> dict:
     fi, fs_ = V7.m_full_isolation_safe(net, sc)
     fd = V7.decide_v7(net, sc, fi, fs_)
     machines = {m.name: m for m in net.machines}
+    # what happens if the two-person reviewers approve EVERY escalation as written (G1/G3 isolate, G2 segment)
+    iso_a, seg_a = set(iso), set(seg)
+    for e in d.escalations:
+        if e["rule"] in ("G1", "G3"):
+            iso_a.add(e["target"]); seg_a.discard(e["target"])
+        elif e["rule"] == "G2":
+            seg_a.add(e["target"])
+    da = V7.decide_v7(net, sc, iso_a, seg_a)
     return {
         "scenario": sc.id, "description": sc.description, "hacked": sc.hacked, "solver": method,
         "n_machines": len(net.machines), "n_services": len(net.services), "n_links": len(net.links),
@@ -84,6 +92,10 @@ def run_one(net: Network, sc: Scenario) -> dict:
             "needs_two_person": d.needs_two_person, "owner_review": d.owner_review,
             "never_isolatable_hacked": sorted(h for h in hacked if not machines[h].isolatable),
             "decision_ms": round(ms, 2),
+        },
+        "if_all_escalations_approved": {
+            "status": da.status, "isolate": sorted(iso_a), "segment": sorted(seg_a),
+            "services_down": V7.services_down_v7(net, iso_a, seg_a, hacked),
         },
         "full_isolation": {
             "status": fd.status, "isolate": sorted(fi), "services_down": V7.services_down_v7(net, fi, set(), hacked),
@@ -186,8 +198,23 @@ def main() -> None:
                                         "services_down": z["acrs"]["services_down"]},
                           "full_isolation_last_services_down": z["full_isolation"]["services_down"]})
     stab = [r["exploratory"]["weight_stability"] for r in runs]
+    appr = [r for r in runs if len(r["full_isolation"]["services_down"]) >= 1]
+    appr_ok = [r for r in appr
+               if len(r["if_all_escalations_approved"]["services_down"]) < len(r["full_isolation"]["services_down"])]
+    rs_down = sum(len(r["exploratory"]["methods"]["rule_segment"].get("services_down", [])) for r in runs)
+    burst = [r["scenario"] for r in runs if any("burst" in f for f in r["consistency_flags"])]
     exploratory = {
         "note": "NOT pre-registered. Pilot observations only.",
+        "caveat_services_down": "ACRS's registered 'services down' counts only its AUTOMATIC actions; 11/16 real "
+                                "scenarios were escalated, so the infected service hosts were left running pending "
+                                "a human decision. The honest comparison is 'if_all_escalations_approved'.",
+        "services_down_if_all_escalations_approved": sum(len(r["if_all_escalations_approved"]["services_down"])
+                                                         for r in runs),
+        "R2_if_all_escalations_approved": {"pool": len(appr), "fewer_services_down": len(appr_ok),
+                                           "wilson95": stats.wilson(len(appr_ok), len(appr)) if appr else None,
+                                           "ties_or_worse": [r["scenario"] for r in appr if r not in appr_ok]},
+        "rule_segment_services_down_total": rs_down,
+        "guard_burst_flag_on_real_detonations": burst,
         "cost_of_delay": delay,
         "weight_stability": {"x0.5_same": sum(s["x0.5"]["same_decision"] for s in stab),
                              "x1.5_same": sum(s["x1.5"]["same_decision"] for s in stab), "n": len(stab)},

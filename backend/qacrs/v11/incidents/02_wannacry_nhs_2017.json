@@ -1,0 +1,74 @@
+{
+ "incident": "WannaCry ransomware on NHS England (modelled as one representative infected acute trust), 12 May 2017",
+ "year": 2017,
+ "sector": "health",
+ "sources": [
+  {"title": "NAO - Investigation: WannaCry cyber attack and the NHS, HC 414 (full report PDF, 27 Oct 2017)", "url": "https://nao.org.uk/wp-content/uploads/2017/10/Investigation-WannaCry-cyber-attack-and-the-NHS.pdf", "what_it_gave": "entry (internet-facing firewalls / N3, unpatched Windows 7), hop (automatic spread via Windows file-sharing weakness, para 2.9), impact (34 trusts locked out, 46 disrupted, 603 other orgs/595 GP practices, 6,912 confirmed / 19,494 estimated cancellations, 5 A&E diverts, 1,220 infected diagnostic devices incl. MRI), detection timeline (late morning first reports, 13:06 EPRR notified, 16:00 major incident, 18:45 NHS England leads, evening kill-switch), CareCERT alerts 17 Mar and 28 Apr"},
+  {"title": "NAO - Investigation: WannaCry cyber attack and the NHS (web summary)", "url": "https://www.nao.org.uk/reports/investigation-wannacry-cyber-attack-and-the-nhs/", "what_it_gave": "80+ of 236 trusts, 603 primary-care orgs, no ransom paid, no patient data stolen, 'could have been prevented by basic IT security best practice'"},
+  {"title": "Computing - NHS could have avoided WannaCry simply by patching Windows 7 or securing firewalls, claims NAO", "url": "https://www.computing.co.uk/news/3019954/nhs-could-have-avoided-wannacry-simply-by-patching-windows-7-or-securing-their-firewalls-claims-nao", "what_it_gave": "all infected orgs had unpatched/unsupported Windows; spread via internet incl. N3; no spread via NHSmail; 39 CareCERT alerts"},
+  {"title": "National Health Executive - WannaCry cyber-attack cost the NHS £92m after 19,000 appointments were cancelled (DHSC lessons-learned, Feb 2018)", "url": "https://www.nationalhealthexecutive.com/News/wannacry-cyber-attack-cost-the-nhs-92m-after-19000-appointments-were-cancelled/213511", "what_it_gave": "DHSC cost estimate £92m (£20m lost output during attack, £72m IT restoration), 1% of NHS care disrupted, 8% of GP practices"},
+  {"title": "CISA / US-CERT - Alert TA17-181A (Petya) - for MS17-010 context only", "url": "https://cisa.gov/ncas/alerts/TA17-181A", "what_it_gave": "MS17-010 released 14 March 2017 fixes EternalBlue/EternalRomance SMBv1 exploits used by WannaCry and NotPetya"},
+  {"title": "NCSC - UK supports US charges against North Korean cyber actors", "url": "https://www.ncsc.gov.uk/news/uk-supports-us-charges-against-north-korean-cyber-actors", "what_it_gave": "attribution of WannaCry to the North Korean (Lazarus) actor"}
+ ],
+ "narrative_before": "On Friday 12 May 2017 the WannaCry worm, attributed by the UK to North Korea's Lazarus group (NCSC), hit the NHS: at least 80 of 236 trusts in England were affected - 34 infected and locked out of devices (25 acute) and 46 reporting disruption - plus 603 primary-care and other organisations including 595 GP practices (NAO HC 414 paras 1.2, 5). It spread 'via the internet, including through the N3 network' and 'exploited weaknesses within parts of Microsoft's Windows operating system used to share files within organisations' (SMBv1, MS17-010, patch issued 14 March 2017 - NAO paras 1.2, 2.9; CISA TA17-181A); most infected devices were unpatched but supported Windows 7, and managing internet-facing firewalls would have blocked infection regardless of patching (NAO paras 2.4-2.5). Trusts first reported problems late morning; NHS England's EPRR team was notified at 13:06, declared a major incident at 16:00, took the lead at 18:45, and a researcher's kill-switch domain stopped new infections that evening (NAO Figure 2, para 1). 6,912 appointments were confirmed cancelled (19,494 estimated), five acute trusts diverted ambulances, and by 19 May 1,220 diagnostic devices (~1% of such equipment, including MRI scanners) were identified as infected, with radiology and pathology disrupted (NAO paras 1.3, 1.7, 1.8). DHSC later estimated the cost at £92m (£20m lost output, £72m IT restoration); no ransom was paid and no patient data was stolen (DHSC via NHE; NAO).",
+ "machines": [
+  {"name": "web_smb_entry", "role": "Unpatched Windows 7 host reachable over SMB from the internet/N3 through an unmanaged internet-facing firewall (NAO paras 1.2, 2.4, 2.5) - first infected host in the trust", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_1", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010 (NAO para 2.5)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_2", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_3", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_4", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_5", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_6", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_7", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_8", "role": "Clinical/admin Windows 7 workstation, unpatched for MS17-010", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "dev_mri_1", "role": "MRI scanner with vendor-managed embedded Windows XP (NAO paras 1.3, 2.6); radiology", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "dev_mri_2", "role": "MRI scanner with vendor-managed embedded Windows XP; radiology", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "dev_radiology_1", "role": "Other networked diagnostic imaging device (part of the 1,220 infected diagnostic devices, NAO para 1.3)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "dev_pathology_1", "role": "Networked pathology diagnostic device (pathology disrupted, NAO para 1.3)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "dev_pathology_2", "role": "Networked pathology diagnostic device", "isolatable": true, "critical": true, "disruption": 4}
+ ],
+ "services": [
+  {"name": "emergency_care_ae", "value": 30, "replicas": ["pc_1", "pc_2"], "depends_on": []},
+  {"name": "outpatient_appointments", "value": 20, "replicas": ["pc_3", "pc_4"], "depends_on": []},
+  {"name": "radiology_mri", "value": 25, "replicas": ["dev_mri_1", "dev_mri_2"], "depends_on": []},
+  {"name": "diagnostic_imaging_other", "value": 20, "replicas": ["dev_radiology_1"], "depends_on": []},
+  {"name": "pathology", "value": 25, "replicas": ["dev_pathology_1", "dev_pathology_2"], "depends_on": []}
+ ],
+ "links": [
+  ["web_smb_entry", "pc_1"],
+  ["web_smb_entry", "pc_2"],
+  ["web_smb_entry", "pc_3"],
+  ["pc_1", "pc_4"],
+  ["pc_1", "pc_5"],
+  ["pc_2", "pc_6"],
+  ["pc_2", "pc_7"],
+  ["pc_3", "pc_8"],
+  ["pc_4", "dev_mri_1"],
+  ["pc_5", "dev_mri_2"],
+  ["pc_6", "dev_radiology_1"],
+  ["pc_7", "dev_pathology_1"],
+  ["pc_8", "dev_pathology_2"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"web_smb_entry": 9, "pc_1": 9, "pc_2": 9, "pc_3": 9}, "description": "Late morning, Friday 12 May 2017: first trusts begin reporting problems locally - users locked out of encrypted Windows 7 devices; worm already spreading automatically via SMB file-sharing inside the trust.", "evidence": "NAO HC 414 Figure 2: late morning on 12 May, first trusts began reporting problems; para 2.9: WannaCry 'exploited weaknesses within parts of Microsoft's Windows operating system used to share files within organisations' and spread automatically."},
+  {"id": "m2", "hacked": {"web_smb_entry": 9, "pc_1": 9, "pc_2": 9, "pc_3": 9, "pc_4": 9, "pc_5": 9, "pc_6": 9, "pc_7": 9, "dev_mri_1": 9, "dev_pathology_1": 9}, "description": "13:06, 12 May 2017: first notification reaches NHS England's EPRR team (national detection); 16:00 NHS England declares a major incident. By now workstations across the trust and networked diagnostic devices are encrypted; trusts begin shutting down or isolating devices and disconnecting from N3.", "evidence": "NAO HC 414 Figure 2 (1:06 pm first notification to EPRR); para 1: 'At 4 pm on 12 May, NHS England declared the cyber attack a major incident'; para 1.3: medical equipment locked or isolated from IT systems, disrupting radiology and pathology including MRI scanners; para 1.4: trusts shut down devices or isolated them from networks."}
+ ],
+ "attack_path": [
+  ["internet_n3", "web_smb_entry", "inbound SMBv1 exploitation (EternalBlue, MS17-010 / CVE-2017-0144) of an unpatched Windows 7 host behind an unmanaged internet-facing firewall; spread 'via the internet, including through the N3 network' (NAO paras 1.2, 2.4, 2.5; CISA TA17-181A) - T1190 / T1486"],
+  ["web_smb_entry", "pc_1", "automatic worm propagation over Windows file-sharing (SMB) to other unpatched Windows 7 devices inside the organisation (NAO para 2.9) - T1210 / T1486"],
+  ["pc_4", "dev_mri_1", "worm propagation over SMB to networked diagnostic devices including MRI scanners on embedded Windows XP; 1,220 devices infected by 19 May (NAO paras 1.3, 2.6) - T1210 / T1486"]
+ ],
+ "ambiguities": [
+  "The NAO report describes the attack at national/aggregate level; it does not name any individual trust's hosts. The machine set is a representative single acute trust built from the report's host classes (unpatched Windows 7 devices, MRI scanners on embedded XP, other diagnostic devices). Counts per class are the brief's generic-group allowance, not reported figures.",
+  "Which specific trust was first infected and the exact first host are not public; web_smb_entry represents the NAO's statement that managing internet-facing firewalls would have prevented infection (para 2.4).",
+  "The NAO does not state that any infected device was in life-critical use and could not be disconnected; it says trusts themselves shut down or isolated devices (para 1.4). isolatable therefore stays true for all devices.",
+  "No source mentions domain controllers, file servers or domain credentials (WannaCry does not use credentials), so no dc/files machines or workstation->dc links were added.",
+  "Services: the NAO reports disruption to A&E (ambulance diverts), appointments, radiology and pathology but names no servers (PAS, RIS, LIMS). Workstation replicas for A&E and appointments stand in for 'locked out of devices' (para 1.2); this is a modelling choice, logged here.",
+  "Exact spread pattern (which host infected which) is not reported; links form a plausible star/tree consistent with 'spread automatically' via SMB, one link per hop in the modelled path.",
+  "Kill-switch time: NAO says 'on the evening of 12 May' (para 1) without a clock time.",
+  "DHSC figures: NHE reports £20m/£72m split; some outlets quote £19m/£73m. The NHE values are used.",
+  "The NAO web summary states 'at least 81 of 236 trusts'; the full report says 'at least 80' (34 locked out + 46 disrupted), after three trusts were recategorised. The full-report figure is used."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

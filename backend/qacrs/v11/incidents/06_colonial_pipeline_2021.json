@@ -1,0 +1,65 @@
+{
+ "incident": "Colonial Pipeline - DarkSide ransomware (intrusion 29 April, ransom note 7 May 2021)",
+ "year": 2021,
+ "sector": "energy",
+ "sources": [
+  {"title": "Joseph Blount, written testimony, U.S. Senate Committee on Homeland Security and Governmental Affairs, 8 June 2021", "url": "https://www.hsgac.senate.gov/imo/media/doc/Testimony-Blount-2021-06-08.pdf", "what_it_gave": "detection ('just before 5:00 AM EDT' on 7 May an employee 'identified the ransom note on a system in the IT network'); Operations Supervisor at Control Center issued stop-work order, shutdown began ~5:55, all 5,500 miles confirmed shut by 6:10 AM EDT to keep malware off the OT network; entry via 'legacy VPN profile that was not intended to be in use'; Mandiant retained; restart evening 12 May; 950 employees, 29 refineries, 260 delivery points, 13 states"},
+  {"title": "CISA/FBI Joint Advisory AA21-131A: DarkSide Ransomware: Best Practices for Preventing Business Disruption", "url": "https://www.cisa.gov/ncas/alerts/aa21-131a", "what_it_gave": "DarkSide deployed against the pipeline company's IT network; no indication OT was directly affected; company proactively disconnected certain OT systems; DarkSide initial access via phishing / remotely accessible accounts and systems / VDI (T1566, T1190, T1133); Cobalt Strike C2, RDP persistence, T1486"},
+  {"title": "Dark Reading (9 Jun 2021): Colonial Pipeline CEO: Ransomware Attack Started via Pilfered 'Legacy' VPN Account", "url": "https://www.darkreading.com/cyberattacks-data-breaches/colonial-pipeline-ceo-ransomware-attack-started-via-pilfered-legacy-vpn-account", "what_it_gave": "VPN account had only single-factor authentication; complex password; ransom note found on IT network at 5:00 a.m. ET 7 May; legacy VPN profile shut down; DOJ seized 63.7 BTC (~USD 2.3m) of the payment"},
+  {"title": "The Hacker News / Bloomberg (Mandiant, Charles Carmakal): Hackers Breached Colonial Pipeline Using Compromised VPN Password", "url": "https://thehackernews.com/2021/06/hackers-breached-colonial-pipeline.html", "what_it_gave": "VPN account unused but active, no MFA; password later found in a dark-web batch of leaked passwords; first foothold 29 April 2021; ~100 GB stolen; USD 4.4m ransom paid; operations halted nearly a week"},
+  {"title": "The Stack: How the Colonial Pipeline hack happened (Mandiant findings)", "url": "https://www.thestack.technology/how-the-colonial-pipeline-hack-happened/", "what_it_gave": "Mandiant saw no attacker activity before 29 April; no evidence of phishing against the account owner; Carmakal: attackers did not move from the IT network to the OT network; no CISO at the time"},
+  {"title": "BNN Bloomberg (9 May 2021): Colonial hackers stole data Thursday ahead of pipeline shutdown", "url": "https://www.bnnbloomberg.ca/colonial-hackers-stole-data-thursday-ahead-of-pipeline-shutdown-1.1601037", "what_it_gave": "about 100 GB exfiltrated from the network in roughly two hours on Thursday 6 May, then computers encrypted; double extortion; Mandiant assisting"},
+  {"title": "BankInfoSecurity: Colonial CEO at Senate Hearing Details Ransomware Attack", "url": "https://www.bankinfosecurity.net/colonial-ceo-at-senate-hearing-details-ransomware-attack-a-16836", "what_it_gave": "legacy VPN 'essentially invisible' to IT, no MFA; decision to pay 7 May, payment 8 May; seven finance systems back online 8 June; FBI contacted the morning of the attack"}
+ ],
+ "narrative_before": "DarkSide affiliates logged into Colonial Pipeline's network on 29 April 2021 through a legacy VPN profile 'that was not intended to be in use', which had only single-factor authentication and whose complex password later turned up in a dark-web batch of leaked credentials (Blount testimony; Mandiant via Bloomberg). On Thursday 6 May they exfiltrated about 100 GB of data from the IT network in roughly two hours and then encrypted computers (Bloomberg). Just before 5:00 AM EDT on Friday 7 May an employee found the ransom note on a system in the IT network; the Control Center operations supervisor ordered a stop-work and by 6:10 AM all 5,500 miles of pipeline were shut down to keep the malware from reaching the OT network, which Mandiant later confirmed the attackers never entered (Blount; CISA AA21-131A; Carmakal). Colonial paid about USD 4.4 million (75 BTC) on 8 May, of which DOJ later seized 63.7 BTC, and restarted the pipeline on the evening of 12 May; fuel shortages hit 13 states and D.C. served from 29 Gulf Coast refineries, and seven finance systems were only restored on 8 June (Blount; Dark Reading).",
+ "machines": [
+  {"name": "web_vpn", "role": "Legacy VPN profile/appliance, internet-facing, single-factor, 'not intended to be in use' and 'essentially invisible' to IT (Blount)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "pc_ransom_note", "role": "System in the IT network on which an employee identified the ransom note just before 5:00 AM EDT, 7 May 2021 (Blount)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "srv_finance_1", "role": "Finance/business system (one of the seven finance systems restored only on 8 June 2021)", "isolatable": true, "critical": true, "disruption": 3},
+  {"name": "srv_finance_2", "role": "Finance/business system (one of seven)", "isolatable": true, "critical": true, "disruption": 3},
+  {"name": "srv_finance_3", "role": "Finance/business system (one of seven)", "isolatable": true, "critical": true, "disruption": 3},
+  {"name": "srv_it_1", "role": "IT-network server (encrypted; source of part of the ~100 GB exfiltrated)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_it_2", "role": "IT-network server (encrypted)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_it_3", "role": "IT-network server (encrypted)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "pc_1", "role": "Corporate workstation in the IT network (encrypted)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_2", "role": "Corporate workstation in the IT network (encrypted)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_3", "role": "Corporate workstation in the IT network (encrypted)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "dev_ot_control", "role": "Operational Technology / pipeline control systems at the Control Center; never reached by the attacker, proactively disconnected and pipeline shut down 7 May (Blount; CISA)", "isolatable": true, "critical": true, "disruption": 4}
+ ],
+ "services": [
+  {"name": "Refined-products pipeline operations (5,500 miles, 29 refineries to 260 delivery points in 13 states + DC)", "value": 25, "replicas": ["dev_ot_control"], "depends_on": []},
+  {"name": "Finance / business systems (seven systems offline until 8 June 2021)", "value": 20, "replicas": ["srv_finance_1"], "depends_on": []},
+  {"name": "Corporate IT network (encrypted systems, exfiltrated data)", "value": 10, "replicas": ["srv_it_1"], "depends_on": []}
+ ],
+ "links": [
+  ["web_vpn", "srv_it_1"],
+  ["srv_it_1", "srv_it_2"],
+  ["srv_it_1", "srv_it_3"],
+  ["srv_it_1", "srv_finance_1"],
+  ["srv_it_1", "srv_finance_2"],
+  ["srv_it_1", "srv_finance_3"],
+  ["srv_it_1", "pc_ransom_note"],
+  ["srv_it_1", "pc_1"],
+  ["srv_it_1", "pc_2"],
+  ["srv_it_1", "pc_3"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"web_vpn": 5, "pc_ransom_note": 9, "srv_it_1": 9, "srv_it_2": 9, "srv_it_3": 9, "srv_finance_1": 9, "srv_finance_2": 9, "srv_finance_3": 9, "pc_1": 9, "pc_2": 9, "pc_3": 9}, "description": "Just before 5:00 AM EDT, Friday 7 May 2021: an employee finds the DarkSide ransom note on a system in the IT network. IT systems are already encrypted and ~100 GB was exfiltrated the previous day; the OT network is clean but is disconnected and the pipeline halted by 6:10 AM. No earlier detection existed - Mandiant found the intrusion began 29 April via the legacy VPN.", "evidence": "'just before 5:00 AM Eastern Daylight Time ... one of our employees identified the ransom note on a system in the IT network ... By 6:10 AM EDT, they confirmed that all 5,500 miles of pipelines had been shut down ... to help ensure the malware did not spread to the Operational Technology (OT) network' - Blount Senate testimony; 'DarkSide ransomware was deployed against the company's IT network ... no indication that OT networks were directly affected' - CISA AA21-131A; 'about 100 GB ... in roughly two hours on Thursday' - Bloomberg"}
+ ],
+ "attack_path": [
+  ["web_vpn", "srv_it_1", "29 Apr 2021: valid-account login to the legacy single-factor VPN profile with a password from a leaked-credential batch (T1133 External Remote Services, T1078 Valid Accounts) into the IT network"],
+  ["srv_it_1", "srv_finance_1", "Movement across the IT network to business/finance systems; ~100 GB exfiltrated in ~2 hours on 6 May (T1041/T1567) then DarkSide encryption of IT systems (T1486). Intermediate hop technique not published; CISA attributes Cobalt Strike C2 and RDP persistence to DarkSide generally (T1071, T1021.001)"]
+ ],
+ "ambiguities": [
+  "No public source names the individual IT hosts that were encrypted or that held the exfiltrated 100 GB; 'srv_it_x', 'pc_x' and three of the seven finance systems are generic placeholders (rule 1, 3-10 per group).",
+  "The specific lateral-movement tooling inside Colonial's network has not been published; the intra-IT hop is attested only as an outcome (encryption + exfiltration). Cobalt Strike/RDP are CISA's generic DarkSide TTPs, not Colonial-specific findings.",
+  "No domain controller, file server or domain-credential use is mentioned in any source, so 'dc'/'files' omitted and no pc->dc links.",
+  "Blount said an employee found the note on 'a system in the IT network'; Bloomberg attributed it to a control-room employee - modelled as a workstation 'pc_ransom_note'. Whether that host was itself encrypted is not stated; risk 9 assumed because the note is the ransomware's output.",
+  "web_vpn given risk 5 (initial access only); whether the VPN appliance itself was modified is not stated.",
+  "OT (dev_ot_control) was never compromised (Mandiant) and was disconnected by Colonial, so isolatable=true; the shutdown was a precaution, not a safety constraint. Pipeline service value 25 (core business) rather than 30 since no source says loss of the service was life-critical, despite fuel shortages.",
+  "Services' replicas: sources do not describe redundancy; replicas=1. Whether pipeline operations depended on the encrypted billing/finance systems is widely reported but not stated in the Senate testimony, so depends_on left empty.",
+  "Ransom figure given as USD 4.3m (BankInfoSecurity) vs 4.4m / 75 BTC (Bloomberg, DOJ); 75 BTC figure is from DOJ seizure reporting (63.7 BTC recovered)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

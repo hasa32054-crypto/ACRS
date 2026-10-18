@@ -1,0 +1,22 @@
+{
+ "incident": "CISA #StopRansomware: Interlock (AA25-203A, 22 July 2025) — technique chain, no named victim",
+ "year": 2025,
+ "sector": "health",
+ "sources": [
+  {"title": "CISA/FBI/HHS/MS-ISAC Joint Advisory AA25-203A: #StopRansomware: Interlock", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-203a", "what_it_gave": "full ATT&CK chain: drive-by (T1189) / ClickFix (T1204.004) -> PowerShell (T1059.001) -> Run-key persistence (T1547.001) -> Cobalt Strike / SystemBC / Interlock RAT / NodeSnake C2 -> cht.exe (T1555.003), klg.dll keylogger (T1056.001), Kerberoasting (T1558.003) -> RDP (T1021.001), AnyDesk/PuTTY (T1219), PsExec -> Azure Storage Explorer (T1530) / AzCopy (T1567.002) / WinSCP (T1048) exfiltration -> AES+RSA encryption incl. ESXi (T1486), note via GPO, double extortion (T1657). No dwell time, no detection moment, no victim names, no sector breakdown."},
+  {"title": "BleepingComputer: Kettering Health confirms Interlock ransomware (May 2025)", "url": "https://www.bleepingcomputer.com/news/security/kettering-health-confirms-interlock-ransomware-behind-may-cyberattack/", "what_it_gave": "a real healthcare victim (charting, call centre, MyChart down; 941 GB claimed) but no public entry point, hop or detection moment"}
+ ],
+ "narrative_before": "The advisory documents the Interlock chain seen since September 2024 (drive-by fake browser/VPN-client updates and ClickFix lures, Cobalt Strike/Interlock RAT, Kerberoasting, RDP/AnyDesk lateral movement, Azure Storage Explorer exfiltration, encryption including ESXi hosts). Kettering Health (Ohio, May 2025) is a confirmed healthcare victim, but neither the advisory nor Kettering published the entry host, a lateral hop or the detection moment.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [
+  "The advisory describes a technique chain, not a victim network. Rule 4 of the pre-registration forbids invented links, and rule 5 needs a documented detection moment; neither can be satisfied from the advisory.",
+  "A first attempt to model a 'representative healthcare victim' from the advisory was abandoned: it would have been a synthetic network written by the converter, which is exactly what v11 exists to avoid.",
+  "CISA AA26-222A (Gunra, Aug 2026) was checked through secondary summaries: Fortinet CVE-2024-55591 / CVE-2025-24472 and VPN-credential entry, Impacket/SMB, NTDS dumping, MEGA exfiltration; names no victims either."
+ ],
+ "dropped": true,
+ "drop_reason": "AA25-203A names no victim network, no lateral hop between identified hosts and no detection moment; modelling a synthetic victim would violate the 'no invented links' rule. Kettering Health (May 2025) is a real Interlock healthcare victim but has no public entry point or hop."
+}

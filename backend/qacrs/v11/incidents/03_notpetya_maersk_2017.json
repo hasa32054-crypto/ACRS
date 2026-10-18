@@ -1,0 +1,78 @@
+{
+ "incident": "NotPetya wiper at A.P. Moller-Maersk, 27 June 2017 (Sandworm / M.E.Doc supply-chain)",
+ "year": 2017,
+ "sector": "transport_logistics",
+ "sources": [
+  {"title": "Wired - The Untold Story of NotPetya, the Most Devastating Cyberattack in History (Andy Greenberg, Aug 2018; mirrored by ISSP)", "url": "https://www.issp.com/wired-the-untold-story-of-notpetya", "what_it_gave": "entry point (single Odessa PC with M.E.Doc installed at a finance executive's request), detection moment (Copenhagen IT admin Henrik Jensen's PC reboots, 'wave of screens turning black'), >2h to disconnect network, ~150 domain controllers all wiped, sole surviving DC copy in Ghana (offline during blackout), 4,000 servers and 45,000 PCs rebuilt in 10 days, Maidenhead emergency centre, Elizabeth NJ APM terminal gate dead, Maerskline.com booking site down, $250-300m"},
+  {"title": "Control Engineering - Throwback attack: How NotPetya accidentally took down global shipping giant Maersk", "url": "https://www.controleng.com/throwback-attack-how-notpetya-accidentally-took-down-global-shipping-giant-maersk", "what_it_gave": "Linkos Group M.E.Doc update servers hijacked early 2017; EternalBlue + Mimikatz propagation; 76 ports; ~2 weeks for port operations to normalise; $250-300m; $10bn global"},
+  {"title": "CISA / US-CERT - Alert TA17-181A: Petya Ransomware", "url": "https://cisa.gov/ncas/alerts/TA17-181A", "what_it_gave": "delivery via M.E.Doc (backdoor in M.E.Doc dev environment from 14 April 2017); lateral movement via modified Mimikatz credential theft + WMIC, PsExec, EternalBlue/EternalRomance SMBv1; MBR/MFT encryption and reboot; 'behaves more like destructive malware rather than ransomware'"},
+  {"title": "Microsoft - New ransomware, old techniques: Petya adds worm capabilities (27 June 2017)", "url": "https://www.microsoft.com/security/blog/2017/06/27/new-ransomware-old-techniques-petya-adds-worm-cap", "what_it_gave": "MEDoc updater EzVit.exe launching perfc.dat via rundll32; credential dump tool (Mimikatz-like) + CredEnumerateW; PsExec as dllhost.dat to admin$; WMIC; CVE-2017-0144/0145; scans tcp/139,445; special behaviour on domain controllers/servers (DhcpEnumSubnets to scan multiple /24s); MBR overwrite with highest privilege; scheduled shutdown 10-60 min"},
+  {"title": "CNBC - Shipping company Maersk says June cyberattack could cost it up to $300 million (Q2 2017 interim report)", "url": "https://www.cnbc.com/amp/2017/08/16/maersk-says-notpetya-cyberattack-could-cost-300-million.html", "what_it_gave": "CEO Soren Skou: 'USD 200-300m' impact; units affected Maersk Line, APM Terminals, Damco; bookings from existing customers accepted after 2 days; volumes hit ~2 weeks"}
+ ],
+ "narrative_before": "In spring 2017 Sandworm backdoored the update servers of Linkos Group's Ukrainian tax software M.E.Doc (dev environment compromised from 14 April per CISA TA17-181A); on 27 June the poisoned update ran NotPetya via the EzVit.exe updater (Microsoft). At Maersk the only foothold was a single computer in the Odessa office on which a Ukraine finance executive had asked IT to install M.E.Doc (Wired). The worm spread with EternalBlue/EternalRomance SMBv1 exploits (CVE-2017-0144/0145, MS17-010) and a Mimikatz-style credential dumper feeding PsExec and WMIC, scanning entire subnets when it landed on a server or domain controller (Microsoft, CISA); within hours it had wiped essentially all of Maersk's ~150 domain controllers, 4,000 servers and 45,000 PCs (Wired). Defenders first saw it in Copenhagen that afternoon when an IT administrator's PC spontaneously rebooted and 'a wave of screens turning black' swept the open-plan office; disconnecting the global network took more than two hours (Wired). Maerskline.com booking went down and the APM Terminals gate at Elizabeth, NJ went dead, backing trucks up for miles; the only intact domain-controller copy was recovered from an office in Ghana that had been offline in a blackout, and core infrastructure was rebuilt in about 10 days from a Maidenhead emergency centre, with port operations normalising over ~2 weeks (Wired, Control Engineering). Maersk booked a USD 200-300m hit, mainly at Maersk Line, APM Terminals and Damco (CNBC, Q2 2017 interim report).",
+ "machines": [
+  {"name": "pc_odessa_medoc", "role": "Finance workstation in Maersk's Odessa (Ukraine) office running M.E.Doc tax software - sole initial foothold (Wired)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_cph_1", "role": "Copenhagen headquarters workstation, IT administrator's PC that spontaneously rebooted (Wired)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_cph_2", "role": "Copenhagen open-plan office workstation (screens went black)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_cph_3", "role": "Copenhagen open-plan office workstation", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_cph_4", "role": "Copenhagen open-plan office workstation", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_cph_5", "role": "Copenhagen open-plan office workstation", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "dc", "role": "Active Directory domain controller (one of ~150 globally; all wiped, no backup) (Wired)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "dc_ghana", "role": "Domain controller in the Ghana office, offline during a power blackout - only surviving copy of AD data (Wired)", "isolatable": true, "critical": true, "disruption": 2},
+  {"name": "web_booking", "role": "Maerskline.com central customer booking website (down) (Wired, CNBC)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_gate_elizabeth", "role": "APM Terminals gate system at Port Elizabeth, New Jersey - 'choke point' for truck entry; went dead (Wired)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_1", "role": "Windows application server (one of ~4,000 servers rebuilt) (Wired)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_2", "role": "Windows application server (one of ~4,000)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_3", "role": "Windows application server (one of ~4,000)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_4", "role": "Windows application server (one of ~4,000)", "isolatable": true, "critical": false, "disruption": 3}
+ ],
+ "services": [
+  {"name": "container_booking_maerskline", "value": 25, "replicas": ["web_booking"], "depends_on": ["dc"]},
+  {"name": "terminal_gate_operations_elizabeth", "value": 25, "replicas": ["srv_gate_elizabeth"], "depends_on": ["dc"]},
+  {"name": "active_directory_authentication", "value": 25, "replicas": ["dc", "dc_ghana"], "depends_on": []},
+  {"name": "ukraine_tax_accounting_medoc", "value": 10, "replicas": ["pc_odessa_medoc"], "depends_on": []}
+ ],
+ "links": [
+  ["pc_odessa_medoc", "dc"],
+  ["pc_odessa_medoc", "srv_1"],
+  ["dc", "pc_cph_1"],
+  ["dc", "pc_cph_2"],
+  ["dc", "pc_cph_3"],
+  ["dc", "pc_cph_4"],
+  ["dc", "pc_cph_5"],
+  ["dc", "web_booking"],
+  ["dc", "srv_gate_elizabeth"],
+  ["dc", "srv_2"],
+  ["dc", "srv_3"],
+  ["dc", "srv_4"],
+  ["dc", "dc_ghana"],
+  ["pc_cph_1", "dc"],
+  ["pc_cph_2", "dc"],
+  ["pc_cph_3", "dc"],
+  ["pc_cph_4", "dc"],
+  ["pc_cph_5", "dc"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"pc_odessa_medoc": 9, "pc_cph_1": 9, "pc_cph_2": 9, "pc_cph_3": 9, "dc": 8, "srv_1": 9}, "description": "Afternoon of 27 June 2017, Copenhagen HQ: IT administrator Henrik Jensen's PC spontaneously restarts while he prepares a software update, then screens across the open-plan office go black one after another; staff find PCs locked. First moment defenders recognise an attack. The worm has already harvested credentials and is propagating from the Odessa foothold across the domain.", "evidence": "'his computer spontaneously restarted' ... 'I saw a wave of screens turning black. Black, black, black.' - Wired, The Untold Story of NotPetya. Propagation via Mimikatz-style credential theft + PsExec/WMIC + EternalBlue - CISA TA17-181A, Microsoft."},
+  {"id": "m2", "hacked": {"pc_odessa_medoc": 9, "pc_cph_1": 9, "pc_cph_2": 9, "pc_cph_3": 9, "pc_cph_4": 9, "pc_cph_5": 9, "dc": 9, "web_booking": 9, "srv_gate_elizabeth": 9, "srv_1": 9, "srv_2": 9, "srv_3": 9, "srv_4": 9}, "description": "~2+ hours later, 27 June 2017: Maersk finishes disconnecting its global network; by then the wiper has hit domain controllers, servers and PCs worldwide, Maerskline.com is down and the Elizabeth NJ terminal gate is dead. Only the offline Ghana DC is untouched.", "evidence": "'the company began disconnecting its network, which took more than two hours' ... 'The company's central booking website, Maerskline.com, was down' ... gate at Elizabeth 'a choke point to Maersk's entire New Jersey terminal operation' went dead ... 150 or so domain controllers all wiped, Ghana DC offline during blackout - Wired."}
+ ],
+ "attack_path": [
+  ["external_medoc_update", "pc_odessa_medoc", "trojanised M.E.Doc update executed by the EzVit.exe updater (rundll32 perfc.dat); Linkos Group update servers hijacked by Sandworm (CISA TA17-181A, Microsoft, Wired) - T1195.002"],
+  ["pc_odessa_medoc", "dc", "Mimikatz-style in-memory credential dump (CredEnumerateW, TERMSRV creds) then remote execution with PsExec (dllhost.dat to admin$) / WMIC, plus EternalBlue/EternalRomance SMBv1 exploitation of unpatched hosts; domain controllers wiped (Microsoft, CISA, Wired) - T1003.001 / T1021.002 / T1047 / T1210 / T1485"],
+  ["dc", "pc_cph_1", "from a DC/server the worm enumerates DHCP subnets and scans multiple /24 ranges on tcp/139,445, spreading to workstations worldwide; MBR overwritten and forced reboot (Microsoft, Wired) - T1210 / T1021.002 / T1561.002"],
+  ["dc", "srv_gate_elizabeth", "same propagation to APM Terminals gate system; gate went dead, trucks backed up (Wired) - T1210 / T1485"],
+  ["dc", "web_booking", "same propagation to Maerskline.com booking platform; site down (Wired, CNBC) - T1210 / T1485"]
+ ],
+ "ambiguities": [
+  "No public source gives Maersk's internal host-to-host path. Links follow the propagation mechanism described by Microsoft/CISA (credential theft -> PsExec/WMIC/SMB; DCs and servers scanning multiple subnets) and the outcomes reported by Wired (all DCs, Copenhagen PCs, booking site, NJ gate). The specific link pc_odessa_medoc->dc is inferred from Mimikatz credential use + 'all domain controllers wiped'; which DC was hit first is unknown.",
+  "~150 domain controllers are collapsed into a single 'dc' machine plus 'dc_ghana' (the only surviving copy). dc_ghana was offline and never infected; the dc->dc_ghana link reflects normal AD replication and the fact that only its outage saved it.",
+  "'45,000 PCs' and '4,000 servers' are generic groups; 5 Copenhagen PCs and 4 generic servers are modelled. Wired gives 45,000 PCs; some secondary sources say 49,000 laptops - the Wired figure is used.",
+  "Leftover risk on dc at m1 set to 8 (credential theft, T1003) because the sources do not state whether the DCs were already wiped at the moment the Copenhagen screens went black; at m2 set to 9 (wiped, T1485). All other hacked hosts set to 9 (wiper deployed) since NotPetya encrypts/overwrites immediately on execution.",
+  "Whether the Elizabeth gate system and Maerskline.com depend on Active Directory is not stated; depends_on dc is a modelling assumption consistent with Wired's account that AD loss was the root blocker to recovery.",
+  "Services for Maersk Line vessel operations, Damco, and other APM terminals (76 ports) are not modelled separately because the sources give no system-level detail for them.",
+  "Cost: Maersk's own Q2 2017 statement says USD 200-300m (CNBC); Wired/Snabe quote $250-300m. Both are cited.",
+  "No 'files' file server is named in any source; workstation->dc links were added because domain credentials (Mimikatz) were used."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

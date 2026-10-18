@@ -1,0 +1,51 @@
+{
+ "incident": "Bangladesh Bank SWIFT heist (Lazarus Group), 4-5 February 2016",
+ "year": 2016,
+ "sector": "finance",
+ "sources": [
+  {"title": "BAE Systems - Two bytes to $951m (summary page)", "url": "https://www.baesystems.com/en-uk/insight/two-bytes-to-951m", "what_it_gave": "malware (evtdiag.exe) interacting with local SWIFT Alliance Access software to hide fraudulent payments; $951m attempted, $81m unaccounted for"},
+  {"title": "CSO Online - Bangladesh Bank cyber heist: hackers used custom malware to steal $81 million (reporting BAE findings)", "url": "https://www.csoonline.com/article/3060798/bangladesh-bank-cyber-heist-hackers-used-custom-malware-to-steal-81-million.html", "what_it_gave": "malware registers as a service inside the Alliance environment on Oracle DB; two-byte change; deletion of outgoing transfer records and printer manipulation; C2/monitoring server in Egypt; SWIFT system connected to bank workstations; no firewall, $10 switches; Deutsche Bank 'fandation' typo"},
+  {"title": "Threatpost - Bangladesh Bank hackers accessed SWIFT system to steal, cover tracks (SWIFT statement + BAE)", "url": "https://threatpost.com/bangladesh-bank-hackers-accessed-swift-system-to-steal-cover-tracks/117637", "what_it_gave": "SWIFT statement: malware installed on users' local systems by attackers who exploited local weaknesses; SWIFT network itself not breached; nroff.exe printing manipulation; four-component toolkit"},
+  {"title": "The Daily Star - Bangladesh Bank exposed to hackers by cheap switches, no firewall: cops (Reuters, 21 Apr 2016)", "url": "https://www.thedailystar.net/business/banking/bb-exposed-hackers-cheap-switches-no-firewall-cops-1212808", "what_it_gave": "network topology: SWIFT room with four servers and four monitors, auto-printing of previous day's transactions, ~5,000 bank computers on a flat network with unmanaged $10 switches and no firewall; heist 4-5 Feb over weekend"},
+  {"title": "FA-mag / Bloomberg - Printer error triggered race to halt $1B cyber heist", "url": "https://www.fa-mag.com/news/printer-error-triggered-race-to-halt--1b-cyber-heist-25743.html?section=75", "what_it_gave": "detection moments: Fri 5 Feb morning empty printer, manual print failed, 11:15 staff left; Sat 6 Feb SWIFT terminal 'not responding', 'A file is missing or changed', restarted by 12:30, >24h to print receipts showing 46 Fed queries"},
+  {"title": "PYMNTS - Anatomy of a bank heist (summary of US DOJ complaint v. Park Jin Hyok, Sept 2018)", "url": "https://www.pymnts.com/cybersecurity/2018/bangladesh-bank-heist-swift-phishing-scam-fraud-doj/", "what_it_gave": "entry point: spear-phishing (job-applicant lure, Gmail) from 2014 with payload downloaded by Bangladesh Bank recipients; lateral hop: 'moved through the bank's network' to the SWIFT message computers; remote access to SWIFT terminals; Oracle DB manipulation and evidence deletion; $81m, $20m Sri Lanka stopped, Philippine accounts opened May 2015"}
+ ],
+ "narrative_before": "From 2014 Lazarus operators spear-phished Bangladesh Bank staff with fake job-applicant emails; recipients downloaded the payload, and the attackers then 'moved through the bank's network' to the computers used to send and receive SWIFT messages (DOJ complaint via PYMNTS). The bank's SWIFT room (four servers, eighth floor annex) sat on the same flat network as ~5,000 staff PCs, joined by unmanaged $10 switches with no firewall (Reuters/Daily Star). On 4-5 Feb 2016, over the Bangladeshi weekend, 35 fraudulent SWIFT instructions totalling about $951m were sent to the Federal Reserve Bank of New York; $81m reached Philippine accounts and a $20m Sri Lanka transfer was stopped, the rest blocked after a 'fandation' typo (CSO, PYMNTS). Custom malware (evtdiag.exe) registered as a service in the SWIFT Alliance Access environment, patched a validity check with a two-byte change, deleted records of outgoing transfers in the Oracle DB and suppressed the confirmation printer, delaying discovery (BAE, CSO, Threatpost). Defenders first noticed an empty printer on Friday 5 Feb and treated it as a routine fault; only on Saturday 6 Feb, after the SWIFT terminal failed with 'A file is missing or changed' and was restarted by 12:30, did manual printing (24h later) reveal 46 Fed queries about the payments (Bloomberg/FA-mag).",
+ "machines": [
+  {"name": "pc_phish", "role": "Bangladesh Bank staff workstation that downloaded the spear-phishing payload (DOJ complaint)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_1", "role": "Bangladesh Bank staff workstation, same flat network as the SWIFT room (~5,000 PCs, Reuters)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_2", "role": "Bangladesh Bank staff workstation, same flat network as the SWIFT room", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_3", "role": "Bangladesh Bank staff workstation, same flat network as the SWIFT room", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "srv_swift_alliance", "role": "SWIFT Alliance Access server with Oracle database (message creation/transmission, FIN logs, nroff.exe confirmation printing); evtdiag.exe installed as a service", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_swift_2", "role": "Second server in the SWIFT room (room holds four servers, role not specified)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_swift_3", "role": "Third server in the SWIFT room (role not specified)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_swift_4", "role": "Fourth server in the SWIFT room (role not specified)", "isolatable": true, "critical": false, "disruption": 2}
+ ],
+ "services": [
+  {"name": "swift_payment_messaging", "value": 25, "replicas": ["srv_swift_alliance"], "depends_on": []},
+  {"name": "swift_confirmation_printing", "value": 10, "replicas": ["srv_swift_alliance"], "depends_on": []}
+ ],
+ "links": [
+  ["pc_phish", "srv_swift_alliance"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"pc_phish": 5, "srv_swift_alliance": 7}, "description": "Friday 5 Feb 2016, morning: joint director Zubair Bin Huda finds the SWIFT-room printer empty of overnight confirmations and cannot print them manually from the SWIFT system; treated as a routine fault, staff leave ~11:15. First observable anomaly, not recognised as an attack.", "evidence": "'We thought it was a common problem just like any other day' ... 'Huda left the office around 11:15 a.m. and asked his colleagues to help fix the problem.' - Printer error triggered race to halt $1B cyber heist (Bloomberg/FA-mag). Malware on the Alliance server monitored by a server in Egypt - CSO Online reporting BAE."},
+  {"id": "m2", "hacked": {"pc_phish": 5, "srv_swift_alliance": 7}, "description": "Saturday 6 Feb 2016: SWIFT terminal software 'wasn't responding'; restart shows 'A file is missing or changed'; terminal back by 12:30; after >24h of manual printing the receipts show the New York Fed had sent queries against 46 payment orders. Real detection of the fraud.", "evidence": "'By 12.30 p.m., Huda and his team had managed to get the terminal started' ... 'It took them more than 24 hours before they could manually print the receipts' ... 'the Federal Reserve Bank of New York sent back queries to Bangladesh Bank against 46 payment orders' - Bloomberg/FA-mag."}
+ ],
+ "attack_path": [
+  ["external_email", "pc_phish", "spear-phishing with job-applicant lure, recipient downloaded payload (DOJ complaint via PYMNTS) - T1566.002"],
+  ["pc_phish", "srv_swift_alliance", "'moved through the bank's network' to the computers used to send/receive SWIFT messages over a flat network with no firewall and unmanaged switches; remote access to SWIFT terminals, impersonation of authorised operators; evtdiag.exe installed as a service, Oracle DB records deleted, printer output suppressed, monitored from a server in Egypt (DOJ/PYMNTS, Reuters/Daily Star, BAE via CSO) - T1021 / T1078 / T1543.003 / T1565 / T1071"]
+ ],
+ "ambiguities": [
+  "The specific lateral tooling between the phished workstation and the SWIFT server is not described in public sources (BAE: 'unknown how the malware was loaded onto the network'); the single link pc_phish->srv_swift_alliance reflects the DOJ complaint's statement that the actors 'moved through the bank's network'.",
+  "No public source names a domain controller, file server or use of domain credentials, so no dc/files machines or workstation->dc links were added.",
+  "The SWIFT room held four servers (Reuters); only the Alliance Access host is described. The other three are included with plain defaults and unspecified roles; whether they were compromised is not stated, so they are not in the hacked set.",
+  "The '~5,000 computers' is a generic group; three representative workstations plus the phished one are modelled.",
+  "The confirmation printer is treated as a function of srv_swift_alliance (printing via nroff.exe on the Alliance host), not as a separate machine.",
+  "Leftover risk on srv_swift_alliance set to 7 (monitoring/C2 server in Egypt, BAE via CSO). The attackers also impersonated authorised SWIFT operators (DOJ), but no source states domain-admin credential theft, so 8 was not applied. pc_phish set to 5 (initial access confirmed; no post-exploitation artefact on that host is described).",
+  "The exact fetch of the full BAE technical blog (baesystemsai.blogspot.co.uk/2016/04/two-bytes-to-951m.html) was blocked; the liboradb.dll detail of the two-byte patch is therefore not cited, only the 'two bytes' claim as reported by CSO.",
+  "Oracle DB is described as part of the Alliance Access environment on the same host; it was not split into a separate machine or depends_on entry."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,64 @@
+{
+ "incident": "Universitaetsklinikum Duesseldorf (UKD) - DoppelPaymer ransomware via Citrix CVE-2019-19781 (10 September 2020)",
+ "year": 2020,
+ "sector": "health",
+ "sources": [
+  {"title": "CIO.de / dpa (22 Sep 2020): Justizministerium NRW hat erste Erkenntnisse zu Angriff auf Duesseldorfer Uni-Klinik (NRW Justice Ministry report to the Landtag)", "url": "https://www.cio.de/article/3693663/justizministerium-nrw-hat-erste-erkenntnisse-zu-angriff-auf-duesseldorfer-uni-klinik.html", "what_it_gave": "DoppelPaymer; Citrix flaw warned 17 Dec 2019, BSI 18 Dec / Jan 2020; attackers first planted a loader to fetch main malware ('offen bleibt, wann das geschah'); main attack night 10-11 Sep 2020; 30 clinic servers encrypted; ransom note addressed to Duesseldorf university; key handed over after police contact; patient diverted to Wuppertal died"},
+  {"title": "t-online / dpa (22 Sep 2020): Hacker-Gruppe: Spur der Uni-Klinik-Hacker fuehrt nach Russland", "url": "https://www.t-online.de/digital/id_88619718/hacker-gruppe-fuehrt-spur-der-uni-klinik-hacker-nach-russland-.html", "what_it_gave": "loader was already sitting on a clinic server when two specialist firms re-checked the Citrix system after the patch; 30 servers encrypted night 10-11 Sep; Zentrale Notaufnahme expected to resume later that week"},
+  {"title": "Computerwoche (BSI statement; Sueddeutsche/Landtag): Hacker kamen ueber VPN-Schwachstelle", "url": "https://www.computerwoche.de/article/2799033/hacker-kamen-ueber-vpn-schwachstelle.html", "what_it_gave": "BSI: CVE-2019-19781 in Citrix Gateway/ADC was entry point; BSI knows cases where Citrix systems were compromised before the Jan 2020 updates and attackers kept access after the fix; UKD patched on release day, external pentest early summer 2020 found nothing; IT down 10 Sep 2020; science minister told Landtag 30 servers encrypted; extortion letter addressed to Heinrich-Heine-Universitaet found on a server; attackers sent key after police contact"},
+  {"title": "PC-WELT: Nach Hackerangriff und Todesfall: BSI warnt vor neuen Attacken (BSI President Schoenbohm quote)", "url": "https://www.pcwelt.de/news/Nach-Hackerangriff-und-Todesfall-BSI-warnt-vor-neuen-Attacken-10886204.html", "what_it_gave": "BSI: 'Angreifer verschaffen sich Zugang zu den internen Netzen und Systemen und koennen diese auch Monate spaeter noch lahmlegen'; attack 10 Sep 2020; patient redirected to Wuppertal"},
+  {"title": "Borncity (17-22 Sep 2020): Uniklinikum Duesseldorf: Es war Ransomware, Staatsanwaltschaft ermittelt wegen Todesfolge (collating UKD press releases, Heise, WDR)", "url": "https://borncity.com/blog/?p=235659", "what_it_gave": "IT widely disrupted from Thursday 10 Sep 2020; UKD deregistered from emergency care, postponed planned and outpatient treatment; 14 Sep phones mostly reachable but e-mail not; ransom note to HHU on one affected server; Heise: unpatched Citrix VPN server exploited via CVE-2019-19781, 'Shitrix' backdoors survived patching"},
+  {"title": "Borncity (18 Nov 2020, citing Wired / prosecutor Hartmann): Ransomware-Befall in Uniklinik Duesseldorf nicht fuer Todesfall verantwortlich", "url": "https://borncity.com/blog/2020/11/18/ransomware-befall-in-uniklinik-dsseldorf-nicht-fr-todesfall-verantwortlich/", "what_it_gave": "Prosecutor dropped negligent-homicide inquiry: patient with aortic tear, treatment delayed ~1 hour by diversion to Wuppertal night 11-12 Sep, 'Die Verzoegerung hatte keine Bedeutung fuer das Endergebnis'; entry via unpatched Citrix vulnerability late 2019/early 2020"},
+  {"title": "The Register (23 Sep 2020): German hospital ransomware attack: DoppelPaymer, Citrix CVE-2019-19781", "url": "https://www.theregister.com/2020/09/23/doppelpaymer_german_hospital_ransomware/", "what_it_gave": "loader present on the network since December 2019 per report to NRW government; BSI report linking attack to CVE-2019-19781; operators thought they hit the university; prosecutors in Cologne pursuing negligent homicide"}
+ ],
+ "narrative_before": "Attackers exploited CVE-2019-19781 ('Shitrix') in the hospital's Citrix Gateway/ADC VPN appliance between its disclosure on 17 December 2019 and the January 2020 patch, and planted a loader on an internal clinic server that survived the patch and two external re-checks (NRW Justice Ministry via dpa; BSI: attackers 'kept access even after the fix'). In the night of 10-11 September 2020 the loader pulled DoppelPaymer and encrypted 30 clinic servers; the hospital's IT failed on Thursday 10 September, the UKD deregistered from emergency care and postponed planned and outpatient treatment, and e-mail was still down on 14 September (Landtag statement, UKD updates via Borncity). An extortion note addressed to the Heinrich-Heine-Universitaet was found on one server; after Duesseldorf police told the attackers they had hit a hospital, they sent the decryption key (Computerwoche/dpa). In the night of 11-12 September a patient with an aortic tear was diverted to Wuppertal, treated about an hour later than planned, and died; the prosecutor dropped the negligent-homicide inquiry in November 2020 because 'the delay had no bearing on the final outcome' (Wired via Borncity). The central emergency department was expected to reopen only in the week of 21-25 September (dpa).",
+ "machines": [
+  {"name": "web_citrix", "role": "Citrix Gateway / ADC (NetScaler) VPN appliance, internet-facing, vulnerable to CVE-2019-19781 at the turn of 2019/2020; entry point (BSI)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_loader", "role": "Internal clinic server on which the attackers' loader/backdoor sat from Dec 2019/Jan 2020 until it fetched DoppelPaymer in Sep 2020 (NRW Justice Ministry)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_ransom_note", "role": "Clinic server on which the extortion letter addressed to Heinrich-Heine-Universitaet was found (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_his", "role": "Hospital information / patient data server (one of 30 encrypted; IT 'widely disrupted', emergency care deregistered)", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_mail", "role": "E-mail server (e-mail not reachable on 14 Sep 2020 per UKD update)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_1", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_2", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_3", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_4", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_5", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_6", "role": "Clinic application server (one of 30 encrypted servers)", "isolatable": true, "critical": false, "disruption": 3}
+ ],
+ "services": [
+  {"name": "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions", "value": 30, "replicas": ["srv_his"], "depends_on": []},
+  {"name": "Planned inpatient and outpatient treatment (postponed)", "value": 25, "replicas": ["srv_1"], "depends_on": ["srv_his"]},
+  {"name": "Hospital e-mail", "value": 10, "replicas": ["srv_mail"], "depends_on": []}
+ ],
+ "links": [
+  ["web_citrix", "srv_loader"],
+  ["srv_loader", "srv_ransom_note"],
+  ["srv_loader", "srv_his"],
+  ["srv_loader", "srv_mail"],
+  ["srv_loader", "srv_1"],
+  ["srv_loader", "srv_2"],
+  ["srv_loader", "srv_3"],
+  ["srv_loader", "srv_4"],
+  ["srv_loader", "srv_5"],
+  ["srv_loader", "srv_6"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"web_citrix": 7, "srv_loader": 7, "srv_ransom_note": 9, "srv_his": 9, "srv_mail": 9, "srv_1": 9, "srv_2": 9, "srv_3": 9, "srv_4": 9, "srv_5": 9, "srv_6": 9}, "description": "Thursday 10 September 2020: UKD IT fails; 30 servers are found encrypted by DoppelPaymer, extortion note to HHU on one server; hospital deregisters from emergency care. Attacker backdoor had been present since Dec 2019/Jan 2020 and was never detected before (patch applied, two firms and a summer 2020 pentest found nothing).", "evidence": "'in der Nacht vom 10. auf den 11. September ... 30 Server der Klinik verschluesselt' and the loader 'sass bereits auf einem Server der Klinik' when re-checked - NRW Justice Ministry via dpa/t-online; 'Das IT-System des UKD ist seit Donnerstag, 10. September 2020, weitraeumig gestoert ... von der Notfallversorgung abgemeldet' - UKD via Borncity; 'Angreifer verschaffen sich Zugang zu den internen Netzen ... und koennen diese auch Monate spaeter noch lahmlegen' - BSI President Schoenbohm, PC-WELT"}
+ ],
+ "attack_path": [
+  ["web_citrix", "srv_loader", "Exploit of CVE-2019-19781 on the internet-facing Citrix Gateway/ADC (T1190) between 17 Dec 2019 and the Jan 2020 patch; placement of a loader/backdoor on an internal clinic server that persisted after patching (T1505 / T1105)"],
+  ["srv_loader", "srv_ransom_note", "Night of 10-11 Sep 2020: loader downloads DoppelPaymer and the attackers encrypt 30 clinic servers, leaving the note addressed to HHU (T1105 -> T1486)"]
+ ],
+ "ambiguities": [
+  "No source names the 30 encrypted servers or their roles; only 'patient data / IT widely disrupted', e-mail outage and the note-bearing server are attested. Generic group capped at 6 'srv_x' plus srv_his, srv_mail, srv_ransom_note (rule 1).",
+  "Which single clinic server hosted the loader is not stated; modelled as 'srv_loader'. Whether that server was itself among the 30 encrypted is unknown, so it is given risk 7 (backdoor/C2), not 9.",
+  "Exact date of the loader placement is unknown ('offen bleibt in dem Bericht, wann das geschah'); The Register says 'since December 2019'.",
+  "Reports give the encryption as the night of 10-11 Sep but the outage as 'seit Donnerstag, 10. September'; treated as one detection moment on 10 Sep.",
+  "No domain controller, file server, workstation compromise or medical device is mentioned in any public source, so none modelled; no pc->dc links.",
+  "Emergency-care service mapped to srv_his as a modelling choice; sources do not name the system whose loss forced deregistration. isolatable left true for all machines (no source says disconnection endangered patients - the hospital itself took IT offline).",
+  "Duration of emergency-care deregistration (~13 days, to about 23 Sep) is only implied by 'resume later that week' statements; not stated as a figure in the sources used.",
+  "The hospital's statement that 'no ransom demand was made' conflicts with the extortion note found on a server; Landtag/Justice Ministry account used."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}
