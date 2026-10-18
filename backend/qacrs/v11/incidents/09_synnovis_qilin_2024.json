@@ -1,0 +1,42 @@
+{
+ "incident": "Synnovis (NHS south east London pathology provider) ransomware attack by Qilin, 3 June 2024",
+ "year": 2024,
+ "sector": "health",
+ "sources": [
+  {"title": "NHS England - Synnovis cyber attack: statement from NHS England (June 2024)", "url": "https://www.england.nhs.uk/2024/06/synnovis-cyber-attack-statement-from-nhs-england/", "what_it_gave": "attack date 3 June, ransomware on Synnovis, blood-testing systems unusable, samples discarded, encrypted backup copy of results held, NCSC/NCA verifying published data"},
+  {"title": "NHS England London - Update on cyber incident: clinical impact in south east London, Thursday 25 July 2024", "url": "https://www.england.nhs.uk/london/2024/07/25/update-on-cyber-incident-clinical-impact-in-south-east-london-thursday-25-july/", "what_it_gave": "attack started Monday 3 June; cumulative 1,608 elective procedures and 8,349 outpatient appointments postponed; NHSBT Amber Alert on O-type blood; blood transfusion restoration expected early autumn; core chemistry and haematology systems rebuilt; pathology capacity 60%"},
+  {"title": "NHS England London - Update on cyber incident: clinical impact in south east London, Thursday 26 September 2024", "url": "https://www.england.nhs.uk/london/2024/09/26/update-on-cyber-incident-clinical-impact-in-south-east-london-thursday-26-september-2024/", "what_it_gave": "cumulative 10,152 acute outpatient appointments and 1,710 elective procedures postponed at KCH and GSTT; GP pathology returned; blood transfusion service still being restored; HR/procurement administrative systems next"},
+  {"title": "NHS England London - statement on Synnovis ransomware cyber attack, 5 June 2024", "url": "https://www.england.nhs.uk/london/2024/06/05/nhs-london-statement-on-synnovis-ransomware-cyber-attack-2/", "what_it_gave": "affected trusts (GSTT, KCH, SE London primary care), postponed operations and phlebotomy, NHS England cyber incident response team deployed"},
+  {"title": "UK Parliament written ministerial statement (Cyber Security and Resilience Bill) referencing Synnovis", "url": "https://questions-statements.parliament.uk/written-statements/1852072", "what_it_gave": "'computer systems were hacked, private patient data was stolen, and IT systems were rendered useless'; five trusts disrupted; over 11,000 appointments delayed; contributed to a patient death; Synnovis estimated financial impact GBP 32.7m"},
+  {"title": "HSJ via Patient Safety Learning hub - 'Basic security measure would have prevented disastrous cyber attack' (27 Sep 2024)", "url": "https://www.pslhub.org/news/basic-security-measure-would-have-prevented-disastrous-cyber-attack-r7438/", "what_it_gave": "senior response sources: the affected system had no multi-factor authentication; NHS England CISO Phil Huggins then mandated 2FA for all NHS and supplier systems; system itself not named"},
+  {"title": "Digital Health - 'Two-factor authentication may have stopped Synnovis cyber attack' (Sep 2024)", "url": "https://digitalhealth.net/2024/09/two-factor-authentication-may-have-stopped-synnovis-cyber-attack", "what_it_gave": "NHS England's Beverley Bryant: attack 'may not have happened' with 2FA; no entry system named"},
+  {"title": "TechRadar - Russia-linked Qilin group says it was responsible for London hospitals cyberattack (19 Jun 2024)", "url": "https://www.techradar.com/pro/russia-linked-qlin-group-says-it-was-responsible-for-london-hospitals-cyberattack", "what_it_gave": "Qilin's unverified claim (via Bloomberg) that it 'abused a zero day exploit'; USD 50m demand; Synnovis working with NCSC"},
+  {"title": "Bitdefender Hot for Security - Patient death linked to cyberattack on British pathology clinic Synnovis", "url": "https://www.bitdefender.com/en-us/blog/hotforsecurity/patient-death-cyberattack-british-pathology-clinic-synnovis", "what_it_gave": "KCH safety investigation: 'a long wait for a blood test result due to the cyber-attack' was a contributing factor; 400 GB published; ~900,000 records estimated"}
+ ],
+ "narrative_before": "On Monday 3 June 2024 Synnovis, the pathology provider for Guy's and St Thomas' and King's College Hospital NHS Foundation Trusts and south east London GPs, was hit by Qilin ransomware; its IT systems were 'rendered useless' and patient data stolen (UK Parliament written statement). Blood-testing and blood-transfusion matching could not run, so hospitals reverted to paper, prioritised only urgent tests and relied on mutual aid; NHS Blood and Transplant issued an Amber Alert restricting O-type blood and appealed for O-negative and O-positive donors (NHS England 25 July update). By 16-22 September 10,152 acute outpatient appointments and 1,710 elective procedures had been postponed at the two trusts (NHS England 26 September update); the ministerial statement puts total delays above 11,000 and Synnovis's own financial impact at GBP 32.7m. Qilin demanded USD 50m and, when unpaid, published about 400 GB of data (TechRadar; Bitdefender). A King's College Hospital safety investigation later found that a long wait for a blood test result caused by the attack contributed to a patient's death (Bitdefender). Synnovis rebuilt substantial parts of its IT estate; core chemistry and haematology returned over the summer and blood transfusion by early autumn, with HR and procurement systems restored last (NHS England 25 July and 26 September updates).",
+ "machines": [
+  {"name": "srv_lims", "role": "Synnovis pathology IT / laboratory results system (core chemistry and haematology), rendered useless by ransomware and rebuilt", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_blood_transfusion", "role": "Synnovis blood transfusion / matching system, out until early autumn 2024", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_admin", "role": "Synnovis administrative systems (HR, procurement), restored last", "isolatable": true, "critical": false, "disruption": 2}
+ ],
+ "services": [
+  {"name": "Blood transfusion matching for GSTT/KCH (life-critical)", "value": 30, "replicas": ["srv_blood_transfusion"], "depends_on": []},
+  {"name": "Pathology results (chemistry/haematology) for hospitals and SE London GPs", "value": 25, "replicas": ["srv_lims"], "depends_on": []},
+  {"name": "Synnovis HR / procurement administration", "value": 10, "replicas": ["srv_admin"], "depends_on": []}
+ ],
+ "links": [],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"srv_lims": 9, "srv_blood_transfusion": 9}, "description": "Monday 3 June 2024: Synnovis discovers that its pathology IT systems are encrypted; blood testing and transfusion systems cannot be used and the attack is already at the impact stage (T1486). No earlier detection moment is public.", "evidence": "'the cause was a ransomware attack on pathology provider Synnovis, starting Monday 3 June' (NHS England London update, 25 July 2024); 'IT systems were rendered useless' (UK Parliament written statement)"}
+ ],
+ "attack_path": [],
+ "ambiguities": [
+  "No public source names the entry point. HSJ (via PSL hub) reports only that 'the affected system' lacked MFA, without naming it; Qilin's claim of a 'zero day exploit' (TechRadar/Bloomberg) is unverified and names no product.",
+  "No public source describes any lateral movement hop inside Synnovis; therefore links and attack_path are empty and the incident is dropped per the brief.",
+  "The machine list (LIMS, blood transfusion system, admin systems) is inferred from the services NHS England says were lost and restored ('core chemistry and haematology', 'blood transfusion', 'HR and procurement'); no hostnames, server counts, domain controllers or workstations are public.",
+  "Redundancy: no source says these systems had replicas, so replicas=1. depends_on left empty because no dependency is documented.",
+  "The 400 GB / ~900,000-record figures for stolen data are from the attackers' leak and third-party estimates, not an official count.",
+  "NHS England 'lessons learned' material is not published beyond the MFA mandate letter reported by HSJ; the Hansard/written statement gives impact only."
+ ],
+ "dropped": true,
+ "drop_reason": "Public sources (NHS England statements, Parliament written statement, HSJ, Qilin's own claims) give the impact and detection date but neither the entry point nor a single lateral hop; the brief requires both."
+}

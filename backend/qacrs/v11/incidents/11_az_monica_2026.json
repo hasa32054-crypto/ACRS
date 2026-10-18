@@ -1,0 +1,40 @@
+{
+ "incident": "AZ Monica hospital (Antwerp and Deurne campuses, Belgium) cyberattack, 13 January 2026",
+ "year": 2026,
+ "sector": "health",
+ "sources": [
+  {"title": "VRT NWS - Netwerk AZ Monica-ziekenhuizen ligt plat, niet-dringende zorg uitgesteld (13 Jan 2026)", "url": "https://www.vrt.be/vrtnws/nl/2026/01/13/netwerk-az-monica-ziekenhuizen-ligt-plat-niet-dringende-zorg-vo/", "what_it_gave": "servers of both campuses switched off as precaution; EPD, kiosk and website unavailable; MUG/PIT stopped; ~70 patients sent home, 7 transferred; prosecutor confirms cyberattack, reportedly ransomware, no ransom demanded; CERT notified; director says no sign of data leak"},
+  {"title": "VRT NWS - AZ Monica Antwerpen: elektronisch patientendossier opnieuw in gebruik na cyberaanval (5 Feb 2026)", "url": "https://www.vrt.be/vrtnws/nl/2026/02/05/az-monica-antwerpen-elektronisch-patientendossier-cyberaanval/", "what_it_gave": "EPD restored about three weeks after the attack; paper records being back-entered; medication and sterilisation systems next; salaries could not be paid normally"},
+  {"title": "The Record - Belgian hospital AZ Monica hit by cyberattack (Jan 2026)", "url": "https://therecord.media/belgium-hospital-cyberattack-antwerp-az-monica", "what_it_gave": "all servers for Deurne and Antwerp shut down proactively; radiology, imaging and chemotherapy postponed; no entry point, group or CCB comment"},
+  {"title": "The Register - Cyber-stricken Belgian hospitals refuse ambulances, transfer critical patients (14 Jan 2026)", "url": "https://www.theregister.com/2026/01/14/belgium_hospital_cyberattack/", "what_it_gave": "70 surgeries cancelled (De Tijd), 7 critical patients transferred with Red Cross help; no technical detail"},
+  {"title": "Red Hot Cyber - Cyberattack hits Belgian hospital AZ Monica, ransomware used", "url": "https://www.redhotcyber.com/en/post/cyberattack-hits-belgian-hospital-az-monica-ransomware-used", "what_it_gave": "disruption detected around 06:32 on 13 Jan 2026; Federal Police computer crime unit investigating; no group, entry point or spread described"},
+  {"title": "Wikipedia - 2026 Belgian hospital cyberattack", "url": "https://en.wikipedia.org/wiki/2026_Belgian_hospital_cyberattack", "what_it_gave": "overview and references (Brussels Times, The Register); cause listed as unknown"}
+ ],
+ "narrative_before": "Around 06:32 on Tuesday 13 January 2026 AZ Monica detected a serious disruption of its IT systems and, as a precaution, shut down all servers of its Antwerp and Deurne campuses (Red Hot Cyber; The Record). Staff lost access to the electronic patient record, imaging (MRI, radiology, endoscopy) and the patient kiosk; about 70 surgeries were cancelled that day, roughly 70 patients were sent home, 7 critical patients were transferred to other hospitals, the emergency department ran at reduced capacity and the MUG/PIT emergency teams were taken offline (VRT 13 Jan; The Register). The Antwerp prosecutor confirmed a cyberattack, reportedly ransomware, but said no ransom demand had been received; the hospital notified the national CERT and the Federal Police computer crime unit investigated on site (VRT 13 Jan). The hospital worked on paper for about three weeks until the EPD was restarted on 5 February 2026, with medication and sterilisation systems and staff salary payments still being recovered afterwards (VRT 5 Feb). No attacker group, entry point or internal spread has been published by the hospital, the prosecutor or the Centre for Cybersecurity Belgium as of October 2026.",
+ "machines": [
+  {"name": "srv_epd", "role": "Electronic patient record (EPD) server, offline ~3 weeks", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_imaging", "role": "Radiology / medical imaging systems (MRI, radiology, endoscopy) unavailable", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "web_site", "role": "Hospital public website and patient registration kiosk backend", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_admin", "role": "Administrative systems (payroll, medication, sterilisation)", "isolatable": true, "critical": false, "disruption": 2}
+ ],
+ "services": [
+  {"name": "Electronic patient record for both campuses", "value": 30, "replicas": ["srv_epd"], "depends_on": []},
+  {"name": "Medical imaging (radiology, MRI, endoscopy)", "value": 25, "replicas": ["srv_imaging"], "depends_on": []},
+  {"name": "Patient registration kiosk and website", "value": 10, "replicas": ["web_site"], "depends_on": []},
+  {"name": "Payroll / medication / sterilisation administration", "value": 10, "replicas": ["srv_admin"], "depends_on": []}
+ ],
+ "links": [],
+ "detection_moments": [
+  {"id": "m1", "hacked": {}, "description": "13 January 2026, ~06:32: IT staff detect a serious disruption and shut down all servers on both campuses. No source names which hosts were compromised at that moment, so the hacked set cannot be filled.", "evidence": "'serious disruptions were detected around 6:32 a.m. on January 13, 2026' (Red Hot Cyber); 'the servers for both campuses were switched off as a precaution' (VRT NWS, 13 Jan 2026)"}
+ ],
+ "attack_path": [],
+ "ambiguities": [
+  "No public statement from AZ Monica, the Antwerp prosecutor, the Federal Police or the Centre for Cybersecurity Belgium names an entry point, a ransomware family or group, or any lateral movement.",
+  "'Ransomware' is reported by media (GVA/VRT) but the prosecutor stated no ransom demand was received; a vendor report (Resillion) says officials refuted ransomware claims. Treated as unconfirmed.",
+  "Machines are inferred only from the services the hospital said were unavailable; no hostnames, counts, domain controllers or workstations are public.",
+  "The hacked set at detection is empty because the only public fact is a 'disruption' followed by a precautionary full shutdown; the engine cannot be given a traceable compromised host.",
+  "CISA AA26-222A (#StopRansomware: Gunra, 10 Aug 2026) was checked via secondary summaries (Paubox, AttackIQ; the CISA page itself returned a fetch error). It describes Fortinet CVE-2024-55591 / CVE-2025-24472 and VPN-credential entry, Impacket/SMB lateral movement, NTDS dumping, MEGA exfiltration and Conti-derived encryptors, and lists healthcare among targeted sectors, but names no victims and makes no link to AZ Monica or Interlock. It adds nothing attributable to this incident."
+ ],
+ "dropped": true,
+ "drop_reason": "No public source (hospital, prosecutor, CCB, CERT.be, or press) gives an entry point or any lateral hop; only the detection time (~06:32, 13 Jan 2026), the precautionary server shutdown and the clinical impact are documented."
+}

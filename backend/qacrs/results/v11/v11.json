@@ -1,0 +1,3903 @@
+{
+ "meta": {
+  "experiment": "v11-pilot",
+  "converter": "Claude (Anthropic) — NOT an independent human; pilot only",
+  "prereg_sha256": "c46272847d227b678afe84e95130dff64fdc604936c5455f8a470e4221bf7ca2",
+  "script_sha256": "033aaa828b1368526811c29150abf871f93811a21fab360ccfd3db35484bc619",
+  "engine": "v9 unchanged (hassan.solve + qubo_v7.decide_v7)",
+  "threshold": 7,
+  "rho": 0.3,
+  "d_seg": 1.0,
+  "seconds": 12.9
+ },
+ "registered": {
+  "n_scenarios": 16,
+  "n_incidents": 8,
+  "dropped": [
+   {
+    "file": "09_synnovis_qilin_2024.json",
+    "incident": "Synnovis (NHS south east London pathology provider) ransomware attack by Qilin, 3 June 2024",
+    "reason": "Public sources (NHS England statements, Parliament written statement, HSJ, Qilin's own claims) give the impact and detection date but neither the entry point nor a single lateral hop; the brief requires both."
+   },
+   {
+    "file": "10_interlock_2025.json",
+    "incident": "CISA #StopRansomware: Interlock (AA25-203A, 22 July 2025) — technique chain, no named victim",
+    "reason": "AA25-203A names no victim network, no lateral hop between identified hosts and no detection moment; modelling a synthetic victim would violate the 'no invented links' rule. Kettering Health (May 2025) is a real Interlock healthcare victim but has no public entry point or hop."
+   },
+   {
+    "file": "11_az_monica_2026.json",
+    "incident": "AZ Monica hospital (Antwerp and Deurne campuses, Belgium) cyberattack, 13 January 2026",
+    "reason": "No public source (hospital, prosecutor, CCB, CERT.be, or press) gives an entry point or any lateral hop; only the detection time (~06:32, 13 Jan 2026), the precautionary server shutdown and the clinical impact are documented."
+   }
+  ],
+  "status_counts": {
+   "CONTAINED": 5,
+   "CONTAINED_PENDING_APPROVAL": 0,
+   "ESCALATED": 11,
+   "NOT_CONTAINED": 0,
+   "REJECTED": 0
+  },
+  "R1": {
+   "unsafe": 0,
+   "silent": 0,
+   "met": true
+  },
+  "R2": {
+   "pool": 14,
+   "fewer_services_down": 14,
+   "wilson95": [
+    0.7846891972623643,
+    1.0
+   ],
+   "met": true,
+   "misses": []
+  },
+  "R3": {
+   "contained_or_pending": 5,
+   "n": 16,
+   "ratio": 0.3125,
+   "wilson95": [
+    0.14164643854782039,
+    0.5559564416525933
+   ],
+   "met": false,
+   "escalated_to_humans_not_counted": 11,
+   "misses": [
+    {
+     "scenario": "02_wannacry_nhs_2017/m1",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'pc_2' (emergency_care_ae go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "02_wannacry_nhs_2017/m2",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'pc_2' (emergency_care_ae go(es) down) or accept the documented risk (risk 9 >= 7)",
+      "two-person decision: isolate 'pc_4' (outpatient_appointments go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "03_notpetya_maersk_2017/m1",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'pc_odessa_medoc' (ukraine_tax_accounting_medoc go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "03_notpetya_maersk_2017/m2",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "isolate critical server 'dc' (risk 9) after two-person approval",
+      "two-person decision: isolate 'pc_odessa_medoc' (ukraine_tax_accounting_medoc go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "04_norsk_hydro_2019/m2",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "isolate critical server 'dc' (risk 8) after two-person approval",
+      "two-person decision: isolate 'srv_1' (Corporate IT / office systems (email, ERP, file access for 35,000 employees) go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "05_duesseldorf_hospital_2020/m1",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'srv_1' (Planned inpatient and outpatient treatment (postponed) go(es) down) or accept the documented risk (risk 9 >= 7)",
+      "isolate critical server 'srv_his' (risk 9) after two-person approval",
+      "two-person decision: isolate 'srv_mail' (Hospital e-mail go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "06_colonial_pipeline_2021/m1",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'srv_it_1' (Corporate IT network (encrypted systems, exfiltrated data) go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "07_hse_conti_2021/m3",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "isolate critical server 'dc_hosp_c' (risk 8) after two-person approval"
+     ]
+    },
+    {
+     "scenario": "07_hse_conti_2021/m4",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "isolate critical server 'dc_hosp_c' (risk 8) after two-person approval"
+     ]
+    },
+    {
+     "scenario": "07_hse_conti_2021/m5",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "isolate critical server 'dc_hosp_c' (risk 9) after two-person approval",
+      "two-person decision: isolate 'srv_exchange' (HSE email (on-premise Exchange) go(es) down) or accept the documented risk (risk 9 >= 7)",
+      "two-person decision: isolate 'srv_hosp_c_1' (Hospital C clinical IT go(es) down) or accept the documented risk (risk 9 >= 7)",
+      "two-person decision: isolate 'srv_hosp_k' (Hospital K clinical IT go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    },
+    {
+     "scenario": "08_change_healthcare_2024/m1",
+     "status": "ESCALATED",
+     "reasons": [],
+     "escalations": [
+      "two-person decision: isolate 'srv_core_1' (Medical claims clearinghouse, Pharmacy claims processing, Provider payment processing go(es) down) or accept the documented risk (risk 9 >= 7)"
+     ]
+    }
+   ]
+  },
+  "services_down_total": {
+   "acrs": 0,
+   "full_isolation": 42
+  },
+  "healthy_isolated_total": 0,
+  "decision_ms": {
+   "median": 21.89,
+   "max": 215.74
+  }
+ },
+ "exploratory": {
+  "note": "NOT pre-registered. Pilot observations only.",
+  "caveat_services_down": "ACRS's registered 'services down' counts only its AUTOMATIC actions; 11/16 real scenarios were escalated, so the infected service hosts were left running pending a human decision. The honest comparison is 'if_all_escalations_approved'.",
+  "services_down_if_all_escalations_approved": 24,
+  "R2_if_all_escalations_approved": {
+   "pool": 14,
+   "fewer_services_down": 9,
+   "wilson95": [
+    0.38764423103907397,
+    0.8365526824644587
+   ],
+   "ties_or_worse": [
+    "02_wannacry_nhs_2017/m1",
+    "02_wannacry_nhs_2017/m2",
+    "03_notpetya_maersk_2017/m2",
+    "04_norsk_hydro_2019/m2",
+    "05_duesseldorf_hospital_2020/m1"
+   ]
+  },
+  "rule_segment_services_down_total": 21,
+  "guard_burst_flag_on_real_detonations": [
+   "02_wannacry_nhs_2017/m1",
+   "02_wannacry_nhs_2017/m2",
+   "03_notpetya_maersk_2017/m2",
+   "07_hse_conti_2021/m5"
+  ],
+  "cost_of_delay": [
+   {
+    "incident": "Bangladesh Bank SWIFT heist (Lazarus Group), 4-5 February 2016",
+    "first": "01_bangladesh_bank_2016/m1",
+    "last": "01_bangladesh_bank_2016/m2",
+    "first_alerts": 2,
+    "last_alerts": 2,
+    "acrs_first": {
+     "status": "CONTAINED",
+     "isolate": [
+      "pc_phish"
+     ],
+     "services_down": []
+    },
+    "acrs_last": {
+     "status": "CONTAINED",
+     "isolate": [
+      "pc_phish"
+     ],
+     "services_down": []
+    },
+    "full_isolation_last_services_down": [
+     "swift_payment_messaging",
+     "swift_confirmation_printing"
+    ]
+   },
+   {
+    "incident": "WannaCry ransomware on NHS England (modelled as one representative infected acute trust), 12 May 2017",
+    "first": "02_wannacry_nhs_2017/m1",
+    "last": "02_wannacry_nhs_2017/m2",
+    "first_alerts": 4,
+    "last_alerts": 10,
+    "acrs_first": {
+     "status": "ESCALATED",
+     "isolate": [
+      "pc_1",
+      "pc_3",
+      "web_smb_entry"
+     ],
+     "services_down": []
+    },
+    "acrs_last": {
+     "status": "ESCALATED",
+     "isolate": [
+      "pc_1",
+      "pc_3",
+      "pc_5",
+      "pc_6",
+      "pc_7",
+      "web_smb_entry"
+     ],
+     "services_down": []
+    },
+    "full_isolation_last_services_down": [
+     "emergency_care_ae",
+     "outpatient_appointments"
+    ]
+   },
+   {
+    "incident": "NotPetya wiper at A.P. Moller-Maersk, 27 June 2017 (Sandworm / M.E.Doc supply-chain)",
+    "first": "03_notpetya_maersk_2017/m1",
+    "last": "03_notpetya_maersk_2017/m2",
+    "first_alerts": 6,
+    "last_alerts": 13,
+    "acrs_first": {
+     "status": "ESCALATED",
+     "isolate": [
+      "pc_cph_1",
+      "pc_cph_2",
+      "pc_cph_3",
+      "srv_1"
+     ],
+     "services_down": []
+    },
+    "acrs_last": {
+     "status": "ESCALATED",
+     "isolate": [
+      "pc_cph_1",
+      "pc_cph_2",
+      "pc_cph_3",
+      "pc_cph_4",
+      "pc_cph_5",
+      "srv_1",
+      "srv_2",
+      "srv_3",
+      "srv_4"
+     ],
+     "services_down": []
+    },
+    "full_isolation_last_services_down": [
+     "container_booking_maerskline",
+     "terminal_gate_operations_elizabeth",
+     "ukraine_tax_accounting_medoc"
+    ]
+   },
+   {
+    "incident": "Norsk Hydro - LockerGoga ransomware (detected night of 18-19 March 2019)",
+    "first": "04_norsk_hydro_2019/m1",
+    "last": "04_norsk_hydro_2019/m2",
+    "first_alerts": 1,
+    "last_alerts": 5,
+    "acrs_first": {
+     "status": "CONTAINED",
+     "isolate": [
+      "pc_patient_zero"
+     ],
+     "services_down": []
+    },
+    "acrs_last": {
+     "status": "ESCALATED",
+     "isolate": [
+      "pc_1",
+      "pc_2",
+      "srv_extruded_us"
+     ],
+     "services_down": []
+    },
+    "full_isolation_last_services_down": [
+     "Extruded Solutions production (extrusion plants Europe/US)",
+     "Rolled Products production",
+     "Primary Metal production",
+     "Bauxite & Alumina production",
+     "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+    ]
+   },
+   {
+    "incident": "Irish Health Service Executive (HSE) — Conti ransomware (Wizard Spider), 14 May 2021",
+    "first": "07_hse_conti_2021/m1",
+    "last": "07_hse_conti_2021/m5",
+    "first_alerts": 1,
+    "last_alerts": 19,
+    "acrs_first": {
+     "status": "CONTAINED",
+     "isolate": [
+      "pc_patient_zero"
+     ],
+     "services_down": []
+    },
+    "acrs_last": {
+     "status": "ESCALATED",
+     "isolate": [
+      "files",
+      "pc_patient_zero",
+      "srv_hosp_c_2",
+      "srv_hse_1",
+      "srv_hse_2",
+      "srv_hse_3",
+      "srv_hse_4",
+      "srv_hse_5",
+      "srv_hse_6"
+     ],
+     "services_down": []
+    },
+    "full_isolation_last_services_down": [
+     "Radiology imaging (NIMIS, 64 sites)",
+     "Laboratory diagnostics (44 labs)",
+     "Patient administration (iPMS)",
+     "Maternity records (MN-CMS)",
+     "Radiotherapy / cancer services",
+     "HSE email (on-premise Exchange)",
+     "Hospital C clinical IT",
+     "Hospital K clinical IT",
+     "HSE Active Directory / National Healthcare Network authentication"
+    ]
+   }
+  ],
+  "weight_stability": {
+   "x0.5_same": 8,
+   "x1.5_same": 14,
+   "n": 16
+  },
+  "methods": {
+   "rule_segment": {
+    "CONTAINED": 16,
+    "CONTAINED_PENDING_APPROVAL": 0,
+    "ESCALATED": 0,
+    "NOT_CONTAINED": 0,
+    "REJECTED": 0
+   },
+   "q_acrs_v5": {
+    "CONTAINED": 2,
+    "CONTAINED_PENDING_APPROVAL": 1,
+    "ESCALATED": 12,
+    "NOT_CONTAINED": 1,
+    "REJECTED": 0
+   }
+  }
+ },
+ "incidents": [
+  {
+   "file": "01_bangladesh_bank_2016.json",
+   "sha256": "ac094df36dbe1af70f3edd4d954aa9edd4103c5ee862ed5715d93f0f7a29f4fb",
+   "incident": "Bangladesh Bank SWIFT heist (Lazarus Group), 4-5 February 2016",
+   "year": 2016,
+   "sector": "finance",
+   "narrative_before": "From 2014 Lazarus operators spear-phished Bangladesh Bank staff with fake job-applicant emails; recipients downloaded the payload, and the attackers then 'moved through the bank's network' to the computers used to send and receive SWIFT messages (DOJ complaint via PYMNTS). The bank's SWIFT room (four servers, eighth floor annex) sat on the same flat network as ~5,000 staff PCs, joined by unmanaged $10 switches with no firewall (Reuters/Daily Star). On 4-5 Feb 2016, over the Bangladeshi weekend, 35 fraudulent SWIFT instructions totalling about $951m were sent to the Federal Reserve Bank of New York; $81m reached Philippine accounts and a $20m Sri Lanka transfer was stopped, the rest blocked after a 'fandation' typo (CSO, PYMNTS). Custom malware (evtdiag.exe) registered as a service in the SWIFT Alliance Access environment, patched a validity check with a two-byte change, deleted records of outgoing transfers in the Oracle DB and suppressed the confirmation printer, delaying discovery (BAE, CSO, Threatpost). Defenders first noticed an empty printer on Friday 5 Feb and treated it as a routine fault; only on Saturday 6 Feb, after the SWIFT terminal failed with 'A file is missing or changed' and was restarted by 12:30, did manual printing (24h later) reveal 46 Fed queries about the payments (Bloomberg/FA-mag).",
+   "sources": [
+    {
+     "title": "BAE Systems - Two bytes to $951m (summary page)",
+     "url": "https://www.baesystems.com/en-uk/insight/two-bytes-to-951m",
+     "what_it_gave": "malware (evtdiag.exe) interacting with local SWIFT Alliance Access software to hide fraudulent payments; $951m attempted, $81m unaccounted for"
+    },
+    {
+     "title": "CSO Online - Bangladesh Bank cyber heist: hackers used custom malware to steal $81 million (reporting BAE findings)",
+     "url": "https://www.csoonline.com/article/3060798/bangladesh-bank-cyber-heist-hackers-used-custom-malware-to-steal-81-million.html",
+     "what_it_gave": "malware registers as a service inside the Alliance environment on Oracle DB; two-byte change; deletion of outgoing transfer records and printer manipulation; C2/monitoring server in Egypt; SWIFT system connected to bank workstations; no firewall, $10 switches; Deutsche Bank 'fandation' typo"
+    },
+    {
+     "title": "Threatpost - Bangladesh Bank hackers accessed SWIFT system to steal, cover tracks (SWIFT statement + BAE)",
+     "url": "https://threatpost.com/bangladesh-bank-hackers-accessed-swift-system-to-steal-cover-tracks/117637",
+     "what_it_gave": "SWIFT statement: malware installed on users' local systems by attackers who exploited local weaknesses; SWIFT network itself not breached; nroff.exe printing manipulation; four-component toolkit"
+    },
+    {
+     "title": "The Daily Star - Bangladesh Bank exposed to hackers by cheap switches, no firewall: cops (Reuters, 21 Apr 2016)",
+     "url": "https://www.thedailystar.net/business/banking/bb-exposed-hackers-cheap-switches-no-firewall-cops-1212808",
+     "what_it_gave": "network topology: SWIFT room with four servers and four monitors, auto-printing of previous day's transactions, ~5,000 bank computers on a flat network with unmanaged $10 switches and no firewall; heist 4-5 Feb over weekend"
+    },
+    {
+     "title": "FA-mag / Bloomberg - Printer error triggered race to halt $1B cyber heist",
+     "url": "https://www.fa-mag.com/news/printer-error-triggered-race-to-halt--1b-cyber-heist-25743.html?section=75",
+     "what_it_gave": "detection moments: Fri 5 Feb morning empty printer, manual print failed, 11:15 staff left; Sat 6 Feb SWIFT terminal 'not responding', 'A file is missing or changed', restarted by 12:30, >24h to print receipts showing 46 Fed queries"
+    },
+    {
+     "title": "PYMNTS - Anatomy of a bank heist (summary of US DOJ complaint v. Park Jin Hyok, Sept 2018)",
+     "url": "https://www.pymnts.com/cybersecurity/2018/bangladesh-bank-heist-swift-phishing-scam-fraud-doj/",
+     "what_it_gave": "entry point: spear-phishing (job-applicant lure, Gmail) from 2014 with payload downloaded by Bangladesh Bank recipients; lateral hop: 'moved through the bank's network' to the SWIFT message computers; remote access to SWIFT terminals; Oracle DB manipulation and evidence deletion; $81m, $20m Sri Lanka stopped, Philippine accounts opened May 2015"
+    }
+   ],
+   "ambiguities": [
+    "The specific lateral tooling between the phished workstation and the SWIFT server is not described in public sources (BAE: 'unknown how the malware was loaded onto the network'); the single link pc_phish->srv_swift_alliance reflects the DOJ complaint's statement that the actors 'moved through the bank's network'.",
+    "No public source names a domain controller, file server or use of domain credentials, so no dc/files machines or workstation->dc links were added.",
+    "The SWIFT room held four servers (Reuters); only the Alliance Access host is described. The other three are included with plain defaults and unspecified roles; whether they were compromised is not stated, so they are not in the hacked set.",
+    "The '~5,000 computers' is a generic group; three representative workstations plus the phished one are modelled.",
+    "The confirmation printer is treated as a function of srv_swift_alliance (printing via nroff.exe on the Alliance host), not as a separate machine.",
+    "Leftover risk on srv_swift_alliance set to 7 (monitoring/C2 server in Egypt, BAE via CSO). The attackers also impersonated authorised SWIFT operators (DOJ), but no source states domain-admin credential theft, so 8 was not applied. pc_phish set to 5 (initial access confirmed; no post-exploitation artefact on that host is described).",
+    "The exact fetch of the full BAE technical blog (baesystemsai.blogspot.co.uk/2016/04/two-bytes-to-951m.html) was blocked; the liboradb.dll detail of the two-byte patch is therefore not cited, only the 'two bytes' claim as reported by CSO.",
+    "Oracle DB is described as part of the Alliance Access environment on the same host; it was not split into a separate machine or depends_on entry."
+   ],
+   "attack_path": [
+    [
+     "external_email",
+     "pc_phish",
+     "spear-phishing with job-applicant lure, recipient downloaded payload (DOJ complaint via PYMNTS) - T1566.002"
+    ],
+    [
+     "pc_phish",
+     "srv_swift_alliance",
+     "'moved through the bank's network' to the computers used to send/receive SWIFT messages over a flat network with no firewall and unmanaged switches; remote access to SWIFT terminals, impersonation of authorised operators; evtdiag.exe installed as a service, Oracle DB records deleted, printer output suppressed, monitored from a server in Egypt (DOJ/PYMNTS, Reuters/Daily Star, BAE via CSO) - T1021 / T1078 / T1543.003 / T1565 / T1071"
+    ]
+   ],
+   "n_machines": 8,
+   "n_services": 2,
+   "n_links": 1,
+   "never_isolate": [],
+   "critical": [
+    "srv_swift_alliance"
+   ],
+   "moments": [
+    {
+     "scenario": "01_bangladesh_bank_2016/m1",
+     "description": "Friday 5 Feb 2016, morning: joint director Zubair Bin Huda finds the SWIFT-room printer empty of overnight confirmations and cannot print them manually from the SWIFT system; treated as a routine fault, staff leave ~11:15. First observable anomaly, not recognised as an attack.",
+     "hacked": {
+      "pc_phish": 5,
+      "srv_swift_alliance": 7
+     },
+     "solver": "exact",
+     "n_machines": 8,
+     "n_services": 2,
+     "n_links": 1,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "restrict_only": [],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.28
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down": []
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "services_down": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_swift_alliance"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 12,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_phish"
+        ],
+        "segment_now": [
+         "srv_swift_alliance"
+        ],
+        "services_down": []
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_phish"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_phish"
+        ],
+        "segment": [
+         "srv_swift_alliance"
+        ],
+        "status": "CONTAINED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_phish"
+        ],
+        "segment": [
+         "srv_swift_alliance"
+        ],
+        "status": "CONTAINED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "01_bangladesh_bank_2016/m2",
+     "description": "Saturday 6 Feb 2016: SWIFT terminal software 'wasn't responding'; restart shows 'A file is missing or changed'; terminal back by 12:30; after >24h of manual printing the receipts show the New York Fed had sent queries against 46 payment orders. Real detection of the fraud.",
+     "hacked": {
+      "pc_phish": 5,
+      "srv_swift_alliance": 7
+     },
+     "solver": "exact",
+     "n_machines": 8,
+     "n_services": 2,
+     "n_links": 1,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "restrict_only": [],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.05
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down": []
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "services_down": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_swift_alliance"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 12,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_phish"
+        ],
+        "segment_now": [
+         "srv_swift_alliance"
+        ],
+        "services_down": []
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_phish"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_phish"
+        ],
+        "segment": [
+         "srv_swift_alliance"
+        ],
+        "status": "CONTAINED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_phish"
+        ],
+        "segment": [
+         "srv_swift_alliance"
+        ],
+        "status": "CONTAINED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "02_wannacry_nhs_2017.json",
+   "sha256": "e97528aad6b4156cc595a83afdd885def5d94e625ce4d5a498799237c6111442",
+   "incident": "WannaCry ransomware on NHS England (modelled as one representative infected acute trust), 12 May 2017",
+   "year": 2017,
+   "sector": "health",
+   "narrative_before": "On Friday 12 May 2017 the WannaCry worm, attributed by the UK to North Korea's Lazarus group (NCSC), hit the NHS: at least 80 of 236 trusts in England were affected - 34 infected and locked out of devices (25 acute) and 46 reporting disruption - plus 603 primary-care and other organisations including 595 GP practices (NAO HC 414 paras 1.2, 5). It spread 'via the internet, including through the N3 network' and 'exploited weaknesses within parts of Microsoft's Windows operating system used to share files within organisations' (SMBv1, MS17-010, patch issued 14 March 2017 - NAO paras 1.2, 2.9; CISA TA17-181A); most infected devices were unpatched but supported Windows 7, and managing internet-facing firewalls would have blocked infection regardless of patching (NAO paras 2.4-2.5). Trusts first reported problems late morning; NHS England's EPRR team was notified at 13:06, declared a major incident at 16:00, took the lead at 18:45, and a researcher's kill-switch domain stopped new infections that evening (NAO Figure 2, para 1). 6,912 appointments were confirmed cancelled (19,494 estimated), five acute trusts diverted ambulances, and by 19 May 1,220 diagnostic devices (~1% of such equipment, including MRI scanners) were identified as infected, with radiology and pathology disrupted (NAO paras 1.3, 1.7, 1.8). DHSC later estimated the cost at £92m (£20m lost output, £72m IT restoration); no ransom was paid and no patient data was stolen (DHSC via NHE; NAO).",
+   "sources": [
+    {
+     "title": "NAO - Investigation: WannaCry cyber attack and the NHS, HC 414 (full report PDF, 27 Oct 2017)",
+     "url": "https://nao.org.uk/wp-content/uploads/2017/10/Investigation-WannaCry-cyber-attack-and-the-NHS.pdf",
+     "what_it_gave": "entry (internet-facing firewalls / N3, unpatched Windows 7), hop (automatic spread via Windows file-sharing weakness, para 2.9), impact (34 trusts locked out, 46 disrupted, 603 other orgs/595 GP practices, 6,912 confirmed / 19,494 estimated cancellations, 5 A&E diverts, 1,220 infected diagnostic devices incl. MRI), detection timeline (late morning first reports, 13:06 EPRR notified, 16:00 major incident, 18:45 NHS England leads, evening kill-switch), CareCERT alerts 17 Mar and 28 Apr"
+    },
+    {
+     "title": "NAO - Investigation: WannaCry cyber attack and the NHS (web summary)",
+     "url": "https://www.nao.org.uk/reports/investigation-wannacry-cyber-attack-and-the-nhs/",
+     "what_it_gave": "80+ of 236 trusts, 603 primary-care orgs, no ransom paid, no patient data stolen, 'could have been prevented by basic IT security best practice'"
+    },
+    {
+     "title": "Computing - NHS could have avoided WannaCry simply by patching Windows 7 or securing firewalls, claims NAO",
+     "url": "https://www.computing.co.uk/news/3019954/nhs-could-have-avoided-wannacry-simply-by-patching-windows-7-or-securing-their-firewalls-claims-nao",
+     "what_it_gave": "all infected orgs had unpatched/unsupported Windows; spread via internet incl. N3; no spread via NHSmail; 39 CareCERT alerts"
+    },
+    {
+     "title": "National Health Executive - WannaCry cyber-attack cost the NHS £92m after 19,000 appointments were cancelled (DHSC lessons-learned, Feb 2018)",
+     "url": "https://www.nationalhealthexecutive.com/News/wannacry-cyber-attack-cost-the-nhs-92m-after-19000-appointments-were-cancelled/213511",
+     "what_it_gave": "DHSC cost estimate £92m (£20m lost output during attack, £72m IT restoration), 1% of NHS care disrupted, 8% of GP practices"
+    },
+    {
+     "title": "CISA / US-CERT - Alert TA17-181A (Petya) - for MS17-010 context only",
+     "url": "https://cisa.gov/ncas/alerts/TA17-181A",
+     "what_it_gave": "MS17-010 released 14 March 2017 fixes EternalBlue/EternalRomance SMBv1 exploits used by WannaCry and NotPetya"
+    },
+    {
+     "title": "NCSC - UK supports US charges against North Korean cyber actors",
+     "url": "https://www.ncsc.gov.uk/news/uk-supports-us-charges-against-north-korean-cyber-actors",
+     "what_it_gave": "attribution of WannaCry to the North Korean (Lazarus) actor"
+    }
+   ],
+   "ambiguities": [
+    "The NAO report describes the attack at national/aggregate level; it does not name any individual trust's hosts. The machine set is a representative single acute trust built from the report's host classes (unpatched Windows 7 devices, MRI scanners on embedded XP, other diagnostic devices). Counts per class are the brief's generic-group allowance, not reported figures.",
+    "Which specific trust was first infected and the exact first host are not public; web_smb_entry represents the NAO's statement that managing internet-facing firewalls would have prevented infection (para 2.4).",
+    "The NAO does not state that any infected device was in life-critical use and could not be disconnected; it says trusts themselves shut down or isolated devices (para 1.4). isolatable therefore stays true for all devices.",
+    "No source mentions domain controllers, file servers or domain credentials (WannaCry does not use credentials), so no dc/files machines or workstation->dc links were added.",
+    "Services: the NAO reports disruption to A&E (ambulance diverts), appointments, radiology and pathology but names no servers (PAS, RIS, LIMS). Workstation replicas for A&E and appointments stand in for 'locked out of devices' (para 1.2); this is a modelling choice, logged here.",
+    "Exact spread pattern (which host infected which) is not reported; links form a plausible star/tree consistent with 'spread automatically' via SMB, one link per hop in the modelled path.",
+    "Kill-switch time: NAO says 'on the evening of 12 May' (para 1) without a clock time.",
+    "DHSC figures: NHE reports £20m/£72m split; some outlets quote £19m/£73m. The NHE values are used.",
+    "The NAO web summary states 'at least 81 of 236 trusts'; the full report says 'at least 80' (34 locked out + 46 disrupted), after three trusts were recategorised. The full-report figure is used."
+   ],
+   "attack_path": [
+    [
+     "internet_n3",
+     "web_smb_entry",
+     "inbound SMBv1 exploitation (EternalBlue, MS17-010 / CVE-2017-0144) of an unpatched Windows 7 host behind an unmanaged internet-facing firewall; spread 'via the internet, including through the N3 network' (NAO paras 1.2, 2.4, 2.5; CISA TA17-181A) - T1190 / T1486"
+    ],
+    [
+     "web_smb_entry",
+     "pc_1",
+     "automatic worm propagation over Windows file-sharing (SMB) to other unpatched Windows 7 devices inside the organisation (NAO para 2.9) - T1210 / T1486"
+    ],
+    [
+     "pc_4",
+     "dev_mri_1",
+     "worm propagation over SMB to networked diagnostic devices including MRI scanners on embedded Windows XP; 1,220 devices infected by 19 May (NAO paras 1.3, 2.6) - T1210 / T1486"
+    ]
+   ],
+   "n_machines": 14,
+   "n_services": 5,
+   "n_links": 13,
+   "never_isolate": [],
+   "critical": [
+    "dev_mri_1",
+    "dev_mri_2",
+    "dev_radiology_1",
+    "dev_pathology_1",
+    "dev_pathology_2"
+   ],
+   "moments": [
+    {
+     "scenario": "02_wannacry_nhs_2017/m1",
+     "description": "Late morning, Friday 12 May 2017: first trusts begin reporting problems locally - users locked out of encrypted Windows 7 devices; worm already spreading automatically via SMB file-sharing inside the trust.",
+     "hacked": {
+      "web_smb_entry": 9,
+      "pc_1": 9,
+      "pc_2": 9,
+      "pc_3": 9
+     },
+     "solver": "exact",
+     "n_machines": 14,
+     "n_services": 5,
+     "n_links": 13,
+     "consistency_flags": [
+      "burst of 4 simultaneous alerts all at risk >= 9"
+     ],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "restrict_only": [
+       "pc_2"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "pc_2",
+        "approvals": 2,
+        "services_at_stake": [
+         "emergency_care_ae"
+        ],
+        "action": "two-person decision: isolate 'pc_2' (emergency_care_ae go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.23
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down": [
+       "emergency_care_ae"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "services_down": [
+       "emergency_care_ae"
+      ],
+      "reasons": [],
+      "needs_two_person": []
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 36,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "web_smb_entry"
+        ],
+        "segment_now": [],
+        "services_down": [
+         "emergency_care_ae"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_1",
+         "pc_3",
+         "web_smb_entry"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_1",
+         "pc_3",
+         "web_smb_entry"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_1",
+         "pc_3",
+         "web_smb_entry"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "02_wannacry_nhs_2017/m2",
+     "description": "13:06, 12 May 2017: first notification reaches NHS England's EPRR team (national detection); 16:00 NHS England declares a major incident. By now workstations across the trust and networked diagnostic devices are encrypted; trusts begin shutting down or isolating devices and disconnecting from N3.",
+     "hacked": {
+      "web_smb_entry": 9,
+      "pc_1": 9,
+      "pc_2": 9,
+      "pc_3": 9,
+      "pc_4": 9,
+      "pc_5": 9,
+      "pc_6": 9,
+      "pc_7": 9,
+      "dev_mri_1": 9,
+      "dev_pathology_1": 9
+     },
+     "solver": "exact",
+     "n_machines": 14,
+     "n_services": 5,
+     "n_links": 13,
+     "consistency_flags": [
+      "burst of 10 simultaneous alerts all at risk >= 9"
+     ],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_3",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ],
+      "restrict_only": [
+       "pc_2",
+       "pc_4"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "pc_2",
+        "approvals": 2,
+        "services_at_stake": [
+         "emergency_care_ae"
+        ],
+        "action": "two-person decision: isolate 'pc_2' (emergency_care_ae go(es) down) or accept the documented risk (risk 9 >= 7)"
+       },
+       {
+        "rule": "G3",
+        "target": "pc_4",
+        "approvals": 2,
+        "services_at_stake": [
+         "outpatient_appointments"
+        ],
+        "action": "two-person decision: isolate 'pc_4' (outpatient_appointments go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 215.74
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ],
+      "services_down": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dev_mri_1",
+       "dev_pathology_1",
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "services_down": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 90,
+      "open_paths_to_critical": [
+       [
+        "pc_5",
+        "dev_mri_2"
+       ],
+       [
+        "pc_6",
+        "dev_radiology_1"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "pc_4",
+         "pc_5",
+         "pc_6",
+         "pc_7",
+         "web_smb_entry"
+        ],
+        "segment_now": [
+         "dev_mri_1",
+         "dev_pathology_1"
+        ],
+        "services_down": [
+         "emergency_care_ae",
+         "outpatient_appointments"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "dev_mri_1",
+         "dev_pathology_1",
+         "pc_1",
+         "pc_3",
+         "pc_5",
+         "pc_6",
+         "pc_7",
+         "web_smb_entry"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "dev_mri_1",
+         "dev_pathology_1",
+         "pc_1",
+         "pc_3",
+         "pc_5",
+         "pc_6",
+         "pc_7",
+         "web_smb_entry"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_1",
+         "pc_3",
+         "pc_5",
+         "pc_6",
+         "pc_7",
+         "web_smb_entry"
+        ],
+        "segment": [
+         "dev_mri_1",
+         "dev_pathology_1"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "03_notpetya_maersk_2017.json",
+   "sha256": "cef56fc2d0a911de9852b15392984b988d94017f36d088b653436acb57b2a606",
+   "incident": "NotPetya wiper at A.P. Moller-Maersk, 27 June 2017 (Sandworm / M.E.Doc supply-chain)",
+   "year": 2017,
+   "sector": "transport_logistics",
+   "narrative_before": "In spring 2017 Sandworm backdoored the update servers of Linkos Group's Ukrainian tax software M.E.Doc (dev environment compromised from 14 April per CISA TA17-181A); on 27 June the poisoned update ran NotPetya via the EzVit.exe updater (Microsoft). At Maersk the only foothold was a single computer in the Odessa office on which a Ukraine finance executive had asked IT to install M.E.Doc (Wired). The worm spread with EternalBlue/EternalRomance SMBv1 exploits (CVE-2017-0144/0145, MS17-010) and a Mimikatz-style credential dumper feeding PsExec and WMIC, scanning entire subnets when it landed on a server or domain controller (Microsoft, CISA); within hours it had wiped essentially all of Maersk's ~150 domain controllers, 4,000 servers and 45,000 PCs (Wired). Defenders first saw it in Copenhagen that afternoon when an IT administrator's PC spontaneously rebooted and 'a wave of screens turning black' swept the open-plan office; disconnecting the global network took more than two hours (Wired). Maerskline.com booking went down and the APM Terminals gate at Elizabeth, NJ went dead, backing trucks up for miles; the only intact domain-controller copy was recovered from an office in Ghana that had been offline in a blackout, and core infrastructure was rebuilt in about 10 days from a Maidenhead emergency centre, with port operations normalising over ~2 weeks (Wired, Control Engineering). Maersk booked a USD 200-300m hit, mainly at Maersk Line, APM Terminals and Damco (CNBC, Q2 2017 interim report).",
+   "sources": [
+    {
+     "title": "Wired - The Untold Story of NotPetya, the Most Devastating Cyberattack in History (Andy Greenberg, Aug 2018; mirrored by ISSP)",
+     "url": "https://www.issp.com/wired-the-untold-story-of-notpetya",
+     "what_it_gave": "entry point (single Odessa PC with M.E.Doc installed at a finance executive's request), detection moment (Copenhagen IT admin Henrik Jensen's PC reboots, 'wave of screens turning black'), >2h to disconnect network, ~150 domain controllers all wiped, sole surviving DC copy in Ghana (offline during blackout), 4,000 servers and 45,000 PCs rebuilt in 10 days, Maidenhead emergency centre, Elizabeth NJ APM terminal gate dead, Maerskline.com booking site down, $250-300m"
+    },
+    {
+     "title": "Control Engineering - Throwback attack: How NotPetya accidentally took down global shipping giant Maersk",
+     "url": "https://www.controleng.com/throwback-attack-how-notpetya-accidentally-took-down-global-shipping-giant-maersk",
+     "what_it_gave": "Linkos Group M.E.Doc update servers hijacked early 2017; EternalBlue + Mimikatz propagation; 76 ports; ~2 weeks for port operations to normalise; $250-300m; $10bn global"
+    },
+    {
+     "title": "CISA / US-CERT - Alert TA17-181A: Petya Ransomware",
+     "url": "https://cisa.gov/ncas/alerts/TA17-181A",
+     "what_it_gave": "delivery via M.E.Doc (backdoor in M.E.Doc dev environment from 14 April 2017); lateral movement via modified Mimikatz credential theft + WMIC, PsExec, EternalBlue/EternalRomance SMBv1; MBR/MFT encryption and reboot; 'behaves more like destructive malware rather than ransomware'"
+    },
+    {
+     "title": "Microsoft - New ransomware, old techniques: Petya adds worm capabilities (27 June 2017)",
+     "url": "https://www.microsoft.com/security/blog/2017/06/27/new-ransomware-old-techniques-petya-adds-worm-cap",
+     "what_it_gave": "MEDoc updater EzVit.exe launching perfc.dat via rundll32; credential dump tool (Mimikatz-like) + CredEnumerateW; PsExec as dllhost.dat to admin$; WMIC; CVE-2017-0144/0145; scans tcp/139,445; special behaviour on domain controllers/servers (DhcpEnumSubnets to scan multiple /24s); MBR overwrite with highest privilege; scheduled shutdown 10-60 min"
+    },
+    {
+     "title": "CNBC - Shipping company Maersk says June cyberattack could cost it up to $300 million (Q2 2017 interim report)",
+     "url": "https://www.cnbc.com/amp/2017/08/16/maersk-says-notpetya-cyberattack-could-cost-300-million.html",
+     "what_it_gave": "CEO Soren Skou: 'USD 200-300m' impact; units affected Maersk Line, APM Terminals, Damco; bookings from existing customers accepted after 2 days; volumes hit ~2 weeks"
+    }
+   ],
+   "ambiguities": [
+    "No public source gives Maersk's internal host-to-host path. Links follow the propagation mechanism described by Microsoft/CISA (credential theft -> PsExec/WMIC/SMB; DCs and servers scanning multiple subnets) and the outcomes reported by Wired (all DCs, Copenhagen PCs, booking site, NJ gate). The specific link pc_odessa_medoc->dc is inferred from Mimikatz credential use + 'all domain controllers wiped'; which DC was hit first is unknown.",
+    "~150 domain controllers are collapsed into a single 'dc' machine plus 'dc_ghana' (the only surviving copy). dc_ghana was offline and never infected; the dc->dc_ghana link reflects normal AD replication and the fact that only its outage saved it.",
+    "'45,000 PCs' and '4,000 servers' are generic groups; 5 Copenhagen PCs and 4 generic servers are modelled. Wired gives 45,000 PCs; some secondary sources say 49,000 laptops - the Wired figure is used.",
+    "Leftover risk on dc at m1 set to 8 (credential theft, T1003) because the sources do not state whether the DCs were already wiped at the moment the Copenhagen screens went black; at m2 set to 9 (wiped, T1485). All other hacked hosts set to 9 (wiper deployed) since NotPetya encrypts/overwrites immediately on execution.",
+    "Whether the Elizabeth gate system and Maerskline.com depend on Active Directory is not stated; depends_on dc is a modelling assumption consistent with Wired's account that AD loss was the root blocker to recovery.",
+    "Services for Maersk Line vessel operations, Damco, and other APM terminals (76 ports) are not modelled separately because the sources give no system-level detail for them.",
+    "Cost: Maersk's own Q2 2017 statement says USD 200-300m (CNBC); Wired/Snabe quote $250-300m. Both are cited.",
+    "No 'files' file server is named in any source; workstation->dc links were added because domain credentials (Mimikatz) were used."
+   ],
+   "attack_path": [
+    [
+     "external_medoc_update",
+     "pc_odessa_medoc",
+     "trojanised M.E.Doc update executed by the EzVit.exe updater (rundll32 perfc.dat); Linkos Group update servers hijacked by Sandworm (CISA TA17-181A, Microsoft, Wired) - T1195.002"
+    ],
+    [
+     "pc_odessa_medoc",
+     "dc",
+     "Mimikatz-style in-memory credential dump (CredEnumerateW, TERMSRV creds) then remote execution with PsExec (dllhost.dat to admin$) / WMIC, plus EternalBlue/EternalRomance SMBv1 exploitation of unpatched hosts; domain controllers wiped (Microsoft, CISA, Wired) - T1003.001 / T1021.002 / T1047 / T1210 / T1485"
+    ],
+    [
+     "dc",
+     "pc_cph_1",
+     "from a DC/server the worm enumerates DHCP subnets and scans multiple /24 ranges on tcp/139,445, spreading to workstations worldwide; MBR overwritten and forced reboot (Microsoft, Wired) - T1210 / T1021.002 / T1561.002"
+    ],
+    [
+     "dc",
+     "srv_gate_elizabeth",
+     "same propagation to APM Terminals gate system; gate went dead, trucks backed up (Wired) - T1210 / T1485"
+    ],
+    [
+     "dc",
+     "web_booking",
+     "same propagation to Maerskline.com booking platform; site down (Wired, CNBC) - T1210 / T1485"
+    ]
+   ],
+   "n_machines": 14,
+   "n_services": 4,
+   "n_links": 18,
+   "never_isolate": [],
+   "critical": [
+    "dc",
+    "dc_ghana",
+    "web_booking",
+    "srv_gate_elizabeth"
+   ],
+   "moments": [
+    {
+     "scenario": "03_notpetya_maersk_2017/m1",
+     "description": "Afternoon of 27 June 2017, Copenhagen HQ: IT administrator Henrik Jensen's PC spontaneously restarts while he prepares a software update, then screens across the open-plan office go black one after another; staff find PCs locked. First moment defenders recognise an attack. The worm has already harvested credentials and is propagating from the Odessa foothold across the domain.",
+     "hacked": {
+      "pc_odessa_medoc": 9,
+      "pc_cph_1": 9,
+      "pc_cph_2": 9,
+      "pc_cph_3": 9,
+      "dc": 8,
+      "srv_1": 9
+     },
+     "solver": "exact",
+     "n_machines": 14,
+     "n_services": 4,
+     "n_links": 18,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "srv_1"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "restrict_only": [
+       "pc_odessa_medoc"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "pc_odessa_medoc",
+        "approvals": 2,
+        "services_at_stake": [
+         "ukraine_tax_accounting_medoc"
+        ],
+        "action": "two-person decision: isolate 'pc_odessa_medoc' (ukraine_tax_accounting_medoc go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 76.49
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down": [
+       "ukraine_tax_accounting_medoc"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "services_down": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 53,
+      "open_paths_to_critical": [
+       [
+        "dc",
+        "web_booking"
+       ],
+       [
+        "dc",
+        "srv_gate_elizabeth"
+       ],
+       [
+        "dc",
+        "dc_ghana"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_odessa_medoc",
+         "srv_1"
+        ],
+        "segment_now": [
+         "dc",
+         "dc_ghana",
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "services_down": [
+         "ukraine_tax_accounting_medoc"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "NOT_CONTAINED",
+        "isolate_now": [
+         "dc_ghana",
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "srv_1"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "dc_ghana",
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_odessa_medoc",
+         "srv_1"
+        ],
+        "segment": [
+         "dc",
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "status": "CONTAINED_PENDING_APPROVAL"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "srv_1"
+        ],
+        "segment": [
+         "dc",
+         "dc_ghana",
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "03_notpetya_maersk_2017/m2",
+     "description": "~2+ hours later, 27 June 2017: Maersk finishes disconnecting its global network; by then the wiper has hit domain controllers, servers and PCs worldwide, Maerskline.com is down and the Elizabeth NJ terminal gate is dead. Only the offline Ghana DC is untouched.",
+     "hacked": {
+      "pc_odessa_medoc": 9,
+      "pc_cph_1": 9,
+      "pc_cph_2": 9,
+      "pc_cph_3": 9,
+      "pc_cph_4": 9,
+      "pc_cph_5": 9,
+      "dc": 9,
+      "web_booking": 9,
+      "srv_gate_elizabeth": 9,
+      "srv_1": 9,
+      "srv_2": 9,
+      "srv_3": 9,
+      "srv_4": 9
+     },
+     "solver": "exact",
+     "n_machines": 14,
+     "n_services": 4,
+     "n_links": 18,
+     "consistency_flags": [
+      "burst of 13 simultaneous alerts all at risk >= 9"
+     ],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4"
+      ],
+      "segment": [
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "restrict_only": [
+       "dc",
+       "pc_odessa_medoc"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G1",
+        "target": "dc",
+        "approvals": 2,
+        "action": "isolate critical server 'dc' (risk 9) after two-person approval"
+       },
+       {
+        "rule": "G3",
+        "target": "pc_odessa_medoc",
+        "approvals": 2,
+        "services_at_stake": [
+         "ukraine_tax_accounting_medoc"
+        ],
+        "action": "two-person decision: isolate 'pc_odessa_medoc' (ukraine_tax_accounting_medoc go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 64.29
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4"
+      ],
+      "segment": [
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 117,
+      "open_paths_to_critical": [
+       [
+        "dc",
+        "dc_ghana"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_cph_4",
+         "pc_cph_5",
+         "pc_odessa_medoc",
+         "srv_1",
+         "srv_2",
+         "srv_3",
+         "srv_4"
+        ],
+        "segment_now": [
+         "dc",
+         "dc_ghana",
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "services_down": [
+         "container_booking_maerskline",
+         "terminal_gate_operations_elizabeth",
+         "ukraine_tax_accounting_medoc"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "dc_ghana",
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_cph_4",
+         "pc_cph_5",
+         "srv_1",
+         "srv_2",
+         "srv_3",
+         "srv_4"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "dc_ghana",
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_cph_4",
+         "pc_cph_5",
+         "pc_odessa_medoc",
+         "srv_1",
+         "srv_2",
+         "srv_3",
+         "srv_4"
+        ],
+        "segment": [
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_cph_1",
+         "pc_cph_2",
+         "pc_cph_3",
+         "pc_cph_4",
+         "pc_cph_5",
+         "srv_1",
+         "srv_2",
+         "srv_3",
+         "srv_4"
+        ],
+        "segment": [
+         "dc_ghana",
+         "srv_gate_elizabeth",
+         "web_booking"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "04_norsk_hydro_2019.json",
+   "sha256": "c0ed49b626c415ef8da419cbc434d78a095b0cd36c741edef75a4f8775c842a4",
+   "incident": "Norsk Hydro - LockerGoga ransomware (detected night of 18-19 March 2019)",
+   "year": 2019,
+   "sector": "manufacturing",
+   "narrative_before": "In December 2018 a Hydro employee opened an email attachment sent by an employee of a trusted customer as part of an apparently legitimate conversation; it installed a Trojan, which antivirus flagged a few days later, but 'by then, the attacker had built an initial foothold' (Microsoft DART case study). Over the following months the attacker compromised standard user accounts, then captured administrative credentials and, in the night of 18-19 March 2019, deployed LockerGoga 'via a manual push from Hydro's own domain controllers' (Microsoft); NorCERT confirmed 'the attack was combined with an attack on Active Directory' (BankInfoSecurity). At about 4 a.m. an IT colleague phoned Hydro's information security officer: 'We may be under attack'; production had already stopped at some of the 170 plants and IT shut down the network and servers to stop the spread (Microsoft). Files on thousands of servers and PCs were locked across 35,000 employees in 40 countries; Extruded Solutions suffered the most, while Bauxite & Alumina, Primary Metal, Rolled Products and Energy continued on manual procedures (Hydro.com). Hydro refused to pay, rebuilt encrypted machines from backups, estimated the Q1 2019 cost at NOK 300-450 million (USD 35-52m) with a further NOK 200-250m in Q2, and the total approached USD 71 million (Reuters/SecurityWeek/Microsoft).",
+   "sources": [
+    {
+     "title": "Microsoft (DART case study): Hackers hit Norsk Hydro with ransomware. The company responded with transparency",
+     "url": "https://news.microsoft.com/source/features/digital-transformation/hackers-hit-norsk-hydro-ransomware-company-responded-transparency/",
+     "what_it_gave": "entry point (Dec 2018 email attachment from trusted customer, Trojan); first alert (antivirus days later); hops (standard user accounts -> admin credentials -> manual push of ransomware from Hydro's own domain controllers); detection (4 a.m. call 'We may be under attack', production stopped at some of 170 plants, network/servers shut down); impact (35,000 employees, 40 countries, thousands of servers and PCs, cost approaching USD 71 million); DART at Hungary plant"
+    },
+    {
+     "title": "BankInfoSecurity: Hydro Hit by LockerGoga Ransomware via Active Directory (NorCERT statement)",
+     "url": "https://www.bankinfosecurity.net/hydro-hit-by-lockergoga-ransomware-via-active-directory-a-12207",
+     "what_it_gave": "NorCERT: 'The attack was combined with an attack on Active Directory (AD)'; began Monday night at a U.S. plant and spread; plants in Norway, Qatar, Brazil run manually; Kripos informed Tuesday morning"
+    },
+    {
+     "title": "Hydro.com company history: 2019 cyber attack on Hydro",
+     "url": "https://hydro.com/en/about-hydro/company-history/2018-present/2019-cyber-attack-on-hydro/",
+     "what_it_gave": "Extruded Solutions suffered most; Bauxite & Alumina, Primary Metal, Rolled Products, Energy kept producing via manual procedures; all PCs and servers reviewed/cleaned, encrypted machines rebuilt from backups"
+    },
+    {
+     "title": "Business Insurance / Reuters (30 Apr 2019): Hydro expects cyberattack costs of nearly $52 million in Q1",
+     "url": "https://www.businessinsurance.com/hydro-expects-cyberattack-costs-of-nearly-52-million-in-2019-first-quarter/",
+     "what_it_gave": "Q1 2019 cost estimate up to NOK 450 million (~USD 52m); Extruded Solutions external sales 333,000 t vs 362,000 t; production halted 19 March, other units manual; Q1 report postponed to 5 June"
+    },
+    {
+     "title": "SecurityWeek (5 Jun 2019): Ransomware Attack Costs Norsk Hydro Tens of Millions of Dollars (Q1 2019 report)",
+     "url": "https://www.securityweek.com/ransomware-attack-costs-norsk-hydro-tens-millions-dollars",
+     "what_it_gave": "Q1 report: cost USD 35-41m in Q1 (NOK 300-350m first week), Q2 forecast NOK 200-250m; infection began 18 March; Extruded Solutions biggest impact; backups, no ransom paid"
+    },
+    {
+     "title": "Industrial Cyber: The Norsk Hydro Attack",
+     "url": "https://www.industrialcyber.co/features/the-norsk-hydro-attack/",
+     "what_it_gave": "detection 18-19 March overnight, warning signs morning of 19 March; alumina/bauxite kept on manual control; primary metal and rolled products harder to switch to manual; aluminium production never halted (electrolysis hardening risk); ~3 weeks to near-normal production"
+    }
+   ],
+   "ambiguities": [
+    "Microsoft says 'domain controllers' (plural); modelled as a single 'dc' per naming rule.",
+    "Exact counts of encrypted hosts are not public ('thousands of servers and PCs'; 22,000-PC figures circulate in secondary sources but were not found in a primary source) - generic groups capped at 3-7 machines per rule 1.",
+    "No file server is named in any source, so 'files' omitted and no pc->files links.",
+    "Which plants had stopped at the 4 a.m. detection is not itemised; m2 marks the U.S. plant server plus a sample of corporate hosts (srv_1, pc_1, pc_2) as encrypted; the rest were hit later or had the network cut.",
+    "m1 risk set to 7 (active Trojan foothold) rather than 5 because Microsoft says the attacker 'had built an initial foothold'; the exact C2 technique is not stated.",
+    "Industrial Cyber reports investigators found no phishing, contradicting Microsoft's account of an email attachment; Microsoft (DART, on-site) is treated as authoritative.",
+    "Services mapped to one plant server each; sources do not describe plant IT architecture or redundancy, so replicas=1 and depends_on=dc inferred only from the AD-wide push and manual fallback.",
+    "Cost figures vary by date: NOK 300-350m (first week), up to NOK 450m / USD 52m (30 Apr estimate), USD 35-41m (Q1 report), ~USD 71m total (Microsoft)."
+   ],
+   "attack_path": [
+    [
+     "pc_patient_zero",
+     "dc",
+     "Trojan foothold from Dec 2018 spearphishing attachment (T1566.001); compromise of standard user accounts then capture of administrative/domain credentials (T1078, T1003) giving control of Active Directory"
+    ],
+    [
+     "dc",
+     "srv_extruded_us",
+     "Manual push of LockerGoga from Hydro's own domain controllers to plant servers (T1021/T1072 -> T1486); U.S. plant hit first"
+    ],
+    [
+     "dc",
+     "pc_1",
+     "Same domain-controller push of LockerGoga to workstations across 170 sites (T1486)"
+    ]
+   ],
+   "n_machines": 18,
+   "n_services": 6,
+   "n_links": 21,
+   "never_isolate": [],
+   "critical": [
+    "dc"
+   ],
+   "moments": [
+    {
+     "scenario": "04_norsk_hydro_2019/m1",
+     "description": "December 2018, a few days after the trusted-customer email attachment was opened: antivirus detects the Trojan on the employee's PC. Only that workstation is known compromised; attacker already has a foothold.",
+     "hacked": {
+      "pc_patient_zero": 7
+     },
+     "solver": "exact",
+     "n_machines": 18,
+     "n_services": 6,
+     "n_links": 21,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "restrict_only": [],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.34
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down": []
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "services_down": [],
+      "reasons": [],
+      "needs_two_person": []
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 7,
+      "open_paths_to_critical": [
+       [
+        "pc_patient_zero",
+        "dc"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero"
+        ],
+        "segment_now": [],
+        "services_down": []
+       },
+       "q_acrs_v5": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero"
+        ],
+        "segment": [],
+        "status": "CONTAINED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero"
+        ],
+        "segment": [],
+        "status": "CONTAINED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "04_norsk_hydro_2019/m2",
+     "description": "Night of 18-19 March 2019, ~4 a.m. CET: IT colleague calls the CISO 'We may be under attack'. LockerGoga has been pushed from the domain controllers with captured admin credentials; production has stopped at some plants (first the U.S. plant); IT shuts down network and servers to stop the spread. Not yet all thousands of hosts encrypted.",
+     "hacked": {
+      "dc": 8,
+      "srv_extruded_us": 9,
+      "srv_1": 9,
+      "pc_1": 9,
+      "pc_2": 9
+     },
+     "solver": "exact",
+     "n_machines": 18,
+     "n_services": 6,
+     "n_links": 21,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "srv_extruded_us"
+      ],
+      "segment": [],
+      "restrict_only": [
+       "dc",
+       "srv_1"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G1",
+        "target": "dc",
+        "approvals": 2,
+        "action": "isolate critical server 'dc' (risk 8) after two-person approval"
+       },
+       {
+        "rule": "G3",
+        "target": "srv_1",
+        "approvals": 2,
+        "services_at_stake": [
+         "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+        ],
+        "action": "two-person decision: isolate 'srv_1' (Corporate IT / office systems (email, ERP, file access for 35,000 employees) go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 17.03
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "segment": [],
+      "services_down": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "services_down": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 44,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "srv_1",
+         "srv_extruded_us"
+        ],
+        "segment_now": [
+         "dc"
+        ],
+        "services_down": [
+         "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "srv_extruded_us"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "pc_1",
+         "pc_2",
+         "srv_1",
+         "srv_extruded_us"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_1",
+         "pc_2",
+         "srv_extruded_us"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "05_duesseldorf_hospital_2020.json",
+   "sha256": "8b5bc17ec996d65dd32afd230a741e18740e3e88d1e360c55bad2c4b13f7aa02",
+   "incident": "Universitaetsklinikum Duesseldorf (UKD) - DoppelPaymer ransomware via Citrix CVE-2019-19781 (10 September 2020)",
+   "year": 2020,
+   "sector": "health",
+   "narrative_before": "Attackers exploited CVE-2019-19781 ('Shitrix') in the hospital's Citrix Gateway/ADC VPN appliance between its disclosure on 17 December 2019 and the January 2020 patch, and planted a loader on an internal clinic server that survived the patch and two external re-checks (NRW Justice Ministry via dpa; BSI: attackers 'kept access even after the fix'). In the night of 10-11 September 2020 the loader pulled DoppelPaymer and encrypted 30 clinic servers; the hospital's IT failed on Thursday 10 September, the UKD deregistered from emergency care and postponed planned and outpatient treatment, and e-mail was still down on 14 September (Landtag statement, UKD updates via Borncity). An extortion note addressed to the Heinrich-Heine-Universitaet was found on one server; after Duesseldorf police told the attackers they had hit a hospital, they sent the decryption key (Computerwoche/dpa). In the night of 11-12 September a patient with an aortic tear was diverted to Wuppertal, treated about an hour later than planned, and died; the prosecutor dropped the negligent-homicide inquiry in November 2020 because 'the delay had no bearing on the final outcome' (Wired via Borncity). The central emergency department was expected to reopen only in the week of 21-25 September (dpa).",
+   "sources": [
+    {
+     "title": "CIO.de / dpa (22 Sep 2020): Justizministerium NRW hat erste Erkenntnisse zu Angriff auf Duesseldorfer Uni-Klinik (NRW Justice Ministry report to the Landtag)",
+     "url": "https://www.cio.de/article/3693663/justizministerium-nrw-hat-erste-erkenntnisse-zu-angriff-auf-duesseldorfer-uni-klinik.html",
+     "what_it_gave": "DoppelPaymer; Citrix flaw warned 17 Dec 2019, BSI 18 Dec / Jan 2020; attackers first planted a loader to fetch main malware ('offen bleibt, wann das geschah'); main attack night 10-11 Sep 2020; 30 clinic servers encrypted; ransom note addressed to Duesseldorf university; key handed over after police contact; patient diverted to Wuppertal died"
+    },
+    {
+     "title": "t-online / dpa (22 Sep 2020): Hacker-Gruppe: Spur der Uni-Klinik-Hacker fuehrt nach Russland",
+     "url": "https://www.t-online.de/digital/id_88619718/hacker-gruppe-fuehrt-spur-der-uni-klinik-hacker-nach-russland-.html",
+     "what_it_gave": "loader was already sitting on a clinic server when two specialist firms re-checked the Citrix system after the patch; 30 servers encrypted night 10-11 Sep; Zentrale Notaufnahme expected to resume later that week"
+    },
+    {
+     "title": "Computerwoche (BSI statement; Sueddeutsche/Landtag): Hacker kamen ueber VPN-Schwachstelle",
+     "url": "https://www.computerwoche.de/article/2799033/hacker-kamen-ueber-vpn-schwachstelle.html",
+     "what_it_gave": "BSI: CVE-2019-19781 in Citrix Gateway/ADC was entry point; BSI knows cases where Citrix systems were compromised before the Jan 2020 updates and attackers kept access after the fix; UKD patched on release day, external pentest early summer 2020 found nothing; IT down 10 Sep 2020; science minister told Landtag 30 servers encrypted; extortion letter addressed to Heinrich-Heine-Universitaet found on a server; attackers sent key after police contact"
+    },
+    {
+     "title": "PC-WELT: Nach Hackerangriff und Todesfall: BSI warnt vor neuen Attacken (BSI President Schoenbohm quote)",
+     "url": "https://www.pcwelt.de/news/Nach-Hackerangriff-und-Todesfall-BSI-warnt-vor-neuen-Attacken-10886204.html",
+     "what_it_gave": "BSI: 'Angreifer verschaffen sich Zugang zu den internen Netzen und Systemen und koennen diese auch Monate spaeter noch lahmlegen'; attack 10 Sep 2020; patient redirected to Wuppertal"
+    },
+    {
+     "title": "Borncity (17-22 Sep 2020): Uniklinikum Duesseldorf: Es war Ransomware, Staatsanwaltschaft ermittelt wegen Todesfolge (collating UKD press releases, Heise, WDR)",
+     "url": "https://borncity.com/blog/?p=235659",
+     "what_it_gave": "IT widely disrupted from Thursday 10 Sep 2020; UKD deregistered from emergency care, postponed planned and outpatient treatment; 14 Sep phones mostly reachable but e-mail not; ransom note to HHU on one affected server; Heise: unpatched Citrix VPN server exploited via CVE-2019-19781, 'Shitrix' backdoors survived patching"
+    },
+    {
+     "title": "Borncity (18 Nov 2020, citing Wired / prosecutor Hartmann): Ransomware-Befall in Uniklinik Duesseldorf nicht fuer Todesfall verantwortlich",
+     "url": "https://borncity.com/blog/2020/11/18/ransomware-befall-in-uniklinik-dsseldorf-nicht-fr-todesfall-verantwortlich/",
+     "what_it_gave": "Prosecutor dropped negligent-homicide inquiry: patient with aortic tear, treatment delayed ~1 hour by diversion to Wuppertal night 11-12 Sep, 'Die Verzoegerung hatte keine Bedeutung fuer das Endergebnis'; entry via unpatched Citrix vulnerability late 2019/early 2020"
+    },
+    {
+     "title": "The Register (23 Sep 2020): German hospital ransomware attack: DoppelPaymer, Citrix CVE-2019-19781",
+     "url": "https://www.theregister.com/2020/09/23/doppelpaymer_german_hospital_ransomware/",
+     "what_it_gave": "loader present on the network since December 2019 per report to NRW government; BSI report linking attack to CVE-2019-19781; operators thought they hit the university; prosecutors in Cologne pursuing negligent homicide"
+    }
+   ],
+   "ambiguities": [
+    "No source names the 30 encrypted servers or their roles; only 'patient data / IT widely disrupted', e-mail outage and the note-bearing server are attested. Generic group capped at 6 'srv_x' plus srv_his, srv_mail, srv_ransom_note (rule 1).",
+    "Which single clinic server hosted the loader is not stated; modelled as 'srv_loader'. Whether that server was itself among the 30 encrypted is unknown, so it is given risk 7 (backdoor/C2), not 9.",
+    "Exact date of the loader placement is unknown ('offen bleibt in dem Bericht, wann das geschah'); The Register says 'since December 2019'.",
+    "Reports give the encryption as the night of 10-11 Sep but the outage as 'seit Donnerstag, 10. September'; treated as one detection moment on 10 Sep.",
+    "No domain controller, file server, workstation compromise or medical device is mentioned in any public source, so none modelled; no pc->dc links.",
+    "Emergency-care service mapped to srv_his as a modelling choice; sources do not name the system whose loss forced deregistration. isolatable left true for all machines (no source says disconnection endangered patients - the hospital itself took IT offline).",
+    "Duration of emergency-care deregistration (~13 days, to about 23 Sep) is only implied by 'resume later that week' statements; not stated as a figure in the sources used.",
+    "The hospital's statement that 'no ransom demand was made' conflicts with the extortion note found on a server; Landtag/Justice Ministry account used."
+   ],
+   "attack_path": [
+    [
+     "web_citrix",
+     "srv_loader",
+     "Exploit of CVE-2019-19781 on the internet-facing Citrix Gateway/ADC (T1190) between 17 Dec 2019 and the Jan 2020 patch; placement of a loader/backdoor on an internal clinic server that persisted after patching (T1505 / T1105)"
+    ],
+    [
+     "srv_loader",
+     "srv_ransom_note",
+     "Night of 10-11 Sep 2020: loader downloads DoppelPaymer and the attackers encrypt 30 clinic servers, leaving the note addressed to HHU (T1105 -> T1486)"
+    ]
+   ],
+   "n_machines": 11,
+   "n_services": 3,
+   "n_links": 10,
+   "never_isolate": [],
+   "critical": [
+    "srv_his"
+   ],
+   "moments": [
+    {
+     "scenario": "05_duesseldorf_hospital_2020/m1",
+     "description": "Thursday 10 September 2020: UKD IT fails; 30 servers are found encrypted by DoppelPaymer, extortion note to HHU on one server; hospital deregisters from emergency care. Attacker backdoor had been present since Dec 2019/Jan 2020 and was never detected before (patch applied, two firms and a summer 2020 pentest found nothing).",
+     "hacked": {
+      "web_citrix": 7,
+      "srv_loader": 7,
+      "srv_ransom_note": 9,
+      "srv_his": 9,
+      "srv_mail": 9,
+      "srv_1": 9,
+      "srv_2": 9,
+      "srv_3": 9,
+      "srv_4": 9,
+      "srv_5": 9,
+      "srv_6": 9
+     },
+     "solver": "exact",
+     "n_machines": 11,
+     "n_services": 3,
+     "n_links": 10,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_loader",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [],
+      "restrict_only": [
+       "srv_1",
+       "srv_his",
+       "srv_mail"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "srv_1",
+        "approvals": 2,
+        "services_at_stake": [
+         "Planned inpatient and outpatient treatment (postponed)"
+        ],
+        "action": "two-person decision: isolate 'srv_1' (Planned inpatient and outpatient treatment (postponed) go(es) down) or accept the documented risk (risk 9 >= 7)"
+       },
+       {
+        "rule": "G1",
+        "target": "srv_his",
+        "approvals": 2,
+        "action": "isolate critical server 'srv_his' (risk 9) after two-person approval"
+       },
+       {
+        "rule": "G3",
+        "target": "srv_mail",
+        "approvals": 2,
+        "services_at_stake": [
+         "Hospital e-mail"
+        ],
+        "action": "two-person decision: isolate 'srv_mail' (Hospital e-mail go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.6
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_his",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_his",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "services_down": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_his"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 95,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "srv_1",
+         "srv_2",
+         "srv_3",
+         "srv_4",
+         "srv_5",
+         "srv_6",
+         "srv_loader",
+         "srv_mail",
+         "srv_ransom_note",
+         "web_citrix"
+        ],
+        "segment_now": [
+         "srv_his"
+        ],
+        "services_down": [
+         "Planned inpatient and outpatient treatment (postponed)",
+         "Hospital e-mail"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "srv_2",
+         "srv_3",
+         "srv_4",
+         "srv_5",
+         "srv_6",
+         "srv_loader",
+         "srv_ransom_note",
+         "web_citrix"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "srv_2",
+         "srv_3",
+         "srv_4",
+         "srv_5",
+         "srv_6",
+         "srv_loader",
+         "srv_mail",
+         "srv_ransom_note",
+         "web_citrix"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "srv_2",
+         "srv_3",
+         "srv_4",
+         "srv_5",
+         "srv_6",
+         "srv_loader",
+         "srv_ransom_note",
+         "web_citrix"
+        ],
+        "segment": [],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "06_colonial_pipeline_2021.json",
+   "sha256": "df6044615eacddcefd6af8fed13783adf87743d3cd815a37e34300c89b8872bd",
+   "incident": "Colonial Pipeline - DarkSide ransomware (intrusion 29 April, ransom note 7 May 2021)",
+   "year": 2021,
+   "sector": "energy",
+   "narrative_before": "DarkSide affiliates logged into Colonial Pipeline's network on 29 April 2021 through a legacy VPN profile 'that was not intended to be in use', which had only single-factor authentication and whose complex password later turned up in a dark-web batch of leaked credentials (Blount testimony; Mandiant via Bloomberg). On Thursday 6 May they exfiltrated about 100 GB of data from the IT network in roughly two hours and then encrypted computers (Bloomberg). Just before 5:00 AM EDT on Friday 7 May an employee found the ransom note on a system in the IT network; the Control Center operations supervisor ordered a stop-work and by 6:10 AM all 5,500 miles of pipeline were shut down to keep the malware from reaching the OT network, which Mandiant later confirmed the attackers never entered (Blount; CISA AA21-131A; Carmakal). Colonial paid about USD 4.4 million (75 BTC) on 8 May, of which DOJ later seized 63.7 BTC, and restarted the pipeline on the evening of 12 May; fuel shortages hit 13 states and D.C. served from 29 Gulf Coast refineries, and seven finance systems were only restored on 8 June (Blount; Dark Reading).",
+   "sources": [
+    {
+     "title": "Joseph Blount, written testimony, U.S. Senate Committee on Homeland Security and Governmental Affairs, 8 June 2021",
+     "url": "https://www.hsgac.senate.gov/imo/media/doc/Testimony-Blount-2021-06-08.pdf",
+     "what_it_gave": "detection ('just before 5:00 AM EDT' on 7 May an employee 'identified the ransom note on a system in the IT network'); Operations Supervisor at Control Center issued stop-work order, shutdown began ~5:55, all 5,500 miles confirmed shut by 6:10 AM EDT to keep malware off the OT network; entry via 'legacy VPN profile that was not intended to be in use'; Mandiant retained; restart evening 12 May; 950 employees, 29 refineries, 260 delivery points, 13 states"
+    },
+    {
+     "title": "CISA/FBI Joint Advisory AA21-131A: DarkSide Ransomware: Best Practices for Preventing Business Disruption",
+     "url": "https://www.cisa.gov/ncas/alerts/aa21-131a",
+     "what_it_gave": "DarkSide deployed against the pipeline company's IT network; no indication OT was directly affected; company proactively disconnected certain OT systems; DarkSide initial access via phishing / remotely accessible accounts and systems / VDI (T1566, T1190, T1133); Cobalt Strike C2, RDP persistence, T1486"
+    },
+    {
+     "title": "Dark Reading (9 Jun 2021): Colonial Pipeline CEO: Ransomware Attack Started via Pilfered 'Legacy' VPN Account",
+     "url": "https://www.darkreading.com/cyberattacks-data-breaches/colonial-pipeline-ceo-ransomware-attack-started-via-pilfered-legacy-vpn-account",
+     "what_it_gave": "VPN account had only single-factor authentication; complex password; ransom note found on IT network at 5:00 a.m. ET 7 May; legacy VPN profile shut down; DOJ seized 63.7 BTC (~USD 2.3m) of the payment"
+    },
+    {
+     "title": "The Hacker News / Bloomberg (Mandiant, Charles Carmakal): Hackers Breached Colonial Pipeline Using Compromised VPN Password",
+     "url": "https://thehackernews.com/2021/06/hackers-breached-colonial-pipeline.html",
+     "what_it_gave": "VPN account unused but active, no MFA; password later found in a dark-web batch of leaked passwords; first foothold 29 April 2021; ~100 GB stolen; USD 4.4m ransom paid; operations halted nearly a week"
+    },
+    {
+     "title": "The Stack: How the Colonial Pipeline hack happened (Mandiant findings)",
+     "url": "https://www.thestack.technology/how-the-colonial-pipeline-hack-happened/",
+     "what_it_gave": "Mandiant saw no attacker activity before 29 April; no evidence of phishing against the account owner; Carmakal: attackers did not move from the IT network to the OT network; no CISO at the time"
+    },
+    {
+     "title": "BNN Bloomberg (9 May 2021): Colonial hackers stole data Thursday ahead of pipeline shutdown",
+     "url": "https://www.bnnbloomberg.ca/colonial-hackers-stole-data-thursday-ahead-of-pipeline-shutdown-1.1601037",
+     "what_it_gave": "about 100 GB exfiltrated from the network in roughly two hours on Thursday 6 May, then computers encrypted; double extortion; Mandiant assisting"
+    },
+    {
+     "title": "BankInfoSecurity: Colonial CEO at Senate Hearing Details Ransomware Attack",
+     "url": "https://www.bankinfosecurity.net/colonial-ceo-at-senate-hearing-details-ransomware-attack-a-16836",
+     "what_it_gave": "legacy VPN 'essentially invisible' to IT, no MFA; decision to pay 7 May, payment 8 May; seven finance systems back online 8 June; FBI contacted the morning of the attack"
+    }
+   ],
+   "ambiguities": [
+    "No public source names the individual IT hosts that were encrypted or that held the exfiltrated 100 GB; 'srv_it_x', 'pc_x' and three of the seven finance systems are generic placeholders (rule 1, 3-10 per group).",
+    "The specific lateral-movement tooling inside Colonial's network has not been published; the intra-IT hop is attested only as an outcome (encryption + exfiltration). Cobalt Strike/RDP are CISA's generic DarkSide TTPs, not Colonial-specific findings.",
+    "No domain controller, file server or domain-credential use is mentioned in any source, so 'dc'/'files' omitted and no pc->dc links.",
+    "Blount said an employee found the note on 'a system in the IT network'; Bloomberg attributed it to a control-room employee - modelled as a workstation 'pc_ransom_note'. Whether that host was itself encrypted is not stated; risk 9 assumed because the note is the ransomware's output.",
+    "web_vpn given risk 5 (initial access only); whether the VPN appliance itself was modified is not stated.",
+    "OT (dev_ot_control) was never compromised (Mandiant) and was disconnected by Colonial, so isolatable=true; the shutdown was a precaution, not a safety constraint. Pipeline service value 25 (core business) rather than 30 since no source says loss of the service was life-critical, despite fuel shortages.",
+    "Services' replicas: sources do not describe redundancy; replicas=1. Whether pipeline operations depended on the encrypted billing/finance systems is widely reported but not stated in the Senate testimony, so depends_on left empty.",
+    "Ransom figure given as USD 4.3m (BankInfoSecurity) vs 4.4m / 75 BTC (Bloomberg, DOJ); 75 BTC figure is from DOJ seizure reporting (63.7 BTC recovered)."
+   ],
+   "attack_path": [
+    [
+     "web_vpn",
+     "srv_it_1",
+     "29 Apr 2021: valid-account login to the legacy single-factor VPN profile with a password from a leaked-credential batch (T1133 External Remote Services, T1078 Valid Accounts) into the IT network"
+    ],
+    [
+     "srv_it_1",
+     "srv_finance_1",
+     "Movement across the IT network to business/finance systems; ~100 GB exfiltrated in ~2 hours on 6 May (T1041/T1567) then DarkSide encryption of IT systems (T1486). Intermediate hop technique not published; CISA attributes Cobalt Strike C2 and RDP persistence to DarkSide generally (T1071, T1021.001)"
+    ]
+   ],
+   "n_machines": 12,
+   "n_services": 3,
+   "n_links": 10,
+   "never_isolate": [],
+   "critical": [
+    "srv_finance_1",
+    "srv_finance_2",
+    "srv_finance_3",
+    "dev_ot_control"
+   ],
+   "moments": [
+    {
+     "scenario": "06_colonial_pipeline_2021/m1",
+     "description": "Just before 5:00 AM EDT, Friday 7 May 2021: an employee finds the DarkSide ransom note on a system in the IT network. IT systems are already encrypted and ~100 GB was exfiltrated the previous day; the OT network is clean but is disconnected and the pipeline halted by 6:10 AM. No earlier detection existed - Mandiant found the intrusion began 29 April via the legacy VPN.",
+     "hacked": {
+      "web_vpn": 5,
+      "pc_ransom_note": 9,
+      "srv_it_1": 9,
+      "srv_it_2": 9,
+      "srv_it_3": 9,
+      "srv_finance_1": 9,
+      "srv_finance_2": 9,
+      "srv_finance_3": 9,
+      "pc_1": 9,
+      "pc_2": 9,
+      "pc_3": 9
+     },
+     "solver": "exact",
+     "n_machines": 12,
+     "n_services": 3,
+     "n_links": 10,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [
+       "srv_finance_1"
+      ],
+      "restrict_only": [
+       "srv_it_1"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "srv_it_1",
+        "approvals": 2,
+        "services_at_stake": [
+         "Corporate IT network (encrypted systems, exfiltrated data)"
+        ],
+        "action": "two-person decision: isolate 'srv_it_1' (Corporate IT network (encrypted systems, exfiltrated data) go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_finance_2",
+       "srv_finance_3"
+      ],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 2.22
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [
+       "srv_finance_1"
+      ],
+      "services_down": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_1",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "services_down": [
+       "Finance / business systems (seven systems offline until 8 June 2021)",
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_finance_1",
+       "srv_finance_2",
+       "srv_finance_3"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 95,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "pc_ransom_note",
+         "srv_it_1",
+         "srv_it_2",
+         "srv_it_3",
+         "web_vpn"
+        ],
+        "segment_now": [
+         "srv_finance_1",
+         "srv_finance_2",
+         "srv_finance_3"
+        ],
+        "services_down": [
+         "Corporate IT network (encrypted systems, exfiltrated data)"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "pc_ransom_note",
+         "srv_finance_2",
+         "srv_finance_3",
+         "srv_it_2",
+         "srv_it_3",
+         "web_vpn"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "pc_ransom_note",
+         "srv_finance_2",
+         "srv_finance_3",
+         "srv_it_1",
+         "srv_it_2",
+         "srv_it_3",
+         "web_vpn"
+        ],
+        "segment": [
+         "srv_finance_1"
+        ],
+        "status": "CONTAINED_PENDING_APPROVAL"
+       },
+       "x1.5": {
+        "same_decision": false,
+        "isolate": [
+         "pc_1",
+         "pc_2",
+         "pc_3",
+         "pc_ransom_note",
+         "srv_it_2",
+         "srv_it_3",
+         "web_vpn"
+        ],
+        "segment": [
+         "srv_finance_1",
+         "srv_finance_2",
+         "srv_finance_3"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "07_hse_conti_2021.json",
+   "sha256": "0bc7f41f8a3ce29721d338c96f3b854e86c2b47af6255c253c270abeb7a9aa4c",
+   "incident": "Irish Health Service Executive (HSE) — Conti ransomware (Wizard Spider), 14 May 2021",
+   "year": 2021,
+   "sector": "health",
+   "narrative_before": "On 16 March 2021 a phishing email with a malicious Excel attachment was sent to an HSE user; it was opened on 18 March on the 'Patient Zero Workstation' and the attacker achieved persistence by 23 March (PwC pp. 2, 28). On 31 March the HSE antivirus detected Cobalt Strike and Mimikatz on that workstation but 'was set to monitor mode so it did not block the malicious commands' and no incident was raised (PwC p. 29). On 7 May the attacker 'conducted AD and domain reconnaissance, and compromised further systems within the HSE' and 'was identified as using highly privileged accounts for the first time'; antivirus flagged Cobalt Strike on six HSE servers that day and the alerts were not actioned (PwC p. 29; HHS). Between 8 and 12 May six voluntary hospitals and one statutory hospital were compromised; Hospital C found malicious activity on a domain controller on 10 May, Hospital A alerted the HSE on 12 May and reset 4,500 passwords, and on 13 May the AV vendor emailed about 'unhandled threat events since 7 May 2021 on at least 16 systems' — the HSE response was to ask the server team to restart servers (PwC pp. 28-30). At 01:00 on 14 May Conti was executed; hospitals reported encrypted systems at 02:50, encryption in the HSE data centre was identified at 04:36, and the HSE shut down all IT and the National Healthcare Network. About 80% of the environment was encrypted and ~700 GB exfiltrated; NIMIS radiology, laboratory, radiotherapy, maternity (MN-CMS) and iPMS systems were lost, ~7,000 appointments a day were cancelled, a decryption key appeared on 20 May, full server decryption took until September 2021 and the HSE put the cost at >= EUR 100m (PwC pp. 15, 32-33; HHS; Irish Times).",
+   "sources": [
+    {
+     "title": "PwC, Conti cyber attack on the HSE — Independent Post Incident Review (full report, Dec 2021)",
+     "url": "https://www.hse.ie/eng/services/publications/conti-cyber-attack-on-the-hse-full-report.pdf",
+     "what_it_gave": "entry point (16/18 March phishing Excel on Patient Zero workstation), 23 March persistence, 31 March AV in monitor mode, 7 May first HSE server compromise + AD recon + highly privileged accounts, 8-12 May six voluntary + one statutory hospital compromised, 10 May Hospital C DC alert, 12 May Hospital A alert, 13 May AV vendor email (16 systems), 14 May 01:00 execution / 02:50 reports / 04:36 encryption identified in data centre, services lost (NIMIS, labs, radiotherapy, MN-CMS, iPMS), 80% encrypted, 1,075/1,087 apps recovered by 21 Sep"
+    },
+    {
+     "title": "KrebsOnSecurity, Inside Ireland's Public Healthcare Ransomware Scare (13 Dec 2021, summarising PwC)",
+     "url": "https://krebsonsecurity.com/2021/12/inside-irelands-public-healthcare-ransomware-scare/",
+     "what_it_gave": "31 March Cobalt Strike + Mimikatz detected on Patient Zero but not blocked; 7 May attacker compromised HSE servers; 10 May Hospital C AV detected Cobalt Strike on two systems, evidence at Hospital C and Hospital L; 13 May vendor email 'at least 16 systems' since 7 May; $20m demand; 30,000+ Windows 7 workstations"
+    },
+    {
+     "title": "HHS HC3, Lessons learned from the HSE cyber attack (summary of PwC review)",
+     "url": "https://www.hhs.gov/sites/default/files/lessons-learned-hse-attack.pdf",
+     "what_it_gave": "7 May antivirus flagged Cobalt Strike on six servers, 'alerts were not appropriately actioned'; two voluntary hospitals saw suspicious activity before execution; ~80% of environment encrypted; ~700 GB exfiltrated; Exchange encrypted; National Healthcare Network disconnected"
+    },
+    {
+     "title": "The Register, Irish health service's Conti ransomware report (10 Dec 2021)",
+     "url": "https://www.theregister.com/2021/12/10/ireland_health_conti_ransomware_attack_report/",
+     "what_it_gave": "Hospital A reset 4,500 passwords after activating IR plan; 'exploited an unpatched known vulnerability' to reach a hospital AD domain; HSE wrongly concluded activity originated from Hospital A"
+    },
+    {
+     "title": "Irish Times, Cyberattack: HSE faces final bill of at least €100m (27 May 2021, HSE CEO briefing)",
+     "url": "https://www.irishtimes.com/news/health/cyberattack-will-cost-hse-at-least-100-million-to-restore-and-upgrade-network-1.4577076",
+     "what_it_gave": "HSE statements on impact: ~80,000 devices, NIMIS at 24 of 64 sites, 16 of 44 labs offline, ~7,000 appointments/day cancelled, cost >= EUR 100m"
+    }
+   ],
+   "ambiguities": [
+    "The public PwC report does not name the six HSE servers flagged on 7 May nor the '16 systems' of 13 May; srv_hse_1..6 are generic placeholders (rule 1, generic group 3-10).",
+    "The report does not state which host the attacker pivoted from to reach each HSE server or hospital; links dc -> srv_* and dc -> hospitals are modelled from the statement that the attacker used highly privileged domain accounts to 'compromise further systems' (p. 29). The exact pivot sequence is not public.",
+    "Hospital letters (A, C, K, L) are PwC anonymisations; real hospital names are redacted. Whether Hospital L was encrypted is not stated, so it is left out of m5.",
+    "Hospital A is described as having detected and blocked the attack; whether its systems were fully compromised before blocking is not stated, so srv_hosp_a is given lateral-tool risk 6 rather than 8/9.",
+    "Appendix E (detailed technical timeline) could not be retrieved in this session (PDF text truncated); the 31 March and 7 May details come from pp. 28-30 and from Krebs/HHS summaries of the report.",
+    "depends_on left empty for data-centre services: the report does not state that NIMIS/LIS/iPMS depend on AD, though it is likely.",
+    "Radiotherapy/maternity/radiology are clinically significant but the report does not say their loss directly endangered life, so disruption 4 and value 25 (not 5/30) and isolatable=true (no medical devices named).",
+    "Exfiltration volume ~700 GB comes from the HHS HC3 summary, not the PwC text retrieved; ransom demand $20m from Krebs.",
+    "Workstation count >30,000 (Krebs) reduced to 3 generic pc_hse_* plus Patient Zero to stay within ~25 machines.",
+    "Exchange email encrypted per HHS summary; the PwC pages retrieved mention loss of email but not the server name."
+   ],
+   "attack_path": [
+    [
+     "email",
+     "pc_patient_zero",
+     "Phishing email (16 Mar) with malicious Excel attachment opened 18 Mar; persistence 23 Mar — T1566.001, T1204.002"
+    ],
+    [
+     "pc_patient_zero",
+     "dc",
+     "Cobalt Strike + Mimikatz credential dumping (31 Mar), AD and domain reconnaissance and use of highly privileged accounts (7 May) — T1003, T1087, T1078.002"
+    ],
+    [
+     "pc_patient_zero",
+     "srv_hse_1",
+     "First HSE server compromise 7 May, Cobalt Strike beacon flagged by AV — T1021, T1071"
+    ],
+    [
+     "dc",
+     "srv_hse_2",
+     "Further HSE servers compromised with privileged domain accounts, Cobalt Strike on six servers 7 May — T1078.002, T1021"
+    ],
+    [
+     "dc",
+     "srv_hosp_c_1",
+     "Spread over the National Healthcare Network to voluntary hospitals 8-12 May; Hospital C Cobalt Strike on two systems — T1021"
+    ],
+    [
+     "srv_hosp_c_1",
+     "dc_hosp_c",
+     "Malicious activity on Hospital C domain controller 10 May; 'likely exploited an unpatched known vulnerability' to access a hospital AD domain 11 May — T1210, T1003"
+    ],
+    [
+     "dc",
+     "srv_hosp_a",
+     "Hospital A compromised then blocked after it detected activity 12 May and reset 4,500 passwords — T1021"
+    ],
+    [
+     "dc",
+     "files",
+     "Attacker browsed folders and opened files on HSE systems 12-13 May; ~700 GB exfiltrated — T1083, T1005, T1048"
+    ],
+    [
+     "dc",
+     "srv_nimis",
+     "Conti executed 01:00 14 May across HSE data centre servers (NIMIS, labs, iPMS, MN-CMS, radiotherapy, Exchange), Hospital C and Hospital K — T1486"
+    ]
+   ],
+   "n_machines": 24,
+   "n_services": 9,
+   "n_links": 26,
+   "never_isolate": [],
+   "critical": [
+    "dc",
+    "srv_nimis",
+    "srv_lis",
+    "srv_ipms",
+    "srv_mncms",
+    "srv_radiotherapy",
+    "dc_hosp_c"
+   ],
+   "moments": [
+    {
+     "scenario": "07_hse_conti_2021/m1",
+     "description": "31 March 2021: HSE antivirus detects Cobalt Strike and Mimikatz on the Patient Zero workstation; AV in monitor mode, nothing blocked, no incident opened. Mimikatz = credential dumping (T1003) -> 8.",
+     "hacked": {
+      "pc_patient_zero": 8
+     },
+     "solver": "exact",
+     "n_machines": 24,
+     "n_services": 9,
+     "n_links": 26,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "restrict_only": [],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 0.15
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down": []
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "services_down": [],
+      "reasons": [],
+      "needs_two_person": []
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 8,
+      "open_paths_to_critical": [
+       [
+        "pc_patient_zero",
+        "dc"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero"
+        ],
+        "segment_now": [],
+        "services_down": []
+       },
+       "q_acrs_v5": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero"
+        ],
+        "segment": [],
+        "status": "CONTAINED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero"
+        ],
+        "segment": [],
+        "status": "CONTAINED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "07_hse_conti_2021/m2",
+     "description": "7 May 2021: attacker performs AD/domain reconnaissance, uses highly privileged accounts for the first time and compromises HSE servers; antivirus flags Cobalt Strike on six servers but alerts are not actioned.",
+     "hacked": {
+      "pc_patient_zero": 8,
+      "dc": 8,
+      "srv_hse_1": 6,
+      "srv_hse_2": 6,
+      "srv_hse_3": 6,
+      "srv_hse_4": 6,
+      "srv_hse_5": 6,
+      "srv_hse_6": 6
+     },
+     "solver": "annealing",
+     "n_machines": 24,
+     "n_services": 9,
+     "n_links": 26,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "restrict_only": [],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 101.0
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down": []
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "services_down": [
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 52,
+      "open_paths_to_critical": [
+       [
+        "dc",
+        "srv_nimis"
+       ],
+       [
+        "dc",
+        "srv_lis"
+       ],
+       [
+        "dc",
+        "srv_ipms"
+       ],
+       [
+        "dc",
+        "srv_mncms"
+       ],
+       [
+        "dc",
+        "srv_radiotherapy"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "services_down": []
+       },
+       "q_acrs_v5": {
+        "status": "CONTAINED_PENDING_APPROVAL",
+        "isolate_now": [
+         "dc",
+         "pc_patient_zero",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [],
+        "services_down": [
+         "HSE Active Directory / National Healthcare Network authentication"
+        ]
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "CONTAINED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "CONTAINED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "07_hse_conti_2021/m3",
+     "description": "10 May 2021: Hospital C identifies malicious activity on a domain controller and its AV detects Cobalt Strike on two systems but fails to quarantine; Hospital C's provider rates it low risk, no IR investigation; evidence of compromise also at Hospital L.",
+     "hacked": {
+      "pc_patient_zero": 8,
+      "dc": 8,
+      "srv_hse_1": 6,
+      "srv_hse_2": 6,
+      "srv_hse_3": 6,
+      "srv_hse_4": 6,
+      "srv_hse_5": 6,
+      "srv_hse_6": 6,
+      "dc_hosp_c": 8,
+      "srv_hosp_c_1": 6,
+      "srv_hosp_c_2": 6,
+      "srv_hosp_l": 6
+     },
+     "solver": "annealing",
+     "n_machines": 24,
+     "n_services": 9,
+     "n_links": 26,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "restrict_only": [
+       "dc_hosp_c",
+       "srv_hosp_c_1"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G1",
+        "target": "dc_hosp_c",
+        "approvals": 2,
+        "action": "isolate critical server 'dc_hosp_c' (risk 8) after two-person approval"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 108.36
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc_hosp_c",
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down": [
+       "Hospital C clinical IT"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "pc_patient_zero",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "services_down": [
+       "Hospital C clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc",
+       "dc_hosp_c"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 78,
+      "open_paths_to_critical": [
+       [
+        "dc",
+        "srv_nimis"
+       ],
+       [
+        "dc",
+        "srv_lis"
+       ],
+       [
+        "dc",
+        "srv_ipms"
+       ],
+       [
+        "dc",
+        "srv_mncms"
+       ],
+       [
+        "dc",
+        "srv_radiotherapy"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_patient_zero",
+         "srv_hosp_c_1",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [
+         "dc",
+         "dc_hosp_c",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "services_down": [
+         "Hospital C clinical IT"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "dc",
+         "pc_patient_zero",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [],
+        "services_down": [
+         "HSE Active Directory / National Healthcare Network authentication"
+        ]
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "pc_patient_zero",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "07_hse_conti_2021/m4",
+     "description": "12-13 May 2021: Hospital A alerts the HSE OoCIO and resets 4,500 passwords; attacker browses folders and opens files on HSE systems; AV vendor emails HSE Security Operations about unhandled threat events on at least 16 systems since 7 May; HSE asks server team to restart servers and wrongly attributes activity to Hospital A. Last chance before detonation.",
+     "hacked": {
+      "pc_patient_zero": 8,
+      "dc": 8,
+      "files": 6,
+      "srv_hse_1": 6,
+      "srv_hse_2": 6,
+      "srv_hse_3": 6,
+      "srv_hse_4": 6,
+      "srv_hse_5": 6,
+      "srv_hse_6": 6,
+      "dc_hosp_c": 8,
+      "srv_hosp_c_1": 6,
+      "srv_hosp_c_2": 6,
+      "srv_hosp_l": 6,
+      "srv_hosp_a": 6,
+      "srv_hosp_k": 6
+     },
+     "solver": "annealing",
+     "n_machines": 24,
+     "n_services": 9,
+     "n_links": 26,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "restrict_only": [
+       "dc_hosp_c",
+       "srv_hosp_c_1",
+       "srv_hosp_k"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G1",
+        "target": "dc_hosp_c",
+        "approvals": 2,
+        "action": "isolate critical server 'dc_hosp_c' (risk 8) after two-person approval"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 86.58
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down": [
+       "Hospital C clinical IT"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "services_down": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc",
+       "dc_hosp_c"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 96,
+      "open_paths_to_critical": [
+       [
+        "dc",
+        "srv_nimis"
+       ],
+       [
+        "dc",
+        "srv_lis"
+       ],
+       [
+        "dc",
+        "srv_ipms"
+       ],
+       [
+        "dc",
+        "srv_mncms"
+       ],
+       [
+        "dc",
+        "srv_radiotherapy"
+       ]
+      ]
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_a",
+         "srv_hosp_c_1",
+         "srv_hosp_c_2",
+         "srv_hosp_k",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [
+         "dc",
+         "dc_hosp_c",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "services_down": [
+         "Hospital C clinical IT",
+         "Hospital K clinical IT"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "dc",
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_a",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [],
+        "services_down": [
+         "HSE Active Directory / National Healthcare Network authentication"
+        ]
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": true,
+        "isolate": [
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_a",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_a",
+         "srv_hosp_c_2",
+         "srv_hosp_l",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    },
+    {
+     "scenario": "07_hse_conti_2021/m5",
+     "description": "14 May 2021 01:00-04:41: Conti executed in the HSE, Hospital C and Hospital K; hospitals report encrypted systems at 02:50; HSE identifies malicious encryption on multiple data-centre servers at 04:36 and invokes the Critical Incident Process at 04:41. This is the moment of actual incident declaration (T1486 = 9). Hospital A and Hospital L are excluded because Hospital A blocked execution and the report does not say Hospital L was encrypted.",
+     "hacked": {
+      "pc_patient_zero": 9,
+      "dc": 9,
+      "files": 9,
+      "srv_hse_1": 9,
+      "srv_hse_2": 9,
+      "srv_hse_3": 9,
+      "srv_hse_4": 9,
+      "srv_hse_5": 9,
+      "srv_hse_6": 9,
+      "srv_nimis": 9,
+      "srv_lis": 9,
+      "srv_ipms": 9,
+      "srv_mncms": 9,
+      "srv_radiotherapy": 9,
+      "srv_exchange": 9,
+      "dc_hosp_c": 9,
+      "srv_hosp_c_1": 9,
+      "srv_hosp_c_2": 9,
+      "srv_hosp_k": 9
+     },
+     "solver": "annealing",
+     "n_machines": 24,
+     "n_services": 9,
+     "n_links": 26,
+     "consistency_flags": [
+      "burst of 19 simultaneous alerts all at risk >= 9"
+     ],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "restrict_only": [
+       "dc_hosp_c",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_k"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G1",
+        "target": "dc_hosp_c",
+        "approvals": 2,
+        "action": "isolate critical server 'dc_hosp_c' (risk 9) after two-person approval"
+       },
+       {
+        "rule": "G3",
+        "target": "srv_exchange",
+        "approvals": 2,
+        "services_at_stake": [
+         "HSE email (on-premise Exchange)"
+        ],
+        "action": "two-person decision: isolate 'srv_exchange' (HSE email (on-premise Exchange) go(es) down) or accept the documented risk (risk 9 >= 7)"
+       },
+       {
+        "rule": "G3",
+        "target": "srv_hosp_c_1",
+        "approvals": 2,
+        "services_at_stake": [
+         "Hospital C clinical IT"
+        ],
+        "action": "two-person decision: isolate 'srv_hosp_c_1' (Hospital C clinical IT go(es) down) or accept the documented risk (risk 9 >= 7)"
+       },
+       {
+        "rule": "G3",
+        "target": "srv_hosp_k",
+        "approvals": 2,
+        "services_at_stake": [
+         "Hospital K clinical IT"
+        ],
+        "action": "two-person decision: isolate 'srv_hosp_k' (Hospital K clinical IT go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 65.4
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down": [
+       "Radiology imaging (NIMIS, 64 sites)",
+       "Laboratory diagnostics (44 labs)",
+       "Patient administration (iPMS)",
+       "Maternity records (MN-CMS)",
+       "Radiotherapy / cancer services",
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 171,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "files",
+         "pc_patient_zero",
+         "srv_exchange",
+         "srv_hosp_c_1",
+         "srv_hosp_c_2",
+         "srv_hosp_k",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [
+         "dc",
+         "dc_hosp_c",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "services_down": [
+         "HSE email (on-premise Exchange)",
+         "Hospital C clinical IT",
+         "Hospital K clinical IT"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_c_2",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "files",
+         "pc_patient_zero",
+         "srv_exchange",
+         "srv_hosp_c_2",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": true,
+        "isolate": [
+         "files",
+         "pc_patient_zero",
+         "srv_hosp_c_2",
+         "srv_hse_1",
+         "srv_hse_2",
+         "srv_hse_3",
+         "srv_hse_4",
+         "srv_hse_5",
+         "srv_hse_6"
+        ],
+        "segment": [
+         "dc",
+         "srv_ipms",
+         "srv_lis",
+         "srv_mncms",
+         "srv_nimis",
+         "srv_radiotherapy"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "file": "08_change_healthcare_2024.json",
+   "sha256": "98156e6a39e8dfa85b5720b93566068c40aafd11d12ddd3e759644beb61fe8f8",
+   "incident": "Change Healthcare (UnitedHealth Group / Optum) — ALPHV/BlackCat ransomware, 21 February 2024",
+   "year": 2024,
+   "sector": "health",
+   "narrative_before": "On 12 February 2024 'criminals used compromised credentials to remotely access a Change Healthcare Citrix portal, an application used to enable remote access to desktops. The portal did not have multi-factor authentication' (Witty, Senate Finance testimony). Over the next nine days the attackers 'moved laterally within the systems in more sophisticated ways and exfiltrated data'; because Change's prime and backup environments were not isolated, the backups were encrypted too, which Witty called 'really the root cause' of the long recovery (Cybersecurity Dive). On 21 February 2024 ALPHV/BlackCat deployed ransomware 'encrypting Change's systems so we could not access them'; the same day UnitedHealth 'identified a suspected nation-state associated cyber security threat actor' and 'proactively isolated the impacted systems', severing Change's data-centre connections so that malware did not spread beyond Change (8-K; testimony). Pharmacy claims, medical claims and payment processing for much of the US stopped: 99% of pre-incident pharmacies were only back by 7 March, payments were at ~86% of pre-incident levels at the time of the hearing, and UHG had advanced more than $6.5bn to providers (testimony). UHG confirmed on 29 February the actor was ALPHV/BlackCat, paid a ransom (an affiliate cited a $22m Bitcoin transaction), booked $872m of Q1 2024 costs, and ultimately notified ~190 million people (TechCrunch; TechTarget).",
+   "sources": [
+    {
+     "title": "Testimony of Andrew Witty, CEO UnitedHealth Group, before the U.S. Senate Committee on Finance, 1 May 2024",
+     "url": "https://www.finance.senate.gov/imo/media/doc/0501_witty_testimony.pdf",
+     "what_it_gave": "entry point (12 Feb, compromised credentials, Citrix remote-access portal, no MFA), lateral movement + exfiltration, ransomware deployed nine days later, data centre connections severed, ransom decision, rebuild (laptops replaced, credentials rotated, data centre network and core services rebuilt), restoration figures (pharmacy 99% by 7 March, payments ~86%, $6.5bn advanced)"
+    },
+    {
+     "title": "UnitedHealth Group Form 8-K, Item 1.05, filed 21-22 Feb 2024",
+     "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176624000045/unh-20240221.htm",
+     "what_it_gave": "detection moment: 'On February 21, 2024, UnitedHealth Group identified a suspected nation-state associated cyber security threat actor had gained access to some of the Change Healthcare information technology systems' and 'proactively isolated the impacted systems'"
+    },
+    {
+     "title": "Cybersecurity Dive, UnitedHealth CEO testimony: tech takeaways (House E&C + Senate Finance hearings, May 2024)",
+     "url": "https://www.cybersecuritydive.com/news/unitedhealth-change-attack-tech-takeaways/715200/",
+     "what_it_gave": "hops: Citrix remote access server was 'the server through which the cybercriminals were able to get into Change'; credentials likely bought on dark web; prime and backup environments not isolated and both encrypted ('locking up the various backup systems ... really the root cause'); ~40-year-old claims/payment systems; cloud elements recovered quickly; data on about one third of Americans"
+    },
+    {
+     "title": "TechTarget, Change Healthcare breached via Citrix portal with no MFA (May 2024)",
+     "url": "https://www.techtarget.com/cybersecurity/news/366582824/Change-Healthcare-breached-via-Citrix-portal-with-no-MFA",
+     "what_it_gave": "12 Feb access, 21 Feb ransomware/disclosure, data centres shut down, encryption contained to Change network, $872m Q1 2024 cost (UHG earnings), 30,000+ pharmacies served"
+    },
+    {
+     "title": "TechCrunch, How the ransomware attack at Change Healthcare went down: a timeline (updated 27 Jan 2025)",
+     "url": "https://techcrunch.com/2025/01/27/how-the-ransomware-attack-at-change-healthcare-went-down-a-timeline/",
+     "what_it_gave": "29 Feb UHG attribution to ALPHV/BlackCat; affiliate claim of $22m Bitcoin payment 3 March; RansomHub second extortion April; 100m (Oct 2024) then 190m (Jan 2025) individuals affected; Nebraska complaint: low-level customer support account without MFA, attackers could 'travel freely between servers'"
+    },
+    {
+     "title": "CISA/FBI/HHS joint advisory AA23-353A, #StopRansomware: ALPHV Blackcat (Dec 2023, updated Feb 2024)",
+     "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-353a",
+     "what_it_gave": "ALPHV TTP reference for technique IDs (valid accounts T1078, external remote services T1133, remote services T1021, exfiltration T1567, encryption T1486); NOTE: fetch was blocked in this session, mapping relies on the advisory's published content"
+    }
+   ],
+   "ambiguities": [
+    "Public sources never name individual internal hosts; srv_core_1..3, pc_desktop_1..3 and pc_laptop_1..3 are generic placeholders for 'Change Healthcare's data center network and core services', the Citrix-published desktops and the 'thousands of laptops' replaced (rule 1, 3-10 per generic group).",
+    "No Active Directory / domain controller is named in testimony or filings; 'rotated credentials' implies domain credentials were at risk but no source says domain credentials were used for lateral movement, so no 'dc' machine and no workstation -> dc links were added.",
+    "The order of lateral hops between the desktop, core servers, claims platforms and backups is not public; the links fan out from a single srv_core_1 pivot as the simplest structure consistent with 'moved laterally ... in more sophisticated ways' and 'travel freely between servers' (Nebraska complaint via TechCrunch).",
+    "srv_backup is modelled as a single shared replica for all three core services; which services the backups covered is not stated. Replicas = 2 only because Witty explicitly said backup systems existed (and were encrypted).",
+    "Exfiltration method/staging host is not public (ALPHV commonly uses rclone/Mega per AA23-353A); no exfil host added.",
+    "The $22m ransom figure is an ALPHV affiliate's claim about a Bitcoin transaction (TechCrunch); UHG confirmed paying but never stated the amount.",
+    "190 million affected (Jan 2025) comes from UHG's updated HHS breach notice, not from the May 2024 testimony, which said 'about one third' of Americans.",
+    "Only one detection moment exists: the 8-K and testimony place discovery on 21 Feb, coincident with ransomware deployment; hence encrypted hosts carry T1486 risk 9 at that moment. Hosts are limited to Change's own environment ('contained the blast radius to just Change').",
+    "CISA AA23-353A could not be fetched in this session; it is cited only as the ALPHV technique reference.",
+    "Eligibility and other Change products were disrupted according to press reports but are not itemised in the testimony retrieved, so only pharmacy claims, medical claims and payments are modelled as services."
+   ],
+   "attack_path": [
+    [
+     "internet",
+     "web_citrix",
+     "Compromised credentials (likely bought on the dark web) used against the Citrix remote-access portal with no MFA, 12 Feb 2024 — T1078, T1133"
+    ],
+    [
+     "web_citrix",
+     "pc_desktop_1",
+     "Citrix portal 'used to enable remote access to desktops'; attacker lands on an internal desktop session under a low-level customer-support account — T1021.001"
+    ],
+    [
+     "pc_desktop_1",
+     "srv_core_1",
+     "'moved laterally within the systems in more sophisticated ways' across Change's data-centre network over nine days — T1021"
+    ],
+    [
+     "srv_core_1",
+     "srv_backup",
+     "Prime and backup environments not isolated; backup systems reached and later encrypted — T1021, T1490"
+    ],
+    [
+     "srv_core_1",
+     "srv_pharmacy_claims",
+     "Data exfiltration (data on ~1/3 of Americans) then ALPHV ransomware deployed 21 Feb across claims, payment and core services — T1567, T1486"
+    ]
+   ],
+   "n_machines": 15,
+   "n_services": 5,
+   "n_links": 11,
+   "never_isolate": [],
+   "critical": [
+    "srv_pharmacy_claims",
+    "srv_medical_claims",
+    "srv_payments",
+    "srv_backup"
+   ],
+   "moments": [
+    {
+     "scenario": "08_change_healthcare_2024/m1",
+     "description": "21 February 2024: first and only defender detection — ransomware is deployed inside Change's IT environment and UHG identifies the intrusion the same day, isolating Change's data centres from the rest of UHG. Nine days of undetected access (12-21 Feb) preceded it; no earlier alert is described in any public source. Citrix portal = initial access via valid credentials (5); desktop = lateral foothold (6); encrypted servers incl. backups = T1486 (9).",
+     "hacked": {
+      "web_citrix": 5,
+      "pc_desktop_1": 6,
+      "srv_core_1": 9,
+      "srv_core_2": 9,
+      "srv_core_3": 9,
+      "srv_pharmacy_claims": 9,
+      "srv_medical_claims": 9,
+      "srv_payments": 9,
+      "srv_backup": 9
+     },
+     "solver": "exact",
+     "n_machines": 15,
+     "n_services": 5,
+     "n_links": 11,
+     "consistency_flags": [],
+     "acrs": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_2",
+       "srv_core_3"
+      ],
+      "segment": [
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ],
+      "restrict_only": [
+       "srv_core_1",
+       "web_citrix"
+      ],
+      "healthy_isolated": [],
+      "services_down": [],
+      "escalations": [
+       {
+        "rule": "G3",
+        "target": "srv_core_1",
+        "approvals": 2,
+        "services_at_stake": [
+         "Medical claims clearinghouse",
+         "Pharmacy claims processing",
+         "Provider payment processing"
+        ],
+        "action": "two-person decision: isolate 'srv_core_1' (Medical claims clearinghouse, Pharmacy claims processing, Provider payment processing go(es) down) or accept the documented risk (risk 9 >= 7)"
+       }
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_backup"
+      ],
+      "owner_review": [],
+      "never_isolatable_hacked": [],
+      "decision_ms": 21.89
+     },
+     "if_all_escalations_approved": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3"
+      ],
+      "segment": [
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ],
+      "services_down": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing"
+      ]
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3",
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims",
+       "web_citrix"
+      ],
+      "services_down": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "reasons": [],
+      "needs_two_person": [
+       "srv_backup",
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ]
+     },
+     "no_action": {
+      "services_down": [],
+      "risk_left": 74,
+      "open_paths_to_critical": []
+     },
+     "exploratory": {
+      "methods": {
+       "rule_segment": {
+        "status": "CONTAINED",
+        "isolate_now": [
+         "pc_desktop_1",
+         "srv_core_1",
+         "srv_core_2",
+         "srv_core_3",
+         "web_citrix"
+        ],
+        "segment_now": [
+         "srv_backup",
+         "srv_medical_claims",
+         "srv_payments",
+         "srv_pharmacy_claims"
+        ],
+        "services_down": [
+         "Pharmacy claims processing",
+         "Medical claims clearinghouse",
+         "Provider payment processing",
+         "Remote access for Change staff (Citrix)"
+        ]
+       },
+       "q_acrs_v5": {
+        "status": "ESCALATED",
+        "isolate_now": [
+         "pc_desktop_1",
+         "srv_core_2",
+         "srv_core_3",
+         "srv_medical_claims",
+         "srv_payments",
+         "srv_pharmacy_claims"
+        ],
+        "segment_now": [],
+        "services_down": []
+       }
+      },
+      "weight_stability": {
+       "x0.5": {
+        "same_decision": false,
+        "isolate": [
+         "pc_desktop_1",
+         "srv_core_2",
+         "srv_core_3",
+         "srv_medical_claims",
+         "srv_payments",
+         "srv_pharmacy_claims"
+        ],
+        "segment": [
+         "srv_backup"
+        ],
+        "status": "ESCALATED"
+       },
+       "x1.5": {
+        "same_decision": false,
+        "isolate": [
+         "pc_desktop_1",
+         "srv_core_2",
+         "srv_core_3"
+        ],
+        "segment": [
+         "srv_backup",
+         "srv_medical_claims",
+         "srv_payments",
+         "srv_pharmacy_claims"
+        ],
+        "status": "ESCALATED"
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

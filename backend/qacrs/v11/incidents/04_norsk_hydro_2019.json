@@ -1,0 +1,86 @@
+{
+ "incident": "Norsk Hydro - LockerGoga ransomware (detected night of 18-19 March 2019)",
+ "year": 2019,
+ "sector": "manufacturing",
+ "sources": [
+  {"title": "Microsoft (DART case study): Hackers hit Norsk Hydro with ransomware. The company responded with transparency", "url": "https://news.microsoft.com/source/features/digital-transformation/hackers-hit-norsk-hydro-ransomware-company-responded-transparency/", "what_it_gave": "entry point (Dec 2018 email attachment from trusted customer, Trojan); first alert (antivirus days later); hops (standard user accounts -> admin credentials -> manual push of ransomware from Hydro's own domain controllers); detection (4 a.m. call 'We may be under attack', production stopped at some of 170 plants, network/servers shut down); impact (35,000 employees, 40 countries, thousands of servers and PCs, cost approaching USD 71 million); DART at Hungary plant"},
+  {"title": "BankInfoSecurity: Hydro Hit by LockerGoga Ransomware via Active Directory (NorCERT statement)", "url": "https://www.bankinfosecurity.net/hydro-hit-by-lockergoga-ransomware-via-active-directory-a-12207", "what_it_gave": "NorCERT: 'The attack was combined with an attack on Active Directory (AD)'; began Monday night at a U.S. plant and spread; plants in Norway, Qatar, Brazil run manually; Kripos informed Tuesday morning"},
+  {"title": "Hydro.com company history: 2019 cyber attack on Hydro", "url": "https://hydro.com/en/about-hydro/company-history/2018-present/2019-cyber-attack-on-hydro/", "what_it_gave": "Extruded Solutions suffered most; Bauxite & Alumina, Primary Metal, Rolled Products, Energy kept producing via manual procedures; all PCs and servers reviewed/cleaned, encrypted machines rebuilt from backups"},
+  {"title": "Business Insurance / Reuters (30 Apr 2019): Hydro expects cyberattack costs of nearly $52 million in Q1", "url": "https://www.businessinsurance.com/hydro-expects-cyberattack-costs-of-nearly-52-million-in-2019-first-quarter/", "what_it_gave": "Q1 2019 cost estimate up to NOK 450 million (~USD 52m); Extruded Solutions external sales 333,000 t vs 362,000 t; production halted 19 March, other units manual; Q1 report postponed to 5 June"},
+  {"title": "SecurityWeek (5 Jun 2019): Ransomware Attack Costs Norsk Hydro Tens of Millions of Dollars (Q1 2019 report)", "url": "https://www.securityweek.com/ransomware-attack-costs-norsk-hydro-tens-millions-dollars", "what_it_gave": "Q1 report: cost USD 35-41m in Q1 (NOK 300-350m first week), Q2 forecast NOK 200-250m; infection began 18 March; Extruded Solutions biggest impact; backups, no ransom paid"},
+  {"title": "Industrial Cyber: The Norsk Hydro Attack", "url": "https://www.industrialcyber.co/features/the-norsk-hydro-attack/", "what_it_gave": "detection 18-19 March overnight, warning signs morning of 19 March; alumina/bauxite kept on manual control; primary metal and rolled products harder to switch to manual; aluminium production never halted (electrolysis hardening risk); ~3 weeks to near-normal production"}
+ ],
+ "narrative_before": "In December 2018 a Hydro employee opened an email attachment sent by an employee of a trusted customer as part of an apparently legitimate conversation; it installed a Trojan, which antivirus flagged a few days later, but 'by then, the attacker had built an initial foothold' (Microsoft DART case study). Over the following months the attacker compromised standard user accounts, then captured administrative credentials and, in the night of 18-19 March 2019, deployed LockerGoga 'via a manual push from Hydro's own domain controllers' (Microsoft); NorCERT confirmed 'the attack was combined with an attack on Active Directory' (BankInfoSecurity). At about 4 a.m. an IT colleague phoned Hydro's information security officer: 'We may be under attack'; production had already stopped at some of the 170 plants and IT shut down the network and servers to stop the spread (Microsoft). Files on thousands of servers and PCs were locked across 35,000 employees in 40 countries; Extruded Solutions suffered the most, while Bauxite & Alumina, Primary Metal, Rolled Products and Energy continued on manual procedures (Hydro.com). Hydro refused to pay, rebuilt encrypted machines from backups, estimated the Q1 2019 cost at NOK 300-450 million (USD 35-52m) with a further NOK 200-250m in Q2, and the total approached USD 71 million (Reuters/SecurityWeek/Microsoft).",
+ "machines": [
+  {"name": "pc_patient_zero", "role": "Employee workstation that opened the trusted-customer email attachment (Dec 2018) and ran the Trojan", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_1", "role": "Office/plant workstation (one of thousands of PCs encrypted; Extruded Solutions)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_2", "role": "Office/plant workstation (Extruded Solutions)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_3", "role": "Office/plant workstation (Extruded Solutions)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_4", "role": "Office/plant workstation (Rolled Products)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_5", "role": "Office/plant workstation (Primary Metal)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "pc_6", "role": "Office/plant workstation (corporate HQ Oslo)", "isolatable": true, "critical": false, "disruption": 1},
+  {"name": "dc", "role": "Active Directory domain controller used by the attacker to push LockerGoga (Microsoft: 'manual push from Hydro's own domain controllers')", "isolatable": true, "critical": true, "disruption": 4},
+  {"name": "srv_extruded_us", "role": "Plant IT server, U.S. extrusion plant where the attack reportedly began Monday night (NorCERT/BankInfoSecurity)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_extruded_hu", "role": "Plant IT server, Hungarian aluminium plant (offline; DART on site 3 weeks)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_rolled", "role": "Plant IT server, Rolled Products (switched to manual operation)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_primary_metal", "role": "Plant IT server, Primary Metal smelters (manual operation; electrolysis never stopped)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_bauxite_alumina", "role": "Plant IT server, Bauxite & Alumina (manual control)", "isolatable": true, "critical": false, "disruption": 3},
+  {"name": "srv_1", "role": "Corporate server (one of 'thousands of servers' encrypted)", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_2", "role": "Corporate server", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_3", "role": "Corporate server", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "srv_backup", "role": "Trusted backup server used to restore data (Microsoft: 'through trusted back-up servers')", "isolatable": true, "critical": false, "disruption": 2},
+  {"name": "web_www", "role": "Public website hydro.com (down Tuesday, placeholder by Wednesday - BankInfoSecurity)", "isolatable": true, "critical": false, "disruption": 2}
+ ],
+ "services": [
+  {"name": "Extruded Solutions production (extrusion plants Europe/US)", "value": 25, "replicas": ["srv_extruded_us", "srv_extruded_hu"], "depends_on": ["dc"]},
+  {"name": "Rolled Products production", "value": 20, "replicas": ["srv_rolled"], "depends_on": ["dc"]},
+  {"name": "Primary Metal production", "value": 20, "replicas": ["srv_primary_metal"], "depends_on": ["dc"]},
+  {"name": "Bauxite & Alumina production", "value": 20, "replicas": ["srv_bauxite_alumina"], "depends_on": ["dc"]},
+  {"name": "Corporate IT / office systems (email, ERP, file access for 35,000 employees)", "value": 10, "replicas": ["srv_1"], "depends_on": ["dc"]},
+  {"name": "Public website hydro.com", "value": 10, "replicas": ["web_www"], "depends_on": []}
+ ],
+ "links": [
+  ["pc_patient_zero", "dc"],
+  ["dc", "srv_extruded_us"],
+  ["dc", "srv_extruded_hu"],
+  ["dc", "srv_rolled"],
+  ["dc", "srv_primary_metal"],
+  ["dc", "srv_bauxite_alumina"],
+  ["dc", "srv_1"],
+  ["dc", "srv_2"],
+  ["dc", "srv_3"],
+  ["dc", "pc_1"],
+  ["dc", "pc_2"],
+  ["dc", "pc_3"],
+  ["dc", "pc_4"],
+  ["dc", "pc_5"],
+  ["dc", "pc_6"],
+  ["pc_1", "dc"],
+  ["pc_2", "dc"],
+  ["pc_3", "dc"],
+  ["pc_4", "dc"],
+  ["pc_5", "dc"],
+  ["pc_6", "dc"]
+ ],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"pc_patient_zero": 7}, "description": "December 2018, a few days after the trusted-customer email attachment was opened: antivirus detects the Trojan on the employee's PC. Only that workstation is known compromised; attacker already has a foothold.", "evidence": "'an employee opened an email attachment ... The attachment carried a payload that installed Trojan software. Antivirus detected the Trojan a few days later, but by then the attacker had built an initial foothold in our system.' - Microsoft DART case study"},
+  {"id": "m2", "hacked": {"dc": 8, "srv_extruded_us": 9, "srv_1": 9, "pc_1": 9, "pc_2": 9}, "description": "Night of 18-19 March 2019, ~4 a.m. CET: IT colleague calls the CISO 'We may be under attack'. LockerGoga has been pushed from the domain controllers with captured admin credentials; production has stopped at some plants (first the U.S. plant); IT shuts down network and servers to stop the spread. Not yet all thousands of hosts encrypted.", "evidence": "'4 a.m. call ... We may be under attack ... Production had stopped at some of the company's 170 plants ... IT had already shut down the network and servers to avoid any further spreading' and 'it captured administrative credentials ... deploy ransomware via a manual push from (Norsk Hydro's) own domain controllers' - Microsoft DART case study; 'The attack reportedly began on a Monday at a U.S. plant ... combined with an attack on Active Directory' - NorCERT via BankInfoSecurity"}
+ ],
+ "attack_path": [
+  ["pc_patient_zero", "dc", "Trojan foothold from Dec 2018 spearphishing attachment (T1566.001); compromise of standard user accounts then capture of administrative/domain credentials (T1078, T1003) giving control of Active Directory"],
+  ["dc", "srv_extruded_us", "Manual push of LockerGoga from Hydro's own domain controllers to plant servers (T1021/T1072 -> T1486); U.S. plant hit first"],
+  ["dc", "pc_1", "Same domain-controller push of LockerGoga to workstations across 170 sites (T1486)"]
+ ],
+ "ambiguities": [
+  "Microsoft says 'domain controllers' (plural); modelled as a single 'dc' per naming rule.",
+  "Exact counts of encrypted hosts are not public ('thousands of servers and PCs'; 22,000-PC figures circulate in secondary sources but were not found in a primary source) - generic groups capped at 3-7 machines per rule 1.",
+  "No file server is named in any source, so 'files' omitted and no pc->files links.",
+  "Which plants had stopped at the 4 a.m. detection is not itemised; m2 marks the U.S. plant server plus a sample of corporate hosts (srv_1, pc_1, pc_2) as encrypted; the rest were hit later or had the network cut.",
+  "m1 risk set to 7 (active Trojan foothold) rather than 5 because Microsoft says the attacker 'had built an initial foothold'; the exact C2 technique is not stated.",
+  "Industrial Cyber reports investigators found no phishing, contradicting Microsoft's account of an email attachment; Microsoft (DART, on-site) is treated as authoritative.",
+  "Services mapped to one plant server each; sources do not describe plant IT architecture or redundancy, so replicas=1 and depends_on=dc inferred only from the AD-wide push and manual fallback.",
+  "Cost figures vary by date: NOK 300-350m (first week), up to NOK 450m / USD 52m (30 Apr estimate), USD 35-41m (Q1 report), ~USD 71m total (Microsoft)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}
