@@ -1,0 +1,3268 @@
+{
+ "meta": {
+  "experiment": "v12",
+  "prereg_sha256": "b066c3f127193935f6e72f7e9b1b0688cd52ff4c198133e410be91375786e6e1",
+  "script_sha256": "94fde5134e07774710a5a9df3948f223f413ba1b82679d25533b3c291cb334b2",
+  "risk_table_hash": "1e6886e5870db324",
+  "realistic_corpus_hash": "70b4176c4221dbf7ed75e1019cbc249403e02a2607c656635160136696e02039",
+  "corpus_files": 0,
+  "corpus_converted": 0,
+  "corpus_dropped": [],
+  "converter": "Claude (Anthropic) for the open corpus — not an independent human",
+  "wording": "all containment figures are 'given an alert'",
+  "seconds": 11.5
+ },
+ "targets": {
+  "T1": {
+   "met": true,
+   "detail": {
+    "real16": [
+     0,
+     0
+    ],
+    "corpus": [
+     0,
+     0
+    ],
+    "realistic_v12": [
+     0,
+     0
+    ],
+    "v9_chains_7009": [
+     0,
+     0
+    ],
+    "v9_random_9004": [
+     0,
+     0
+    ]
+   }
+  },
+  "T2": {
+   "real16": 1.0,
+   "corpus": null,
+   "met": true
+  },
+  "T3": {
+   "real16": {
+    "v12": 19,
+    "rule_segment": 21,
+    "fewer_than_full": {
+     "k": 11,
+     "pool": 14,
+     "wilson95": [
+      0.524107694133997,
+      0.9242861328730683
+     ]
+    }
+   },
+   "corpus": {
+    "v12": 0,
+    "rule_segment": 0,
+    "fewer_than_full": {
+     "k": 0,
+     "pool": 0,
+     "wilson95": null
+    }
+   },
+   "met_real16": true
+  },
+  "T4": {
+   "real_detonations_flagged": {
+    "v9": 4,
+    "v12": 0
+   },
+   "injections": {
+    "naive": {
+     "v12": 398,
+     "v9": 406,
+     "n": 500
+    },
+    "path_aware": {
+     "v12": 158,
+     "v9": 61,
+     "n": 500
+    }
+   },
+   "naive_detection_relative_to_v9": 0.9802955665024631,
+   "met": true
+  },
+  "T5": {
+   "v9_chains_7009": {
+    "v12_auto": 253,
+    "v9_auto": 248,
+    "v12_down": 6,
+    "v9_down": 9
+   },
+   "v9_random_9004": {
+    "v12_auto": 392,
+    "v9_auto": 390,
+    "v12_down": 22,
+    "v9_down": 24
+   },
+   "met": true
+  },
+  "T6": {
+   "checked": 502,
+   "ok": 502,
+   "misses": [],
+   "met": true
+  },
+  "T7": {
+   "100": {
+    "n": 50,
+    "median_ms": 0.615,
+    "p95_ms": 7.339,
+    "max_ms": 25.412,
+    "unsafe": 0,
+    "auto_contained": 50
+   },
+   "300": {
+    "n": 50,
+    "median_ms": 0.912,
+    "p95_ms": 7.184,
+    "max_ms": 21.76,
+    "unsafe": 0,
+    "auto_contained": 50
+   },
+   "1000": {
+    "n": 50,
+    "median_ms": 2.162,
+    "p95_ms": 9.182,
+    "max_ms": 25.663,
+    "unsafe": 0,
+    "auto_contained": 50
+   },
+   "met": true
+  },
+  "T11": {
+   "x0.5": {
+    "same_decision": 12,
+    "n": 16
+   },
+   "x1.5": {
+    "same_decision": 14,
+    "n": 16
+   }
+  }
+ },
+ "summaries": {
+  "real16": {
+   "label": "real16",
+   "n": 16,
+   "policies": {
+    "v12": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 16,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.8063923194655637,
+      1.0
+     ],
+     "services_down_auto": 19,
+     "services_down_after_approval": 19,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 11,
+      "pool": 14,
+      "wilson95": [
+       0.524107694133997,
+       0.9242861328730683
+      ]
+     },
+     "decision_ms_median": 21.542,
+     "decision_ms_max": 230.62
+    },
+    "v9": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 5,
+     "auto_ratio": 0.3125,
+     "auto_wilson95": [
+      0.14164643854782039,
+      0.5559564416525933
+     ],
+     "services_down_auto": 0,
+     "services_down_after_approval": 24,
+     "healthy_isolated": 0,
+     "escalations": 19,
+     "fewer_than_full_isolation": {
+      "k": 9,
+      "pool": 14,
+      "wilson95": [
+       0.38764423103907397,
+       0.8365526824644587
+      ]
+     },
+     "decision_ms_median": 17.415,
+     "decision_ms_max": 193.342
+    },
+    "rule_segment": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 16,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.8063923194655637,
+      1.0
+     ],
+     "services_down_auto": 21,
+     "services_down_after_approval": 21,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 10,
+      "pool": 14,
+      "wilson95": [
+       0.4535091567010681,
+       0.8827862135542308
+      ]
+     },
+     "decision_ms_median": 0.011,
+     "decision_ms_max": 0.016
+    },
+    "wazuh_style": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 16,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.8063923194655637,
+      1.0
+     ],
+     "services_down_auto": 42,
+     "services_down_after_approval": 42,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 14,
+      "wilson95": [
+       1.3877787807814457e-17,
+       0.2153108027376358
+      ]
+     },
+     "decision_ms_median": 0.001,
+     "decision_ms_max": 0.001
+    },
+    "full_isolation": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 16,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.8063923194655637,
+      1.0
+     ],
+     "services_down_auto": 42,
+     "services_down_after_approval": 42,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 14,
+      "wilson95": [
+       1.3877787807814457e-17,
+       0.2153108027376358
+      ]
+     },
+     "decision_ms_median": 0.004,
+     "decision_ms_max": 0.011
+    }
+   }
+  },
+  "corpus": {
+   "label": "corpus",
+   "n": 0,
+   "policies": {
+    "v12": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 0,
+     "auto_ratio": null,
+     "auto_wilson95": null,
+     "services_down_auto": 0,
+     "services_down_after_approval": 0,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 0,
+      "wilson95": null
+     },
+     "decision_ms_median": null,
+     "decision_ms_max": null
+    },
+    "v9": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 0,
+     "auto_ratio": null,
+     "auto_wilson95": null,
+     "services_down_auto": 0,
+     "services_down_after_approval": 0,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 0,
+      "wilson95": null
+     },
+     "decision_ms_median": null,
+     "decision_ms_max": null
+    },
+    "rule_segment": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 0,
+     "auto_ratio": null,
+     "auto_wilson95": null,
+     "services_down_auto": 0,
+     "services_down_after_approval": 0,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 0,
+      "wilson95": null
+     },
+     "decision_ms_median": null,
+     "decision_ms_max": null
+    },
+    "wazuh_style": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 0,
+     "auto_ratio": null,
+     "auto_wilson95": null,
+     "services_down_auto": 0,
+     "services_down_after_approval": 0,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 0,
+      "wilson95": null
+     },
+     "decision_ms_median": null,
+     "decision_ms_max": null
+    },
+    "full_isolation": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 0,
+     "auto_ratio": null,
+     "auto_wilson95": null,
+     "services_down_auto": 0,
+     "services_down_after_approval": 0,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 0,
+      "wilson95": null
+     },
+     "decision_ms_median": null,
+     "decision_ms_max": null
+    }
+   }
+  },
+  "realistic_v12": {
+   "label": "realistic_v12",
+   "n": 894,
+   "policies": {
+    "v12": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 883,
+     "auto_ratio": 0.9876957494407159,
+     "auto_wilson95": [
+      0.9781024143640339,
+      0.9931158240378365
+     ],
+     "services_down_auto": 103,
+     "services_down_after_approval": 114,
+     "healthy_isolated": 0,
+     "escalations": 11,
+     "fewer_than_full_isolation": {
+      "k": 355,
+      "pool": 407,
+      "wilson95": [
+       0.8362883734570431,
+       0.9012223949784278
+      ]
+     },
+     "decision_ms_median": 0.461,
+     "decision_ms_max": 27.26
+    },
+    "v9": {
+     "unsafe": 0,
+     "silent": 6,
+     "auto_contained": 780,
+     "auto_ratio": 0.87248322147651,
+     "auto_wilson95": [
+      0.8490136297281803,
+      0.8927654376750829
+     ],
+     "services_down_auto": 0,
+     "services_down_after_approval": 165,
+     "healthy_isolated": 0,
+     "escalations": 108,
+     "fewer_than_full_isolation": {
+      "k": 329,
+      "pool": 407,
+      "wilson95": [
+       0.7673021929653638,
+       0.8436390706560988
+      ]
+     },
+     "decision_ms_median": 0.309,
+     "decision_ms_max": 25.678
+    },
+    "rule_segment": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 894,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9957214508386147,
+      1.0
+     ],
+     "services_down_auto": 131,
+     "services_down_after_approval": 131,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 343,
+      "pool": 407,
+      "wilson95": [
+       0.8042005637044305,
+       0.8748935102014983
+      ]
+     },
+     "decision_ms_median": 0.009,
+     "decision_ms_max": 0.043
+    },
+    "wazuh_style": {
+     "unsafe": 12,
+     "silent": 0,
+     "auto_contained": 882,
+     "auto_ratio": 0.9865771812080537,
+     "auto_wilson95": [
+      0.9766855102433352,
+      0.9923051633915585
+     ],
+     "services_down_auto": 890,
+     "services_down_after_approval": 890,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 407,
+      "wilson95": [
+       0.0,
+       0.00935022193651268
+      ]
+     },
+     "decision_ms_median": 0.001,
+     "decision_ms_max": 0.021
+    },
+    "full_isolation": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 894,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9957214508386147,
+      1.0
+     ],
+     "services_down_auto": 890,
+     "services_down_after_approval": 890,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 407,
+      "wilson95": [
+       0.0,
+       0.00935022193651268
+      ]
+     },
+     "decision_ms_median": 0.005,
+     "decision_ms_max": 0.101
+    }
+   }
+  },
+  "v9_chains_7009": {
+   "label": "v9_chains_7009",
+   "n": 253,
+   "policies": {
+    "v12": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 253,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9850434628492905,
+      0.9999999999999999
+     ],
+     "services_down_auto": 6,
+     "services_down_after_approval": 6,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 154,
+      "pool": 156,
+      "wilson95": [
+       0.9544651890044474,
+       0.9964770829283277
+      ]
+     },
+     "decision_ms_median": 0.18,
+     "decision_ms_max": 47.693
+    },
+    "v9": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 248,
+     "auto_ratio": 0.9802371541501976,
+     "auto_wilson95": [
+      0.9545792663702994,
+      0.991529672255699
+     ],
+     "services_down_auto": 0,
+     "services_down_after_approval": 9,
+     "healthy_isolated": 0,
+     "escalations": 5,
+     "fewer_than_full_isolation": {
+      "k": 151,
+      "pool": 156,
+      "wilson95": [
+       0.9271716368139523,
+       0.9862334401741081
+      ]
+     },
+     "decision_ms_median": 0.081,
+     "decision_ms_max": 40.022
+    },
+    "rule_segment": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 253,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9850434628492905,
+      0.9999999999999999
+     ],
+     "services_down_auto": 12,
+     "services_down_after_approval": 12,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 151,
+      "pool": 156,
+      "wilson95": [
+       0.9271716368139523,
+       0.9862334401741081
+      ]
+     },
+     "decision_ms_median": 0.004,
+     "decision_ms_max": 0.022
+    },
+    "wazuh_style": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 253,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9850434628492905,
+      0.9999999999999999
+     ],
+     "services_down_auto": 273,
+     "services_down_after_approval": 273,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 156,
+      "wilson95": [
+       0.0,
+       0.024032931437414938
+      ]
+     },
+     "decision_ms_median": 0.001,
+     "decision_ms_max": 0.001
+    },
+    "full_isolation": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 253,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9850434628492905,
+      0.9999999999999999
+     ],
+     "services_down_auto": 273,
+     "services_down_after_approval": 273,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 156,
+      "wilson95": [
+       0.0,
+       0.024032931437414938
+      ]
+     },
+     "decision_ms_median": 0.003,
+     "decision_ms_max": 0.019
+    }
+   }
+  },
+  "v9_random_9004": {
+   "label": "v9_random_9004",
+   "n": 412,
+   "policies": {
+    "v12": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 392,
+     "auto_ratio": 0.9514563106796117,
+     "auto_wilson95": [
+      0.9262131011686688,
+      0.9683585970332701
+     ],
+     "services_down_auto": 2,
+     "services_down_after_approval": 22,
+     "healthy_isolated": 0,
+     "escalations": 21,
+     "fewer_than_full_isolation": {
+      "k": 164,
+      "pool": 179,
+      "wilson95": [
+       0.8663530185031135,
+       0.9485606283307745
+      ]
+     },
+     "decision_ms_median": 0.246,
+     "decision_ms_max": 251.269
+    },
+    "v9": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 390,
+     "auto_ratio": 0.9466019417475728,
+     "auto_wilson95": [
+      0.920477212285886,
+      0.9644754353977527
+     ],
+     "services_down_auto": 0,
+     "services_down_after_approval": 24,
+     "healthy_isolated": 0,
+     "escalations": 24,
+     "fewer_than_full_isolation": {
+      "k": 162,
+      "pool": 179,
+      "wilson95": [
+       0.8531795705078934,
+       0.9398571999009239
+      ]
+     },
+     "decision_ms_median": 0.121,
+     "decision_ms_max": 234.738
+    },
+    "rule_segment": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 412,
+     "auto_ratio": 1.0,
+     "auto_wilson95": [
+      0.9907622033849433,
+      1.0
+     ],
+     "services_down_auto": 33,
+     "services_down_after_approval": 33,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 156,
+      "pool": 179,
+      "wilson95": [
+       0.8145743617746976,
+       0.912831779358907
+      ]
+     },
+     "decision_ms_median": 0.005,
+     "decision_ms_max": 0.04
+    },
+    "wazuh_style": {
+     "unsafe": 182,
+     "silent": 0,
+     "auto_contained": 230,
+     "auto_ratio": 0.558252427184466,
+     "auto_wilson95": [
+      0.509981801626972,
+      0.605446804592633
+     ],
+     "services_down_auto": 288,
+     "services_down_after_approval": 288,
+     "healthy_isolated": 0,
+     "escalations": 0,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 179,
+      "wilson95": [
+       0.0,
+       0.021009779978080914
+      ]
+     },
+     "decision_ms_median": 0.001,
+     "decision_ms_max": 0.033
+    },
+    "full_isolation": {
+     "unsafe": 0,
+     "silent": 0,
+     "auto_contained": 338,
+     "auto_ratio": 0.8203883495145631,
+     "auto_wilson95": [
+      0.780415681394829,
+      0.8544416528129987
+     ],
+     "services_down_auto": 288,
+     "services_down_after_approval": 288,
+     "healthy_isolated": 0,
+     "escalations": 77,
+     "fewer_than_full_isolation": {
+      "k": 0,
+      "pool": 179,
+      "wilson95": [
+       0.0,
+       0.021009779978080914
+      ]
+     },
+     "decision_ms_median": 0.003,
+     "decision_ms_max": 0.036
+    }
+   }
+  }
+ },
+ "rows": {
+  "real16": [
+   {
+    "scenario": "01_bangladesh_bank_2016/m1",
+    "n_machines": 8,
+    "hacked": {
+     "pc_phish": 5,
+     "srv_swift_alliance": 7
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.488
+     },
+     "v9": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.075
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.006
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "services_down_after_approval": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "services_down_after_approval": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "01_bangladesh_bank_2016/m2",
+    "n_machines": 8,
+    "hacked": {
+     "pc_phish": 5,
+     "srv_swift_alliance": 7
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.202
+     },
+     "v9": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.06
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_phish"
+      ],
+      "segment": [
+       "srv_swift_alliance"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "services_down_after_approval": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_phish",
+       "srv_swift_alliance"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "services_down_after_approval": [
+       "swift_payment_messaging",
+       "swift_confirmation_printing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.003
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "02_wannacry_nhs_2017/m1",
+    "n_machines": 14,
+    "hacked": {
+     "web_smb_entry": 9,
+     "pc_1": 9,
+     "pc_2": 9,
+     "pc_3": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.242
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "emergency_care_ae"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 0.085
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.005
+     },
+     "wazuh_style": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.003
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": [
+     "burst of 4 simultaneous alerts all at risk >= 9"
+    ]
+   },
+   {
+    "scenario": "02_wannacry_nhs_2017/m2",
+    "n_machines": 14,
+    "hacked": {
+     "web_smb_entry": 9,
+     "pc_1": 9,
+     "pc_2": 9,
+     "pc_3": 9,
+     "pc_4": 9,
+     "pc_5": 9,
+     "pc_6": 9,
+     "pc_7": 9,
+     "dev_mri_1": 9,
+     "dev_pathology_1": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ],
+      "services_down_auto": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 230.62
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_3",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "healthy_isolated": [],
+      "escalations": 2,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 193.342
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [
+       "dev_mri_1",
+       "dev_pathology_1"
+      ],
+      "services_down_auto": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.011
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dev_mri_1",
+       "dev_pathology_1",
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dev_mri_1",
+       "dev_pathology_1",
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_4",
+       "pc_5",
+       "pc_6",
+       "pc_7",
+       "web_smb_entry"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "services_down_after_approval": [
+       "emergency_care_ae",
+       "outpatient_appointments"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": [
+     "burst of 10 simultaneous alerts all at risk >= 9"
+    ]
+   },
+   {
+    "scenario": "03_notpetya_maersk_2017/m1",
+    "n_machines": 14,
+    "hacked": {
+     "pc_odessa_medoc": 9,
+     "pc_cph_1": 9,
+     "pc_cph_2": 9,
+     "pc_cph_3": 9,
+     "dc": 8,
+     "srv_1": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 72.967
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "srv_1"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 79.879
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.011
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_odessa_medoc",
+       "srv_1"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "03_notpetya_maersk_2017/m2",
+    "n_machines": 14,
+    "hacked": {
+     "pc_odessa_medoc": 9,
+     "pc_cph_1": 9,
+     "pc_cph_2": 9,
+     "pc_cph_3": 9,
+     "pc_cph_4": 9,
+     "pc_cph_5": 9,
+     "dc": 9,
+     "web_booking": 9,
+     "srv_gate_elizabeth": 9,
+     "srv_1": 9,
+     "srv_2": 9,
+     "srv_3": 9,
+     "srv_4": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 64.166
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4"
+      ],
+      "segment": [
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 2,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 63.113
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4"
+      ],
+      "segment": [
+       "dc",
+       "dc_ghana",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.012
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_cph_1",
+       "pc_cph_2",
+       "pc_cph_3",
+       "pc_cph_4",
+       "pc_cph_5",
+       "pc_odessa_medoc",
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_gate_elizabeth",
+       "web_booking"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "services_down_after_approval": [
+       "container_booking_maerskline",
+       "terminal_gate_operations_elizabeth",
+       "ukraine_tax_accounting_medoc"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": [
+     "burst of 13 simultaneous alerts all at risk >= 9"
+    ]
+   },
+   {
+    "scenario": "04_norsk_hydro_2019/m1",
+    "n_machines": 18,
+    "hacked": {
+     "pc_patient_zero": 7
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.339
+     },
+     "v9": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.16
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     },
+     "wazuh_style": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.003
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "04_norsk_hydro_2019/m2",
+    "n_machines": 18,
+    "hacked": {
+     "dc": 8,
+     "srv_extruded_us": 9,
+     "srv_1": 9,
+     "pc_1": 9,
+     "pc_2": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "segment": [
+       "dc"
+      ],
+      "services_down_auto": [
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "services_down_after_approval": [
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 14.523
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "srv_extruded_us"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 2,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 13.058
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "segment": [
+       "dc"
+      ],
+      "services_down_auto": [
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "services_down_after_approval": [
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.01
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "services_down_after_approval": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_1",
+       "pc_2",
+       "srv_1",
+       "srv_extruded_us"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "services_down_after_approval": [
+       "Extruded Solutions production (extrusion plants Europe/US)",
+       "Rolled Products production",
+       "Primary Metal production",
+       "Bauxite & Alumina production",
+       "Corporate IT / office systems (email, ERP, file access for 35,000 employees)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.009
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "05_duesseldorf_hospital_2020/m1",
+    "n_machines": 11,
+    "hacked": {
+     "web_citrix": 7,
+     "srv_loader": 7,
+     "srv_ransom_note": 9,
+     "srv_his": 9,
+     "srv_mail": 9,
+     "srv_1": 9,
+     "srv_2": 9,
+     "srv_3": 9,
+     "srv_4": 9,
+     "srv_5": 9,
+     "srv_6": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [
+       "srv_his"
+      ],
+      "services_down_auto": [
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "services_down_after_approval": [
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.725
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_loader",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "healthy_isolated": [],
+      "escalations": 3,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 0.256
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [
+       "srv_his"
+      ],
+      "services_down_auto": [
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "services_down_after_approval": [
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.007
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_his",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "services_down_after_approval": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "srv_1",
+       "srv_2",
+       "srv_3",
+       "srv_4",
+       "srv_5",
+       "srv_6",
+       "srv_his",
+       "srv_loader",
+       "srv_mail",
+       "srv_ransom_note",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "services_down_after_approval": [
+       "Emergency care (Zentrale Notaufnahme) - UKD deregistered from rescue-service emergency admissions",
+       "Planned inpatient and outpatient treatment (postponed)",
+       "Hospital e-mail"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "06_colonial_pipeline_2021/m1",
+    "n_machines": 12,
+    "hacked": {
+     "web_vpn": 5,
+     "pc_ransom_note": 9,
+     "srv_it_1": 9,
+     "srv_it_2": 9,
+     "srv_it_3": 9,
+     "srv_finance_1": 9,
+     "srv_finance_2": 9,
+     "srv_finance_3": 9,
+     "pc_1": 9,
+     "pc_2": 9,
+     "pc_3": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [
+       "srv_finance_1"
+      ],
+      "services_down_auto": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "services_down_after_approval": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 2.212
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [
+       "srv_finance_1"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 1.489
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [
+       "srv_finance_1",
+       "srv_finance_2",
+       "srv_finance_3"
+      ],
+      "services_down_auto": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "services_down_after_approval": [
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.007
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_1",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Finance / business systems (seven systems offline until 8 June 2021)",
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "services_down_after_approval": [
+       "Finance / business systems (seven systems offline until 8 June 2021)",
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_1",
+       "pc_2",
+       "pc_3",
+       "pc_ransom_note",
+       "srv_finance_1",
+       "srv_finance_2",
+       "srv_finance_3",
+       "srv_it_1",
+       "srv_it_2",
+       "srv_it_3",
+       "web_vpn"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Finance / business systems (seven systems offline until 8 June 2021)",
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "services_down_after_approval": [
+       "Finance / business systems (seven systems offline until 8 June 2021)",
+       "Corporate IT network (encrypted systems, exfiltrated data)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.003
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "07_hse_conti_2021/m1",
+    "n_machines": 24,
+    "hacked": {
+     "pc_patient_zero": 8
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.285
+     },
+     "v9": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.075
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.005
+     },
+     "wazuh_style": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero"
+      ],
+      "segment": [],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "07_hse_conti_2021/m2",
+    "n_machines": 24,
+    "hacked": {
+     "pc_patient_zero": 8,
+     "dc": 8,
+     "srv_hse_1": 6,
+     "srv_hse_2": 6,
+     "srv_hse_3": 6,
+     "srv_hse_4": 6,
+     "srv_hse_5": 6,
+     "srv_hse_6": 6
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 121.06
+     },
+     "v9": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 81.909
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.012
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "pc_patient_zero",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.006
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "07_hse_conti_2021/m3",
+    "n_machines": 24,
+    "hacked": {
+     "pc_patient_zero": 8,
+     "dc": 8,
+     "srv_hse_1": 6,
+     "srv_hse_2": 6,
+     "srv_hse_3": 6,
+     "srv_hse_4": 6,
+     "srv_hse_5": 6,
+     "srv_hse_6": 6,
+     "dc_hosp_c": 8,
+     "srv_hosp_c_1": 6,
+     "srv_hosp_c_2": 6,
+     "srv_hosp_l": 6
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "Hospital C clinical IT"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 80.254
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Hospital C clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 101.676
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_patient_zero",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "Hospital C clinical IT"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.016
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "pc_patient_zero",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Hospital C clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "pc_patient_zero",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Hospital C clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.008
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "07_hse_conti_2021/m4",
+    "n_machines": 24,
+    "hacked": {
+     "pc_patient_zero": 8,
+     "dc": 8,
+     "files": 6,
+     "srv_hse_1": 6,
+     "srv_hse_2": 6,
+     "srv_hse_3": 6,
+     "srv_hse_4": 6,
+     "srv_hse_5": 6,
+     "srv_hse_6": 6,
+     "dc_hosp_c": 8,
+     "srv_hosp_c_1": 6,
+     "srv_hosp_c_2": 6,
+     "srv_hosp_l": 6,
+     "srv_hosp_a": 6,
+     "srv_hosp_k": 6
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "Hospital C clinical IT"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 101.337
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_2",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Hospital C clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 83.946
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.013
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_a",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hosp_l",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.011
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   },
+   {
+    "scenario": "07_hse_conti_2021/m5",
+    "n_machines": 24,
+    "hacked": {
+     "pc_patient_zero": 9,
+     "dc": 9,
+     "files": 9,
+     "srv_hse_1": 9,
+     "srv_hse_2": 9,
+     "srv_hse_3": 9,
+     "srv_hse_4": 9,
+     "srv_hse_5": 9,
+     "srv_hse_6": 9,
+     "srv_nimis": 9,
+     "srv_lis": 9,
+     "srv_ipms": 9,
+     "srv_mncms": 9,
+     "srv_radiotherapy": 9,
+     "srv_exchange": 9,
+     "dc_hosp_c": 9,
+     "srv_hosp_c_1": 9,
+     "srv_hosp_c_2": 9,
+     "srv_hosp_k": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "services_down_after_approval": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 65.935
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_hosp_c_2",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 4,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 69.726
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6"
+      ],
+      "segment": [
+       "dc",
+       "dc_hosp_c",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "services_down_auto": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "services_down_after_approval": [
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.014
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Radiology imaging (NIMIS, 64 sites)",
+       "Laboratory diagnostics (44 labs)",
+       "Patient administration (iPMS)",
+       "Maternity records (MN-CMS)",
+       "Radiotherapy / cancer services",
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Radiology imaging (NIMIS, 64 sites)",
+       "Laboratory diagnostics (44 labs)",
+       "Patient administration (iPMS)",
+       "Maternity records (MN-CMS)",
+       "Radiotherapy / cancer services",
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "dc",
+       "dc_hosp_c",
+       "files",
+       "pc_patient_zero",
+       "srv_exchange",
+       "srv_hosp_c_1",
+       "srv_hosp_c_2",
+       "srv_hosp_k",
+       "srv_hse_1",
+       "srv_hse_2",
+       "srv_hse_3",
+       "srv_hse_4",
+       "srv_hse_5",
+       "srv_hse_6",
+       "srv_ipms",
+       "srv_lis",
+       "srv_mncms",
+       "srv_nimis",
+       "srv_radiotherapy"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Radiology imaging (NIMIS, 64 sites)",
+       "Laboratory diagnostics (44 labs)",
+       "Patient administration (iPMS)",
+       "Maternity records (MN-CMS)",
+       "Radiotherapy / cancer services",
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "services_down_after_approval": [
+       "Radiology imaging (NIMIS, 64 sites)",
+       "Laboratory diagnostics (44 labs)",
+       "Patient administration (iPMS)",
+       "Maternity records (MN-CMS)",
+       "Radiotherapy / cancer services",
+       "HSE email (on-premise Exchange)",
+       "Hospital C clinical IT",
+       "Hospital K clinical IT",
+       "HSE Active Directory / National Healthcare Network authentication"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.007
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": [
+     "burst of 19 simultaneous alerts all at risk >= 9"
+    ]
+   },
+   {
+    "scenario": "08_change_healthcare_2024/m1",
+    "n_machines": 15,
+    "hacked": {
+     "web_citrix": 5,
+     "pc_desktop_1": 6,
+     "srv_core_1": 9,
+     "srv_core_2": 9,
+     "srv_core_3": 9,
+     "srv_pharmacy_claims": 9,
+     "srv_medical_claims": 9,
+     "srv_payments": 9,
+     "srv_backup": 9
+    },
+    "policies": {
+     "v12": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3"
+      ],
+      "segment": [
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ],
+      "services_down_auto": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing"
+      ],
+      "services_down_after_approval": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 21.542
+     },
+     "v9": {
+      "status": "ESCALATED",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_2",
+       "srv_core_3"
+      ],
+      "segment": [
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ],
+      "services_down_auto": [],
+      "services_down_after_approval": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing"
+      ],
+      "healthy_isolated": [],
+      "escalations": 1,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": false,
+      "decision_ms": 17.415
+     },
+     "rule_segment": {
+      "status": "CONTAINED",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3",
+       "web_citrix"
+      ],
+      "segment": [
+       "srv_backup",
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims"
+      ],
+      "services_down_auto": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "services_down_after_approval": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.013
+     },
+     "wazuh_style": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3",
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "services_down_after_approval": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.001
+     },
+     "full_isolation": {
+      "status": "CONTAINED_PENDING_APPROVAL",
+      "isolate": [
+       "pc_desktop_1",
+       "srv_backup",
+       "srv_core_1",
+       "srv_core_2",
+       "srv_core_3",
+       "srv_medical_claims",
+       "srv_payments",
+       "srv_pharmacy_claims",
+       "web_citrix"
+      ],
+      "segment": [],
+      "services_down_auto": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "services_down_after_approval": [
+       "Pharmacy claims processing",
+       "Medical claims clearinghouse",
+       "Provider payment processing",
+       "Remote access for Change staff (Citrix)"
+      ],
+      "healthy_isolated": [],
+      "escalations": 0,
+      "unsafe": false,
+      "silent": false,
+      "auto_contained": true,
+      "decision_ms": 0.004
+     }
+    },
+    "guard_v12": [],
+    "guard_v9": []
+   }
+  ],
+  "corpus": []
+ }
+}
