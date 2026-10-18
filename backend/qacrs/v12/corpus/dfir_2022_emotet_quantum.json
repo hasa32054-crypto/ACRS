@@ -1,0 +1,243 @@
+{
+ "incident": "Emotet Strikes Again - LNK to domain-wide Quantum ransomware (8 days)",
+ "year": 2022,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/",
+ "sources": [
+  {
+   "title": "Emotet Strikes Again - LNK File Leads to Domain Wide Ransomware - The DFIR Report (2022-11-28)",
+   "url": "https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/",
+   "what_it_gave": "entry (malspam LNK -> PowerShell -> Emotet via regsvr32), hops (CS beacon to a workstation via SMB+WMI, SMB+remote services across DCs and servers, Tactical RMM/AnyDesk, RDP incl backup server), cred access (LSASS Mimikatz, suspected Zerologon), exfil (Rclone to Mega ~250MB), impact (Quantum domain-wide over SMB), 154h"
+  }
+ ],
+ "narrative_before": "In a June 2022 intrusion the DFIR Report observed a user double-click a malspam LNK that ran encoded PowerShell to download an Emotet DLL (run via regsvr32, Registry Run Key persistence) on the beachhead host. Emotet ran daily discovery and spammed. On day 3 Emotet dropped a Cobalt Strike beacon; the actors moved laterally to a workstation (SMB transfer + WMI execution), dumped LSASS there, enumerated SMB shares and reviewed documents on a file server. On day 4 they used SMB file transfers and remote services to move across domain controllers and several servers with CS beacon DLLs (find.bat/p.bat AdFind + ping sweep on the DC); a suspected Zerologon attempt was seen from the beachhead to a DC. On another server they deployed Tactical RMM and used Rclone to exfiltrate ~250MB from a file share to Mega. On day 8 they used Tactical RMM to deploy AnyDesk, ran SoftPerfect Network Scanner, RDPed to other hosts including a backup server, dropped Powertool64.exe/dontsleep.exe, then locker.dll + 1.bat to deploy Quantum ransomware to all hosts over SMB. Time to ransomware was 154 hours over 8 days.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (Emotet via LNK/regsvr32, Cobalt Strike, suspected Zerologon source)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (CS beacon via SMB+WMI; LSASS dumped; ShareFinder)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (SMB + remote service CS DLL; find.bat/p.bat AdFind + ping sweep)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "primary file server (documents reviewed; Rclone exfil source to Mega)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (Tactical RMM + AnyDesk deployed; Rclone run from here)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP on final day before ransomware)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_2",
+   "role": "server (ransomware staging host; Powertool64.exe, locker.dll, 1.bat)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_2"
+  ],
+  [
+   "srv_1",
+   "files"
+  ],
+  [
+   "srv_2",
+   "srv_backup"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Emotet running on the beachhead (LNK/PowerShell/regsvr32) with daily discovery; day 3 Cobalt Strike beacon dropped.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1059.001",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'a user double clicked a LNK file, which then executed encoded Powershell commands to download an Emotet DLL ... Emotet dropped a Cobalt Strike executable beacon onto the beachhead host' - Emotet Strikes Again, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 7,
+    "pc_2": 8,
+    "dc": 6,
+    "files": 5
+   },
+   "description": "Day 3-4: CS beacon to a workstation via SMB+WMI, LSASS dumped there; SMB+remote service movement across DCs and servers; suspected Zerologon from beachhead to a DC; file server documents reviewed.",
+   "techniques": {
+    "pc_2": [
+     "T1021.002",
+     "T1047",
+     "T1003.001"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1210"
+    ],
+    "files": [
+     "T1039"
+    ]
+   },
+   "evidence": "'transfer a beacon executable over SMB ... executed via WMI ... dump credentials from the LSASS process ... a flight of netlogon authentications ... as a possible attempt at exploiting the domain controller' - Emotet Strikes Again"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_1": 7,
+    "files": 5
+   },
+   "description": "Tactical RMM deployed on a server; Rclone exfiltrates ~250MB from a file share to Mega.",
+   "techniques": {
+    "srv_1": [
+     "T1219",
+     "T1567.002"
+    ],
+    "files": [
+     "T1567.002"
+    ]
+   },
+   "evidence": "'the threat actors deployed Tactical RMM ... using Rclone to exfiltrate data from a file share server ... The Mega.io service ... at least ~250MB' - Emotet Strikes Again"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "srv_2": 9,
+    "srv_backup": 6,
+    "dc": 9,
+    "files": 9
+   },
+   "description": "Day 8: AnyDesk via Tactical RMM, netscan, RDP to hosts incl backup server; locker.dll + 1.bat deploy Quantum to all hosts over SMB.",
+   "techniques": {
+    "srv_2": [
+     "T1486"
+    ],
+    "dc": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'locker.dll and a batch file 1.bat were dropped on the host and the batch file was executed beginning the Quantum ransomware deployment to all hosts over SMB' - Emotet Strikes Again"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "malspam LNK runs encoded PowerShell downloading Emotet via regsvr32 (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2",
+   "Cobalt Strike beacon copied over SMB and executed via WMI; LSASS dumped (T1021.002/T1047/T1003.001)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "SMB + remote service CS DLLs across domain controllers (T1021.002)"
+  ],
+  [
+   "srv_1",
+   "files",
+   "Rclone exfiltration of a file share to Mega from a Tactical RMM server (T1567.002)"
+  ],
+  [
+   "srv_2",
+   "srv_backup",
+   "RDP to backup server and other hosts before Quantum deployment over SMB (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated.",
+  "Zerologon only suspected (failed/attempt); domain admin acquisition not explicitly confirmed.",
+  "Exact set of 'several other servers' not enumerated; modelled as srv_1/srv_2.",
+  "Moments are the report's own daily timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

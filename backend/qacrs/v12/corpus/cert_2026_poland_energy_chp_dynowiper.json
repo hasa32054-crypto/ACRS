@@ -1,0 +1,241 @@
+{
+ "incident": "CERT Polska Energy Sector Incident Report - 29 December 2025: wiper sabotage of a large Combined Heat and Power (CHP) plant; FortiGate SSL-VPN -> jump host -> domain controller -> GPO-distributed DynoWiper, EDR blocked it (attack 2025-12-29, report 2026-01-30)",
+ "year": 2026,
+ "sector": "energy",
+ "case_url": "https://cert.pl/en/posts/2026/01/incident-report-energy-sector-2025/",
+ "sources": [
+  {
+   "title": "CERT Polska: Energy Sector Incident Report - 29 December 2025 (PDF, 2026-01-30)",
+   "url": "https://cert.pl/uploads/docs/CERT_Polska_Energy_Sector_Incident_Report_2025.pdf",
+   "what_it_gave": "entry (FortiGate SSL-VPN portal with statically configured credentials/bookmarks); hops (SSL-VPN -> RDP to jump host -> RDP to a domain controller); wiper distribution (archive + DynoWiper staged on DC, placed on a network share, executed domain-wide via a GPO); server-disk destruction via Tiny Core Linux booted over KVM + dd; detection (organization's EDR detected and blocked the wiper)"
+  },
+  {
+   "title": "CERT Polska: Energy Sector Incident Report - 29 December 2025 (landing page)",
+   "url": "https://cert.pl/en/posts/2026/01/incident-report-energy-sector-2025/",
+   "what_it_gave": "scope (CHP plant supplying heat to ~500,000 customers; coordinated with >30 renewable farms and a manufacturer; purely destructive objective); timing (peak winter)"
+  }
+ ],
+ "narrative_before": "On the morning of 29 December 2025, an attacker executed a destructive wiper attack against a large Polish CHP plant that supplies heat to nearly half a million customers, following long-term infiltration and theft of sensitive operational data (CERT Polska, 2026-01-30). The attacker had gained access to privileged Active Directory accounts, enabling unrestricted lateral movement. Access was through the plant's FortiGate SSL-VPN portal, whose configuration held bookmarks and statically configured target credentials that let authorized users (and thus the attacker) reach jump hosts by RDP without supplying further local or domain credentials; the attacker, like legitimate users, first logged into a jump host and then moved to other systems over RDP. On 29 December the attacker reached the SSL-VPN portal, established an RDP connection to a jump host, and from there connected to one of the domain controllers, where an archive containing the DynoWiper malware was created. The wiper was placed on a network share and executed on domain workstations via an additional Group Policy Object; the organization's EDR solution detected the malicious activity and blocked the attack. The attacker also attempted to destroy data directly on server disks by downloading a minimalist Tiny Core Linux image onto a domain controller, booting it on a server via the KVM interface, and using dd to overwrite portions of the disks with random data. The attacker had also modified the FortiGate configuration for persistence (two weekly scripts for credential exfiltration and security-setting changes) (CERT Polska).",
+ "machines": [
+  {
+   "name": "web_fortigate",
+   "role": "FortiGate SSL-VPN portal; entry point, bookmarks/static credentials to jump hosts, configuration modified for persistence (weekly credential-exfil scripts)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_jump",
+   "role": "jump host; RDP target from the SSL-VPN portal, pivot to other systems",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; reached by RDP from the jump host, DynoWiper archive created here, GPO-based distribution, Tiny Core Linux image staged for server-disk destruction",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_disk_target",
+   "role": "server whose disks the attacker tried to destroy by booting Tiny Core Linux over the KVM interface and running dd",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_1",
+   "role": "domain workstation targeted by the GPO-distributed DynoWiper; wiper blocked by EDR",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "domain workstation targeted by the GPO-distributed DynoWiper; wiper blocked by EDR",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "domain workstation targeted by the GPO-distributed DynoWiper; wiper blocked by EDR",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "district_heating_supply",
+   "value": 30,
+   "replicas": [
+    "dc",
+    "srv_disk_target"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_fortigate",
+   "srv_jump"
+  ],
+  [
+   "srv_jump",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_disk_target"
+  ],
+  [
+   "dc",
+   "pc_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_fortigate": 5,
+    "srv_jump": 6
+   },
+   "techniques": {
+    "web_fortigate": [
+     "T1133",
+     "T1078",
+     "T1556"
+    ],
+    "srv_jump": [
+     "T1021.001"
+    ]
+   },
+   "description": "Morning of 29 December 2025: attacker reaches the FortiGate SSL-VPN portal and RDPs to a jump host (after prior long-term infiltration and FortiGate persistence scripts).",
+   "evidence": "'the attacker gained access to the SSL-VPN portal and then used it to establish a Remote Desktop connection to a jump host' - CERT Polska 2026-01-30"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_fortigate": 7,
+    "srv_jump": 6,
+    "dc": 6
+   },
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1484.001",
+     "T1560"
+    ]
+   },
+   "description": "From the jump host the attacker connects to a domain controller and creates an archive containing the DynoWiper malware; privileged AD accounts already held.",
+   "evidence": "'From this system, the attacker connected to one of the domain controllers, where an archive was created containing... a wiper malware file' - CERT Polska",
+   "ambiguity_note": "Privileged AD credentials had been obtained during earlier infiltration (method not detailed in the public report excerpts)."
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_fortigate": 7,
+    "srv_jump": 6,
+    "dc": 5,
+    "srv_disk_target": 9,
+    "pc_1": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "techniques": {
+    "dc": [
+     "T1484.001"
+    ],
+    "srv_disk_target": [
+     "T1561.001",
+     "T1485"
+    ],
+    "pc_1": [
+     "T1485"
+    ],
+    "pc_2": [
+     "T1485"
+    ],
+    "pc_3": [
+     "T1485"
+    ]
+   },
+   "description": "DynoWiper placed on a network share and pushed to domain workstations via a GPO; server disks attacked via Tiny Core Linux booted over KVM + dd. The organization's EDR detected and blocked the wiper distribution.",
+   "evidence": "'The distribution of the wiper malware to machines within the network was carried out using GPOs; however, the EDR solution deployed by the organization detected the malicious activity and blocked the attack'; 'used a minimalist Tiny Core Linux distribution... booted on a server using the KVM interface... used the dd command to overwrite portions of the disks' - CERT Polska"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_fortigate",
+   "srv_jump",
+   "RDP from the SSL-VPN portal to a jump host using statically configured bookmark credentials - T1133 / T1021.001"
+  ],
+  [
+   "srv_jump",
+   "dc",
+   "RDP from the jump host to a domain controller; DynoWiper archive created there - T1021.001"
+  ],
+  [
+   "dc",
+   "srv_disk_target",
+   "Tiny Core Linux image staged on the DC, booted on a server via KVM, dd overwrites disk sectors - T1561.001 / T1485"
+  ],
+  [
+   "dc",
+   "pc_1",
+   "DynoWiper distributed to domain workstation via GPO from a network share (blocked by EDR) - T1484.001 / T1485"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "DynoWiper distributed to domain workstation via GPO (blocked by EDR) - T1484.001 / T1485"
+  ],
+  [
+   "dc",
+   "pc_3",
+   "DynoWiper distributed to domain workstation via GPO (blocked by EDR) - T1484.001 / T1485"
+  ]
+ ],
+ "technique_chain": [
+  "T1133",
+  "T1078",
+  "T1556",
+  "T1021.001",
+  "T1484.001",
+  "T1560",
+  "T1561.001",
+  "T1485",
+  "T1529",
+  "T1070.004"
+ ],
+ "ambiguities": [
+  "The report does not give a count of targeted workstations; modelled as 3 (rule 1, 'machines within the network' via GPO).",
+  "srv_disk_target is the 'server' booted with Tiny Core Linux over KVM; the report does not name it or say whether it is one of several. Modelled as one.",
+  "DynoWiper is attributed (ESET, medium confidence) to Sandworm; this file models the CHP-plant chain only (not the renewable-farm HMI attacks or the manufacturer/LazyWiper case).",
+  "The wiper was blocked by EDR, so encryption/wipe did not fully succeed; leftover-risk 9 reflects the wiper (T1485) staged/executed on those hosts per rule 7, not confirmed data loss.",
+  "How the SSL-VPN credentials were originally obtained is tied to 'long-term infiltration'; exact initial vector not in the public excerpts."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

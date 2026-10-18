@@ -1,0 +1,160 @@
+{
+ "incident": "3CX supply-chain compromise, 2022-2023: a DPRK-linked actor compromises an employee's personal PC via the trojanized X_TRADER app (VEILEDSIGNAL), steals 3CX corporate credentials, enters over VPN, and pivots to the Windows and macOS build environments (Mandiant investigation, published 2023-04-20)",
+ "year": 2023,
+ "sector": "technology",
+ "case_url": "https://www.3cx.com/blog/news/mandiant-security-update2/",
+ "sources": [
+  {
+   "title": "3CX / Mandiant: Mandiant Identifies the Source of Internal Network Compromise (2023-04-20)",
+   "url": "https://www.3cx.com/blog/news/mandiant-security-update2/",
+   "what_it_gave": "entry (employee's personal computer running trojanized Trading Technologies X_TRADER with VEILEDSIGNAL); credential theft (3CX corporate credentials from the employee's system); VPN entry two days later; lateral movement via Fast Reverse Proxy; compromise of both Windows and macOS build environments (TAXHAUL/COLDCAT on Windows, POOLRAT on macOS)"
+  }
+ ],
+ "narrative_before": "Per Mandiant's investigation (published by 3CX on 2023-04-20), the 3CX supply-chain compromise began when a 3CX employee installed Trading Technologies' X_TRADER software on their personal computer; the installer contained the VEILEDSIGNAL malware, giving the DPRK-linked actor persistence on that machine. Mandiant assessed the actor stole the employee's 3CX corporate credentials from that system. The earliest evidence of compromise within the 3CX corporate environment occurred through the VPN, using the stolen credentials two days after the personal computer was compromised. The attacker then used the Fast Reverse Proxy (FRP) tool to move laterally within the 3CX environment and was able to compromise both the Windows and macOS build environments: on Windows they deployed the TAXHAUL launcher and COLDCAT downloader with DLL hijacking for persistence; on macOS they used a POOLRAT backdoor with LaunchDaemons. Control of the build environments ultimately let the actor inject malicious code into signed 3CX Desktop App installers distributed to customers (3CX/Mandiant).",
+ "machines": [
+  {
+   "name": "pc_employee_personal",
+   "role": "3CX employee's personal computer; trojanized X_TRADER / VEILEDSIGNAL (entry), 3CX corporate credentials stolen",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "web_vpn",
+   "role": "3CX corporate VPN; earliest evidence of compromise in the corporate environment, entered with stolen credentials",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_build_windows",
+   "role": "Windows build environment/server; TAXHAUL launcher + COLDCAT downloader, DLL hijacking persistence; source of trojanized Windows installers",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_build_macos",
+   "role": "macOS build server; POOLRAT backdoor with LaunchDaemons; source of trojanized macOS installers",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "software_build_and_signing",
+   "value": 20,
+   "replicas": [
+    "srv_build_windows",
+    "srv_build_macos"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_employee_personal",
+   "web_vpn"
+  ],
+  [
+   "web_vpn",
+   "srv_build_windows"
+  ],
+  [
+   "web_vpn",
+   "srv_build_macos"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_employee_personal": 5
+   },
+   "techniques": {
+    "pc_employee_personal": [
+     "T1195.002",
+     "T1204.002",
+     "T1555"
+    ]
+   },
+   "description": "Initial compromise: employee's personal PC infected by trojanized X_TRADER (VEILEDSIGNAL); 3CX corporate credentials stolen.",
+   "evidence": "'an employee installed the Trading Technologies X_TRADER software on the employee's personal computer'; 'Mandiant assesses the threat actor stole the employee's 3CX corporate credentials from his system' - 3CX/Mandiant"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_employee_personal": 7,
+    "web_vpn": 5
+   },
+   "techniques": {
+    "web_vpn": [
+     "T1133",
+     "T1078",
+     "T1090"
+    ]
+   },
+   "description": "Two days later: earliest compromise within the 3CX corporate environment via the VPN using the stolen credentials; Fast Reverse Proxy used for lateral movement.",
+   "evidence": "'The earliest evidence of compromise uncovered within the 3CX corporate environment occurred through the VPN' using the stolen credentials two days after the personal computer was compromised; FRP 'used to move laterally within the 3CX environment' - 3CX/Mandiant"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_employee_personal": 7,
+    "web_vpn": 7,
+    "srv_build_windows": 7,
+    "srv_build_macos": 5
+   },
+   "techniques": {
+    "srv_build_windows": [
+     "T1105",
+     "T1574.001",
+     "T1195.002"
+    ],
+    "srv_build_macos": [
+     "T1543.004",
+     "T1195.002"
+    ]
+   },
+   "description": "Compromise of both the Windows and macOS build environments; TAXHAUL/COLDCAT (Windows) and POOLRAT (macOS) deployed - enabling the trojanized installers.",
+   "evidence": "'the threat actor was able to compromise both the Windows and macOS build environments'; 'deployed the TAXHAUL launcher and COLDCAT downloader'; 'The macOS build server was compromised using a POOLRAT backdoor' - 3CX/Mandiant"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_employee_personal",
+   "web_vpn",
+   "Stolen 3CX corporate credentials used to log into the corporate VPN two days after the personal-PC compromise - T1133 / T1078"
+  ],
+  [
+   "web_vpn",
+   "srv_build_windows",
+   "Fast Reverse Proxy lateral movement to the Windows build environment; TAXHAUL + COLDCAT with DLL hijacking - T1090 / T1574.001 / T1105"
+  ],
+  [
+   "web_vpn",
+   "srv_build_macos",
+   "Lateral movement to the macOS build server; POOLRAT backdoor via LaunchDaemons - T1090 / T1543.004"
+  ]
+ ],
+ "technique_chain": [
+  "T1195.002",
+  "T1204.002",
+  "T1555",
+  "T1133",
+  "T1078",
+  "T1090",
+  "T1574.001",
+  "T1105",
+  "T1543.004"
+ ],
+ "ambiguities": [
+  "The Mandiant summary does not name intermediate hosts between the VPN and the build servers; FRP lateral movement is modelled as VPN -> each build environment.",
+  "The build environments are described as 'Windows build environment' and 'macOS build server'; whether each is one host or several is not stated - modelled as one each.",
+  "The report does not describe how 3CX first detected the intrusion (external reports from SentinelOne/CrowdStrike customers on ~2023-03-29 were not in this page), so no victim detection moment is modelled from this source.",
+  "Dates are relative ('two days after'); the X_TRADER infection reportedly dates to 2022."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

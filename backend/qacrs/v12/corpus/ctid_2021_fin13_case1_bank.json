@@ -1,0 +1,184 @@
+{
+ "incident": "FIN13 (Elephant Beetle) intrusion against a Latin American bank - Case 1",
+ "year": 2021,
+ "sector": "finance",
+ "case_url": "https://www.mandiant.com/resources/blog/fin13-cybercriminal-mexico",
+ "sources": [
+  {
+   "title": "Mandiant - FIN13: A Cybercriminal Threat Actor Focused on Mexico",
+   "url": "https://www.mandiant.com/resources/blog/fin13-cybercriminal-mexico",
+   "what_it_gave": "WebLogic RCE entry, Zabbix pivot, IAM/Backweb lateral movement, RSA SecurID DB, fraud"
+  },
+  {
+   "title": "Sygnia - Elephant Beetle",
+   "url": "https://f.hubspotusercontent30.net/hubfs/8776530/Sygnia-%20Elephant%20Beetle_Jan2022.pdf",
+   "what_it_gave": "webshell staging, credential reuse, network sniffing, SecurID token theft"
+  },
+  {
+   "title": "FIN13 Case 1 Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/FIN13%20Case%201.afb",
+   "what_it_gave": "WebLogic -> Zabbix -> Oracle IAM -> Backweb -> RSA SecurID servers hop chain"
+  }
+ ],
+ "narrative_before": "Beginning March 2021, FIN13 scanned the perimeter of a Latin American bank and exploited an Oracle WebLogic deserialization vulnerability (CVE-2019-2729) on an internet-facing web server, uploading a jspRAT webshell (Mandiant, Sygnia). Reusing a common credential, they moved laterally to a DMZ Zabbix monitoring server (planting PHP/Perl webshells and reading /etc/shadow), then exploited remote services to reach the Oracle Identity Manager server over SSH, dumping the IAM account database and sniffing credentials with RawCap. They moved on to an internal Backweb portal (PowerShell HTTP bindshell, Kerberoasting), scanned internal subnets, and identified a cluster of RSA SecurID servers; using s0b.j they accessed databases and dumped the SecurID token serials with corresponding user accounts. With harvested token data they logged into bank users' accounts and, between September and October 2021, committed fraud affecting hundreds of accounts.",
+ "machines": [
+  {
+   "name": "web_weblogic",
+   "role": "internet-facing Oracle WebLogic server; CVE-2019-2729 RCE + jspRAT webshell (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_zabbix",
+   "role": "DMZ Zabbix monitoring server reached via reused credential; webshells, /etc/shadow",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_iam",
+   "role": "Oracle Identity Manager server reached over SSH; IAM account DB dumped, creds sniffed",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backweb",
+   "role": "internal Backweb portal with domain accounts; Kerberoasting, PowerShell bindshell",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_securid",
+   "role": "RSA SecurID server cluster; token-serial database dumped (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "online_banking",
+   "value": 20,
+   "replicas": [
+    "srv_backweb"
+   ],
+   "depends_on": [
+    "srv_iam"
+   ]
+  },
+  {
+   "name": "mfa_securid",
+   "value": 20,
+   "replicas": [
+    "srv_securid"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_weblogic",
+   "srv_zabbix"
+  ],
+  [
+   "srv_zabbix",
+   "srv_iam"
+  ],
+  [
+   "srv_iam",
+   "srv_backweb"
+  ],
+  [
+   "srv_backweb",
+   "srv_securid"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_weblogic": 5
+   },
+   "techniques": {
+    "web_weblogic": [
+     "T1190",
+     "T1505.003"
+    ]
+   },
+   "description": "Initial access: Oracle WebLogic CVE-2019-2729 exploited, jspRAT webshell uploaded on the internet-facing web server.",
+   "evidence": "'Exploited a vulnerability in the Oracle WebLogic server ... Uploaded and accessed a webshell' - CTID flow / Mandiant"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_weblogic": 5,
+    "srv_zabbix": 5,
+    "srv_iam": 8
+   },
+   "techniques": {
+    "srv_zabbix": [
+     "T1078",
+     "T1505.003"
+    ],
+    "srv_iam": [
+     "T1210",
+     "T1003",
+     "T1040"
+    ]
+   },
+   "description": "Lateral movement to the Zabbix server via a reused credential, then to the Oracle IAM server over SSH; IAM DB dumped and credentials sniffed.",
+   "evidence": "'used a common credential with the Zabbix server to move laterally ... moved laterally from the Zabbix server to the Oracle Identity Manager server ... dumped the sysadmin account ... Sniffed credentials' - CTID flow / Sygnia"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_iam": 8,
+    "srv_backweb": 8,
+    "srv_securid": 5
+   },
+   "techniques": {
+    "srv_backweb": [
+     "T1558.003"
+    ],
+    "srv_securid": [
+     "T1111",
+     "T1005"
+    ]
+   },
+   "description": "Movement to the Backweb portal (Kerberoasting) and to the RSA SecurID server cluster; token-serial database dumped before fraud.",
+   "evidence": "'Moved laterally to the Backweb server ... used Kerberoasting ... dumped the database containing the SecurID token serials' - CTID flow / Sygnia"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_weblogic",
+   "srv_zabbix",
+   "reused credential used to move to DMZ Zabbix server - T1078"
+  ],
+  [
+   "srv_zabbix",
+   "srv_iam",
+   "exploitation of remote services + SSH to Oracle IAM server - T1210 / T1021.004"
+  ],
+  [
+   "srv_iam",
+   "srv_backweb",
+   "lateral movement to internal Backweb portal, Kerberoasting - T1558.003"
+  ],
+  [
+   "srv_backweb",
+   "srv_securid",
+   "internal scan + s0b.j DB access to RSA SecurID cluster - T1210 / T1005"
+  ]
+ ],
+ "ambiguities": [
+  "RSA SecurID 'cluster' modelled as one generic machine; individual nodes not enumerated in the flow.",
+  "Fraud/money-transfer stage is an outcome against bank customer accounts, not a distinct victim machine.",
+  "Detection: report gives an intrusion timeline (March 2021 access, Sept-Oct 2021 fraud) rather than a defender alert; moments follow the intrusion timeline markers."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

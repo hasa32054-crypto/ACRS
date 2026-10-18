@@ -1,0 +1,184 @@
+{
+ "incident": "Target retail data breach (Fazio HVAC vendor pivot)",
+ "year": 2013,
+ "sector": "retail",
+ "case_url": "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883",
+ "sources": [
+  {
+   "title": "US Senate Commerce Committee report on the Target breach",
+   "url": "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883",
+   "what_it_gave": "third-party supplier (Fazio) phish, AD creds, Ariba/server pivot, POS malware, internal dump server, exfil"
+  },
+  {
+   "title": "Krebs on Security - email attack on vendor set up breach",
+   "url": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+   "what_it_gave": "Fazio Mechanical phishing as initial vector"
+  },
+  {
+   "title": "Target Breach Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Target%20Breach.afb",
+   "what_it_gave": "Fazio -> Ariba -> servers -> POS -> NetBIOS share -> dump server -> FTP exfil"
+  }
+ ],
+ "narrative_before": "Attackers targeted Target's HVAC vendor Fazio Mechanical with phishing, compromising Fazio systems and stealing Active Directory credentials used with Target's Ariba external vendor portal (Senate report). Using the valid credentials they compromised additional servers (including via a BMC Software management default account) and moved laterally, then dropped tailored BlackPOS RAM-scraping malware (winxml.dll) onto point-of-sale systems. POS data was pushed over a temporary NetBIOS share to an internal dump server, which signalled a remote C2 server by ICMP, and was then exfiltrated to off-site FTP servers. The breach exposed ~40 million payment cards and ~70 million customer records.",
+ "machines": [
+  {
+   "name": "web_ariba",
+   "role": "Ariba external vendor portal used by Fazio with AD credentials (entry into Target)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_bmc",
+   "role": "BMC Software management system; default account abused to move laterally",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "additional server compromised with valid accounts / software vulns (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dev_pos_1",
+   "role": "point-of-sale system with BlackPOS RAM scraper (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dev_pos_2",
+   "role": "point-of-sale system with BlackPOS RAM scraper (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_dump",
+   "role": "internal dump server collecting POS data over a temporary NetBIOS share",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "pos_payment_processing",
+   "value": 25,
+   "replicas": [
+    "dev_pos_1",
+    "dev_pos_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "vendor_portal",
+   "value": 10,
+   "replicas": [
+    "web_ariba"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_ariba",
+   "srv_bmc"
+  ],
+  [
+   "web_ariba",
+   "srv_1"
+  ],
+  [
+   "srv_bmc",
+   "dev_pos_1"
+  ],
+  [
+   "srv_bmc",
+   "dev_pos_2"
+  ],
+  [
+   "dev_pos_1",
+   "srv_dump"
+  ],
+  [
+   "dev_pos_2",
+   "srv_dump"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_ariba": 5
+   },
+   "techniques": {
+    "web_ariba": [
+     "T1199",
+     "T1078.002"
+    ]
+   },
+   "description": "Initial access into Target: stolen Fazio AD credentials used against the Ariba vendor portal.",
+   "evidence": "'Targeted third-party supplier to gain access to Target's internal systems ... Attackers compromised AD credentials ... Ariba System used by Fazio employees with AD credentials' - CTID flow / Senate report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_ariba": 5,
+    "srv_bmc": 5,
+    "srv_1": 5,
+    "dev_pos_1": 7,
+    "dev_pos_2": 7,
+    "srv_dump": 5
+   },
+   "techniques": {
+    "srv_bmc": [
+     "T1078.001"
+    ],
+    "srv_1": [
+     "T1505",
+     "T1203"
+    ],
+    "dev_pos_1": [
+     "T1105"
+    ],
+    "dev_pos_2": [
+     "T1105"
+    ],
+    "srv_dump": [
+     "T1074.002"
+    ]
+   },
+   "description": "Lateral movement to servers and POS systems; BlackPOS deployed; POS data staged to an internal dump server over a temporary NetBIOS share.",
+   "evidence": "'Attackers dropped malware to Target's POS systems ... An internal dump server is created to collect POS information from multiple systems via the temporary NetBIOS share' - CTID flow / Senate report"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_ariba",
+   "srv_bmc",
+   "valid accounts + BMC default account abused to expand into internal servers - T1078 / T1078.001"
+  ],
+  [
+   "srv_bmc",
+   "dev_pos_1",
+   "tailored BlackPOS RAM scraper dropped onto POS systems - T1105"
+  ],
+  [
+   "dev_pos_1",
+   "srv_dump",
+   "POS data pushed over temporary NetBIOS share to internal dump server - T1074.002 / T1570"
+  ]
+ ],
+ "ambiguities": [
+  "Many POS systems and 'additional servers' are not individually named; modelled as generic groups within the rule cap.",
+  "Off-site FTP exfiltration servers are external attacker infra, not modelled as victim machines.",
+  "Detection: Target's own alerts (FireEye) were reportedly not actioned; m2 marks the POS-staging stage first publicly known."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,211 @@
+{
+ "incident": "Nitrogen campaign drops Sliver and ends with BlackCat/ALPHV ransomware (DFIR Report, intrusion Nov 2023, published 2024-09-30)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/09/30/nitrogen-campaign-drops-sliver-and-ends-with-blackcat-ransomware/",
+ "sources": [
+  {
+   "title": "Nitrogen Campaign Drops Sliver and Ends With BlackCat Ransomware - The DFIR Report (2024-09-30)",
+   "url": "https://thedfirreport.com/2024/09/30/nitrogen-campaign-drops-sliver-and-ends-with-blackcat-ransomware/",
+   "what_it_gave": "entry point (malvertised fake Advanced IP Scanner -> Nitrogen/Sliver on beachhead), hops (Impacket wmiexec to servers, DCs via xcopy/WMIC/PsExec), exfil (Restic to 195.123.226.84 Bulgaria), TTR ~156h / 8 days, BlackCat domain-wide via PsExec+safeboot"
+  }
+ ],
+ "narrative_before": "In November 2023 a user searching for Advanced IP Scanner downloaded a trojanized installer from a Google-ad-promoted fake site; the Nitrogen loader side-loaded a malicious Python DLL and dropped a Sliver beacon on the beachhead (DFIR Report). Within minutes the actor ran net/ipconfig/nltest discovery, then added Cobalt Strike beacons, SharpHound and PowerSploit enumeration, and dumped LSASS to obtain local-admin then domain-admin credentials. Using Impacket wmiexec they moved to a first server, downloaded a tool ZIP via curl, re-established scheduled-task/registry persistence, then repeated on a second server, a file server and a backup server. About six hours in, Restic was deployed on the file server and exfiltrated share data to a REST server at 195.123.226.84 in Bulgaria. After a quiet period, on day seven they reviewed the backup console; on day eight they xcopied tools to a domain controller, ran a batch script via PsExec to reset a privileged backup service-account password, pushed the BlackCat binary via SMB/copy, and ran a second script via PsExec on hosts from pc.txt that set safeboot-with-networking, a RunOnce key and Winlogon autologon before rebooting into Safe Mode to encrypt. Time to ransomware was about 156 hours over 8 days (DFIR Report).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead workstation; trojanized Advanced IP Scanner, Nitrogen/Sliver/Cobalt Strike, LSASS dump",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_1",
+   "role": "first lateral server; Impacket wmiexec, curl tool download, staging/xcopy source for DC",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_2",
+   "role": "second server; same tooling/persistence replicated, second LSASS dump",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server; Restic deployed, share data exfiltrated to Bulgaria",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server; backup console reviewed on day 7",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; xcopy tools via WMIC, up.bat via PsExec reset backup service account",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "pc_1",
+   "role": "domain host receiving BlackCat via copy + 1.bat/PsExec (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "domain host receiving BlackCat via copy + 1.bat/PsExec (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "domain host receiving BlackCat via copy + 1.bat/PsExec (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_backup"
+  ],
+  [
+   "srv_1",
+   "dc"
+  ],
+  [
+   "dc",
+   "pc_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Initial compromise: trojanized Advanced IP Scanner side-loads Nitrogen, drops Sliver beacon on the beachhead; hands-on discovery begins ~8 minutes later.",
+   "evidence": "'the attacker initiated hands-on keyboard discovery... Two minutes later, additional Sliver beacons were deployed on the compromised host' - Nitrogen Campaign, DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_1": 6,
+    "srv_2": 6,
+    "files": 7,
+    "srv_backup": 6
+   },
+   "description": "By ~6 hours in the actor had dumped domain-admin creds, moved via wmiexec to two servers, the file server and backup server, and started Restic exfiltration before activity went quiet until day 7.",
+   "evidence": "'The threat actor continued their lateral movement, replicating the same actions on both a file server and a backup server. Approximately six hours after gaining initial access, they deployed the open-source backup tool Restic on the file server.' - Nitrogen Campaign, DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "srv_1",
+   "Impacket wmiexec with LSASS-dumped local-admin creds; curl tool download, scheduled-task/registry persistence - T1047 / T1003.001 / T1021.002"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "lateral movement to file server; Restic exfiltration to REST server 195.123.226.84 (Bulgaria) over HTTP - T1021.002 / T1567 / T1048"
+  ],
+  [
+   "srv_1",
+   "dc",
+   "xcopy tools to DC, remote exec via WMIC, up.bat via PsExec resets privileged backup service account - T1021.002 / T1047 / T1569.002 / T1098"
+  ],
+  [
+   "dc",
+   "pc_1",
+   "BlackCat binary copied over SMB/C$, 1.bat via PsExec sets safeboot+RunOnce+Winlogon autologon, reboot into Safe Mode to encrypt - T1021.002 / T1569.002 / T1486 / T1490"
+  ]
+ ],
+ "technique_chain": [
+  "T1189",
+  "T1574.002",
+  "T1059.006",
+  "T1105",
+  "T1003.001",
+  "T1021.002",
+  "T1047",
+  "T1567",
+  "T1048",
+  "T1098",
+  "T1569.002",
+  "T1490",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Victim sector not stated.",
+  "Report does not state victim detection; m1 = initial Nitrogen/Sliver execution, m2 = end of first active phase (exfil start) before the day-7 lull.",
+  "Number of hosts in pc.txt receiving BlackCat ('across the network', 'multiple remote hosts') not quantified; represented as pc_1..pc_3 (3 generic).",
+  "Number of domain controllers: 'the domain controllers' identified but tools pushed to 'one of the domain controllers'; modelled as one.",
+  "workstation->dc / workstation->files links not added for pc_1..pc_3 because the report does not describe those hosts using domain credentials toward DC/file server; they only receive the payload from the DC/staging server."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

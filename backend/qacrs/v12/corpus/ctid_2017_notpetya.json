@@ -1,0 +1,184 @@
+{
+ "incident": "NotPetya destructive malware outbreak (M.E.Doc supply-chain)",
+ "year": 2017,
+ "sector": "critical-infrastructure",
+ "case_url": "https://www.justice.gov/opa/press-release/file/1328521/download",
+ "sources": [
+  {
+   "title": "US DoJ indictment (GRU Unit 74455 / Sandworm)",
+   "url": "https://www.justice.gov/opa/press-release/file/1328521/download",
+   "what_it_gave": "supply-chain compromise of M.E.Doc update server, delivery of NotPetya, attribution"
+  },
+  {
+   "title": "CrowdStrike PetrWrap/NotPetya technical analysis",
+   "url": "https://www.crowdstrike.com/blog/petrwrap-ransomware-technical-analysis-triple-threat-file-encryption-mft-encryption-credential-theft/",
+   "what_it_gave": "lateral movement via stolen tokens/credentials over SMB Admin$, EternalBlue/EternalRomance, MFT encryption/wipe"
+  },
+  {
+   "title": "NotPetya Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/NotPetya.afb",
+   "what_it_gave": "node/edge: supply chain -> update server -> victim -> SMB lateral -> MFT wipe"
+  }
+ ],
+ "narrative_before": "Attackers compromised the update server of the Ukrainian accounting software M.E.Doc and added malicious functionality to its updates, rerouting update traffic through an attacker-controlled server in France that delivered NotPetya (DoJ indictment). On an infected host, NotPetya extracted credentials from LSASS with an embedded Mimikatz-style module, duplicated tokens, and moved laterally by writing to the Admin$ share over SMB (executing via PsExec/WMIC) and by exploiting the EternalBlue/EternalRomance SMBv1 vulnerability. It then wrote a custom boot loader that encrypted the Master File Table and overwrote disk sectors, rendering machines unbootable; the data was not recoverable. The June 2017 outbreak caused billions in global damage.",
+ "machines": [
+  {
+   "name": "srv_update",
+   "role": "M.E.Doc update server; supply-chain compromise distributed NotPetya",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "pc_victim",
+   "role": "initial infected M.E.Doc host; credential/token theft and lateral launch point",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller enumerated from victim and reachable over SMB/Admin$",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "internal server reached by SMB Admin$ write + PsExec/WMIC execution (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation reached by SMB Admin$ / EternalBlue lateral movement (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation reached by SMB Admin$ / EternalBlue lateral movement (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "medoc_update_service",
+   "value": 25,
+   "replicas": [
+    "srv_update"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "srv_update",
+   "pc_victim"
+  ],
+  [
+   "pc_victim",
+   "dc"
+  ],
+  [
+   "pc_victim",
+   "srv_1"
+  ],
+  [
+   "pc_victim",
+   "pc_2"
+  ],
+  [
+   "pc_victim",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "srv_update": 5,
+    "pc_victim": 7
+   },
+   "techniques": {
+    "srv_update": [
+     "T1195.002"
+    ],
+    "pc_victim": [
+     "T1195",
+     "T1105"
+    ]
+   },
+   "description": "Supply-chain delivery: the M.E.Doc update server pushes NotPetya to subscriber hosts via the hijacked update channel.",
+   "evidence": "'Attackers added malicious functionality to the files containing software updates for M.E.Doc ... rerouted internet traffic ... to France-based server ... that delivered the NotPetya malware' - DoJ indictment / CTID flow"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_victim": 9,
+    "dc": 6,
+    "srv_1": 6,
+    "pc_2": 6,
+    "pc_3": 6
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1003.001",
+     "T1134.001",
+     "T1561.002",
+     "T1485"
+    ],
+    "dc": [
+     "T1021.002"
+    ],
+    "srv_1": [
+     "T1021.002"
+    ],
+    "pc_2": [
+     "T1210"
+    ],
+    "pc_3": [
+     "T1210"
+    ]
+   },
+   "description": "On-host credential/token theft and SMB/EternalBlue lateral spread, then MFT encryption and disk wipe rendering hosts unbootable.",
+   "evidence": "'logs into any version of SMB with the stolen tokens or harvested credentials and does a UNC write to Admin$ ... tests for vulnerable SMBv1 (Eternal Blue/Romance) ... custom boot loader encrypts the MFT' - CrowdStrike / CTID flow"
+  }
+ ],
+ "attack_path": [
+  [
+   "srv_update",
+   "pc_victim",
+   "hijacked M.E.Doc update delivers NotPetya to subscriber host - T1195.002"
+  ],
+  [
+   "pc_victim",
+   "dc",
+   "SMB Admin$ UNC write + PsExec/WMIC using stolen tokens/credentials - T1021.002 / T1569.002"
+  ],
+  [
+   "pc_victim",
+   "pc_2",
+   "EternalBlue/EternalRomance SMBv1 exploitation of remote service - T1210"
+  ]
+ ],
+ "ambiguities": [
+  "NotPetya spread automatically to 'known IP addresses and TCP endpoints / domain controllers'; specific internal hostnames are not named, modelled as dc, srv_1, pc_2, pc_3.",
+  "The malware both wipes (T1561.002/T1485) and 'encrypts' the MFT; highest on-host risk (9) applied.",
+  "No single defender detection moment in the flow; m1 = supply-chain delivery, m2 = lateral spread + destruction (the outbreak was self-evident on reboot)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,1 @@
+dilithium-py (MIT) — https://github.com/GiacomoPope/dilithium-py — commit 23cb5ee9dd7fa15d9e3c17527e7964c58f3cc549 — vendored 2026-10-18 because package registries were unreachable from the session; pure-Python ML-DSA (FIPS 204).

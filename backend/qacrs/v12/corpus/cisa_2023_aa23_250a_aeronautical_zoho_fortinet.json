@@ -1,0 +1,231 @@
+{
+ "incident": "AA23-250A: Multiple nation-state actors exploit CVE-2022-47966 (Zoho ManageEngine) and a firewall SSL-VPN (CVE-2022-42475) at an Aeronautical Sector organization; lateral movement to OWA server and domain controller (intrusion Jan-Feb 2023, advisory 2023-09-07)",
+ "year": 2023,
+ "sector": "aviation",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-250a",
+ "sources": [
+  {
+   "title": "CISA/FBI/CNMF Joint CSA AA23-250A: Multiple Nation-State Threat Actors Exploit CVE-2022-47966 and CVE-2022-42475 (2023-09-07)",
+   "url": "https://www.ic3.gov/CSA/2023/230907.pdf",
+   "what_it_gave": "entry points (Zoho ManageEngine ServiceDesk Plus web server CVE-2022-47966, root access; firewall SSL-VPN CVE-2022-42475 with disabled contractor admin creds); hops (ServiceDesk server -> OWA server; Metasploit service installed on the domain controller; AnyDesk to two more hosts); credential theft (LSASS/Mimikatz); timeline (Jan 18-21 and Feb 1-16 2023, CISA IR Feb-Apr 2023)"
+  }
+ ],
+ "narrative_before": "At an Aeronautical Sector organization, actors exploited CVE-2022-47966 in internet-facing Zoho ManageEngine ServiceDesk Plus as early as January 2023, gaining root-level access (successful web-server exploitation 2023-01-20 16:51 UTC); a local admin account named 'Azure' was created, LSASS was dumped (2023-01-21 06:49), Mimikatz was downloaded via ConnectWise ScreenConnect, and Ngrok established an RDP reverse proxy (AA23-250A). A separate access path ran through the organization's firewall SSL-VPN (CVE-2022-42475) with multiple malicious-IP VPN connections 2023-02-01 to 02-16 using disabled contractor administrator credentials. The actors moved laterally from the firewall to the web server with legitimate credentials, from the ServiceDesk server to the OWA server using an admin account from the LSASS dump (2023-02-02), and installed a Metasploit service on the domain controller (2023-02-02 18:45 UTC). AnyDesk was moved from one compromised host to two others, ASPX webshells (resource.aspx on OWA, ConfigLogin.aspx on a web server) were placed, logs were deleted on several critical servers with the disabled admin credentials, and an SSH reverse tunnel (scheduled task 'license validf') was created. CISA conducted incident response February-April 2023 but 'was unable to determine if proprietary information was accessed, altered, or exfiltrated' (AA23-250A).",
+ "machines": [
+  {
+   "name": "web_servicedesk",
+   "role": "internet-facing Zoho ManageEngine ServiceDesk Plus web server; CVE-2022-47966 RCE (root), 'Azure' local admin account, LSASS dump, Mimikatz via ScreenConnect, Ngrok RDP reverse proxy",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "web_firewall",
+   "role": "firewall SSL-VPN device; CVE-2022-42475, VPN access with disabled contractor admin credentials",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_owa",
+   "role": "Outlook Web Access (Exchange) server; reached from ServiceDesk server with admin account from LSASS dump, resource.aspx webshell",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; Metasploit service installed 2023-02-02",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_anydesk_1",
+   "role": "host that received AnyDesk under a mismatched certificate",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_anydesk_2",
+   "role": "host that received AnyDesk under a mismatched certificate",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "corporate_email_owa",
+   "value": 20,
+   "replicas": [
+    "srv_owa"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "it_service_desk",
+   "value": 10,
+   "replicas": [
+    "web_servicedesk"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_firewall",
+   "web_servicedesk"
+  ],
+  [
+   "web_servicedesk",
+   "srv_owa"
+  ],
+  [
+   "web_servicedesk",
+   "dc"
+  ],
+  [
+   "web_servicedesk",
+   "srv_anydesk_1"
+  ],
+  [
+   "srv_anydesk_1",
+   "srv_anydesk_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_servicedesk": 8
+   },
+   "techniques": {
+    "web_servicedesk": [
+     "T1190",
+     "T1003.001",
+     "T1136.001",
+     "T1572",
+     "T1219"
+    ]
+   },
+   "description": "2023-01-20/21: CVE-2022-47966 RCE on the ServiceDesk web server (root); 'Azure' local admin created, LSASS dumped, Mimikatz via ScreenConnect, Ngrok RDP reverse proxy.",
+   "evidence": "'Exploitation of Zoho ManageEngine ServiceDesk Plus began as early as January 2023. Actors gained root-level access'; 'A local user account with administrative permissions, named Azure, was created on the server hosting ServiceDesk Plus' - AA23-250A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_servicedesk": 8,
+    "web_firewall": 5,
+    "srv_owa": 6,
+    "dc": 6
+   },
+   "techniques": {
+    "web_firewall": [
+     "T1190",
+     "T1133",
+     "T1078"
+    ],
+    "web_servicedesk": [
+     "T1003.001"
+    ],
+    "srv_owa": [
+     "T1021.001",
+     "T1505.003"
+    ],
+    "dc": [
+     "T1569.002",
+     "T1021.002"
+    ]
+   },
+   "description": "Early February 2023: firewall SSL-VPN access with disabled contractor admin creds (Feb 1-16); lateral movement ServiceDesk -> OWA with an LSASS-dumped admin account (Feb 2); Metasploit service installed on the domain controller (Feb 2 18:45 UTC).",
+   "evidence": "'Metasploit service installed on the domain controller (February 2, 2023, 18:45:58 UTC)'; 'ServiceDesk server to OWA server, using an admin account from the LSASS dump (February 2, 2023)'; 'a common behavior... was to use disabled administrative account credentials' - AA23-250A"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_servicedesk": 8,
+    "web_firewall": 5,
+    "srv_owa": 5,
+    "dc": 7,
+    "srv_anydesk_1": 7,
+    "srv_anydesk_2": 7
+   },
+   "techniques": {
+    "srv_anydesk_1": [
+     "T1219"
+    ],
+    "srv_anydesk_2": [
+     "T1219"
+    ],
+    "srv_owa": [
+     "T1505.003",
+     "T1070.001"
+    ]
+   },
+   "description": "AnyDesk moved from one compromised host to two others; webshells (resource.aspx, ConfigLogin.aspx) and log deletion on several critical servers. CISA IR Feb-Apr 2023.",
+   "evidence": "'AnyDesk moved from one compromised host to two others'; 'Disabled admin credentials were used to delete logs on several critical servers' - AA23-250A",
+   "ambiguity_note": "The advisory did not establish whether data was exfiltrated."
+  }
+ ],
+ "attack_path": [
+  [
+   "web_firewall",
+   "web_servicedesk",
+   "Lateral movement from the firewall to the web server using legitimate credentials - T1078 / T1133"
+  ],
+  [
+   "web_servicedesk",
+   "srv_owa",
+   "ServiceDesk server to OWA server using an admin account recovered from the LSASS dump; resource.aspx webshell placed - T1021.001 / T1003.001 / T1505.003"
+  ],
+  [
+   "web_servicedesk",
+   "dc",
+   "Metasploit service installed on the domain controller 2023-02-02 - T1569.002"
+  ],
+  [
+   "web_servicedesk",
+   "srv_anydesk_1",
+   "AnyDesk installed under a mismatched certificate - T1219"
+  ],
+  [
+   "srv_anydesk_1",
+   "srv_anydesk_2",
+   "AnyDesk moved from one compromised host to another - T1219"
+  ]
+ ],
+ "technique_chain": [
+  "T1190",
+  "T1133",
+  "T1078",
+  "T1003.001",
+  "T1136.001",
+  "T1219",
+  "T1572",
+  "T1021.001",
+  "T1569.002",
+  "T1505.003",
+  "T1070.001"
+ ],
+ "ambiguities": [
+  "Firewall vendor is not named in the advisory ('the organization's firewall device'); CVE-2022-42475 is a Fortinet FortiOS SSL-VPN CVE but the advisory does not say so.",
+  "The exact origin host for the DC Metasploit install and the OWA hop is attributed to the ServiceDesk beachhead; the advisory links the OWA hop to the ServiceDesk server explicitly but is less explicit for the DC.",
+  "Multiple distinct APT actors operated concurrently; the advisory does not fully separate their steps.",
+  "CISA could not confirm whether proprietary data was exfiltrated.",
+  "No domain-wide ransomware was deployed; this was espionage-style activity."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,151 @@
+{
+ "incident": "Marriott/Starwood reservation system breach",
+ "year": 2018,
+ "sector": "hospitality",
+ "case_url": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+ "sources": [
+  {
+   "title": "US Senate testimony (Sorenson)",
+   "url": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+   "what_it_gave": "phishing entry to Starwood reservation system, RAT, credential theft, DB discovery, exfil"
+  },
+  {
+   "title": "CSO Online - Marriott data breach FAQ",
+   "url": "https://www.csoonline.com/article/3441220/marriott-data-breach-faq-how-did-it-happen-and-what-was-the-impact.html",
+   "what_it_gave": "scale/impact, Mimikatz, lateral movement with admin account"
+  },
+  {
+   "title": "Marriott Breach Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Marriott%20Breach.afb",
+   "what_it_gave": "phish -> creds/RAT -> admin account -> query databases -> compress/exfil guest+passport data"
+  }
+ ],
+ "narrative_before": "Attackers (believed to be acting for the Chinese government) used a phishing email to gain access to the Starwood brands' reservation system (Senate testimony). They obtained valid passwords and accounts, including an administrator account, using tools such as Mimikatz and planted a remote access trojan to move laterally within the network. Using the admin account they queried the network for databases with relevant customer information, discovered them, and compressed and encrypted the data before exfiltrating it, deleting the staged files afterward. The breach, undetected from 2014 until 2018, exposed personal information (including passport numbers) of up to ~383 million guests.",
+ "machines": [
+  {
+   "name": "srv_reservation",
+   "role": "Starwood reservation system; phishing entry point",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "internal host reached by lateral movement with stolen/admin credentials + RAT (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_db_1",
+   "role": "database with guest/passport information discovered and queried (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_db_2",
+   "role": "database with guest/passport information discovered and queried (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "reservation_system",
+   "value": 25,
+   "replicas": [
+    "srv_reservation"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "guest_databases",
+   "value": 25,
+   "replicas": [
+    "srv_db_1",
+    "srv_db_2"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "srv_reservation",
+   "srv_1"
+  ],
+  [
+   "srv_1",
+   "srv_db_1"
+  ],
+  [
+   "srv_1",
+   "srv_db_2"
+  ],
+  [
+   "srv_reservation",
+   "srv_db_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "srv_reservation": 5
+   },
+   "techniques": {
+    "srv_reservation": [
+     "T1566"
+    ]
+   },
+   "description": "Initial access: phishing email used to reach the Starwood reservation system.",
+   "evidence": "'Phishing email used to gain access to Starwood brands reservation system' - CTID flow / Senate testimony"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "srv_reservation": 5,
+    "srv_1": 7,
+    "srv_db_1": 5,
+    "srv_db_2": 5
+   },
+   "techniques": {
+    "srv_reservation": [
+     "T1555"
+    ],
+    "srv_1": [
+     "T1219",
+     "T1078"
+    ],
+    "srv_db_1": [
+     "T1590.004"
+    ],
+    "srv_db_2": [
+     "T1590.004"
+    ]
+   },
+   "description": "Credential theft (Mimikatz) + RAT lateral movement; admin account used to discover and query guest databases before exfil.",
+   "evidence": "'Attackers obtained valid passwords/accounts to move laterally ... used an administrator account to query for data ... searched for databases with relevant customer information' - CTID flow / Senate testimony"
+  }
+ ],
+ "attack_path": [
+  [
+   "srv_reservation",
+   "srv_1",
+   "credential theft (Mimikatz) + RAT used to move laterally - T1555 / T1219 / T1078"
+  ],
+  [
+   "srv_1",
+   "srv_db_1",
+   "admin account queries network and discovers guest/passport databases - T1590.004"
+  ]
+ ],
+ "ambiguities": [
+  "Flow does not name internal hosts; reservation system, a lateral host, and guest databases modelled from the roles described.",
+  "RAT usage noted as 'unknown how attackers used it'; represented only as a technique on the lateral host.",
+  "Breach undetected 2014-2018; m2 marks the discovery/exfil stage, not a defender alert."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

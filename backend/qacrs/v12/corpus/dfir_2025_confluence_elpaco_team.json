@@ -1,0 +1,191 @@
+{
+ "incident": "Another Confluence Bites the Dust: ELPACO-team (Mimic) Ransomware (TTR ~62h)",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2025/05/19/another-confluence-bites-the-dust-falling-to-elpaco-team-ransomware/",
+ "sources": [
+  {
+   "title": "Another Confluence Bites the Dust: Falling to ELPACO-team Ransomware - The DFIR Report (2025-05-19)",
+   "url": "https://thedfirreport.com/2025/05/19/another-confluence-bites-the-dust-falling-to-elpaco-team-ransomware/",
+   "what_it_gave": "entry (CVE-2023-22527 Confluence RCE -> Meterpreter -> AnyDesk), hops (wmiexec + RDP with domain admin to backup and file servers), cred access (Mimikatz/ProcessHacker/secretsdump, LSASS, failed Zerologon/PrintNightmare), impact (ELPACO-team.exe Mimic variant via RDP+SMB on backup/file servers), TTR ~62h"
+  }
+ ],
+ "narrative_before": "In a late-June 2024 intrusion the DFIR Report observed an unpatched Confluence server compromised via CVE-2023-22527: one IP ran whoami and exited, then another used the same exploit to run curl and deploy a Meterpreter payload (C2 91.191.209[.]46); the first IP later made a direct AnyDesk connection. On day 2 brief AnyDesk sessions occurred. On day 4 the actor escalated to SYSTEM via RPCSS named-pipe impersonation, created a local admin 'noname', and reinstalled AnyDesk as a service. They used SoftPerfect NetScan to enumerate SMB shares, then unsuccessfully attempted Zerologon (CVE-2020-1472) against the domain controllers. They dropped Mimikatz, ProcessHacker and Impacket secretsdump, compromised a domain administrator account (assessed via LSASS dumping, later NTLM hashes used), and attempted PrintNightmare (failed). Using the domain admin creds they moved laterally with Impacket wmiexec and RDP, and created an SMB share on the Confluence server holding their tools. ~62 hours after initial compromise they deployed ELPACO-team.exe (a Mimic ransomware variant) onto multiple servers including backup and file servers by RDPing in and running the exe after copying it over SMB. No widespread data exfiltration was observed.",
+ "machines": [
+  {
+   "name": "web_confluence",
+   "role": "internet-facing Confluence server beachhead (CVE-2023-22527; Meterpreter; AnyDesk; 'noname' admin; SMB tool share)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (failed Zerologon; domain admin compromised; targeted)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP + SMB copy; ELPACO-team.exe run locally)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP + SMB copy; ELPACO-team.exe run locally)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (wmiexec/RDP lateral; ELPACO-team ransomware)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_confluence",
+   "dc"
+  ],
+  [
+   "web_confluence",
+   "srv_backup"
+  ],
+  [
+   "web_confluence",
+   "files"
+  ],
+  [
+   "web_confluence",
+   "srv_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_confluence": 7
+   },
+   "description": "CVE-2023-22527 exploited on the Confluence server; curl deploys Meterpreter; AnyDesk connection established.",
+   "techniques": {
+    "web_confluence": [
+     "T1190",
+     "T1105",
+     "T1219"
+    ]
+   },
+   "evidence": "'compromised via CVE-2023-22527 ... running curl to deploy a Metasploit payload (Meterpreter) and establish a C2 channel ... used to establish a direct AnyDesk connection' - Another Confluence Bites the Dust, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_confluence": 8,
+    "dc": 6
+   },
+   "description": "Day 4: SYSTEM via RPCSS named-pipe impersonation; NetScan SMB enum; failed Zerologon against DCs; Mimikatz/secretsdump compromise a domain admin (LSASS).",
+   "techniques": {
+    "web_confluence": [
+     "T1134.001",
+     "T1003.001",
+     "T1046"
+    ],
+    "dc": [
+     "T1210"
+    ]
+   },
+   "evidence": "'successfully escalated to SYSTEM using the RPCSS variant of named pipe impersonation ... an unsuccessful series of attempts to exploit Zerologon ... compromise a domain administrator account ... likely compromised through LSASS dumping' - Another Confluence Bites the Dust"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_confluence": 9,
+    "srv_backup": 9,
+    "files": 9,
+    "srv_1": 9,
+    "dc": 6
+   },
+   "description": "~62h: ELPACO-team.exe (Mimic variant) deployed to multiple servers incl backup and file servers by RDPing in and running the exe after copying over SMB.",
+   "techniques": {
+    "srv_backup": [
+     "T1486",
+     "T1021.001"
+    ],
+    "files": [
+     "T1486",
+     "T1021.001"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "web_confluence": [
+     "T1486"
+    ]
+   },
+   "evidence": "'deployed ELPACO-team.exe, identified as a variant of Mimic ransomware, onto multiple servers, including backup and file servers by RDPing into them and executing the exe locally after copying it over SMB' - Another Confluence Bites the Dust"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_confluence",
+   "CVE-2023-22527 Confluence RCE -> Meterpreter -> AnyDesk (T1190/T1105/T1219)"
+  ],
+  [
+   "web_confluence",
+   "dc",
+   "domain admin compromised; failed Zerologon against the domain controllers (T1210)"
+  ],
+  [
+   "web_confluence",
+   "srv_backup",
+   "Impacket wmiexec/RDP with domain admin; ELPACO-team copied over SMB and run (T1021.001/T1486)"
+  ],
+  [
+   "web_confluence",
+   "files",
+   "RDP + SMB copy; ELPACO-team run locally on the file server (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Multiple servers' modelled as srv_1 plus backup/file servers.",
+  "No widespread data exfiltration observed (some AnyDesk transfer).",
+  "Zerologon and PrintNightmare both failed; domain admin obtained via LSASS instead.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

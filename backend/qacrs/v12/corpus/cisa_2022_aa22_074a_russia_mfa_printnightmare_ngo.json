@@ -1,0 +1,115 @@
+{
+ "incident": "AA22-074A: Russian state-sponsored actors breach an NGO by exploiting default MFA (Duo re-enrollment) and PrintNightmare, disable MFA via the hosts file on a domain controller, RDP to DCs and exfiltrate cloud/email data (activity from May 2021, advisory 2022-03-15)",
+ "year": 2022,
+ "sector": "ngo",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-074a",
+ "sources": [
+  {
+   "title": "CISA/FBI Joint CSA AA22-074A: Russian State-Sponsored Cyber Actors Gain Network Access by Exploiting Default MFA Protocols and PrintNightmare Vulnerability (2022-03-15)",
+   "url": "https://www.cisa.gov/ncas/alerts/aa22-074a",
+   "what_it_gave": "initial access (brute-forced dormant account, Duo new-device re-enrollment, VPN); privilege escalation (PrintNightmare CVE-2021-34527); hop (RDP to domain controllers, hosts-file change to fail-open Duo, credentials for other domain accounts, access to cloud storage and email, exfiltration)"
+  }
+ ],
+ "narrative_before": "As early as May 2021, Russian state-sponsored actors brute-forced a simple, predictable password for an NGO account that had been un-enrolled from Duo MFA for inactivity but not disabled in Active Directory (AA22-074A). Duo's default settings allowed re-enrollment of a new device for the dormant account, so the actors enrolled their own device, satisfied MFA and authenticated to the VPN as a non-administrator user. They then exploited PrintNightmare (CVE-2021-34527) to run code with SYSTEM privileges and gain administrator rights. On a domain controller they edited c:\\windows\\system32\\drivers\\etc\\hosts to redirect Duo MFA calls (api-<redacted>.duosecurity.com) to localhost, which - because Duo for Windows defaults to 'fail open' when the server is unreachable - effectively disabled MFA for active domain accounts. The actors made RDP connections to the Windows domain controllers, ran commands (ntdsutil, rar, regedit, ping) to obtain credentials for other domain accounts, repeated the hosts-file change for those accounts, and used them to access the NGO's cloud storage and email accounts, enabling document exfiltration (AA22-074A).",
+ "machines": [
+  {
+   "name": "web_vpn",
+   "role": "VPN access point; actors authenticated as non-admin after Duo re-enrollment of a dormant brute-forced account",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "Windows domain controller; PrintNightmare privilege escalation, hosts-file edit to fail-open Duo MFA, RDP target, ntdsutil/rar used to obtain other domain credentials",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "cloud_storage_and_email",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_vpn",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_vpn": 5
+   },
+   "techniques": {
+    "web_vpn": [
+     "T1110.001",
+     "T1078",
+     "T1133"
+    ]
+   },
+   "description": "Initial access (from May 2021): dormant account brute-forced, Duo new-device re-enrollment abused, VPN authentication as a non-administrator user.",
+   "evidence": "'actors brute-forced an account with a simple, predictable password... Duo's default settings allow for the re-enrollment of a new device for dormant accounts... They then authenticated to the VPN as non-administrator users' - AA22-074A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_vpn": 5,
+    "dc": 8
+   },
+   "techniques": {
+    "dc": [
+     "T1068",
+     "T1556",
+     "T1021.001",
+     "T1003.003",
+     "T1078.002"
+    ]
+   },
+   "description": "Privilege escalation and domain compromise: PrintNightmare to SYSTEM, hosts-file change on a domain controller to disable Duo MFA (fail open), RDP to DCs, credentials for other domain accounts obtained, cloud/email access and document exfiltration.",
+   "evidence": "'exploited PrintNightmare (CVE-2021-34527)... On a domain controller, attackers modified ...\\etc\\hosts, redirecting Duo MFA calls to localhost... made Remote Desktop Protocol (RDP) connections to Windows domain controllers... moved to the victim's cloud storage and email accounts' - AA22-074A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_vpn",
+   "dc",
+   "After VPN access, PrintNightmare (CVE-2021-34527) escalates to SYSTEM; actors RDP to the domain controller, edit the hosts file to fail-open Duo MFA, and harvest other domain credentials - T1068 / T1556 / T1021.001 / T1003.003"
+  ]
+ ],
+ "technique_chain": [
+  "T1110.001",
+  "T1133",
+  "T1068",
+  "T1556",
+  "T1021.001",
+  "T1003.003",
+  "T1078.002"
+ ],
+ "ambiguities": [
+  "The advisory names no specific hosts beyond the VPN and the domain controllers; no workstation is mentioned.",
+  "Whether the VPN endpoint and the DC are distinct machines is implied (non-admin VPN auth, then escalation/RDP to DCs) - modelled as two machines with one hop.",
+  "How the intrusion was detected is not described.",
+  "'cloud storage and email accounts' are cloud services reached with stolen domain credentials; modelled as a service depending on the DC rather than a separate on-prem machine."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

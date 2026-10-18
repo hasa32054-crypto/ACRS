@@ -1,0 +1,2214 @@
+{
+ "T9_v13_real": {
+  "summary": {
+   "n": 8,
+   "same_ok": 7,
+   "similar_ok": 6,
+   "dissimilar_identical": 4,
+   "dissimilar_n": 4,
+   "met": false
+  },
+  "rows": [
+   {
+    "incident": "01_bangladesh_bank_2016",
+    "fingerprint": {
+     "incident": "01_bangladesh_bank_2016",
+     "roles": [
+      "pc",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.002",
+      "T1021",
+      "T1078",
+      "T1543.003",
+      "T1565",
+      "T1071"
+     ],
+     "links": [
+      [
+       "pc_phish",
+       "srv_swift_alliance"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     0,
+     0
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_2",
+     "srv_swift_2"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "02_wannacry_nhs_2017",
+    "fingerprint": {
+     "incident": "02_wannacry_nhs_2017",
+     "roles": [
+      "web",
+      "pc",
+      "pc",
+      "dev"
+     ],
+     "techniques": [
+      "T1190",
+      "T1486",
+      "T1210",
+      "T1486",
+      "T1210",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_smb_entry",
+       "pc_1"
+      ],
+      [
+       "pc_1",
+       "pc_4"
+      ],
+      [
+       "pc_4",
+       "dev_mri_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_smb_entry",
+     "pc_6",
+     "pc_1",
+     "dev_pathology_1"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_5": 5,
+      "dev_mri_2": 7
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "03_notpetya_maersk_2017",
+    "fingerprint": {
+     "incident": "03_notpetya_maersk_2017",
+     "roles": [
+      "pc",
+      "dc",
+      "pc",
+      "srv",
+      "web"
+     ],
+     "techniques": [
+      "T1195.002",
+      "T1003.001",
+      "T1021.002",
+      "T1047",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1021.002",
+      "T1561.002",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1485"
+     ],
+     "links": [
+      [
+       "pc_odessa_medoc",
+       "dc"
+      ],
+      [
+       "dc",
+       "pc_cph_1"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_cph_5",
+     "dc_ghana",
+     "pc_cph_2",
+     "srv_4",
+     "web_booking"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "04_norsk_hydro_2019",
+    "fingerprint": {
+     "incident": "04_norsk_hydro_2019",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "pc"
+     ],
+     "techniques": [
+      "T1003)",
+      "T1486);"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "dc",
+       "srv_extruded_us"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_4",
+     "dc",
+     "srv_backup",
+     "pc_patient_zero"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": false,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "web_www": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "05_duesseldorf_hospital_2020",
+    "fingerprint": {
+     "incident": "05_duesseldorf_hospital_2020",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1105)",
+      "T1486)"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "srv_loader"
+      ],
+      [
+       "srv_loader",
+       "srv_ransom_note"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_citrix",
+     "srv_1",
+     "srv_6"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "06_colonial_pipeline_2021",
+    "fingerprint": {
+     "incident": "06_colonial_pipeline_2021",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078",
+      "T1021.001)"
+     ],
+     "links": [
+      [
+       "web_vpn",
+       "srv_it_1"
+      ],
+      [
+       "srv_it_1",
+       "srv_finance_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_vpn",
+     "srv_finance_1",
+     "srv_finance_3"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_1": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "07_hse_conti_2021",
+    "fingerprint": {
+     "incident": "07_hse_conti_2021",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "srv",
+      "srv",
+      "dc",
+      "srv",
+      "files",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.001,",
+      "T1204.002",
+      "T1003,",
+      "T1087,",
+      "T1078.002",
+      "T1021,",
+      "T1071",
+      "T1078.002,",
+      "T1021",
+      "T1021",
+      "T1210,",
+      "T1003",
+      "T1021",
+      "T1083,",
+      "T1005,",
+      "T1048",
+      "T1486"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "srv_hosp_c_1",
+       "dc_hosp_c"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_hse_3",
+     "dc_hosp_c",
+     "srv_hosp_a",
+     "srv_mncms",
+     "srv_nimis",
+     "dc",
+     "srv_hse_5",
+     "files",
+     "srv_hosp_l"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "08_change_healthcare_2024",
+    "fingerprint": {
+     "incident": "08_change_healthcare_2024",
+     "roles": [
+      "web",
+      "pc",
+      "srv",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078,",
+      "T1133",
+      "T1021.001",
+      "T1021",
+      "T1021,",
+      "T1490",
+      "T1567,",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "pc_desktop_1"
+      ],
+      [
+       "pc_desktop_1",
+       "srv_core_1"
+      ],
+      [
+       "srv_core_1",
+       "srv_backup"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": false,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": false,
+    "similar_path": [
+     "web_citrix",
+     "pc_desktop_2",
+     "srv_cloud",
+     "srv_payments",
+     "srv_backup"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": false,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "pc_laptop_3": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   }
+  ],
+  "summary_v13": {
+   "same_le_before": 8,
+   "same_first_hop_isolated": 7,
+   "similar_le_before": 8,
+   "dissimilar_identical": 4,
+   "dissimilar_n": 4,
+   "n": 8,
+   "met": true
+  }
+ },
+ "T9_v12_real_for_contrast": {
+  "summary": {
+   "n": 8,
+   "same_ok": 7,
+   "similar_ok": 6,
+   "dissimilar_identical": 4,
+   "dissimilar_n": 4,
+   "met": false
+  },
+  "rows": [
+   {
+    "incident": "01_bangladesh_bank_2016",
+    "fingerprint": {
+     "incident": "01_bangladesh_bank_2016",
+     "roles": [
+      "pc",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.002",
+      "T1021",
+      "T1078",
+      "T1543.003",
+      "T1565",
+      "T1071"
+     ],
+     "links": [
+      [
+       "pc_phish",
+       "srv_swift_alliance"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     0,
+     0
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_2",
+     "srv_swift_2"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "02_wannacry_nhs_2017",
+    "fingerprint": {
+     "incident": "02_wannacry_nhs_2017",
+     "roles": [
+      "web",
+      "pc",
+      "pc",
+      "dev"
+     ],
+     "techniques": [
+      "T1190",
+      "T1486",
+      "T1210",
+      "T1486",
+      "T1210",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_smb_entry",
+       "pc_1"
+      ],
+      [
+       "pc_1",
+       "pc_4"
+      ],
+      [
+       "pc_4",
+       "dev_mri_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_smb_entry",
+     "pc_6",
+     "pc_1",
+     "dev_pathology_1"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_5": 5,
+      "dev_mri_2": 7
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "03_notpetya_maersk_2017",
+    "fingerprint": {
+     "incident": "03_notpetya_maersk_2017",
+     "roles": [
+      "pc",
+      "dc",
+      "pc",
+      "srv",
+      "web"
+     ],
+     "techniques": [
+      "T1195.002",
+      "T1003.001",
+      "T1021.002",
+      "T1047",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1021.002",
+      "T1561.002",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1485"
+     ],
+     "links": [
+      [
+       "pc_odessa_medoc",
+       "dc"
+      ],
+      [
+       "dc",
+       "pc_cph_1"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_cph_5",
+     "dc_ghana",
+     "pc_cph_2",
+     "srv_4",
+     "web_booking"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "04_norsk_hydro_2019",
+    "fingerprint": {
+     "incident": "04_norsk_hydro_2019",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "pc"
+     ],
+     "techniques": [
+      "T1003)",
+      "T1486);"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "dc",
+       "srv_extruded_us"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_4",
+     "dc",
+     "srv_backup",
+     "pc_patient_zero"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": false,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "web_www": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "05_duesseldorf_hospital_2020",
+    "fingerprint": {
+     "incident": "05_duesseldorf_hospital_2020",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1105)",
+      "T1486)"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "srv_loader"
+      ],
+      [
+       "srv_loader",
+       "srv_ransom_note"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_citrix",
+     "srv_1",
+     "srv_6"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "06_colonial_pipeline_2021",
+    "fingerprint": {
+     "incident": "06_colonial_pipeline_2021",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078",
+      "T1021.001)"
+     ],
+     "links": [
+      [
+       "web_vpn",
+       "srv_it_1"
+      ],
+      [
+       "srv_it_1",
+       "srv_finance_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_vpn",
+     "srv_finance_1",
+     "srv_finance_3"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_1": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "07_hse_conti_2021",
+    "fingerprint": {
+     "incident": "07_hse_conti_2021",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "srv",
+      "srv",
+      "dc",
+      "srv",
+      "files",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.001,",
+      "T1204.002",
+      "T1003,",
+      "T1087,",
+      "T1078.002",
+      "T1021,",
+      "T1071",
+      "T1078.002,",
+      "T1021",
+      "T1021",
+      "T1210,",
+      "T1003",
+      "T1021",
+      "T1083,",
+      "T1005,",
+      "T1048",
+      "T1486"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "srv_hosp_c_1",
+       "dc_hosp_c"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_hse_3",
+     "dc_hosp_c",
+     "srv_hosp_a",
+     "srv_mncms",
+     "srv_nimis",
+     "dc",
+     "srv_hse_5",
+     "files",
+     "srv_hosp_l"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "08_change_healthcare_2024",
+    "fingerprint": {
+     "incident": "08_change_healthcare_2024",
+     "roles": [
+      "web",
+      "pc",
+      "srv",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078,",
+      "T1133",
+      "T1021.001",
+      "T1021",
+      "T1021,",
+      "T1490",
+      "T1567,",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "pc_desktop_1"
+      ],
+      [
+       "pc_desktop_1",
+       "srv_core_1"
+      ],
+      [
+       "srv_core_1",
+       "srv_backup"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     4
+    ],
+    "same_ok": false,
+    "similar_path": [
+     "web_citrix",
+     "pc_desktop_2",
+     "srv_cloud",
+     "srv_payments",
+     "srv_backup"
+    ],
+    "similar_down_before_after": [
+     1,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "pc_laptop_3": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   }
+  ]
+ },
+ "T9b_v13_corpus": {
+  "n": 75,
+  "worse": 0,
+  "worse_cases": [],
+  "better": 0,
+  "first_hop_isolated": 27,
+  "unsafe": 0,
+  "silent": 0,
+  "met": true,
+  "rows": [
+   {
+    "case": "cert_2026_poland_energy_chp_dynowiper",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_074a_russia_mfa_printnightmare_ngo",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_174a_log4shell_horizon_victim2",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_277a_impacket_dib",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_320a_iran_log4shell_horizon",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2023_aa23_250a_aeronautical_zoho_fortinet",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2024_aa24_038a_volt_typhoon_water",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2026_aa25_266a_geoserver_fceb",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2013_target",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2014_jpmorgan",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2015_carbanak_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2016_swift_bangladesh_bank",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_cobalt_kitty_oceanlotus",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_equifax",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_fin7_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_notpetya",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_sandworm_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2018_apt29_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2018_marriott_starwood",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_fin6_emulation",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_maastricht_university",
+    "down_before": 3,
+    "down_after": 3,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_oilrig_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_oceanlotus_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_solarwinds",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_wizard_spider_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_conti_dfir_icedid",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_conti_hse_pwc",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_fin13_case1_bank",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_fin13_case2_peru",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_hancitor_zerologon_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_bumblebee_round2_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_cisa_iranian_apt_log4shell",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_gootloader_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_uber_lapsus",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2024_ivanti_volexity_uta0178",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2024_mitre_nerve",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2020_01_ryuk_5_hours",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2020_02_ryuk_speed_run",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_01_blacksuit_cobaltstrike_2024",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_02_icedid_screenconnect_alphv_2024",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_03_nitrogen_sliver_blackcat_2024",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_04_onenote_nokoyawa_2024",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_05_icedid_dagonlocker_2024",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_netwalker_1_hour",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_pysa_mespinoza",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_ryuks_return",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_snatch",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarcall_conti_trickbot",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_conti_32h",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_conti_leaks",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_diavol",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_icedid_conti",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_icedid_xinglocker",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_sodinokibi_revil",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2022_emotet_quantum",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2022_icedid_quantum",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_html_smuggling_nokoyawa",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_malicious_iso_quantum",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_screenconnect_hive",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_sql_bruteforce_bluesky",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_truebot_flawedgrace_mbrkiller",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2024_rdp_trigona_3h",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_confluence_elpaco_team",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_confluence_lockbit",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_fake_zoom_blacksuit",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_rdp_lynx",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_rdp_spray_ransomhub",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_activemq_lockbit",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_bumblebee_akira",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_etherrat_tuktuk_gentlemen",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2022_rackspace_hosted_exchange_play",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2022_uber_lapsus_mfa_fatigue",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2023_3cx_supply_chain",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2023_mgm_resorts_scattered_spider_alphv",
+    "down_before": 3,
+    "down_after": 3,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2025_marks_spencer_scattered_spider_dragonforce",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   }
+  ]
+ },
+ "T9b_v12_corpus_for_contrast": {
+  "n": 75,
+  "worse": 2,
+  "worse_cases": [
+   {
+    "case": "ctid_2013_target",
+    "down_before": 1,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_equifax",
+    "down_before": 0,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   }
+  ],
+  "better": 0,
+  "first_hop_isolated": 29,
+  "unsafe": 0,
+  "silent": 0,
+  "met": false,
+  "rows": [
+   {
+    "case": "cert_2026_poland_energy_chp_dynowiper",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_074a_russia_mfa_printnightmare_ngo",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_174a_log4shell_horizon_victim2",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_277a_impacket_dib",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2022_aa22_320a_iran_log4shell_horizon",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2023_aa23_250a_aeronautical_zoho_fortinet",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2024_aa24_038a_volt_typhoon_water",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "cisa_2026_aa25_266a_geoserver_fceb",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2013_target",
+    "down_before": 1,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2014_jpmorgan",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2015_carbanak_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2016_swift_bangladesh_bank",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_cobalt_kitty_oceanlotus",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_equifax",
+    "down_before": 0,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_fin7_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_notpetya",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2017_sandworm_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2018_apt29_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2018_marriott_starwood",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_fin6_emulation",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_maastricht_university",
+    "down_before": 3,
+    "down_after": 3,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2019_oilrig_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_oceanlotus_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_solarwinds",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2020_wizard_spider_emulation",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_conti_dfir_icedid",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_conti_hse_pwc",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_fin13_case1_bank",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_fin13_case2_peru",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2021_hancitor_zerologon_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_bumblebee_round2_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_cisa_iranian_apt_log4shell",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_gootloader_dfir",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2022_uber_lapsus",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2024_ivanti_volexity_uta0178",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "ctid_2024_mitre_nerve",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2020_01_ryuk_5_hours",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2020_02_ryuk_speed_run",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_01_blacksuit_cobaltstrike_2024",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_02_icedid_screenconnect_alphv_2024",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_03_nitrogen_sliver_blackcat_2024",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_04_onenote_nokoyawa_2024",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir2024_05_icedid_dagonlocker_2024",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_netwalker_1_hour",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_pysa_mespinoza",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_ryuks_return",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2020_snatch",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarcall_conti_trickbot",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_conti_32h",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_conti_leaks",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_bazarloader_diavol",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_icedid_conti",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_icedid_xinglocker",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2021_sodinokibi_revil",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2022_emotet_quantum",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2022_icedid_quantum",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_html_smuggling_nokoyawa",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_malicious_iso_quantum",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_screenconnect_hive",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_sql_bruteforce_bluesky",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2023_truebot_flawedgrace_mbrkiller",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2024_rdp_trigona_3h",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_confluence_elpaco_team",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_confluence_lockbit",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_fake_zoom_blacksuit",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_rdp_lynx",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2025_rdp_spray_ransomhub",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_activemq_lockbit",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_bumblebee_akira",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "dfir_2026_etherrat_tuktuk_gentlemen",
+    "down_before": 1,
+    "down_after": 1,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2022_rackspace_hosted_exchange_play",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": false,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2022_uber_lapsus_mfa_fatigue",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2023_3cx_supply_chain",
+    "down_before": 0,
+    "down_after": 0,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2023_mgm_resorts_scattered_spider_alphv",
+    "down_before": 3,
+    "down_after": 3,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   },
+   {
+    "case": "inc_2025_marks_spencer_scattered_spider_dragonforce",
+    "down_before": 2,
+    "down_after": 2,
+    "first_hop_isolated": true,
+    "unsafe_after": false,
+    "silent_after": false
+   }
+  ]
+ },
+ "meta": {
+  "experiment": "v13-immunity",
+  "seconds": 3.5
+ }
+}

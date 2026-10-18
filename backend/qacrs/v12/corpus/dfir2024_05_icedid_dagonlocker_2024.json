@@ -1,0 +1,180 @@
+{
+ "incident": "From IcedID to Dagon Locker ransomware in 29 days (DFIR Report, intrusion Aug 2023, published 2024-04-29)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/04/29/from-icedid-to-dagon-locker-ransomware-in-29-days/",
+ "sources": [
+  {
+   "title": "From IcedID to Dagon Locker Ransomware in 29 Days - The DFIR Report (2024-04-29)",
+   "url": "https://thedfirreport.com/2024/04/29/from-icedid-to-dagon-locker-ransomware-in-29-days/",
+   "what_it_gave": "entry point (PrometheusTDS phishing JS -> IcedID on beachhead), hops (Cobalt Strike SMB beacon to DC via remote service, WMIC beacons to more hosts, GPO logon-script distribution), exfil (Rclone + AWSCollector to AWS S3), TTR 684h / 29 days, Dagon Locker domain-wide"
+  }
+ ],
+ "narrative_before": "In August 2023 a PrometheusTDS phishing chain led a victim to a fake Azure portal and a malicious JavaScript file that used curl to download and run an IcedID DLL on a beachhead host, with scheduled-task persistence (DFIR Report). After ~30 hours IcedID fetched a Cobalt Strike beacon (staged on file.io). The actor ran net/whoami/nltest discovery, accessed LSASS, used GetSystem for privilege escalation, and within five minutes moved a Cobalt Strike beacon over SMB to a domain controller, executing it via remote services. Using AdFind/Sharefinder they mapped shares, briefly used Rclone, then switched to a custom AWSCollector PowerShell tool to exfiltrate data to an AWS S3 bucket; more beacons were pushed to additional hosts by SMB copy + WMIC. On day 8 they installed AnyDesk on a domain controller (plus a new admin account) and worked through Group Policy, later creating a logon script to distribute beacons to a privileged user group. After repeated return visits over the following weeks, on day 29 they staged Dagon Locker on a domain controller and used AWSCollector's locker module to deploy it via SMB to remote hosts, with a batch script to disable services and delete shadow copies - domain-wide encryption. Time to ransomware was 684 hours over 29 days (DFIR Report).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead workstation; IcedID via JS, Cobalt Strike, LSASS, GetSystem",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; Cobalt Strike SMB beacon via remote service, AnyDesk, Group Policy logon-script abuse, Dagon Locker staging",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file server/shares; AdFind/Sharefinder target, Rclone/AWSCollector exfil to AWS S3",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "additional server host receiving Cobalt Strike beacon via SMB copy + WMIC (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "domain host encrypted by Dagon Locker via AWSCollector/SMB (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "domain host encrypted by Dagon Locker via AWSCollector/SMB (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "domain host encrypted by Dagon Locker via AWSCollector/SMB (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Initial compromise: PrometheusTDS phishing JS downloads and runs IcedID DLL on the beachhead with scheduled-task persistence; ~30 hours later Cobalt Strike is fetched.",
+   "evidence": "'Upon executing this file... a batch file used the curl command to download an IcedID DLL file... IcedID malware established persistence by creating a scheduled task... About 30 hours after inactivity, the IcedID malware downloaded and executed a Cobalt Strike beacon.' - DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 8,
+    "files": 7,
+    "srv_1": 6
+   },
+   "description": "Day 1-2 hands-on expansion: LSASS + GetSystem on beachhead, Cobalt Strike beacon to the DC via remote service within 5 minutes, AdFind/Sharefinder on shares, Rclone/AWSCollector exfil to S3, beacons pushed to more hosts via WMIC.",
+   "evidence": "'Within just five minutes of executing the Cobalt Strike beacon, the threat actor initiated lateral movement... They transferred a Cobalt Strike beacon to a domain controller using SMB... executed via remote services.' - DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "dc",
+   "Cobalt Strike beacon copied over SMB to DC and executed via remote service; later AnyDesk + GPO logon-script abuse - T1021.002 / T1569.002 / T1484.001"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "share discovery (AdFind/Sharefinder), Rclone then AWSCollector exfil to AWS S3 - T1083 / T1567.002"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "Cobalt Strike beacon copied via SMB/copy and executed by remote WMIC - T1021.002 / T1047"
+  ],
+  [
+   "dc",
+   "pc_1",
+   "Dagon Locker staged on DC, deployed via SMB by AWSCollector locker module; batch disables services and deletes shadow copies - T1021.002 / T1486 / T1490"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.002",
+  "T1189",
+  "T1059.007",
+  "T1105",
+  "T1053.005",
+  "T1003.001",
+  "T1134",
+  "T1021.002",
+  "T1569.002",
+  "T1047",
+  "T1484.001",
+  "T1083",
+  "T1567.002",
+  "T1490",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Victim sector not stated.",
+  "Report does not state victim detection; m1 = initial IcedID execution, m2 = first active lateral-movement day (DC compromise + exfil start).",
+  "Counts of 'additional hosts' receiving beacons and of domain-wide encrypted hosts not quantified; represented as srv_1 and pc_1..pc_3 (generic).",
+  "Number of domain controllers not quantified; modelled as one.",
+  "workstation->dc/files links not added for generic encrypted hosts pc_1..pc_3 because their individual credential use is not described; they receive the locker from the DC."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

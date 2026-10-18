@@ -1,0 +1,240 @@
+{
+ "incident": "Malicious ISO File Leads to Domain Wide Quantum Ransomware (78 hours)",
+ "year": 2023,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/",
+ "sources": [
+  {
+   "title": "Malicious ISO File Leads to Domain Wide Ransomware - The DFIR Report (2023-04-03)",
+   "url": "https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/",
+   "what_it_gave": "entry (malspam zip/ISO/LNK -> IcedID via rundll32), hops (Atera/Splashtop, Zerologon, CS DLL via remote service to a server, WMIC beacons, RDP to DC), cred access (GetSystem, LSASS ProcDump, DCSync, Mimikatz on DC), exfil (Rclone backup files to Mega), impact (Quantum via PsExec + scripts domain-wide), 78h"
+  }
+ ],
+ "narrative_before": "In a late-September 2022 campaign (published 2023) the DFIR Report observed IcedID delivered in a zip -> ISO -> LNK (documents.lnk -> eyewear.bat -> easygoing.dat via rundll32) on the beachhead host, with hourly scheduled-task persistence. ~16h later a Cobalt Strike DLL beacon loaded; the actors installed Atera and Splashtop (MSI), attempted GetSystem (blocked by AV), then exploited CVE-2020-1472 (Zerologon) against a DC (confirmed by a DC password change, Event 4742). First lateral movement copied a CS DLL to a server and ran it via a remote service. A later beacon reached SYSTEM on the beachhead and dumped LSASS; with clear-text domain admin creds the actors used WMIC to distribute/execute beacons and RDPed into the domain controller (beacons initially crashing until Defender was disabled). ProcDump dumped LSASS on the DC, DCSync ran across 12 events, and multiple Mimikatz variants executed. AnyDesk was installed on several servers including a backup management host; Rclone exfiltrated backup copies to Mega.io. A ransomware binary was staged on the backup server, then scripts on a DC copied it everywhere, reset all user passwords, and executed Quantum (README_TO_DECRYPT.html) via PsExec. Time to ransomware was just over 78h; all domain-joined systems were encrypted.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (IcedID via ISO/LNK/rundll32, CS, GetSystem, LSASS, Zerologon source, RSAT)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (Zerologon target; RDP; ProcDump LSASS, DCSync, Mimikatz; ransomware deploy scripts)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "second domain controller (DCSync; file-sharing sites accessed)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server (first lateral target; CS DLL via remote service; Atera/Splashtop)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup management host (AnyDesk; Rclone exfil of backups to Mega; ransomware staged)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation/endpoint (WMIC beacon distribution; Quantum via PsExec)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation/endpoint (Quantum via PsExec)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "dc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_3"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "IcedID executed via ISO/LNK/rundll32 on the beachhead; ~16h later Cobalt Strike DLL beacon; Atera/Splashtop installed.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1071.001",
+     "T1219"
+    ]
+   },
+   "evidence": "'documents.lnk points to max\\eyewear.bat ... rundll32 ... easygoing.dat,#1 ... the first Cobalt Strike beacon DLL was executed from the IcedID malware' - Malicious ISO File, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 8,
+    "srv_1": 6
+   },
+   "description": "GetSystem + LSASS on beachhead; Zerologon against a DC (confirmed by DC password change); first lateral movement to a server via remote service CS DLL.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1134",
+     "T1003.001"
+    ],
+    "dc": [
+     "T1210",
+     "T1003.001"
+    ],
+    "srv_1": [
+     "T1021.002",
+     "T1569.002"
+    ]
+   },
+   "evidence": "'exploit CVE-2020-1472 (ZeroLogon) ... password update Event 4742 for one of the Domain Controller passwords ... first lateral movement to a server ... copying their Cobalt Strike DLL over to the host and executing it via a remote service' - Malicious ISO File"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 8,
+    "dc_2": 8
+   },
+   "description": "RDP to the DC; ProcDump LSASS, DCSync across 12 events on a DC, multiple Mimikatz variants; WMIC beacon distribution.",
+   "techniques": {
+    "dc": [
+     "T1003.006",
+     "T1003.001",
+     "T1047"
+    ],
+    "dc_2": [
+     "T1003.006"
+    ]
+   },
+   "evidence": "'Windows event logs point to the threat actors completing DCSync activities on one of the domain controllers ... ProcDump was used to dump LSASS memory' - Malicious ISO File"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "srv_backup": 9,
+    "dc": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "~78h: AnyDesk on servers, Rclone exfil of backups to Mega, ransomware staged on backup server; DC scripts copy it everywhere, reset all passwords and run Quantum via PsExec.",
+   "techniques": {
+    "srv_backup": [
+     "T1486",
+     "T1567.002"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "pc_3": [
+     "T1486"
+    ]
+   },
+   "evidence": "'used Rclone to exfiltrate copies of the backup files to the Mega.io ... staged a ransomware binary on the backup server ... one to execute the staged ransomware payload using PsExec ... All domain joined systems were encrypted with Quantum' - Malicious ISO File"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "malspam zip/ISO/LNK runs IcedID via rundll32 (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "Zerologon (CVE-2020-1472) against a domain controller (T1210); later RDP + ProcDump/DCSync"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "Cobalt Strike DLL copied to a server and executed via a remote service (T1021.002/T1569.002)"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "ransomware staged on the backup server; Rclone exfil of backups to Mega (T1486/T1567.002)"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "DC scripts copy and run Quantum on all domain-joined hosts via PsExec (T1021.002/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'All domain joined systems' modelled as pc_2/pc_3.",
+  "Two domain controllers referenced (DCSync 'one of the domain controllers'); modelled as dc/dc_2.",
+  "Which specific host(s) yielded clear-text domain admin creds not pinned; link pc_beachhead->dc_2 assumed from file-sharing-site access on a second DC.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

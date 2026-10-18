@@ -1,0 +1,160 @@
+{
+ "incident": "AA25-266A: CISA shares lessons from an IR engagement at an FCEB agency - actors exploit GeoServer CVE-2024-36401 on two GeoServers, move laterally to a Web Server and a SQL Server, detected after three weeks by EDR (intrusion Jul-Aug 2024, advisory 2025-09-23, updated 2026)",
+ "year": 2026,
+ "sector": "government",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-266a",
+ "sources": [
+  {
+   "title": "CISA Cybersecurity Advisory AA25-266A: CISA Shares Lessons Learned from an Incident Response Engagement (2025-09-23)",
+   "url": "https://www.cisa.gov/sites/default/files/2026-08/AA25-266A_advisory_cisa_shares_lessons_learned_from_ir_engagement.pdf",
+   "what_it_gave": "entry (CVE-2024-36401 eval-injection RCE on public-facing GeoServer 1, July 11 2024; separate access to GeoServer 2 July 24); hops (GeoServer 1 -> Web Server -> SQL Server, xp_cmdshell for RCE); tools (China Chopper, fscan, Stowaway C2, RingQ, dirtycow, bitsadmin); detection (EDR alert on 1.txt on the SQL Server July 31, SOC contained SQL Server and GeoServer 1 Aug 1); full key-events timeline"
+  }
+ ],
+ "narrative_before": "At a large U.S. FCEB agency, cyber threat actors exploited GeoServer vulnerability CVE-2024-36401 (eval injection, unauthenticated RCE) on a public-facing GeoServer ('GeoServer 1') on 2024-07-11, 11 days after the CVE was disclosed; they used a VPS for remote access and had reconnoitred the server with Burp Suite's scanner (AA25-266A). They downloaded open-source tools (fscan, Stowaway, RingQ, dirtycow) and scripts (mm.sh, aaa.zip) via curl, enumerated the internal network from GeoServer 1 (SSH/FTP/file/web servers), brute-forced service credentials, and established Stowaway C2 (HTTP over TCP/4441, backup TCP/50012) through the Web Server. On 2024-07-24 they gained separate initial access to a second GeoServer ('GeoServer 2') via the same vulnerability. They moved laterally from GeoServer 1 to a Web Server and then to a SQL Server (both reached 2024-07-31), uploading or attempting China Chopper and PHP webshells and using LOTL techniques; 'In one instance, the cyber threat actors moved laterally from the Web Server to the SQL Server by enabling xp_cmdshell for RCE on GeoServer 1.' The intrusion went undetected for three weeks until 2024-07-31, when the agency's EDR flagged a 1.txt file transferred to the SQL Server via bitsadmin; the SOC contained the SQL Server and GeoServer 1 on 2024-08-01 and requested CISA assistance. CISA noted a missed 2024-07-15 EDR detection of Stowaway on GeoServer 1 and that the Web Server lacked endpoint protection (AA25-266A).",
+ "machines": [
+  {
+   "name": "web_geoserver_1",
+   "role": "public-facing GeoServer; CVE-2024-36401 RCE (entry July 11), fscan/Stowaway/RingQ/dirtycow, China Chopper, cron persistence, brute force, xp_cmdshell enablement",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "web_geoserver_2",
+   "role": "second public-facing GeoServer; separate CVE-2024-36401 access July 24, Burp Collaborator discovery commands",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "web_server",
+   "role": "internal Web Server; Stowaway C2 forwarding, mm.sh executed July 14, lacked endpoint protection; pivot to SQL Server",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_sql",
+   "role": "SQL Server; reached via xp_cmdshell, discovery commands, 1.txt uploaded (EDR detection), China Chopper attempt",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "geospatial_web_service",
+   "value": 10,
+   "replicas": [
+    "web_geoserver_1",
+    "web_geoserver_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "sql_database",
+   "value": 20,
+   "replicas": [
+    "srv_sql"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_geoserver_1",
+   "web_server"
+  ],
+  [
+   "web_server",
+   "srv_sql"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_geoserver_1": 7
+   },
+   "techniques": {
+    "web_geoserver_1": [
+     "T1190",
+     "T1505.003",
+     "T1105",
+     "T1090"
+    ]
+   },
+   "description": "2024-07-11: initial access to GeoServer 1 via CVE-2024-36401; tools downloaded, Stowaway C2 established. (An EDR alert for Stowaway on GeoServer 1 on 2024-07-15 was not reviewed.)",
+   "evidence": "'cyber threat actors gained access to the agency's network on July 11, 2024, by exploiting GeoServer vulnerability CVE 2024-36401... on a public-facing GeoServer (GeoServer 1)'; 'July 15, 2024 ... EDR detects Stowaway tool on GeoServer 1' - AA25-266A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_geoserver_1": 7,
+    "web_geoserver_2": 5
+   },
+   "techniques": {
+    "web_geoserver_2": [
+     "T1190"
+    ]
+   },
+   "description": "2024-07-24: separate initial access to GeoServer 2 via the same CVE.",
+   "evidence": "'the cyber threat actors gained separate initial access to a second GeoServer (GeoServer 2) on July 24, 2024, by exploiting the same vulnerability' - AA25-266A"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_geoserver_1": 7,
+    "web_geoserver_2": 5,
+    "web_server": 7,
+    "srv_sql": 5
+   },
+   "techniques": {
+    "web_server": [
+     "T1090",
+     "T1105",
+     "T1505.003"
+    ],
+    "srv_sql": [
+     "T1505.003",
+     "T1059.001",
+     "T1202"
+    ]
+   },
+   "description": "2024-07-31: lateral movement reaches the Web Server and SQL Server; the SOC's EDR flags 1.txt on the SQL Server (first detection); SOC contains SQL Server and GeoServer 1 on 2024-08-01.",
+   "evidence": "'They moved laterally from GeoServer 1 to a web server (Web Server) and then a... SQL server'; 'On July 31, 2024, their EDR tool identified a 1.txt file uploaded as suspected malware on the SQL Server... prompted the SOC to contain the server' - AA25-266A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_geoserver_1",
+   "web_server",
+   "Lateral movement from GeoServer 1 to the internal Web Server; Stowaway proxy forwards C2 traffic through it, mm.sh executed - T1090 / T1105"
+  ],
+  [
+   "web_server",
+   "srv_sql",
+   "Web Server to SQL Server by enabling xp_cmdshell for RCE; China Chopper/PHP webshell attempts, 1.txt via bitsadmin - T1505.003 / T1059.001 / T1202"
+  ]
+ ],
+ "technique_chain": [
+  "T1595.002",
+  "T1190",
+  "T1105",
+  "T1090",
+  "T1505.003",
+  "T1110",
+  "T1068",
+  "T1202",
+  "T1059.001",
+  "T1046"
+ ],
+ "ambiguities": [
+  "GeoServer 2 is a separate initial-access host, not a lateral hop from GeoServer 1 (the advisory stresses 'separate initial access'); it connects to no other host, so it adds no link.",
+  "The advisory's lateral-movement sentence ('from the Web Server to the SQL Server by enabling xp_cmdshell for RCE on GeoServer 1') is slightly ambiguous about where xp_cmdshell ran; the chain GeoServer 1 -> Web Server -> SQL Server is taken from the overview and timeline.",
+  "The SQL Server is marked critical (database service) per rule 2; no business service disruption is described (espionage-style access, contained before impact).",
+  "No domain controller or ransomware; no workstation links."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

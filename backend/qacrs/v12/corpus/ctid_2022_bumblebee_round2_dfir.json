@@ -1,0 +1,142 @@
+{
+ "incident": "BumbleBee loader intrusion with RDP/AnyDesk lateral movement (DFIR Report)",
+ "year": 2022,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2022/09/26/bumblebee-round-two/",
+ "sources": [
+  {
+   "title": "BumbleBee: Round Two (DFIR Report)",
+   "url": "https://thedfirreport.com/2022/09/26/bumblebee-round-two/",
+   "what_it_gave": "BumbleBee initial access, Meterpreter/Cobalt Strike, LSASS dump, RDP+AnyDesk to a server, RDP to backup server"
+  },
+  {
+   "title": "DFIR BumbleBee Round 2 Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/DFIR%20-%20BumbleBee%20Round%202.afb",
+   "what_it_gave": "beachhead -> discovery -> procdump LSASS -> RDP/AnyDesk to Server -> RDP to Backup Server"
+  }
+ ],
+ "narrative_before": "In a May 2022 intrusion the actors used BumbleBee as the initial access vector on a beachhead host, dropping and executing a DLL via rundll32 and injecting a process via WMI to obtain a Meterpreter shell (DFIR Report). From the Meterpreter sessions they ran network-share, domain-account and domain-trust discovery, then executed Cobalt Strike for reconnaissance and account discovery. They dumped credentials from LSASS with procdump, and at 18:53 UTC moved laterally to a server over RDP, installing AnyDesk for remote access and adding a user for persistence. They ran AdFind for reconnaissance, browsed files over AnyDesk, and at 19:17 UTC moved laterally over RDP to a backup server, where a batch script was executed for further reconnaissance.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host; BumbleBee -> Meterpreter/Cobalt Strike, LSASS dumped (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_server",
+   "role": "server reached over RDP with AnyDesk installed; user added for persistence",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server reached over RDP; batch recon script executed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "internal_servers",
+   "value": 20,
+   "replicas": [
+    "srv_server"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_server"
+  ],
+  [
+   "srv_server",
+   "srv_backup"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "techniques": {
+    "pc_beachhead": [
+     "T1547.009",
+     "T1105",
+     "T1218.011",
+     "T1047",
+     "T1055"
+    ]
+   },
+   "description": "Initial access: BumbleBee on the beachhead host, DLL via rundll32, WMI process injection, Meterpreter shell.",
+   "evidence": "'the threat actors used BumbleBee as the initial access vector ... Rundll32 executes DLL ... WMI Call for Process Injection ... Meterpreter shell for command execution' - CTID flow / DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_server": 7
+   },
+   "techniques": {
+    "pc_beachhead": [
+     "T1003.001"
+    ],
+    "srv_server": [
+     "T1021.001",
+     "T1219",
+     "T1136.002"
+    ]
+   },
+   "description": "LSASS credential dump, then RDP lateral movement to a server at 18:53 UTC with AnyDesk install and a persistence user.",
+   "evidence": "'18:31 UTC Credential dump with procdump ... 18:53 UTC Lateral Movement to Server via RDP and Anydesk install ... User Added for Persistence on Server' - CTID flow / DFIR Report"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_server": 6,
+    "srv_backup": 6
+   },
+   "techniques": {
+    "srv_backup": [
+     "T1021.001",
+     "T1059.003"
+    ]
+   },
+   "description": "RDP lateral movement to the backup server at 19:17 UTC; batch reconnaissance script executed.",
+   "evidence": "'19:17 UTC Lateral Movement to Backup Server via RDP ... 00:14 UTC Batch Script executed for system reconnaissance' - CTID flow / DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "srv_server",
+   "RDP lateral movement + AnyDesk install, persistence user added - T1021.001 / T1219"
+  ],
+  [
+   "srv_server",
+   "srv_backup",
+   "RDP lateral movement to backup server - T1021.001"
+  ]
+ ],
+ "ambiguities": [
+  "Flow uses relative timestamps (breach start time unknown); modelled hosts are exactly the named beachhead, Server and Backup Server.",
+  "Victim sector not stated.",
+  "Detection: no defender alert given; moments follow the DFIR Report's own UTC timeline markers."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

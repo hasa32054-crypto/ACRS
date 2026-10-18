@@ -1,0 +1,45 @@
+{
+ "incident": "Change Healthcare (UnitedHealth Group / Optum) — ALPHV/BlackCat ransomware, 21 February 2024",
+ "year": 2024,
+ "sector": "health",
+ "sources": [
+  {
+   "title": "Testimony of Andrew Witty, CEO UnitedHealth Group, before the U.S. Senate Committee on Finance, 1 May 2024",
+   "url": "https://www.finance.senate.gov/imo/media/doc/0501_witty_testimony.pdf",
+   "what_it_gave": "entry point (12 Feb, compromised credentials, Citrix remote-access portal, no MFA), lateral movement + exfiltration, ransomware deployed nine days later, data centre connections severed, ransom decision, rebuild (laptops replaced, credentials rotated, data centre network and core services rebuilt), restoration figures (pharmacy 99% by 7 March, payments ~86%, $6.5bn advanced)"
+  },
+  {
+   "title": "UnitedHealth Group Form 8-K, Item 1.05, filed 21-22 Feb 2024",
+   "url": "https://www.sec.gov/Archives/edgar/data/731766/000073176624000045/unh-20240221.htm",
+   "what_it_gave": "detection moment: 'On February 21, 2024, UnitedHealth Group identified a suspected nation-state associated cyber security threat actor had gained access to some of the Change Healthcare information technology systems' and 'proactively isolated the impacted systems'"
+  },
+  {
+   "title": "Cybersecurity Dive, UnitedHealth CEO testimony: tech takeaways (House E&C + Senate Finance hearings, May 2024)",
+   "url": "https://www.cybersecuritydive.com/news/unitedhealth-change-attack-tech-takeaways/715200/",
+   "what_it_gave": "hops: Citrix remote access server was 'the server through which the cybercriminals were able to get into Change'; credentials likely bought on dark web; prime and backup environments not isolated and both encrypted ('locking up the various backup systems ... really the root cause'); ~40-year-old claims/payment systems; cloud elements recovered quickly; data on about one third of Americans"
+  },
+  {
+   "title": "TechTarget, Change Healthcare breached via Citrix portal with no MFA (May 2024)",
+   "url": "https://www.techtarget.com/cybersecurity/news/366582824/Change-Healthcare-breached-via-Citrix-portal-with-no-MFA",
+   "what_it_gave": "12 Feb access, 21 Feb ransomware/disclosure, data centres shut down, encryption contained to Change network, $872m Q1 2024 cost (UHG earnings), 30,000+ pharmacies served"
+  },
+  {
+   "title": "TechCrunch, How the ransomware attack at Change Healthcare went down: a timeline (updated 27 Jan 2025)",
+   "url": "https://techcrunch.com/2025/01/27/how-the-ransomware-attack-at-change-healthcare-went-down-a-timeline/",
+   "what_it_gave": "29 Feb UHG attribution to ALPHV/BlackCat; affiliate claim of $22m Bitcoin payment 3 March; RansomHub second extortion April; 100m (Oct 2024) then 190m (Jan 2025) individuals affected; Nebraska complaint: low-level customer support account without MFA, attackers could 'travel freely between servers'"
+  },
+  {
+   "title": "CISA/FBI/HHS joint advisory AA23-353A, #StopRansomware: ALPHV Blackcat (Dec 2023, updated Feb 2024)",
+   "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-353a",
+   "what_it_gave": "ALPHV TTP reference for technique IDs (valid accounts T1078, external remote services T1133, remote services T1021, exfiltration T1567, encryption T1486); NOTE: fetch was blocked in this session, mapping relies on the advisory's published content"
+  }
+ ],
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,190 @@
+{
+ "incident": "Quantum ransomware (IcedID ISO to domain-wide Quantum in 3h44m)",
+ "year": 2022,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2022/04/25/quantum-ransomware/",
+ "sources": [
+  {
+   "title": "Quantum Ransomware - The DFIR Report (2022-04-25)",
+   "url": "https://thedfirreport.com/2022/04/25/quantum-ransomware/",
+   "what_it_gave": "entry (IcedID ISO/LNK docs_invoice_173.iso -> rundll32), hops (WMI cred test to a server, RDP to that server + other servers, PsExec/WMI from DC pivot to all hosts), cred access (LSASS via Task Manager + CS beacon), impact (Quantum ttsel.exe copied to C$ and run via PsExec/WMI), TTR 3h44m"
+  }
+ ],
+ "narrative_before": "In one of the fastest cases the DFIR Report observed, a 2022 intrusion went from initial access to domain-wide ransomware in 3 hours 44 minutes. Initial access was an IcedID payload in an ISO (docs_invoice_173.iso) delivered by email: the user mounted it and ran document.lnk, executing dar.dll (IcedID) via rundll32. IcedID ran discovery and created a scheduled task; ~2h later Cobalt Strike was injected via process hollowing (into cmd.exe and winlogon.exe), AdFind (adfind.bat) and ns.bat (nslookup per host) ran, and LSASS was accessed (Task Manager and a CS temporary beacon) to steal administrator credentials. The actors tested creds with WMI against a server (wmic /node:X /user:administrator ... os get caption), RDPed into that server, failed to run a DLL beacon, then ran a PowerShell CS beacon. For the next hour they made RDP connections to other servers. Pivoting from a domain controller, they copied ttsel.exe (Quantum) to each host's C$ share and detonated it via PsExec (custom service 'mstdc') and WMI, encrypting all hosts (README_TO_DECRYPT.html). No overt exfiltration was observed.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (IcedID ISO/LNK via rundll32, Cobalt Strike, LSASS, AdFind)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_1",
+   "role": "server (WMI cred test target; RDP; PowerShell CS beacon)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (pivot point for PsExec/WMI ransomware deployment)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_2",
+   "role": "server (RDP connection during the hour of lateral movement)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (Quantum ttsel.exe copied to C$ and run via PsExec/WMI)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation (Quantum ttsel.exe copied to C$ and run via PsExec/WMI)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "IcedID ISO/LNK executed via rundll32 on the beachhead; discovery + scheduled-task persistence; ~2h later Cobalt Strike via process hollowing.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1055.012",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'the user clicks on the LNK file, the IcedID DLL is executed ... Cobalt Strike was deployed using process hollowing and injection techniques' - Quantum Ransomware, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_1": 6
+   },
+   "description": "LSASS accessed (Task Manager + CS beacon) stealing admin creds; WMI cred test against a server then RDP + PowerShell CS beacon on it.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1003.001"
+    ],
+    "srv_1": [
+     "T1047",
+     "T1021.001"
+    ]
+   },
+   "evidence": "'Suspicious accesses to LSASS process memory ... using both Windows Task Manager and rundll32.exe ... the threat actor tested credentials ... using WMI ... RDP into that server' - Quantum Ransomware"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "srv_2": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "~4h: from a DC pivot, ttsel.exe (Quantum) copied to each host's C$ share and detonated via PsExec (custom service mstdc) and WMI across all hosts.",
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1047",
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "srv_2": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "pc_3": [
+     "T1486"
+    ]
+   },
+   "evidence": "'With their pivot point from one of the domain controllers ... copied the payload, ttsel.exe, to the C$ share of each host ... PsExec and WMI' - Quantum Ransomware"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "IcedID ISO docs_invoice_173.iso -> document.lnk runs dar.dll via rundll32 (T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "WMI credential test then RDP to a server; PowerShell Cobalt Strike beacon (T1047/T1021.001)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "RDP lateral movement; domain controller becomes the ransomware pivot (T1021.001)"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "ttsel.exe (Quantum) copied to C$ and executed via PsExec/WMI on all hosts (T1021.002/T1047/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'All hosts' modelled as srv_2/pc_2/pc_3.",
+  "No overt exfiltration observed (possible via IcedID/CS channel).",
+  "Which server the WMI test targeted vs later RDP targets not individually named; modelled as srv_1/srv_2.",
+  "Moments are the report's activity markers (IcedID+CS, LSASS/first hop, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

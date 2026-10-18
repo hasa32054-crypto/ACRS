@@ -1,0 +1,56 @@
+{
+ "incident": "Blind Eagle adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2023,
+ "sector": "finance",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/blind_eagle",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - Blind Eagle Scenario",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/blind_eagle/Operations_Flow/Operations_Flow.md",
+   "what_it_gave": "spearphishing entry, AsyncRAT on a single workstation, persistence, browser-credential theft - no lateral hop"
+  },
+  {
+   "title": "Check Point Research - Blind Eagle (Jan 2023)",
+   "url": "https://research.checkpoint.com/2023/",
+   "what_it_gave": "real Blind Eagle campaign against Colombian targets the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of Blind Eagle, modelling the group's real 2023 campaign against Colombian targets (Check Point, BlackBerry). Blind Eagle gains initial access via spearphishing (a spoofed DIAN tax email with a password-protected PDF), the user clicks a link that downloads a RAR/UUE which executes a VBScript, downloads fiber.dll and the AsyncRAT payload, and masquerades as RegSvcs.exe via process hollowing. AsyncRAT establishes C2 over Duck DNS, installs startup-folder persistence, and conducts keylogging and browser-credential theft, finishing by using stolen credentials against the victim's online banking portal. The entire scenario is explicitly characterised as 'exploitation of a single workstation' with no lateral movement to a second host.",
+ "machines": [
+  {
+   "name": "pc_victim",
+   "role": "single victim workstation; AsyncRAT via spearphishing, persistence, browser-credential theft",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [],
+ "links": [],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_victim": 7
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1566.001",
+     "T1204.002",
+     "T1059.005",
+     "T1055.012",
+     "T1555.003"
+    ]
+   },
+   "description": "Single-host compromise: spearphishing -> AsyncRAT on the victim workstation, persistence and browser-credential theft.",
+   "evidence": "'exploitation of a single workstation, and theft of browser credentials ... Blind Eagle will gain initial access via user execution of a link' - Blind Eagle Operations Flow"
+  }
+ ],
+ "attack_path": [],
+ "ambiguities": [
+  "Documented emulation of the real Blind Eagle 2023 campaign.",
+  "No lateral hop exists: the plan explicitly scopes to a single workstation with no second host."
+ ],
+ "dropped": true,
+ "drop_reason": "No lateral hop. The Blind Eagle emulation (and the real campaign) operates entirely on one victim workstation ('exploitation of a single workstation'); there is an entry host but no movement to a second machine, so it fails the entry + >=1 hop requirement."
+}

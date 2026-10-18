@@ -1,0 +1,171 @@
+{
+ "incident": "Ryuk's Return (BazarLoader/Kegtap to domain-wide Ryuk in 29 hours)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2020/10/08/ryuks-return/",
+ "sources": [
+  {
+   "title": "Ryuk's Return - The DFIR Report (2020-10-08)",
+   "url": "https://thedfirreport.com/2020/10/08/ryuks-return/",
+   "what_it_gave": "entry (malspam -> Bazar/Kegtap Document-Preview.exe), hops (beachhead->DC via SMB/WMIC + service, DC pivot->backup over SMB, SMB/RDP to others), Kerberoast (Rubeus), exfil (vsftpd of AdFind/Rubeus output to Russia), impact (Ryuk backups first then domain), 29h"
+  }
+ ],
+ "narrative_before": "In a 2020 intrusion the DFIR Report observed malspam delivering a Bazar/Kegtap loader: a user ran 'Document-Preview.exe' which beaconed to 5.182.210[.]145 over 443 and injected into explorer.exe/svchost.exe on the beachhead host. On day 1 the actors checked a domain controller for MS17-010 (not vulnerable) and dropped a Cobalt Strike beacon on a DC, which became their 'main operations point' (C2 to martahzz[.]com). First lateral movement came about 28 hours after entry, with the backup server reached over SMB roughly an hour later. On day 2 Kerberoasting was attempted with Rubeus and AdFind/Rubeus output was exfiltrated over vsftpd to 45.141.84[.]120 (Russia). Ryuk was staged and run from the pivot DC, hitting backup servers first (Veeam/SQL stopped, wbadmin used) then the rest of the domain; the report states the campaign ran 29 hours from initial execution to domain-wide ransomware with a 600+ BTC (~$6M) demand.",
+ "machines": [
+  {
+   "name": "pc_1",
+   "role": "beachhead host (Bazar/Kegtap execution, staging point)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (Cobalt Strike beacon, main operations point / Ryuk staging)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (reached over SMB; Veeam/SQL stopped, wbadmin; encrypted first)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "server (encrypted in domain-wide Ryuk)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (encrypted in domain-wide Ryuk)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_1",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_1": 7
+   },
+   "description": "Beachhead Bazar/Kegtap loader executing and beaconing; initial discovery (net, nltest). Earliest observable moment.",
+   "techniques": {
+    "pc_1": [
+     "T1566",
+     "T1204",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'the user ran Document-Preview.exe which connected to 5.182.210[.]145 over 443' - Ryuk's Return, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_1": 7,
+    "dc": 7
+   },
+   "description": "~28h after entry: Cobalt Strike beacon dropped on a domain controller via SMB+WMIC/service; DC is the actor's main operations point before ransomware staging.",
+   "techniques": {
+    "pc_1": [
+     "T1071.001"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1047",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'a Cobalt Strike beacon was dropped via SMB, then WMIC was used to run it ... the DC became the threat actors main operations point' - Ryuk's Return"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 8,
+    "srv_backup": 6
+   },
+   "description": "Day 2: Kerberoasting with Rubeus; backup server reached over SMB from the DC pivot ~1h after first lateral; discovery output exfiltrated via vsftpd.",
+   "techniques": {
+    "dc": [
+     "T1558.003",
+     "T1048"
+    ],
+    "srv_backup": [
+     "T1021.002"
+    ]
+   },
+   "evidence": "'Kerberoasting was attempted on Day 2 using Rubeus ... DC pivot -> backup server: SMB, roughly one hour after the first lateral movement' - Ryuk's Return"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_1",
+   "malspam Bazar/Kegtap loader run by user (T1566/T1204)"
+  ],
+  [
+   "pc_1",
+   "dc",
+   "Cobalt Strike beacon copied over SMB and executed via WMIC / remote service (T1021.002/T1047)"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "SMB lateral movement from DC pivot to backup server ~1h after first hop (T1021.002)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "Ryuk copied over SMB and executed via RDP from the pivot DC (T1021.002/T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; the report uses placeholder hostnames.",
+  "Victim sector not stated.",
+  "No defender detection timeline given; moments are the report's own activity markers (first execution, DC pivot, day-2 Kerberoast/backup).",
+  "Domain admin acquisition not explicitly described; Kerberoast attempted. Counts of encrypted servers/workstations not given (modelled as srv_1, pc_2)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

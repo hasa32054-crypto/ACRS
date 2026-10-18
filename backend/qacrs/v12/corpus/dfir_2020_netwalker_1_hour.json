@@ -1,0 +1,138 @@
+{
+ "incident": "NetWalker ransomware in 1 hour (RDP admin login to domain-wide NetWalker)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2020/08/31/netwalker-ransomware-in-1-hour/",
+ "sources": [
+  {
+   "title": "NetWalker Ransomware in 1 Hour - The DFIR Report (2020-08-31)",
+   "url": "https://thedfirreport.com/2020/08/31/netwalker-ransomware-in-1-hour/",
+   "what_it_gave": "entry (RDP with valid DomainName\\Administrator), hop (RDP from first host to a DC after cred dump, then PsExec DC->all domain-joined), cred access (procdump lsass + Mimikatz), impact (NetWalker via PsExec+PowerShell to all online hosts), 1h"
+  }
+ ],
+ "narrative_before": "In this 2020 honeypot-environment intrusion the DFIR Report observed a threat actor log in over RDP with a valid 'DomainName\\Administrator' account (source assessed as 198.181.163[.]103). About 16 minutes after login the actor dropped and ran c37.ps1 (assessed Cobalt Strike), then used procdump64.exe on lsass followed by Mimikatz to dump credentials. The actor RDPed into a domain controller, dropped ip.list.txt, P100119.ps1 and PsExec, and used PsExec as the Domain Administrator to deploy NetWalker (P100119.ps1 via PowerShell) to all online domain-joined systems. The entire intrusion took about one hour; the operators demanded $50k rising to $100k.",
+ "machines": [
+  {
+   "name": "pc_1",
+   "role": "beachhead host (RDP Administrator login; Cobalt Strike, lsass dump, Mimikatz)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP target; PsExec source for NetWalker deployment)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "domain-joined server (encrypted by NetWalker)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_2",
+   "role": "domain-joined workstation (encrypted by NetWalker)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "domain-joined workstation (encrypted by NetWalker)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_1",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_1": 7
+   },
+   "description": "RDP login with valid Administrator account; ~16 min later c37.ps1 (Cobalt Strike) executed on the beachhead.",
+   "techniques": {
+    "pc_1": [
+     "T1078",
+     "T1021.001",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'the threat actor logged in using the DomainName\\Administrator account ... About 16 minutes after this login, c37.ps1 was dropped and run' - NetWalker in 1 Hour, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_1": 8,
+    "dc": 6
+   },
+   "description": "LSASS dumped with procdump + Mimikatz on the beachhead; actor RDPs into a domain controller and stages PsExec + P100119.ps1.",
+   "techniques": {
+    "pc_1": [
+     "T1003.001"
+    ],
+    "dc": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'procdump64.exe -ma lsass.exe lsass.dmp, followed by Mimikatz ... RDPed into a Domain Controller after dumping credentials' - NetWalker in 1 Hour"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_1",
+   "RDP login with valid DomainName\\Administrator account (T1078/T1021.001)"
+  ],
+  [
+   "pc_1",
+   "dc",
+   "RDP from beachhead to a domain controller after LSASS credential dump (T1021.001/T1003.001)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "PsExec from the DC mounting shares as Domain Administrator, running P100119.ps1/NetWalker on all online domain-joined systems (T1021.002/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Honeypot environment; hosts named by role only, no sector.",
+  "Encryption order across hosts not stated; generic domain-joined systems modelled as srv_1/pc_2/pc_3.",
+  "How domain-admin access was obtained beyond the dumped credentials is not described.",
+  "No defender detection timeline; moments are the report's activity markers."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

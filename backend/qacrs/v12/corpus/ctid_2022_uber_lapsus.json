@@ -1,0 +1,201 @@
+{
+ "incident": "Uber breach by Lapsus$ (MFA fatigue + PAM credentials)",
+ "year": 2022,
+ "sector": "technology",
+ "case_url": "https://www.uber.com/newsroom/security-update/",
+ "sources": [
+  {
+   "title": "Uber Newsroom security update",
+   "url": "https://www.uber.com/newsroom/security-update/",
+   "what_it_gave": "contractor account compromise, MFA fatigue, access to internal tools"
+  },
+  {
+   "title": "CyberArk - Unpacking the Uber Breach",
+   "url": "https://www.cyberark.com/resources/blog/unpacking-the-uber-breach",
+   "what_it_gave": "network share -> PowerShell with hard-coded PAM creds -> Thycotic PAM -> many consoles"
+  },
+  {
+   "title": "Uber Breach Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Uber%20Breach.afb",
+   "what_it_gave": "contractor VPN -> network share -> PAM creds -> Thycotic -> vSphere/AWS/GCP/Slack/HackerOne"
+  }
+ ],
+ "narrative_before": "Lapsus$ obtained an Uber contractor's credentials (likely bought on the dark web) and, after repeated login attempts, used MFA fatigue to get the contractor to approve a push and gain the VPN/account access (Uber, CyberArk). Inside the environment the attacker found a network share containing a PowerShell script with hard-coded privileged credentials for Uber's Thycotic privileged-access-management (PAM) solution. Using those, the attacker took over the PAM system and gained access to many integrated services and consoles via SSO, including the vSphere cloud management console, AWS, GCP, Google Drive, SentinelOne, the Slack workspace, HackerOne admin and internal dashboards and code repositories. The attacker exfiltrated internal Slack messages and finance-tool data.",
+ "machines": [
+  {
+   "name": "web_vpn",
+   "role": "contractor VPN account access gained via MFA fatigue (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "internal network share holding a PowerShell script with hard-coded PAM credentials",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_pam",
+   "role": "Thycotic PAM solution; secrets store, controls access to internal services",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_vsphere",
+   "role": "vSphere cloud management console; sensitive customer and financial data",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_slack",
+   "role": "Slack workspace / internal dashboards and consoles reached via PAM SSO (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_repos",
+   "role": "code repositories and HackerOne/SentinelOne/cloud consoles reached via PAM (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "privileged_access_management",
+   "value": 20,
+   "replicas": [
+    "srv_pam"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "cloud_management",
+   "value": 20,
+   "replicas": [
+    "srv_vsphere"
+   ],
+   "depends_on": [
+    "srv_pam"
+   ]
+  },
+  {
+   "name": "internal_collaboration",
+   "value": 10,
+   "replicas": [
+    "srv_slack",
+    "srv_repos"
+   ],
+   "depends_on": [
+    "srv_pam"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_vpn",
+   "files"
+  ],
+  [
+   "files",
+   "srv_pam"
+  ],
+  [
+   "srv_pam",
+   "srv_vsphere"
+  ],
+  [
+   "srv_pam",
+   "srv_slack"
+  ],
+  [
+   "srv_pam",
+   "srv_repos"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_vpn": 5
+   },
+   "techniques": {
+    "web_vpn": [
+     "T1078",
+     "T1621"
+    ]
+   },
+   "description": "Initial access: contractor credentials + MFA-fatigue push approval grant VPN/account access.",
+   "evidence": "'Attacker ... blocked due to multi-factor authentication ... repeatedly tried ... caused MFA to spam the user ... User accepted one ... allowing the attackers access' - CTID flow / Uber"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_vpn": 5,
+    "files": 5,
+    "srv_pam": 5
+   },
+   "techniques": {
+    "files": [
+     "T1552.001"
+    ],
+    "srv_pam": [
+     "T1078",
+     "T1555"
+    ]
+   },
+   "description": "Discovery of hard-coded PAM credentials on a network share and takeover of the Thycotic PAM solution.",
+   "evidence": "'discovered a PowerShell script containing hard-coded privileged accounts within the network share ... used valid account credentials to access the PAM solution' - CTID flow / CyberArk"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_pam": 5,
+    "srv_vsphere": 5,
+    "srv_slack": 5,
+    "srv_repos": 5
+   },
+   "techniques": {
+    "srv_vsphere": [
+     "T1555"
+    ],
+    "srv_slack": [
+     "T1555"
+    ],
+    "srv_repos": [
+     "T1555"
+    ]
+   },
+   "description": "Through PAM SSO, access to vSphere, cloud consoles, Slack, HackerOne, code repos; Slack/finance data exfiltrated.",
+   "evidence": "'Through PAM, attackers compromised access to systems using SSO and consoles, including the cloud management console' - CTID flow / CyberArk"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_vpn",
+   "files",
+   "network share with broad read ACL accessed from contractor session - T1135"
+  ],
+  [
+   "files",
+   "srv_pam",
+   "hard-coded privileged credentials used to access Thycotic PAM - T1552.001 / T1078"
+  ],
+  [
+   "srv_pam",
+   "srv_vsphere",
+   "PAM SSO used to reach cloud management console and secrets - T1555"
+  ]
+ ],
+ "ambiguities": [
+  "Flow lists ~10 downstream consoles (AWS, GCP, Google Drive, SentinelOne, Slack, HackerOne, repos, dashboards); grouped into srv_slack/srv_repos to stay within the machine cap.",
+  "No defender-side detection timestamp; moments follow the breach's own stages (access, PAM takeover, console access)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

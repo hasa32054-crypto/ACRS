@@ -1,0 +1,206 @@
+{
+ "incident": "HTML Smuggling Leads to Domain Wide Nokoyawa Ransomware (12 hours)",
+ "year": 2023,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2023/08/28/html-smuggling-leads-to-domain-wide-ransomware/",
+ "sources": [
+  {
+   "title": "HTML Smuggling Leads to Domain Wide Ransomware - The DFIR Report (2023-08-28)",
+   "url": "https://thedfirreport.com/2023/08/28/html-smuggling-leads-to-domain-wide-ransomware/",
+   "what_it_gave": "entry (HTML smuggling ZIP/ISO/LNK -> IcedID via rundll32), hops (RDP to DC with CS DLL, RDP to backup server + file server, netscan, PsExec/WMIC), cred access (LSASS via CS, SessionGopher on DC), impact (Nokoyawa k.exe + p.bat via PsExec/WMIC domain-wide), TTR 12h"
+  }
+ ],
+ "narrative_before": "In an early-November 2022 intrusion (published 2023) the DFIR Report observed TA551 thread-hijacked email delivering an HTML-smuggling file: a fake Adobe page downloaded a password-protected ZIP containing an ISO whose only visible file was a LNK (documents-9771). Clicking it ran commands copying rundll32 and a malicious DLL and executing IcedID (hourly scheduled-task persistence). ~3h after execution a cmd process beaconed to a Cobalt Strike server (seen in a prior Nokoyawa report), accessed LSASS and checked domain admins. After a ~3h pause the actor looked up specific domain admins and used one account to RDP to a domain controller, copying a CS beacon (1.dll) and running it. AdFind (via batch) and nslookup-per-host ran on the DC; ~5h later SessionGopher ran, and the actor RDPed to a backup server and a file server. Back on the DC, netscan ran and PsExec/WMIC copied k.exe (Nokoyawa) and p.bat across hosts. Five minutes later Nokoyawa ran on the DC and PsExec started p.bat on the other hosts; time to ransomware was just over 12 hours.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (HTML smuggling IcedID via rundll32; Cobalt Strike; LSASS)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP; CS 1.dll, AdFind, SessionGopher, netscan; ransomware staging/first run)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; backup console opened)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; file reviewed in notepad)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (k.exe + p.bat via PsExec/WMIC; Nokoyawa)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (k.exe + p.bat via PsExec; Nokoyawa)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 8
+   },
+   "description": "IcedID executed via HTML-smuggled ISO/LNK/rundll32 on the beachhead; ~3h later Cobalt Strike beacon + LSASS access.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1566.001",
+     "T1204.002",
+     "T1071.001",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'When the user clicked the LNK file ... executing the malware ... a connection was made to IcedID command and control servers ... observed accessing LSASS' - HTML Smuggling, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 8
+   },
+   "description": "Actor RDPs to a domain controller using a domain admin account, copies and runs a Cobalt Strike DLL, runs AdFind and SessionGopher.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1071.001",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'initiated a RDP session to move laterally to a domain controller ... copied over a Cobalt Strike beacon to the domain controller and executed it ... SessionGopher' - HTML Smuggling"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_backup": 6,
+    "files": 6,
+    "srv_1": 9,
+    "pc_2": 9
+   },
+   "description": "RDP to backup and file servers; netscan on the DC; PsExec/WMIC copy k.exe + p.bat; Nokoyawa runs on the DC and via PsExec on other hosts (TTR 12h).",
+   "techniques": {
+    "dc": [
+     "T1486",
+     "T1021.002"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "files": [
+     "T1021.001"
+    ],
+    "srv_backup": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'both PsExec and WMIC were used to move files ... k.exe and p.bat ... the Nokoyawa ransomware binary was executed on a domain controller ... PsExec was used to execute the p.bat file starting the ransomware binary on the other hosts' - HTML Smuggling"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "HTML smuggling ZIP/ISO/LNK runs IcedID via rundll32 (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "RDP to a domain controller with a domain admin account; CS DLL copied and run (T1021.001)"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "RDP from DC to backup server (backup console opened) (T1021.001)"
+  ],
+  [
+   "dc",
+   "files",
+   "RDP from DC to file server (file reviewed) (T1021.001)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "PsExec/WMIC copy k.exe + p.bat and run Nokoyawa domain-wide (T1021.002/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Other hosts in the domain' modelled as srv_1/pc_2.",
+  "No exfiltration described (LSASS access via CS; data staging not detailed).",
+  "Moments are the report's own timeline markers (IcedID+CS, DC RDP, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

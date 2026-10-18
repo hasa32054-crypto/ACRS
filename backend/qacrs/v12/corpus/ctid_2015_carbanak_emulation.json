@@ -1,0 +1,172 @@
+{
+ "incident": "Carbanak (FIN7-adjacent) adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2015,
+ "sector": "finance",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/carbanak",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - Carbanak Operations Flow & Scenario 1",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/carbanak/Operations_Flow.md",
+   "what_it_gave": "named 4-host env (bankdc/hrmanager/cfo/bankfileserver), spearphish entry, SSH to file server, PsExec to DC, pivot to CFO"
+  },
+  {
+   "title": "Kaspersky - Carbanak APT: The Great Bank Robbery",
+   "url": "https://securelist.com/the-great-bank-robbery-the-carbanak-apt/68732/",
+   "what_it_gave": "real Carbanak campaign (2013-2016) against financial institutions the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of Carbanak, modelling the real Carbanak APT campaign (~2013-2016) that stole from financial institutions (Kaspersky). The emulation targets a four-host bank domain: domain controller 'bankdc', HR manager workstation 'hrmanager', CFO workstation 'cfo', and Linux 'bankfileserver'. A spearphishing RTF compromises hrmanager, where the actor deploys a RAT, takes screenshots, injects a second-stage RAT via shellcode in the registry, and escalates privileges with a modified Mimikatz. The actor uploads tools and uses plink.exe to SSH into bankfileserver, where files reveal information to target the CFO, then uses impacket psexec with a domain-admin NTLM hash to move from bankfileserver to bankdc. From bankdc the actor profiles and RDPs to the cfo workstation, deploys a keylogger and VNC, and impersonates the CFO user to complete the fraud.",
+ "machines": [
+  {
+   "name": "pc_hrmanager",
+   "role": "HR manager workstation 'hrmanager'; spearphishing RTF entry, RAT, privilege escalation",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "Linux 'bankfileserver' reached over SSH (plink); recon files reveal CFO target",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'bankdc' reached via impacket psexec with DA NTLM hash",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "pc_cfo",
+   "role": "CFO workstation 'cfo' reached via RDP from bankdc; keylogger/VNC, user impersonation",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "bank_file_server",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "money_processing",
+   "value": 25,
+   "replicas": [
+    "pc_cfo"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_hrmanager",
+   "files"
+  ],
+  [
+   "files",
+   "dc"
+  ],
+  [
+   "dc",
+   "pc_cfo"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_hrmanager": 5
+   },
+   "techniques": {
+    "pc_hrmanager": [
+     "T1566.001",
+     "T1204.002",
+     "T1112",
+     "T1055"
+    ]
+   },
+   "description": "Initial breach: spearphishing RTF on hrmanager; RAT deployed and second-stage shellcode injected.",
+   "evidence": "'a legitimate user executing a malicious payload delivered via spearphishing ... write obfuscated shellcode to the Windows Registry ... injects the shellcode into the current PowerShell process' - Carbanak Operations Flow / Scenario 1"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_hrmanager": 8,
+    "files": 6
+   },
+   "techniques": {
+    "pc_hrmanager": [
+     "T1003.001"
+    ],
+    "files": [
+     "T1021.004",
+     "T1083"
+    ]
+   },
+   "description": "Privilege escalation (modified Mimikatz) on hrmanager; SSH via plink into bankfileserver to read targeting files.",
+   "evidence": "'use plink.exe to SSH into bankfileserver ... browse local files. The contents of two files ... provide them with information needed to target the CFO' - Carbanak Scenario 1 Step 5"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 6,
+    "dc": 6,
+    "pc_cfo": 6
+   },
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1550.002",
+     "T1569.002"
+    ],
+    "pc_cfo": [
+     "T1021.001",
+     "T1056.001"
+    ]
+   },
+   "description": "impacket psexec with the DA hash from bankfileserver to bankdc, then RDP from bankdc to the cfo workstation.",
+   "evidence": "'./runtime psexec.py ...@<bankdc_ip> -hashes <...> ... RDP into CFO as <cfo_user>' - Carbanak Scenario 1 Steps 5-8"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_hrmanager",
+   "files",
+   "plink.exe SSH from hrmanager to Linux bankfileserver - T1021.004"
+  ],
+  [
+   "files",
+   "dc",
+   "impacket psexec pass-the-hash from bankfileserver to bankdc - T1021.002 / T1550.002 / T1569.002"
+  ],
+  [
+   "dc",
+   "pc_cfo",
+   "RDP from bankdc to the CFO workstation - T1021.001"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of the real Carbanak campaign (~2013-2016); year 2015 chosen as a representative campaign year.",
+  "Hostnames (bankdc/hrmanager/cfo/bankfileserver) are the plan's lab names, not a specific real victim's.",
+  "'money_processing' service value 25 reflects the plan's financial-institution objective (fraud via the CFO)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

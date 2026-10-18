@@ -1,0 +1,167 @@
+{
+ "incident": "OilRig (APT34) adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2019,
+ "sector": "critical-infrastructure",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/oilrig",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - OilRig Operations Flow & Infrastructure",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/oilrig/Operations_Flow/Operations_Flow.md",
+   "what_it_gave": "named 4-host env (theblock/waterfalls/endofroad/diskjockey), spearphish entry, RDP tunnel to EWS, PtH to SQL server, DB exfil"
+  },
+  {
+   "title": "Check Point - Iran's APT34 Returns with an Updated Arsenal (2021)",
+   "url": "https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/",
+   "what_it_gave": "real APT34/OilRig SideTwist and TwoFace TTPs the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of OilRig (APT34, Iranian), modelling the group's real SideTwist/TwoFace-based intrusions reported around 2019-2021 (Check Point, Unit 42). The lab domain 'boombox' has an Exchange admin workstation 'theblock' (10.1.0.5), an Exchange Web Server 'waterfalls' (10.1.0.6), a SQL server 'endofroad' (10.1.0.7) and a domain controller 'diskjockey'. A spearphishing Word macro drops the SideTwist backdoor on theblock; after discovery and VALUEVAULT credential dumping the actor learns user Gosta is an EWS admin. Using Gosta's credentials and a plink remote-port-forward RDP tunnel, the actor moves to the EWS (waterfalls), deploys the TwoFace webshell, and downloads Mimikatz to dump the SQL admin (Tous) credentials. With Tous' NTLM hash the actor pass-the-hashes and uses PsExec/RDAT to move laterally to the SQL server (endofroad), then collects and exfiltrates database backups via the EWS API using steganography.",
+ "machines": [
+  {
+   "name": "pc_theblock",
+   "role": "Exchange admin workstation 'theblock'; spearphishing SideTwist entry, VALUEVAULT creds",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_waterfalls",
+   "role": "Exchange Web Server 'waterfalls' reached via RDP tunnel; TwoFace webshell, Mimikatz",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_endofroad",
+   "role": "SQL server 'endofroad' reached via pass-the-hash/PsExec; RDAT backdoor, DB exfil",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'diskjockey' in the boombox domain",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "exchange_ews",
+   "value": 20,
+   "replicas": [
+    "srv_waterfalls"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "sql_database",
+   "value": 25,
+   "replicas": [
+    "srv_endofroad"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_theblock",
+   "srv_waterfalls"
+  ],
+  [
+   "srv_waterfalls",
+   "srv_endofroad"
+  ],
+  [
+   "pc_theblock",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_theblock": 7
+   },
+   "techniques": {
+    "pc_theblock": [
+     "T1566.002",
+     "T1204.002",
+     "T1059.005",
+     "T1071.001"
+    ]
+   },
+   "description": "Initial compromise: spearphishing Word macro drops SideTwist on theblock, C2 over HTTP/443.",
+   "evidence": "'OilRig gains initial access from user Gosta (THE BLOCK, 10.1.0.5) downloading and opening a Microsoft Word document ... SideTwist payload is stealthily dropped' - OilRig Operations Flow Step 1"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_theblock": 5,
+    "srv_waterfalls": 8
+   },
+   "techniques": {
+    "pc_theblock": [
+     "T1555.004"
+    ],
+    "srv_waterfalls": [
+     "T1572",
+     "T1021.001",
+     "T1505.003",
+     "T1003.001"
+    ]
+   },
+   "description": "VALUEVAULT credential dumping; RDP-tunnel lateral movement to the EWS, TwoFace webshell + Mimikatz dump of SQL admin creds.",
+   "evidence": "'moves laterally onto the EWS via remote port forward using plink ... installs the TwoFace web shell ... download Mimikatz ... dump the credentials ... for SQL server administrator Tous' - OilRig Operations Flow Steps 4-7"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_waterfalls": 8,
+    "srv_endofroad": 6
+   },
+   "techniques": {
+    "srv_endofroad": [
+     "T1550.002",
+     "T1021.002",
+     "T1569.002",
+     "T1005"
+    ]
+   },
+   "description": "Pass-the-hash with Tous' NTLM hash + PsExec/RDAT to the SQL server; database backups collected and exfiltrated.",
+   "evidence": "'uses Tous NTLM hash to execute a pass-the-hash ... copies the RDAT backdoor to the SQL server and executes PsExec ... exfiltrate the backups of the database files' - OilRig Operations Flow Steps 8-9"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_theblock",
+   "srv_waterfalls",
+   "plink remote-port-forward RDP tunnel with Gosta's creds to the EWS - T1572 / T1021.001"
+  ],
+  [
+   "srv_waterfalls",
+   "srv_endofroad",
+   "pass-the-hash (Tous NTLM) + PsExec/RDAT to SQL server - T1550.002 / T1021.002 / T1569.002"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of real APT34/OilRig activity (~2019-2021); year 2019 chosen for the SideTwist-era basis.",
+  "Hostnames (theblock/waterfalls/endofroad/diskjockey) and IPs are the plan's lab values.",
+  "The domain controller is modelled from domain membership; the plan's explicit named hops are theblock->waterfalls->endofroad."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,275 @@
+{
+ "incident": "Hide Your RDP: Password Spray Leads to RansomHub Deployment (TTR ~118h)",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2025/06/30/hide-your-rdp-password-spray-leads-to-ransomhub-deployment/",
+ "sources": [
+  {
+   "title": "Hide Your RDP: Password Spray Leads to RansomHub Deployment - The DFIR Report (2025-06-30)",
+   "url": "https://thedfirreport.com/2025/06/30/hide-your-rdp-password-spray-leads-to-ransomhub-deployment/",
+   "what_it_gave": "entry (password spray on internet-facing RDP), hops (RDP beachhead->2 DCs, then backup servers, file servers, hypervisors, more DCs), cred access (Mimikatz, Nirsoft CredentialsFileView, LSASS), exfil (Rclone SFTP over 443), impact (RansomHub amd64.exe local + SMB spread via remote service), TTR ~118h / 6 days"
+  }
+ ],
+ "narrative_before": "In a November 2024 intrusion the DFIR Report observed a password-spray attack against an internet-facing RDP server. Hours later the actor logged in over RDP with a compromised user, ran net discovery and used Mimikatz and Nirsoft CredentialsFileView against LSASS. ~2 hours after authenticating they moved by RDP to two domain controllers, examined DNS via the GUI, and continued to other servers and endpoints harvesting credentials; Advanced IP Scanner was downloaded and run from the beachhead. They continued lateral movement to backup servers, file servers, hypervisors and more domain controllers, running Mimikatz and viewing file-share documents. On day 2 they re-ran Advanced IP Scanner and SoftPerfect NetScan and installed Atera on two backup servers. On day 3 Rclone exfiltrated files over SFTP (port 443). On day 5 they returned via Splashtop on a backup server, swept the network, RDPed to hosts including domain controllers and reset user passwords. On day 6 they dropped amd64.exe (RansomHub) and ran it with a pass flag: it encrypted locally and spread over SMB, executing on remote hosts via a random-named remote service, killing VMs, deleting shadow copies and clearing logs. TTR was ~118 hours over six days.",
+ "machines": [
+  {
+   "name": "web_rdp",
+   "role": "internet-facing RDP beachhead (password spray; Mimikatz/CredentialsFileView; netscan; RansomHub launched)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP; DNS console; passwords reset)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "second domain controller (RDP; Mimikatz per child domain)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (Atera + Splashtop installed; network sweeps; RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; documents viewed; Rclone SFTP exfil source)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dev_hv",
+   "role": "hypervisor (RDP; targeted; VMs killed by ransomware)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server (RansomHub over SMB via remote service)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "endpoint (RansomHub over SMB)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "virtualization",
+   "value": 20,
+   "replicas": [
+    "dev_hv"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_rdp",
+   "dc"
+  ],
+  [
+   "web_rdp",
+   "dc_2"
+  ],
+  [
+   "web_rdp",
+   "srv_backup"
+  ],
+  [
+   "web_rdp",
+   "files"
+  ],
+  [
+   "web_rdp",
+   "dev_hv"
+  ],
+  [
+   "web_rdp",
+   "srv_1"
+  ],
+  [
+   "web_rdp",
+   "pc_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_rdp": 8
+   },
+   "description": "Password spray against an internet-facing RDP server; login with a compromised user; net discovery; Mimikatz/CredentialsFileView against LSASS.",
+   "techniques": {
+    "web_rdp": [
+     "T1110.003",
+     "T1133",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'a password spray attack targeting an internet-facing RDP server ... Credential access tools, specifically Mimikatz and Nirsoft CredentialsFileView, were used' - Hide Your RDP, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_rdp": 8,
+    "dc": 8,
+    "dc_2": 8,
+    "srv_backup": 6,
+    "files": 6,
+    "dev_hv": 6
+   },
+   "description": "~2h: RDP to two DCs, then backup servers, file servers, hypervisors and more DCs with a privileged account; Mimikatz across hosts; shares viewed; Advanced IP Scanner/NetScan.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1003.001"
+    ],
+    "dc_2": [
+     "T1021.001",
+     "T1003.001"
+    ],
+    "srv_backup": [
+     "T1021.001"
+    ],
+    "files": [
+     "T1021.001"
+    ],
+    "dev_hv": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'used RDP to move laterally to two domain controllers ... continued lateral movement to additional hosts targeting backup servers, file servers, hypervisors, and more domain controllers' - Hide Your RDP"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 5,
+    "srv_backup": 7
+   },
+   "description": "Day 3: Rclone exfiltrates documents/spreadsheets/emails/images over SFTP (port 443); Atera/Splashtop persistence on backup servers.",
+   "techniques": {
+    "files": [
+     "T1567.002"
+    ],
+    "srv_backup": [
+     "T1219"
+    ]
+   },
+   "evidence": "'they employed Rclone to exfiltrate files over SFTP ... configured to include specific file types ... The transfer occurred over port 443, but the traffic was confirmed to be SFTP' - Hide Your RDP"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "web_rdp": 9,
+    "srv_1": 9,
+    "pc_1": 9,
+    "dev_hv": 9,
+    "dc": 6,
+    "files": 9,
+    "srv_backup": 9
+   },
+   "description": "Day 6 (~118h): amd64.exe (RansomHub) run with a pass flag; encrypts locally and spreads over SMB, executing on remote hosts via a random-named remote service; kills VMs, deletes shadow copies, clears logs.",
+   "techniques": {
+    "web_rdp": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486",
+     "T1021.002"
+    ],
+    "pc_1": [
+     "T1486"
+    ],
+    "dev_hv": [
+     "T1486",
+     "T1490"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1486"
+    ]
+   },
+   "evidence": "'dropped the binary named amd64.exe and executed it ... reached out to remote hosts to transfer a copy of the ransomware over SMB and then execute that file on the hosts using a remote service' - Hide Your RDP"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_rdp",
+   "password spray against an internet-facing RDP server (T1110.003/T1133)"
+  ],
+  [
+   "web_rdp",
+   "dc",
+   "RDP to a domain controller ~2h after entry (T1021.001)"
+  ],
+  [
+   "web_rdp",
+   "dev_hv",
+   "RDP lateral movement to hypervisors, file and backup servers (T1021.001)"
+  ],
+  [
+   "web_rdp",
+   "files",
+   "RDP to file server; Rclone SFTP exfiltration over 443 (T1021.001/T1567.002)"
+  ],
+  [
+   "web_rdp",
+   "srv_1",
+   "RansomHub amd64.exe spreads over SMB and runs via a remote service (T1486/T1021.002)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Multiple hosts of each role collapsed to one representative each (plus two DCs the report names).",
+  "Remote-encrypted hosts via SMB spread modelled as srv_1/pc_1.",
+  "Moments are the report's own daily timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

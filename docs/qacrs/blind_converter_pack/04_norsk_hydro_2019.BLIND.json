@@ -1,0 +1,45 @@
+{
+ "incident": "Norsk Hydro - LockerGoga ransomware (detected night of 18-19 March 2019)",
+ "year": 2019,
+ "sector": "manufacturing",
+ "sources": [
+  {
+   "title": "Microsoft (DART case study): Hackers hit Norsk Hydro with ransomware. The company responded with transparency",
+   "url": "https://news.microsoft.com/source/features/digital-transformation/hackers-hit-norsk-hydro-ransomware-company-responded-transparency/",
+   "what_it_gave": "entry point (Dec 2018 email attachment from trusted customer, Trojan); first alert (antivirus days later); hops (standard user accounts -> admin credentials -> manual push of ransomware from Hydro's own domain controllers); detection (4 a.m. call 'We may be under attack', production stopped at some of 170 plants, network/servers shut down); impact (35,000 employees, 40 countries, thousands of servers and PCs, cost approaching USD 71 million); DART at Hungary plant"
+  },
+  {
+   "title": "BankInfoSecurity: Hydro Hit by LockerGoga Ransomware via Active Directory (NorCERT statement)",
+   "url": "https://www.bankinfosecurity.net/hydro-hit-by-lockergoga-ransomware-via-active-directory-a-12207",
+   "what_it_gave": "NorCERT: 'The attack was combined with an attack on Active Directory (AD)'; began Monday night at a U.S. plant and spread; plants in Norway, Qatar, Brazil run manually; Kripos informed Tuesday morning"
+  },
+  {
+   "title": "Hydro.com company history: 2019 cyber attack on Hydro",
+   "url": "https://hydro.com/en/about-hydro/company-history/2018-present/2019-cyber-attack-on-hydro/",
+   "what_it_gave": "Extruded Solutions suffered most; Bauxite & Alumina, Primary Metal, Rolled Products, Energy kept producing via manual procedures; all PCs and servers reviewed/cleaned, encrypted machines rebuilt from backups"
+  },
+  {
+   "title": "Business Insurance / Reuters (30 Apr 2019): Hydro expects cyberattack costs of nearly $52 million in Q1",
+   "url": "https://www.businessinsurance.com/hydro-expects-cyberattack-costs-of-nearly-52-million-in-2019-first-quarter/",
+   "what_it_gave": "Q1 2019 cost estimate up to NOK 450 million (~USD 52m); Extruded Solutions external sales 333,000 t vs 362,000 t; production halted 19 March, other units manual; Q1 report postponed to 5 June"
+  },
+  {
+   "title": "SecurityWeek (5 Jun 2019): Ransomware Attack Costs Norsk Hydro Tens of Millions of Dollars (Q1 2019 report)",
+   "url": "https://www.securityweek.com/ransomware-attack-costs-norsk-hydro-tens-millions-dollars",
+   "what_it_gave": "Q1 report: cost USD 35-41m in Q1 (NOK 300-350m first week), Q2 forecast NOK 200-250m; infection began 18 March; Extruded Solutions biggest impact; backups, no ransom paid"
+  },
+  {
+   "title": "Industrial Cyber: The Norsk Hydro Attack",
+   "url": "https://www.industrialcyber.co/features/the-norsk-hydro-attack/",
+   "what_it_gave": "detection 18-19 March overnight, warning signs morning of 19 March; alumina/bauxite kept on manual control; primary metal and rolled products harder to switch to manual; aluminium production never halted (electrolysis hardening risk); ~3 weeks to near-normal production"
+  }
+ ],
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [],
+ "dropped": false,
+ "drop_reason": ""
+}

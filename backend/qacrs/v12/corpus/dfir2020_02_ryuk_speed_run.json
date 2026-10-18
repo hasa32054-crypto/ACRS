@@ -1,0 +1,182 @@
+{
+ "incident": "Ryuk Speed Run, 2 Hours to Ransom",
+ "year": 2020,
+ "sector": "unknown",
+ "sources": [
+  {
+   "title": "Ryuk Speed Run, 2 Hours to Ransom - The DFIR Report",
+   "url": "https://thedfirreport.com/2020/11/05/ryuk-speed-run-2-hours-to-ransom/",
+   "what_it_gave": "entry point / hops / detection"
+  }
+ ],
+ "narrative_before": "A phishing email linked to a Google Docs page offered a 'report' that was actually a Bazar Loader executable (Report-Review20-10.exe); execution needed user interaction. The DFIR Report states 'the time from initial Bazar execution to domain recon was 5 minutes' and Cobalt Strike was deployed within 10 minutes. The actors Kerberoasted with Rubeus and used Zerologon (CVE-2020-1472) to obtain domain admin, then used RDP from the beachhead to two domain controllers and SMB (ADMIN$ service execution) to backup, file and deployment servers. Ryuk 'was deployed in 2 hours with the actor completing all objectives in 3 hours', starting with backup systems and file servers. Discovery output was exfiltrated via FTP.",
+ "machines": [
+  {
+   "name": "pc_1",
+   "role": "beachhead workstation (Bazar Loader + Cobalt Strike)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (Cobalt Strike, AD module, Zerologon)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "domain controller (Cobalt Strike, RDP target)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (Veeam services stopped, encrypted first)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_deploy",
+   "role": "software deployment server (encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "Active Directory / authentication",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "Backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "File shares",
+   "value": 10,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_1",
+   "dc"
+  ],
+  [
+   "pc_1",
+   "dc_2"
+  ],
+  [
+   "pc_1",
+   "srv_backup"
+  ],
+  [
+   "pc_1",
+   "files"
+  ],
+  [
+   "pc_1",
+   "srv_deploy"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "files"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_1": 7,
+    "dc": 6,
+    "dc_2": 6
+   },
+   "description": "Beachhead Cobalt Strike beacon within 10 minutes, then RDP to both domain controllers with CS executables dropped.",
+   "evidence": "'the time from initial Bazar execution to domain recon was 5 minutes'; Cobalt Strike on DCs around 1 hour (Ryuk Speed Run, The DFIR Report)"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "dc": 8,
+    "dc_2": 8,
+    "pc_1": 7
+   },
+   "description": "Zerologon + Rubeus Kerberoast yield domain admin; AdFind/Rubeus output exfiltrated via FTP before ransom staging.",
+   "evidence": "Rubeus Kerberoast and Zerologon (CVE-2020-1472); 'Discovery data (AdFind and Rubeus outputs) was exfiltrated out of the network via FTP'"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_1",
+   "phishing link -> Bazar Loader Report-Review20-10.exe run by user; injects svchost.exe (T1566.002/T1204/T1055)"
+  ],
+  [
+   "pc_1",
+   "dc",
+   "RDP from beachhead to domain controller; Cobalt Strike executable dropped; Zerologon privesc (T1021.001/T1068)"
+  ],
+  [
+   "pc_1",
+   "dc_2",
+   "RDP to second domain controller; Cobalt Strike deployed (T1021.001)"
+  ],
+  [
+   "pc_1",
+   "srv_backup",
+   "SMB to ADMIN$ share, executable run as a service (T1021.002/T1569.002)"
+  ],
+  [
+   "dc",
+   "files",
+   "Ryuk deployed over RDP from DCs to file servers and workstations (T1486)"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.002",
+  "T1204",
+  "T1055",
+  "T1021.001",
+  "T1558.003",
+  "T1068",
+  "T1021.002",
+  "T1569.002",
+  "T1486"
+ ],
+ "case_url": "https://thedfirreport.com/2020/11/05/ryuk-speed-run-2-hours-to-ransom/",
+ "ambiguities": [
+  "No real hostnames in report; machine names are role-derived.",
+  "Report does not describe how/when defenders detected the intrusion; detection moments modelled on beacon/lateral and privesc+exfil stages.",
+  "Exact encrypted host count not given."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

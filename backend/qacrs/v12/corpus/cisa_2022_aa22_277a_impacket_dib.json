@@ -1,0 +1,169 @@
+{
+ "incident": "AA22-277A: Impacket and CovalentStealer used to steal sensitive data from a Defense Industrial Base (DIB) organization; APT access to Microsoft Exchange, Impacket lateral movement, HyperBro on multiple systems (intrusion mid-Jan 2021 to mid-Jan 2022, advisory 2022-10-04)",
+ "year": 2022,
+ "sector": "defense",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-277a",
+ "sources": [
+  {
+   "title": "CISA/FBI/NSA Joint CSA AA22-277A: Impacket and Exfiltration Tool Used to Steal Sensitive Information from Defense Industrial Base Organization (2022-10-04)",
+   "url": "https://cisa.gov/uscert/ncas/alerts/aa22-277A",
+   "what_it_gave": "entry point (Microsoft Exchange Server, mid-Jan 2021, vector unknown); hops (Impacket implanted on another system for lateral movement; HyperBro installed on the Exchange Server and two other systems); exfil (CovalentStealer to OneDrive, July-Oct 2021); detection (CISA IR engagement Nov 2021-Jan 2022; victim detection method not stated)"
+  }
+ ],
+ "narrative_before": "APT actors gained access to a DIB organization's Microsoft Exchange Server as early as mid-January 2021 (initial access vector unknown) and within four hours gathered Exchange details and ran mailbox searches using a compromised administrator account ('Admin 1') over a VPN; they returned in early February 2021, again via Admin 1 over VPN (AA22-277A). In early-to-mid February 2021 they ran Windows Command Shell discovery and collection over ~3 days, archived sensitive contract files with WinRAR renamed 'VMware.exe' split into ~3 MB chunks in the Exchange CU2\\he\\debug directory. In February 2021 Impacket (wmiexec.py/smbexec.py) was implanted on another system and used to attempt lateral movement. In early March 2021 the actors exploited the ProxyLogon chain (CVE-2021-26855/-26857/-26858/-27065) and installed 17 China Chopper webshells on the Exchange Server; later in March they installed HyperBro on the Exchange Server and two other systems. From late July to mid-October 2021 they used the custom CovalentStealer tool to exfiltrate remaining sensitive files to a Microsoft OneDrive folder. CISA conducted incident response from November 2021 to January 2022; the actors maintained access through mid-January 2022, likely using legitimate credentials (AA22-277A).",
+ "machines": [
+  {
+   "name": "web_exchange",
+   "role": "Microsoft Exchange Server (internet-facing); initial access (vector unknown), EWS access via Admin 1 over VPN, WinRAR staging in CU2\\he\\debug, ProxyLogon chain, 17 China Chopper webshells, HyperBro, CovalentStealer exfiltration",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_impacket",
+   "role": "another internal system where Impacket (wmiexec.py/smbexec.py) was implanted and used to attempt lateral movement",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_hyperbro_1",
+   "role": "one of 'two other systems' on which HyperBro was installed in late March 2021",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_hyperbro_2",
+   "role": "one of 'two other systems' on which HyperBro was installed in late March 2021",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "corporate_email_exchange",
+   "value": 20,
+   "replicas": [
+    "web_exchange"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_exchange",
+   "srv_impacket"
+  ],
+  [
+   "web_exchange",
+   "srv_hyperbro_1"
+  ],
+  [
+   "web_exchange",
+   "srv_hyperbro_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_exchange": 5
+   },
+   "techniques": {
+    "web_exchange": [
+     "T1078.002",
+     "T1114",
+     "T1133"
+    ]
+   },
+   "description": "Mid-January 2021: initial access to the Exchange Server using compromised admin account Admin 1 over VPN; Exchange reconnaissance and mailbox searches within four hours.",
+   "evidence": "'Some APT actors gained initial access to the organization's Microsoft Exchange Server as early as mid-January 2021... used a compromised admin account (Admin 1) against the EWS API over a VPN' - AA22-277A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_exchange": 5,
+    "srv_impacket": 6
+   },
+   "techniques": {
+    "web_exchange": [
+     "T1560.001",
+     "T1059.003"
+    ],
+    "srv_impacket": [
+     "T1047",
+     "T1021.002"
+    ]
+   },
+   "description": "February 2021: data archived with WinRAR on the Exchange Server; Impacket implanted on another system and used to attempt lateral movement.",
+   "evidence": "'Impacket was implanted on another system, and the actors tried to move laterally from it'; WinRAR archives 'split into approximately 3MB chunks located on the Microsoft Exchange server' - AA22-277A"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_exchange": 7,
+    "srv_impacket": 6,
+    "srv_hyperbro_1": 7,
+    "srv_hyperbro_2": 7
+   },
+   "techniques": {
+    "web_exchange": [
+     "T1190",
+     "T1505.003",
+     "T1071.001"
+    ],
+    "srv_hyperbro_1": [
+     "T1071.001",
+     "T1105"
+    ],
+    "srv_hyperbro_2": [
+     "T1071.001",
+     "T1105"
+    ]
+   },
+   "description": "March 2021: ProxyLogon exploited, 17 China Chopper webshells on Exchange, then HyperBro installed on the Exchange Server and two other systems. (CISA engaged Nov 2021-Jan 2022; CovalentStealer exfiltration ran July-Oct 2021.)",
+   "evidence": "'Later in March, APT actors installed HyperBro on the Exchange Server and two other systems'; '...installed 17 China Chopper webshells on the Exchange Server' - AA22-277A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_exchange",
+   "srv_impacket",
+   "Impacket (wmiexec.py/smbexec.py over WMI/SMB) implanted on another system; attempted lateral movement - T1047 / T1021.002"
+  ],
+  [
+   "web_exchange",
+   "srv_hyperbro_1",
+   "HyperBro RAT installed on one of two other systems (C2) - T1071.001 / T1105"
+  ],
+  [
+   "web_exchange",
+   "srv_hyperbro_2",
+   "HyperBro RAT installed on one of two other systems (C2) - T1071.001 / T1105"
+  ]
+ ],
+ "technique_chain": [
+  "T1078.002",
+  "T1133",
+  "T1114",
+  "T1059.003",
+  "T1560.001",
+  "T1047",
+  "T1021.002",
+  "T1190",
+  "T1505.003",
+  "T1071.001",
+  "T1105"
+ ],
+ "ambiguities": [
+  "Initial access vector to the Exchange Server is explicitly unknown.",
+  "The advisory names no hosts beyond roles; 'another system' and 'two other systems' are modelled as srv_impacket, srv_hyperbro_1/2. No DC is mentioned.",
+  "Direction of the Impacket and HyperBro hops (origin host) is not stated; all drawn from the Exchange beachhead.",
+  "Multiple APT groups were present; the advisory does not fully separate their actions.",
+  "Victim's own detection method is not described; only CISA's IR window (Nov 2021-Jan 2022) is given."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

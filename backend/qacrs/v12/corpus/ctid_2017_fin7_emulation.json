@@ -1,0 +1,153 @@
+{
+ "incident": "FIN7 (Carbanak-group) adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2017,
+ "sector": "hospitality",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/fin7",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - FIN7 Scenario 1 & Infrastructure",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/fin7/Emulation_Plan/Scenario_1/README.md",
+   "what_it_gave": "named 4-host env (hoteldc/hotelmanager/itadmin/accounting), spearphish entry, lateral to itadmin, RDP to accounting, payment-data theft"
+  },
+  {
+   "title": "FireEye/Mandiant - FIN7 reporting (2017-2018)",
+   "url": "https://www.mandiant.com/resources/blog/fin7-spear-phishing-campaign-targets-restaurant-hospitality-and-gaming-industries",
+   "what_it_gave": "real FIN7 spearphishing campaigns against hospitality/restaurant/gaming the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of FIN7, modelling the group's real 2017-2018 spearphishing campaigns against hospitality, restaurant and gaming targets (based on MITRE ATT&CK Evaluations, Round 2). The lab is a four-host domain: domain controller 'hoteldc', hotel manager workstation 'hotelmanager', IT admin workstation 'itadmin', and accounting workstation 'accounting'. A spearphishing attachment compromises hotelmanager; FIN7 delays malware execution, assesses the target, stages an interactive toolkit, and escalates privileges with a modified Mimikatz (samcat). The actor expands access using paexec/process-hollowing to move to the itadmin workstation, then RDPs from itadmin to the accounting workstation, establishes shim persistence, and uses BOOSTWRITE DLL-hijacking for user monitoring before stealing payment data from a fake payment application (AccountingIQ.exe).",
+ "machines": [
+  {
+   "name": "pc_hotelmanager",
+   "role": "hotel manager workstation 'hotelmanager'; spearphishing attachment entry, privilege escalation",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_itadmin",
+   "role": "IT admin workstation 'itadmin' reached by expand-access lateral movement (paexec/hollow)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_accounting",
+   "role": "accounting workstation 'accounting' reached via RDP from itadmin; payment-data theft",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'hoteldc' in the target domain",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "payment_processing",
+   "value": 25,
+   "replicas": [
+    "pc_accounting"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_hotelmanager",
+   "pc_itadmin"
+  ],
+  [
+   "pc_itadmin",
+   "pc_accounting"
+  ],
+  [
+   "pc_hotelmanager",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_hotelmanager": 5
+   },
+   "techniques": {
+    "pc_hotelmanager": [
+     "T1566.001",
+     "T1204.002",
+     "T1059.001"
+    ]
+   },
+   "description": "Initial breach: spearphishing attachment on hotelmanager, delayed malware execution, target assessment.",
+   "evidence": "'Step 1 - Initial Breach ... Step 2 - Delayed Malware Execution ... Step 3 - Target Assessment' - FIN7 Scenario 1"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_hotelmanager": 8,
+    "pc_itadmin": 6
+   },
+   "techniques": {
+    "pc_hotelmanager": [
+     "T1003.001"
+    ],
+    "pc_itadmin": [
+     "T1021.002",
+     "T1055"
+    ]
+   },
+   "description": "Privilege escalation (samcat/Mimikatz) on hotelmanager; expand access via paexec/process-hollowing to itadmin.",
+   "evidence": "'Step 5 - Escalate Privileges ... samcat.exe (a modified version of mimikatz) ... Step 6 - Expand Access ... downloading paexec.exe and hollow.exe' - FIN7 Scenario 1"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_itadmin": 6,
+    "pc_accounting": 6
+   },
+   "techniques": {
+    "pc_accounting": [
+     "T1021.001",
+     "T1056.001",
+     "T1546.011"
+    ]
+   },
+   "description": "RDP from itadmin to the accounting workstation, shim persistence, user monitoring, and payment-data theft.",
+   "evidence": "'establishing a RDP session from itadmin to accounting over TCP port 3389 ... Step 10 - Steal Payment Data from AccountingIQ.exe' - FIN7 Scenario 1 Steps 9-10"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_hotelmanager",
+   "pc_itadmin",
+   "expand access via paexec + process hollowing to IT admin workstation - T1021.002 / T1055"
+  ],
+  [
+   "pc_itadmin",
+   "pc_accounting",
+   "RDP from itadmin to accounting workstation (port 3389) - T1021.001"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of the real FIN7 campaigns (2017-2018); year 2017 chosen for that basis.",
+  "Hostnames (hoteldc/hotelmanager/itadmin/accounting) are the plan's lab names.",
+  "DC link from hotelmanager reflects domain membership; the plan's explicit named hops are hotelmanager->itadmin->accounting."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

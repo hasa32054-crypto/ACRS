@@ -1,0 +1,190 @@
+{
+ "incident": "Conti ransomware intrusion via IcedID (DFIR Report case)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/05/12/conti-ransomware/",
+ "sources": [
+  {
+   "title": "Conti Ransomware - The DFIR Report (2021-05-12)",
+   "url": "https://thedfirreport.com/2021/05/12/conti-ransomware/",
+   "what_it_gave": "entry (phishing zip -> IcedID), hops (SMB beacons to domain controllers, PsExec to most systems, RDP from victim host to DC), domain-wide encryption"
+  },
+  {
+   "title": "Conti Ransomware Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Conti%20Ransomware.afb",
+   "what_it_gave": "node/edge sequence of discovery, lateral SMB/RDP, DC compromise, encryption"
+  }
+ ],
+ "narrative_before": "The intrusion began with a phishing zip containing a JavaScript file that downloaded the IcedID banking trojan, executed via rundll32 with C2 over port 443 (DFIR Report). After two days of quiet, a Cobalt Strike beacon was dropped; the actors escalated to SYSTEM, ran discovery with nltest/net/dsquery, and moved laterally to the domain controllers over SMB to transfer and execute Cobalt Strike beacons. PsExec then pushed the beacon to most systems in the network including admin shares, and an RDP connection ran from the victim host to the domain controller (proxied through IcedID). A new local admin was created on a domain controller, Group Policy was modified to disable Defender, and Conti was executed in memory domain-wide, encrypting all systems.",
+ "machines": [
+  {
+   "name": "pc_victim",
+   "role": "initial victim workstation; phishing zip -> IcedID -> Cobalt Strike, RDP proxy source",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; reached over SMB, port-scanned from, RDP target, new local admin created",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "second domain controller reached over SMB with Cobalt Strike beacon",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server reached by PsExec Cobalt Strike beacon push (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation reached by PsExec Cobalt Strike beacon push (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "admin-share / file systems targeted by PsExec beacon and domain-wide encryption",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_victim",
+   "dc"
+  ],
+  [
+   "pc_victim",
+   "dc_2"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "pc_victim",
+   "files"
+  ],
+  [
+   "pc_2",
+   "dc"
+  ],
+  [
+   "srv_1",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_victim": 7
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1566.001",
+     "T1059.007",
+     "T1105",
+     "T1218.011"
+    ]
+   },
+   "description": "Initial access: phishing zip -> JavaScript -> IcedID on the victim workstation, C2 over 443.",
+   "evidence": "'The initial vector ... was a zip file delivered through a phishing campaign ... rundll32.exe executed IcedID malware and ran command and control over port 443' - DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_victim": 6,
+    "dc": 6,
+    "dc_2": 6,
+    "srv_1": 6,
+    "pc_2": 6,
+    "files": 6
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1021.001"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1087.002",
+     "T1484.001"
+    ],
+    "dc_2": [
+     "T1021.002"
+    ],
+    "srv_1": [
+     "T1021.002"
+    ],
+    "pc_2": [
+     "T1021.002"
+    ],
+    "files": [
+     "T1021.002"
+    ]
+   },
+   "description": "Lateral movement: SMB beacons to the domain controllers, PsExec to most systems and admin shares, RDP to DC, new DC local admin, before domain-wide Conti encryption.",
+   "evidence": "'moving laterally to the domain controllers on the network using SMB ... PsExec was used to copy and execute a Cobalt Strike Beacon DLL on most of the systems ... created a new local user on one of the domain controllers' - DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_victim",
+   "dc",
+   "SMB transfer+exec of Cobalt Strike beacon to DCs; RDP from victim to DC proxied through IcedID - T1021.002 / T1021.001"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "PsExec Cobalt Strike beacon push to most systems incl. admin shares - T1021.002 / T1569.002"
+  ]
+ ],
+ "ambiguities": [
+  "Report says the beacon was pushed to 'most of the systems in the network'; exact count not given, modelled as srv_1, pc_2, files plus two DCs.",
+  "Which host first reached dc_2 is not individually stated; link pc_victim->dc_2 inferred from the SMB-to-domain-controllers description.",
+  "No defender detection timestamp given; m1 = initial access, m2 = full lateral stage immediately pre-encryption."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

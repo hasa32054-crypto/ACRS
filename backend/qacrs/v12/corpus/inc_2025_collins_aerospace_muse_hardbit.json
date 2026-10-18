@@ -1,0 +1,22 @@
+{
+ "incident": "Collins Aerospace MUSE ransomware, September 2025: HardBit ransomware disrupts check-in/boarding at multiple European airports; no public host-level attack path",
+ "year": 2025,
+ "sector": "aviation",
+ "case_url": "https://dailysecurityreview.com/cyber-security/enisa-confirms-ransomware-behind-airport-check-in-chaos",
+ "sources": [
+  {"title": "Daily Security Review: ENISA Confirms Ransomware Behind Airport Check-In Chaos (2025-09)", "url": "https://dailysecurityreview.com/cyber-security/enisa-confirms-ransomware-behind-airport-check-in-chaos", "what_it_gave": "ENISA confirmation that ransomware disrupted Collins Aerospace MUSE check-in across European airports, forcing manual processing"},
+  {"title": "Breached.company: Collins Aerospace HardBit ransomware attack September 2025", "url": "https://breached.company/breaking-down-the-collins-aerospace-cyber-attack-a-wake-up-call-for-aviation-security", "what_it_gave": "MUSE (Multi-User System Environment) shared check-in/gate platform impacted; HardBit attribution; impact narrative, but no entry host + hop"}
+ ],
+ "narrative_before": "In September 2025 a ransomware attack on Collins Aerospace's MUSE (Multi-User System Environment) - a platform letting airlines share check-in desks and boarding gates - disrupted check-in and boarding at multiple European airports (including Heathrow, Brussels, Berlin), forcing manual processing and widespread flight delays and cancellations. ENISA confirmed the disruption was caused by ransomware; reporting attributed it to the HardBit ransomware family. Public sources describe the affected service (MUSE) and the operational impact but do not disclose how the attackers gained initial access or any lateral movement between identified hosts.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "technique_chain": [],
+ "ambiguities": [
+  "No public source gives an entry host or lateral hop; only the impacted service (MUSE) and ransomware family (HardBit) are known."
+ ],
+ "dropped": true,
+ "drop_reason": "No public entry point + lateral hop between identified hosts. ENISA confirmed ransomware and the impacted MUSE platform, but no technical intrusion path was published, so dropped per the BRIEF."
+}

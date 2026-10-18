@@ -1,0 +1,242 @@
+{
+ "incident": "AA22-320A: Iranian government-sponsored APT actors compromise a Federal Civilian Executive Branch (FCEB) network via Log4Shell on VMware Horizon, deploy XMRig, Ngrok, rogue domain admin (intrusion Feb-Jul 2022, advisory 2022-11-16)",
+ "year": 2022,
+ "sector": "government",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-320a",
+ "sources": [
+  {
+   "title": "CISA/FBI Joint CSA AA22-320A: Iranian Government-Sponsored APT Actors Compromise Federal Network, Deploy Crypto Miner, Credential Harvester (2022-11-16)",
+   "url": "https://us-cert.cisa.gov/ncas/alerts/aa22-320a",
+   "what_it_gave": "entry point (unpatched VMware Horizon server, CVE-2021-44228, Feb 2022), hops (RDP Horizon -> VDI-KMS host; Mimikatz + rogue domain admin; RDP to several hosts with Ngrok; DC compromised), detection (CISA EINSTEIN retrospective analysis April 2022; onsite IR mid-June to mid-July 2022)"
+  }
+ ],
+ "narrative_before": "In February 2022 likely Iranian government-sponsored actors exploited Log4Shell (CVE-2021-44228) on an unpatched, internet-facing VMware Horizon server of an FCEB organization; the exploit ran PowerShell that excluded C:\\ from Windows Defender, downloaded XMRig crypto-mining files and created a scheduled task running as SYSTEM, using a VMware service account with administrator and system-level access (AA22-320A). The actors then used RDP with the built-in DefaultAccount to move from the Horizon server to a VMware VDI-KMS host, where they downloaded ~30 MB of tools (PsExec, Mimikatz, Ngrok) from transfer.sh, ran Mimikatz, and created a rogue domain administrator account. With that account they RDP'd into several hosts, manually disabled Windows Defender on each, implanted Ngrok reverse proxies for persistence/C2, changed local administrator passwords as a fallback, and compromised the domain controller (get-adcomputer enumeration); an attempted LSASS dump through Task Manager was blocked by antivirus. In April 2022 CISA's EINSTEIN intrusion detection system showed bidirectional traffic between the agency and 51.89.181[.]64 (a known Log4Shell exploitation IP) with a suspected LDAP callback over 443, which CISA judged a confirmed compromise; CISA performed onsite incident response from mid-June to mid-July 2022 and confirmed the DC compromise (AA22-320A).",
+ "machines": [
+  {
+   "name": "web_horizon",
+   "role": "internet-facing VMware Horizon server; Log4Shell exploited, XMRig miner, Defender exclusion, scheduled task as SYSTEM",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vdi_kms",
+   "role": "VMware VDI-KMS host; reached by RDP with DefaultAccount, PsExec/Mimikatz/Ngrok downloaded, Mimikatz run, rogue domain admin account created",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; compromised by the actors, get-adcomputer run to enumerate all domain machines",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_ngrok_1",
+   "role": "one of 'several hosts' reached by RDP with the rogue domain admin; Defender disabled via GUI, Ngrok implanted, local admin password changed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_ngrok_2",
+   "role": "one of 'several hosts' reached by RDP with the rogue domain admin; Defender disabled via GUI, Ngrok implanted, local admin password changed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_ngrok_3",
+   "role": "one of 'several hosts' reached by RDP with the rogue domain admin; Defender disabled via GUI, Ngrok implanted, local admin password changed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "virtual_desktop_horizon",
+   "value": 10,
+   "replicas": [
+    "web_horizon"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_horizon",
+   "srv_vdi_kms"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_1"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_2"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_3"
+  ],
+  [
+   "srv_vdi_kms",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_horizon": 7
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1496",
+     "T1053.005",
+     "T1562.001",
+     "T1071"
+    ]
+   },
+   "description": "Initial exploitation, February 2022: Log4Shell on the Horizon server, XMRig deployed, scheduled task persistence, Defender exclusion. Not detected by the agency.",
+   "evidence": "'In February 2022, the actors exploited Log4Shell for initial access to the organization's unpatched VMware Horizon server... the exploit ran a PowerShell command that added a Windows Defender exclusion for the entire C:\\ drive... downloaded... XMRig' - AA22-320A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_horizon": 7,
+    "srv_vdi_kms": 8,
+    "dc": 5
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1496",
+     "T1071"
+    ],
+    "srv_vdi_kms": [
+     "T1021.001",
+     "T1105",
+     "T1003.001",
+     "T1136.002"
+    ],
+    "dc": [
+     "T1078.002",
+     "T1087.002"
+    ]
+   },
+   "description": "April 2022: CISA EINSTEIN retrospective analysis shows bidirectional traffic to 51.89.181[.]64 and a suspected LDAP callback on 443 - CISA informs the agency ('confirmed compromise'). By then the Horizon server was compromised and CISA already suspected the DC was compromised from third-party reporting; the Mimikatz/rogue-DA activity on VDI-KMS precedes the DC and Ngrok hosts. Exact dates of the hops are not given.",
+   "evidence": "'In April 2022, CISA conducted retrospective analysis using EINSTEIN... identified suspected APT activity... bidirectional traffic between the network and a known malicious IP address 51.89.181[.]64... the traffic indicated a confirmed compromise' and 'CISA suspected DC compromise based on third-party reporting' - AA22-320A"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_horizon": 7,
+    "srv_vdi_kms": 8,
+    "dc": 5,
+    "srv_ngrok_1": 7,
+    "srv_ngrok_2": 7,
+    "srv_ngrok_3": 7
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1496",
+     "T1071"
+    ],
+    "srv_vdi_kms": [
+     "T1021.001",
+     "T1003.001",
+     "T1136.002"
+    ],
+    "dc": [
+     "T1078.002",
+     "T1087.002"
+    ],
+    "srv_ngrok_1": [
+     "T1021.001",
+     "T1572",
+     "T1562.001",
+     "T1098"
+    ],
+    "srv_ngrok_2": [
+     "T1021.001",
+     "T1572",
+     "T1562.001",
+     "T1098"
+    ],
+    "srv_ngrok_3": [
+     "T1021.001",
+     "T1572",
+     "T1562.001",
+     "T1098"
+    ]
+   },
+   "description": "Mid-June to mid-July 2022: CISA onsite incident response confirms the full scope - rogue domain admin, Ngrok implants on several hosts, DC compromise, changed local admin passwords.",
+   "evidence": "'From mid-June through mid-July 2022, CISA conducted an incident response engagement... confirmed... the actors moved laterally to the domain controller... implanted Ngrok reverse proxies on several hosts to maintain persistence' - AA22-320A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_horizon",
+   "srv_vdi_kms",
+   "RDP from the Horizon server to the VDI-KMS host using the built-in DefaultAccount; PsExec/Mimikatz/Ngrok downloaded from transfer.sh - T1021.001 / T1105 / T1003.001"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_1",
+   "RDP with the rogue domain admin account; Defender disabled via GUI, Ngrok executables and config installed - T1021.001 / T1562.001 / T1572"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_2",
+   "same as above (one of 'several hosts') - T1021.001 / T1572"
+  ],
+  [
+   "srv_vdi_kms",
+   "srv_ngrok_3",
+   "same as above (one of 'several hosts') - T1021.001 / T1572"
+  ],
+  [
+   "srv_vdi_kms",
+   "dc",
+   "domain controller compromised with the rogue domain admin credentials; get-adcomputer enumeration - T1078.002 / T1087.002"
+  ]
+ ],
+ "technique_chain": [
+  "T1190",
+  "T1562.001",
+  "T1105",
+  "T1496",
+  "T1053.005",
+  "T1021.001",
+  "T1003.001",
+  "T1136.002",
+  "T1572",
+  "T1098",
+  "T1087.002"
+ ],
+ "ambiguities": [
+  "Advisory does not say from which host the actors reached the DC; link srv_vdi_kms -> dc is the most direct reading (rogue DA account created on VDI-KMS). Not stated explicitly.",
+  "'Several hosts' with Ngrok: count unknown; modelled as 3 (rule 1 allows 3-10).",
+  "No business services are named as disrupted; services listed are the directory and the VDI platform at risk (DC compromise). Values assigned by rule 4, flagged.",
+  "Exact dates of lateral movement between Feb and Apr 2022 are not given; m2 alert set assumes VDI-KMS and DC were compromised by April (CISA already suspected DC compromise then).",
+  "No workstations are named, so no workstation -> dc / files links."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

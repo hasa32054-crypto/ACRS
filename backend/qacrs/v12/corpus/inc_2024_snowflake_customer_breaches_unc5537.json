@@ -1,0 +1,21 @@
+{
+ "incident": "Snowflake customer data theft, 2024 (UNC5537): stolen infostealer credentials against ~165 Snowflake customer tenants lacking MFA; SaaS account abuse, not a host-to-host lateral path",
+ "year": 2024,
+ "sector": "technology",
+ "case_url": "https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion",
+ "sources": [
+  {"title": "Mandiant/Google Cloud: UNC5537 Targets Snowflake Customer Instances for Extortion (2024-06)", "url": "https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion", "what_it_gave": "entry (credentials stolen by infostealer malware years earlier, used against Snowflake customer tenants with no MFA/network allowlists); ~165 affected orgs; data theft via SQL/data-exfil tooling against each tenant"}
+ ],
+ "narrative_before": "In 2024 the threat actor Mandiant tracks as UNC5537 conducted a campaign of data theft and extortion against roughly 165 Snowflake customer tenants. The actor did not breach Snowflake's own infrastructure; instead it used customer credentials previously stolen by infostealer malware (some years old) to log into individual customer Snowflake instances that lacked multi-factor authentication and network allowlisting, then queried and exfiltrated large volumes of data from each tenant (victims included Ticketmaster, AT&T, Santander and others). Because each compromise was a single SaaS account logon into one customer's cloud data warehouse, there is no described lateral movement between identified hosts within a victim network - the pattern is valid-credential SaaS abuse, not a host-to-host intrusion path.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "technique_chain": [],
+ "ambiguities": [
+  "Entry (stolen infostealer credentials, no MFA) is well documented, but the model requires a lateral hop between identified hosts; this campaign is single-tenant SaaS account abuse with no intra-network lateral movement described."
+ ],
+ "dropped": true,
+ "drop_reason": "No lateral hop between identified hosts: each victim compromise was a valid-credential logon into one Snowflake SaaS tenant with data exfiltration, not host-to-host movement. Entry point exists but the required hop does not, so dropped per the BRIEF."
+}

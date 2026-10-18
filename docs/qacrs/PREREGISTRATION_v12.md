@@ -125,3 +125,19 @@ Every miss is published with the scenario and the reason.
 تمر أوامرها على بوابة الأمان، واختبارات «النظام ما يموت»، و**مناعة** بعد الحادثة تُختبر على الهجوم نفسه ومشابه
 وغير مشابه، وتوقيع ML-DSA. الملفات المقفولة وثوابت المحرك لا تتغيّر. الأهداف الرقمية مثبتة أعلاه، والنتائج تُنشر
 كما تطلع — وإن طلع أن القاعدة البسيطة تكفي، نقولها.
+
+---
+## Amendment 1 — 2026-10-18, after the first phase17 run, before any result was published
+
+**Trigger.** The first run of `phase17_v12.py` (D1 a–c only) produced **7 silent failures** (NOT_CONTAINED): 6 in the
+D4 set, 1 in `v9_random_9004`. v9 itself was NOT_CONTAINED on 6 of them, so this is an engine gap, not a v12
+regression. Two mechanisms:
+(d) a hacked critical server that is *segmented* keeps an open outgoing path to healthy critical neighbours — the
+locked gate (`open_paths_v7`) treats segmentation as protecting the target only; the floor segmented the source and
+stopped. (e) a hacked twin at risk ≥ 7 was left restrict-only while its service was already down, so G3 had nothing
+"at stake" and could not even escalate.
+
+**Change.** D1 gains (d) segment healthy critical neighbours of a segmented hacked critical server, and (e) isolate a
+hacked, isolatable, non-critical host at risk ≥ 7 when isolating it takes no additional service down. Both only add
+actions; the locked gate is unchanged. Targets unchanged. Runs before this amendment are discarded and the run after
+it is the reported one; this note stays in the file.

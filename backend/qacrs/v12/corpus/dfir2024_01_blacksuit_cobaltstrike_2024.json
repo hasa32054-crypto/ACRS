@@ -1,0 +1,250 @@
+{
+ "incident": "BlackSuit ransomware via Cobalt Strike beachhead (DFIR Report, intrusion Dec 2023, published 2024-08-26)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/08/26/blacksuit-ransomware/",
+ "sources": [
+  {
+   "title": "BlackSuit Ransomware - The DFIR Report (2024-08-26)",
+   "url": "https://thedfirreport.com/2024/08/26/blacksuit-ransomware/",
+   "what_it_gave": "entry point (Cobalt Strike beacon on beachhead, delivery unknown), hops (SMB/ADMIN$ beacons, RDP from DC X to file/backup servers, C$ ransomware push), credential access (AS-REP/Kerberoast, LSASS), TTR 328h / 15 days, impact"
+  }
+ ],
+ "narrative_before": "In December 2023 an intrusion began with the execution of an unusually large Cobalt Strike beacon (RtWin64.exe) on a beachhead host; the delivery method could not be determined (DFIR Report). About six hours later the actor ran systeminfo/nltest, performed AS-REP roasting and Kerberoasting against two domain controllers with Rubeus in memory, and ran SharpHound. Ten minutes later they moved a beacon over SMB to a second workstation via a service and accessed LSASS there; on day two beacons were spread to workstations and servers and RDP was used, with SystemBC proxies dropped on a file server. A domain controller (DC X) became the main pivot; RDP from it reached a file server and a backup server for discovery. After pauses (days 3-6, 8-10, then five days), on day 15 the actor ran ADFind and Get-DataInfo.ps1, pushed qwe.exe (BlackSuit) over the C$ share and executed it via RDP sessions from DC X; vssadmin deleted shadow copies before encryption. Time to ransomware was just under 328 hours over 15 calendar days (DFIR Report).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host; initial Cobalt Strike beacon RtWin64.exe, Rubeus/SharpHound run here",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "second workstation; beacon delivered via SMB + service, LSASS accessed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation with Cobalt Strike beacon (day 2, generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_4",
+   "role": "workstation with Cobalt Strike beacon (day 2, generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'DC X'; main pivot point, RDP source for ransomware execution",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_y",
+   "role": "domain controller 'DC Y'; HTTPS beacon b7bcee8.exe, ADFind attempts, SharpHound reruns",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file server; SystemBC SC.exe/socks32.exe proxy, RDP enabled via registry, ADFind run",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server; accessed via RDP for discovery",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "server with Cobalt Strike beacon / Get-DataInfo.ps1 run (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_y"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "dc_y"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ],
+  [
+   "dc",
+   "pc_4"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_2",
+   "dc"
+  ],
+  [
+   "pc_2",
+   "files"
+  ],
+  [
+   "pc_3",
+   "dc"
+  ],
+  [
+   "pc_3",
+   "files"
+  ],
+  [
+   "pc_4",
+   "dc"
+  ],
+  [
+   "pc_4",
+   "files"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Earliest sign: execution of an unusually large Cobalt Strike beacon on the beachhead host; no follow-up for ~6 hours.",
+   "evidence": "'the initial sign being the execution of an unusually large-sized Cobalt Strike beacon. After the beacon's execution, there was no immediate follow-up activity' - BlackSuit Ransomware, DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "pc_2": 8,
+    "dc": 8,
+    "dc_y": 7,
+    "files": 7,
+    "srv_backup": 6,
+    "pc_3": 7,
+    "pc_4": 7,
+    "srv_1": 7
+   },
+   "description": "End of day 2, after which the intrusion went silent: Kerberoasting/AS-REP from beachhead, LSASS on second workstation, beacons on DCs, workstations and servers, SystemBC C2 on file server, RDP discovery on backup server.",
+   "evidence": "'Throughout the second day of the intrusion, the threat actor deployed multiple Cobalt Strike beacons on workstations and servers and also used RDP for further lateral movement... After a busy second day of activity, the intrusion went silent.' - BlackSuit Ransomware, DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "pc_2",
+   "Cobalt Strike beacon copied over SMB and executed via service (psexec); LSASS access on target - T1021.002 / T1569.002 / T1003.001"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "AS-REP roasting + Kerberoasting with Rubeus against DCs, SMB beacons distributed to DC - T1558.003 / T1558.004 / T1021.002"
+  ],
+  [
+   "dc",
+   "files",
+   "RDP from DC X, registry change to enable RDP, SystemBC SC.exe/socks32.exe executed manually - T1021.001 / T1112 / T1090"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "RDP from DC for discovery - T1021.001"
+  ],
+  [
+   "dc",
+   "pc_3",
+   "qwe.exe (BlackSuit) copied via C$ share and executed via RDP; vssadmin shadow deletion - T1021.002 / T1021.001 / T1486 / T1490"
+  ]
+ ],
+ "technique_chain": [
+  "T1059.001",
+  "T1055",
+  "T1558.003",
+  "T1558.004",
+  "T1021.002",
+  "T1569.002",
+  "T1003.001",
+  "T1550.002",
+  "T1021.001",
+  "T1090",
+  "T1486",
+  "T1490"
+ ],
+ "ambiguities": [
+  "Initial access delivery method unknown per report ('could not be determined'); no technique ID assigned to entry.",
+  "Victim sector not stated.",
+  "Report does not say when/if the victim detected the intrusion; m1 is the report's 'earliest sign', m2 is the end of the first active phase.",
+  "Counts of 'workstations and servers' that received beacons on day 2 are not given; represented as pc_3, pc_4, srv_1 (3 generic machines).",
+  "Which host distributed the beacon to DC Y is not stated; link pc_beachhead->dc_y assumed from 'SMB beacons... distributed on the beachhead and on a domain controller'.",
+  "Number of DCs: report names DC X, DC Y and 'the second domain controller'; modelled as two.",
+  "Scope of encryption ('key endpoints', 'various systems') not quantified."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

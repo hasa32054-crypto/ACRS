@@ -1,0 +1,224 @@
+{
+ "incident": "AA22-174A (Victim 2): Log4Shell on an unpatched VMware Horizon server, RDP lateral movement to production servers and the disaster-recovery network, large exfiltration from a security management server (intrusion Jan-May 2022, advisory 2022-06-23)",
+ "year": 2022,
+ "sector": "government",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-174a",
+ "sources": [
+  {
+   "title": "CISA/CGCYBER Joint CSA AA22-174A: Malicious Cyber Actors Continue to Exploit Log4Shell in VMware Horizon Systems (2022-06-23)",
+   "url": "https://www.cisa.gov/ncas/alerts/aa22-174a",
+   "what_it_gave": "entry point (unpatched VMware Horizon server, Log4Shell, late January 2022 or earlier); hops (RDP to multiple production hosts: security management server, certificate server, a sensitive database, mail relay server, and the disaster recovery network); exfiltration (>130 GB over three weeks from the security management server); detection (CISA onsite engagement late April-May 2022)"
+  }
+ ],
+ "narrative_before": "Per AA22-174A, actors 'likely obtained access by exploiting Log4Shell in an unpatched VMware Horizon server' at Victim 2 in late January 2022 or earlier; around 30 January they used PowerShell to retrieve additional scripts from an external host. The actors gained credentials for multiple accounts including administrator accounts (method unknown) and used RDP to move laterally to multiple production hosts - a security management server, a certificate server, a database holding sensitive law-enforcement data, and a mail relay server - and into the disaster recovery network, running loader malware (SvcEdge.exe, odbccads.exe, praiser.exe, fontdrvhosts.exe, winds.exe) and a webshell (error_401.jsp). Over a three-week period 'the security management server sent more than 130 gigabytes (GB) of data' to a foreign IP address, and .rar archives of sensitive investigation data were left under a compromised administrator account. Around 13 April 2022 a second actor group exploited CVE-2022-22954 to implant a Dingo J-spy webshell. CISA conducted an onsite incident response engagement from late April through May 2022, during which it observed bidirectional traffic to a suspected APT IP address (AA22-174A).",
+ "machines": [
+  {
+   "name": "web_horizon",
+   "role": "internet-facing VMware Horizon server; Log4Shell exploited (entry), PowerShell download of further scripts, Dingo J-spy webshell by second group (CVE-2022-22954)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_secmgmt",
+   "role": "security management server (production); loader malware, exfiltration point for >130 GB",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_cert",
+   "role": "certificate server (production); reached by RDP",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_db_le",
+   "role": "database server holding sensitive law-enforcement data (production); reached by RDP",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_mailrelay",
+   "role": "mail relay server (production); reached by RDP",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_dr",
+   "role": "disaster recovery network host; reached by RDP",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "law_enforcement_data_db",
+   "value": 20,
+   "replicas": [
+    "srv_db_le"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "email_relay",
+   "value": 10,
+   "replicas": [
+    "srv_mailrelay"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "security_management",
+   "value": 10,
+   "replicas": [
+    "srv_secmgmt"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "pki_certificates",
+   "value": 10,
+   "replicas": [
+    "srv_cert"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "disaster_recovery",
+   "value": 10,
+   "replicas": [
+    "srv_dr"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_horizon",
+   "srv_secmgmt"
+  ],
+  [
+   "web_horizon",
+   "srv_cert"
+  ],
+  [
+   "web_horizon",
+   "srv_db_le"
+  ],
+  [
+   "web_horizon",
+   "srv_mailrelay"
+  ],
+  [
+   "web_horizon",
+   "srv_dr"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_horizon": 7
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1059.001",
+     "T1105",
+     "T1071.001"
+    ]
+   },
+   "description": "Late January 2022 (around 30 Jan): Horizon server exploited via Log4Shell, PowerShell retrieving further scripts over HTTP from an external host. Not detected at the time.",
+   "evidence": "'the threat actors likely obtained access by exploiting Log4Shell in an unpatched VMware Horizon server... around January 30, the actors used PowerShell to contact... over HTTP and retrieve more scripts' - AA22-174A (Victim 2)"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_horizon": 5,
+    "srv_secmgmt": 6,
+    "srv_cert": 6,
+    "srv_db_le": 6,
+    "srv_mailrelay": 6,
+    "srv_dr": 6
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1505.003"
+    ],
+    "srv_secmgmt": [
+     "T1021.001",
+     "T1041",
+     "T1048"
+    ],
+    "srv_cert": [
+     "T1021.001"
+    ],
+    "srv_db_le": [
+     "T1021.001",
+     "T1560.001"
+    ],
+    "srv_mailrelay": [
+     "T1021.001"
+    ],
+    "srv_dr": [
+     "T1021.001"
+    ]
+   },
+   "description": "Late April-May 2022: CISA onsite engagement; by then the actors had moved by RDP to the production servers and DR network and the security management server had exfiltrated >130 GB over three weeks.",
+   "evidence": "'moved laterally via RDP to multiple production hosts, including a security management server, a certificate server, a database... and a mail relay server... and the disaster recovery network'; 'the security management server sent more than 130 gigabytes (GB) of data to foreign IP address'; 'CISA's onsite engagement ran from late April through May 2022' - AA22-174A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_horizon",
+   "srv_secmgmt",
+   "RDP with stolen administrator credentials to the security management server; loader malware; >130 GB exfiltration - T1021.001 / T1078 / T1048"
+  ],
+  [
+   "web_horizon",
+   "srv_cert",
+   "RDP to certificate server - T1021.001 / T1078"
+  ],
+  [
+   "web_horizon",
+   "srv_db_le",
+   "RDP to the sensitive database server; .rar archives of investigation data staged - T1021.001 / T1560.001"
+  ],
+  [
+   "web_horizon",
+   "srv_mailrelay",
+   "RDP to mail relay server - T1021.001"
+  ],
+  [
+   "web_horizon",
+   "srv_dr",
+   "RDP into the disaster recovery network - T1021.001"
+  ]
+ ],
+ "technique_chain": [
+  "T1190",
+  "T1059.001",
+  "T1105",
+  "T1078",
+  "T1021.001",
+  "T1505.003",
+  "T1560.001",
+  "T1048"
+ ],
+ "ambiguities": [
+  "Advisory does not say from which host each RDP hop originated; all hops are drawn from the Horizon beachhead (star topology). Order of hops is not given.",
+  "How administrator credentials were obtained is explicitly unknown ('It is unknown how these credentials were acquired').",
+  "No domain controller is mentioned; no workstation links.",
+  "Services and values are inferred from the named server roles (rule 4); the advisory does not state business disruption, only data exposure.",
+  "Exfiltration destination IP omitted here; see advisory for IOCs.",
+  "Victim 1 of the same advisory is not modelled: no entry host or hop is described (only the hmsvc.exe loader found in a threat hunt)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

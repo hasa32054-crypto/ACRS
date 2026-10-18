@@ -1,0 +1,141 @@
+{
+ "incident": "Wizard Spider adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/wizard_spider",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - Wizard Spider Operations Flow & Scenario 1 Infrastructure",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/wizard_spider/Operations_Flow/Operations_Flow.md",
+   "what_it_gave": "named 3-host env (wizard/dorothy/toto), Emotet entry, RDP to toto (TrickBot), RDP to DC wizard, Ryuk deployment"
+  },
+  {
+   "title": "DFIR Report - Ryuk Speed Run / Ryuk in 5 Hours",
+   "url": "https://thedfirreport.com/2020/11/05/ryuk-speed-run-2-hours-to-ransom/",
+   "what_it_gave": "real 2020 Wizard Spider Emotet->TrickBot->Ryuk intrusions the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of Wizard Spider, modelling the group's real 2020 Emotet->TrickBot->Ryuk ransomware operations (DFIR Report, CISA). The lab has a domain controller 'wizard' (10.0.0.4) and user machines 'dorothy' (10.0.0.7) and 'toto' (10.0.0.8). A phishing macro document executes Emotet on dorothy, which gains registry persistence and scrapes Outlook, collecting credentials for user bill@oz.local. Emotet RDPs into the toto host using Bill's credentials and deploys TrickBot, which performs extensive discovery and escalates privileges via Rubeus Kerberoasting to obtain the domain-admin (vfleming) credentials. Using vfleming the actor RDPs into the domain controller wizard, installs TrickBot persistence, maps AD with AdFind, and exfiltrates an ntds.dit shadow copy. Finally, mounting the C$ share of toto to stage service-killing scripts, the actor uploads and executes Ryuk from the domain controller, encrypting files recursively.",
+ "machines": [
+  {
+   "name": "pc_dorothy",
+   "role": "user machine 'dorothy'; Emotet phishing entry, Outlook scraping, Bill's creds",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_toto",
+   "role": "user machine 'toto' reached via RDP with Bill's creds; TrickBot, Kerberoasting, Ryuk staging",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'wizard' reached via RDP with vfleming; TrickBot persistence, ntds.dit, Ryuk",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_dorothy",
+   "pc_toto"
+  ],
+  [
+   "pc_toto",
+   "dc"
+  ],
+  [
+   "dc",
+   "pc_toto"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_dorothy": 5
+   },
+   "techniques": {
+    "pc_dorothy": [
+     "T1204.002",
+     "T1059.005",
+     "T1218.011",
+     "T1114.001"
+    ]
+   },
+   "description": "Initial access: Emotet macro document on dorothy, registry persistence, Outlook scraping of Bill's credentials.",
+   "evidence": "'Dorothy inadvertently activates a weaponized Emotet ... document ... downloads the initial DLL ... collect emails and contacts ... credentials from another user, bill@oz.local' - Wizard Spider Operations Flow Steps 1-3"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_dorothy": 7,
+    "pc_toto": 8
+   },
+   "techniques": {
+    "pc_toto": [
+     "T1021.001",
+     "T1078.002",
+     "T1558.003",
+     "T1003.003"
+    ]
+   },
+   "description": "RDP to toto with Bill's creds, TrickBot deployed, Rubeus Kerberoasting yields domain-admin (vfleming) credentials.",
+   "evidence": "'Emotet RDPs into the Toto host ... downloads and executes TrickBot ... escalates privileges with kerberoasting, using Rubeus ... collect encrypted credentials for the domain admin, vFleming' - Wizard Spider Operations Flow Steps 4-6"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_toto": 8,
+    "dc": 9
+   },
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1486",
+     "T1490"
+    ]
+   },
+   "description": "RDP to the domain controller wizard with vfleming; service-killing scripts staged on toto C$ and Ryuk executed from the DC.",
+   "evidence": "'the adversary RDPs into the domain controller ... mounting the C$ share of the Toto Host ... Ryuk is uploaded to the domain controller and executed from CMD ... encrypts files on its current host recursively' - Wizard Spider Operations Flow Steps 7-10"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_dorothy",
+   "pc_toto",
+   "RDP from dorothy to toto with scraped Bill credentials; TrickBot deployed - T1021.001 / T1078.002"
+  ],
+  [
+   "pc_toto",
+   "dc",
+   "RDP from toto to domain controller wizard with vfleming (domain admin) - T1021.001"
+  ],
+  [
+   "dc",
+   "pc_toto",
+   "C$ share of toto mounted from the DC to stage Ryuk and service-killing scripts - T1021.002 / T1490"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of real Wizard Spider 2020 operations; year 2020 set accordingly.",
+  "Hostnames (wizard/dorothy/toto) and IPs are the plan's lab values (Wizard of Oz themed).",
+  "The dc->toto link reflects the plan mounting toto's C$ share from the DC to stage Ryuk (bidirectional use of the toto host)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

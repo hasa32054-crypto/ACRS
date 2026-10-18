@@ -1,0 +1,23 @@
+{
+ "incident": "Ascension Health ransomware, May 2024 (Black Basta): employee downloaded a malicious file; 7 of ~25,000 servers affected, clinical operations disrupted; no public internal host-to-host path",
+ "year": 2024,
+ "sector": "health",
+ "case_url": "https://www.infosecurity-magazine.com/news/ascension-attack-employee",
+ "sources": [
+  {"title": "Infosecurity Magazine: Ascension Attack Caused by Employee Downloading Malicious File", "url": "https://www.infosecurity-magazine.com/news/ascension-attack-employee", "what_it_gave": "entry (employee accidentally downloaded a malicious file); impact (ambulance diversion, postponed appointments), May 2024"},
+  {"title": "CBS News Detroit: Ascension cyberattack caused after employee accidentally downloaded malicious file", "url": "https://www.cbsnews.com/detroit/news/ascension-cyberattack-employee-malicious-file-downloaded", "what_it_gave": "Ascension's own update on cause (malicious file download)"},
+  {"title": "CISA/FBI/HHS #StopRansomware: Black Basta AA24-131A (2024-05-13)", "url": "https://www.cisa.gov/sites/default/files/2024-05/aa24-131a-joint-csa-stopransomware-black-basta_1.pdf", "what_it_gave": "generic Black Basta TTPs (BITSAdmin/PsExec/RDP lateral movement, Mimikatz) - not Ascension-specific host path"}
+ ],
+ "narrative_before": "In May 2024 Ascension, one of the largest US private healthcare systems, suffered a Black Basta ransomware attack after an employee accidentally downloaded a malicious file; the incident forced ambulance diversions, postponed appointments and reversion to manual/paper processes across many hospitals. Ascension later stated 7 of its ~25,000 servers were affected. While the initial access (malicious file download) is known and the Black Basta advisory AA24-131A gives generic TTPs (BITSAdmin/PsExec/RDP for lateral movement, Mimikatz for credentials), no public Ascension-specific source names an entry host and a lateral hop between identified internal hosts.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "technique_chain": [],
+ "ambiguities": [
+  "Entry (malicious file download on an employee workstation) is known, but no Ascension-specific named hosts or lateral hop were published; only generic Black Basta TTPs exist."
+ ],
+ "dropped": true,
+ "drop_reason": "Entry point known (employee downloaded a malicious file) but no incident-specific lateral hop between identified hosts is publicly described. The BRIEF requires entry host AND one hop between identified hosts, so dropped."
+}

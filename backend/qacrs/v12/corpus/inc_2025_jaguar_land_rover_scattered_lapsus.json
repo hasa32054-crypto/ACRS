@@ -1,0 +1,23 @@
+{
+ "incident": "Jaguar Land Rover cyberattack, August-September 2025 (Scattered Lapsus$ Hunters): production halted across global plants; no public technical attack path",
+ "year": 2025,
+ "sector": "manufacturing",
+ "case_url": "https://en.wikipedia.org/wiki/Jaguar_Land_Rover_cyberattack",
+ "sources": [
+  {"title": "NCSC statement: Incident impacting Jaguar Land Rover", "url": "https://www.ncsc.gov.uk/news/jlr-incident", "what_it_gave": "confirmation of the incident; no technical path"},
+  {"title": "SecurityAffairs: JLR confirms major disruption and GBP196M cost from September cyberattack (2025-11-17)", "url": "https://securityaffairs.com/184742/security/jaguar-land-rover-confirms-major-disruption-and-196m-cost-from-september-cyberattack.html", "what_it_gave": "impact/cost; 'The automaker did not disclose technical details about the incident'; Scattered Lapsus$ Hunters claimed responsibility"},
+  {"title": "The Register: Key lessons from Jaguar Land Rover's cyberattack (2025-09-10)", "url": "https://www.theregister.com/2025/09/10/jaguar_key_lessons", "what_it_gave": "timeline of shutdowns from 31 Aug; JLR shut IT to prevent lateral movement; no named hosts or hop"}
+ ],
+ "narrative_before": "A cyberattack on Jaguar Land Rover, disclosed on 1 September 2025 (disruption from 31 August), forced the shutdown of IT systems across multiple global sites and halted vehicle production for weeks, with an estimated GBP196M quarterly cost and ~GBP1.9bn broader impact; the group 'Scattered Lapsus$ Hunters' (linked to Scattered Spider/Lapsus$/ShinyHunters) claimed responsibility. JLR 'did not disclose technical details about the incident' (SecurityAffairs), and the NCSC statement provides no attack path. Media accounts describe reconnaissance of IT/engineering staff beforehand and JLR shutting IT to prevent lateral movement, but no official or detailed public source names an entry host and a lateral hop between identified hosts.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "technique_chain": [],
+ "ambiguities": [
+  "JLR explicitly did not disclose technical details; no entry host or lateral hop is described in any official or detailed public source as of this research."
+ ],
+ "dropped": true,
+ "drop_reason": "No public source describes a specific entry host AND one lateral hop between identified hosts. JLR did not disclose technical details; NCSC gave only a statement. Required entry-point-plus-hop detail is absent, so dropped per the BRIEF."
+}

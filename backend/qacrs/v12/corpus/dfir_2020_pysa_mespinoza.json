@@ -1,0 +1,214 @@
+{
+ "incident": "PYSA / Mespinoza ransomware (exposed RDP DA login to domain-wide PYSA in 8 hours)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2020/11/23/pysa-mespinoza-ransomware/",
+ "sources": [
+  {
+   "title": "PYSA/Mespinoza Ransomware - The DFIR Report (2020-11-23)",
+   "url": "https://thedfirreport.com/2020/11/23/pysa-mespinoza-ransomware/",
+   "what_it_gave": "entry (exposed RDP, valid Domain Admin from Tor exit), hop (RDP beachhead->DC 3 min after entry; RDP + PsExec to many hosts), cred access (lsass via Task Manager/Procdump/comsvcs, Invoke-Mimikatz, ntds.dit shadow copy, backup DB creds, LSA Secrets), C2 (Empire, Koadic), exfil (via C2, confirmed by canary), impact (PYSA on all systems), 8h"
+  }
+ ],
+ "narrative_before": "In this 2020 intrusion the DFIR Report observed entry via an internet-exposed RDP host, logged into with a valid Domain Administrator account from a Tor exit node (198.96.155.3, later 23.129.64.190 and 185.220.100.240). Just 3 minutes after entry the actor moved by RDP to a domain controller, ran network scanning and launched a PowerShell Empire launcher (fallback C2 to 194.36.190.74); Koadic was later run via MSHTA on key servers with a scheduled-task persistence. The actors followed a playbook: on each pivot they ran quser and dumped LSASS (Task Manager, Procdump, comsvcs.dll), ran Invoke-Mimikatz, extracted a shadow copy of ntds.dit from the DC, decoded backup-system credentials from a SQL database, and read LSA Secrets. Most lateral movement was RDP with legitimate accounts plus PsExec for credential-dumping scripts. After ~7 hours the actors RDPed into systems, dropped p.ps1 and a PYSA executable (svchost.exe) and encrypted all systems; canary documents opened from Tor exits hours later confirmed exfiltration. Demand was ~5 BTC (~$88k).",
+ "machines": [
+  {
+   "name": "web_rdp",
+   "role": "internet-exposed RDP beachhead (valid Domain Admin login from Tor)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP 3 min after entry; Empire, Inveigh, ntds.dit shadow copy, Invoke-Mimikatz)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (3rd-party backup DB credentials dumped and decoded)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "key server (Koadic + persistence; lsass dumped; encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_2",
+   "role": "server (lsass dumped via PsExec/comsvcs; encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "workstation (RDP + credential dump; encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_rdp",
+   "dc"
+  ],
+  [
+   "web_rdp",
+   "srv_1"
+  ],
+  [
+   "web_rdp",
+   "srv_2"
+  ],
+  [
+   "web_rdp",
+   "srv_backup"
+  ],
+  [
+   "web_rdp",
+   "pc_1"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_rdp": 5,
+    "dc": 7
+   },
+   "description": "Entry via exposed RDP with a valid Domain Admin account; within 3 minutes RDP to a domain controller, network scan and Empire launcher.",
+   "techniques": {
+    "web_rdp": [
+     "T1133",
+     "T1078"
+    ],
+    "dc": [
+     "T1021.001",
+     "T1071.001",
+     "T1046"
+    ]
+   },
+   "evidence": "'The first lateral movement occurred just 3 minutes after the initial access ... RDP was initiated from the beachhead host to a domain controller using the valid account' - PYSA/Mespinoza, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_rdp": 5,
+    "dc": 8,
+    "srv_1": 8,
+    "srv_2": 8,
+    "srv_backup": 8
+   },
+   "description": "Playbook credential harvesting across hosts: LSASS (Task Manager/Procdump/comsvcs), Invoke-Mimikatz, ntds.dit shadow copy on DC, backup DB creds decoded, LSA Secrets.",
+   "techniques": {
+    "dc": [
+     "T1003.003",
+     "T1003.001"
+    ],
+    "srv_1": [
+     "T1003.001"
+    ],
+    "srv_2": [
+     "T1003.001"
+    ],
+    "srv_backup": [
+     "T1003.001"
+    ]
+   },
+   "evidence": "'Each time they pivoted, they would check quser, and then dump lsass ... Extract the shadow copy of the ntds.dit from the domain controller ... Extract and decode backup system credentials from a SQL database' - PYSA/Mespinoza"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "srv_2": 9,
+    "srv_backup": 9,
+    "pc_1": 9
+   },
+   "description": "~7.5h in: RDP into systems, drop p.ps1 + PYSA executable (svchost.exe) and encrypt all systems; exfil later confirmed by canary callbacks.",
+   "techniques": {
+    "dc": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "srv_2": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1486"
+    ],
+    "pc_1": [
+     "T1486"
+    ]
+   },
+   "evidence": "'Around the 7.5 hour mark the threat actors began ransom deployment. Two files were dropped via RDP on each system, a PowerShell script and a PYSA ransomware executable' - PYSA/Mespinoza"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_rdp",
+   "valid Domain Admin login over internet-exposed RDP from a Tor exit (T1133/T1078)"
+  ],
+  [
+   "web_rdp",
+   "dc",
+   "RDP to domain controller 3 min after entry; Empire launcher + ntds.dit shadow copy (T1021.001/T1003.003)"
+  ],
+  [
+   "web_rdp",
+   "srv_backup",
+   "RDP to backup server; 3rd-party backup DB credentials dumped and decoded (T1021.001/T1003)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "PsExec of comsvcs.dll lsass-dump script from the DC share to key servers (T1021.002/T1003.001)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated.",
+  "Exact count of encrypted systems not given; generic hosts modelled as srv_1/srv_2/pc_1.",
+  "Exfiltration volume/content not observed in plaintext (confirmed only by canary callbacks over Tor); assessed to use the C2 channels.",
+  "Moments are the report's own activity markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

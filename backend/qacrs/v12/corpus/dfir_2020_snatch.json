@@ -1,0 +1,171 @@
+{
+ "incident": "Snatch ransomware (RDP brute force of DA to domain-wide Snatch in under 5 hours)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2020/06/21/snatch-ransomware/",
+ "sources": [
+  {
+   "title": "Snatch Ransomware - The DFIR Report (2020-06-21)",
+   "url": "https://thedfirreport.com/2020/06/21/snatch-ransomware/",
+   "what_it_gave": "entry (RDP brute force of a Domain Admin account from 193.70.12.240), hop (RDP beachhead->DC), DC tooling (TOR RDP tunnel, Meterpreter cplXen.exe, ditsnap for ntds.dit), impact (RDP to backup server then every machine, safe.exe reboots to Safe Mode and encrypts), <5h"
+  }
+ ],
+ "narrative_before": "In this 2020 intrusion the Snatch Team brute-forced a Domain Administrator account over RDP (login from 193.70.12.240 at ~05:15 UTC) onto a beachhead host, ran arp -a, then ipconfig/quser, and minutes later initiated an RDP session to a domain controller. On the DC they deployed a toolset in C:\\Windows: a TOR executable creating an RDP tunnel (WmiPrvSystemES.exe), a Meterpreter reverse shell (cplXen.exe, C2 over 443 to 91.229.77.161) and an x3.exe loader with scheduled tasks for persistence. About half an hour after C2, ditsnap was run on the DC to snapshot ntds.dit. Forty-five minutes later they RDPed into the backup server, disabled Windows Defender and ran safe.exe, repeating this for every machine; within 15 minutes all machines including the DCs were ransomed, each rebooting into Safe Mode before encrypting. The whole intrusion took under 5 hours; demand was $40k negotiated to under $15k.",
+ "machines": [
+  {
+   "name": "web_rdp",
+   "role": "internet-exposed RDP beachhead (Domain Admin brute-forced)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (TOR RDP tunnel, Meterpreter cplXen.exe, ditsnap ntds.dit; encrypted)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (first RDP ransom target; Defender off, safe.exe)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "server (RDP + safe.exe, Safe-Mode reboot encryption)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_1",
+   "role": "workstation (RDP + safe.exe, Safe-Mode reboot encryption)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_rdp",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_rdp": 5
+   },
+   "description": "RDP brute force of a Domain Admin account onto the beachhead; early discovery (arp, ipconfig, quser).",
+   "techniques": {
+    "web_rdp": [
+     "T1133",
+     "T1110.001",
+     "T1078"
+    ]
+   },
+   "evidence": "'Snatch Team logged into a DA account from 193.70.12.240 around 0515 UTC. Initially with that access they performed a simple arp -a' - Snatch Ransomware, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_rdp": 5,
+    "dc": 8
+   },
+   "description": "RDP from beachhead to a domain controller; TOR RDP tunnel + Meterpreter cplXen.exe (C2 443) deployed, ditsnap snapshots ntds.dit.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1572",
+     "T1003.003"
+    ]
+   },
+   "evidence": "'minutes later they began lateral movement initiating an RDP session with a DC ... ditsnap was most likely run on the DC to obtain a copy of ntds.dit' - Snatch Ransomware"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_backup": 9,
+    "srv_1": 9,
+    "pc_1": 9
+   },
+   "description": "Final actions: RDP into backup server (and then every machine), disable Defender, run safe.exe; hosts reboot to Safe Mode and encrypt within 15 minutes.",
+   "techniques": {
+    "srv_backup": [
+     "T1486",
+     "T1562.009"
+    ],
+    "dc": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_1": [
+     "T1486"
+    ]
+   },
+   "evidence": "'They RDP'ed into the backup server, turned off Windows Defender, and executed safe.exe. They did this for every machine in the domain and within 15 minutes all machines were ransomed including the DCs' - Snatch Ransomware"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_rdp",
+   "RDP brute force of a Domain Administrator account (T1133/T1110.001/T1078)"
+  ],
+  [
+   "web_rdp",
+   "dc",
+   "RDP from beachhead to a domain controller; TOR RDP tunnel + Meterpreter deployed (T1021.001/T1572)"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "RDP from DC context to backup server, Defender disabled and safe.exe run; repeated to every machine (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated.",
+  "Actor RDPed into each system manually; exact count of encrypted machines not given (modelled as srv_1/pc_1 plus DC/backup).",
+  "No data exfiltration described for this case.",
+  "Moments are the report's activity markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

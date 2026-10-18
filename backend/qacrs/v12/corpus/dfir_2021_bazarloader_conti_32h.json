@@ -1,0 +1,215 @@
+{
+ "incident": "BazarLoader to Conti ransomware in 32 hours",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/09/13/bazarloader-to-conti-ransomware-in-32-hours/",
+ "sources": [
+  {
+   "title": "BazarLoader to Conti Ransomware in 32 Hours - The DFIR Report (2021-09-13)",
+   "url": "https://thedfirreport.com/2021/09/13/bazarloader-to-conti-ransomware-in-32-hours/",
+   "what_it_gave": "entry (likely zipped JS email -> BazarLoader via rundll32), hops (SMB copy + WMIC on DC and servers, CS via services, RDP between servers), cred access (pass-the-hash, LSASS dumped on remote systems), exfil (WinSCP from file server to Romania VPS), impact (Conti domain-wide over SMB), 32h"
+  }
+ ],
+ "narrative_before": "In this 2021 intrusion the DFIR Report observed a BazarLoader DLL run via rundll32 on a beachhead host (initial delivery not observed, assessed zipped JavaScript email). Discovery ran ~20 minutes in, a Cobalt Strike beacon ~1 hour in, and first lateral movement around 2.5 hours in. The actors copied executables over SMB and ran them remotely with WMIC (e.g. wmic /node:\"DOMAINCONTROLLER\" process call create); the domain controller ran an encoded PowerShell disk-space check and Get-NetComputer and was used for further movement, and both the DC and the file server connected to Tor. Pass-the-hash was used repeatedly and LSASS was dumped on remote systems across the domain. WinSCP 5.19.1 was installed on the file server and used to exfiltrate over SCP/22 to a Romania VPS (31.14.40.160). test.exe was run via WMI on several endpoints as a test, then a renamed backup.exe (Conti) was dropped on two servers and run manually over RDP; Conti mounts remote C$ drives and encrypts over SMB. Time to ransom was just shy of 32 hours.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (BazarLoader via rundll32, Cobalt Strike, SYSTEM beacon)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (SMB copy + WMIC exec, Get-NetComputer, Tor; pivot for further movement)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file server (WinSCP installed; exfil over SCP to Romania; Tor)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (renamed backup.exe/Conti dropped and run via RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_2",
+   "role": "server (renamed backup.exe/Conti dropped and run via RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "endpoint (test.exe run via WMI as a test)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "endpoint (test.exe run via WMI as a test)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_3"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_2"
+  ],
+  [
+   "dc",
+   "files"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "BazarLoader DLL running via rundll32 on the beachhead; discovery ~20 min in, Cobalt Strike beacon ~1h in.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'BazarLoader ran here, followed by discovery and a Cobalt Strike beacon ... Execution was via rundll32' - BazarLoader to Conti in 32 Hours, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 6,
+    "files": 8
+   },
+   "description": "~2.5h: first lateral movement - SMB copy + WMIC exec on the domain controller; pass-the-hash; LSASS dumped on remote systems; file server set up for exfil.",
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1047",
+     "T1550.002"
+    ],
+    "files": [
+     "T1003.001",
+     "T1105"
+    ]
+   },
+   "evidence": "'copying executables over SMB, then running them remotely with WMIC ... dump lsass memory for further credentials ... WinSCP 5.19.1, downloaded and installed on the file server' - BazarLoader to Conti in 32 Hours"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "files": 9,
+    "srv_1": 9,
+    "srv_2": 9,
+    "pc_2": 6,
+    "pc_3": 6
+   },
+   "description": "~31-32h: test.exe run via WMI on endpoints, then renamed backup.exe (Conti) dropped on two servers and run over RDP; Conti encrypts over SMB mounting remote C$.",
+   "techniques": {
+    "srv_1": [
+     "T1486"
+    ],
+    "srv_2": [
+     "T1486"
+    ],
+    "dc": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1047"
+    ],
+    "pc_3": [
+     "T1047"
+    ]
+   },
+   "evidence": "'test.exe was run via WMI on several endpoints first ... a renamed backup.exe was dropped on two servers and run manually over RDP ... mounts all remote C$ drives in the local network and encrypts over SMB' - BazarLoader to Conti in 32 Hours"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "BazarLoader DLL executed via rundll32 (assessed zipped JS email) (T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "executable copied over SMB and run via WMIC process call create on the DC (T1021.002/T1047)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "file server used for WinSCP exfiltration over SCP/22 to Romania VPS (T1048/T1105)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "renamed backup.exe (Conti) dropped on servers and executed via RDP from the DC pivot (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role / placeholder only; victim sector not stated.",
+  "Specific source->destination pairs not fully itemized beyond the DC being used for further movement; endpoints for test.exe modelled as pc_2/pc_3.",
+  "Exfil content could not be determined (encrypted traffic); only ~volume inferred.",
+  "No defender detection timeline; moments are the report's own timeline markers."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

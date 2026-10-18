@@ -1,0 +1,31 @@
+{
+ "incident": "AA23-074A: Threat actors exploit Progress Telerik UI (CVE-2019-18935) on a U.S. government IIS web server; activity remained on the web server with no observed lateral movement (activity Aug 2021-Jan 2023, advisory 2023-03-15)",
+ "year": 2023,
+ "sector": "government",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-074a",
+ "sources": [
+  {"title": "CISA/FBI/MS-ISAC Joint CSA AA23-074A: Threat Actors Exploit Progress Telerik Vulnerabilities in Multiple U.S. Government IIS Servers (2023-03-15)", "url": "https://ic3.gov/CSA/2023/230315.pdf", "what_it_gave": "entry point (Microsoft IIS web server running Telerik UI, CVE-2019-18935 .NET deserialization RCE); confirms NO lateral movement or privilege escalation observed; timeline (DLLs seen Aug 2021, TA1 enumeration from Aug 2022, IOCs Nov 2022-early Jan 2023)"}
+ ],
+ "narrative_before": "An FCEB agency's internet-facing Microsoft IIS web server, running an outdated Progress Telerik UI for ASP.NET AJAX build (2013.2.717), was exploited via CVE-2019-18935, a .NET deserialization flaw giving remote code execution (AA23-074A). Two threat actors were seen: Threat Actor 1 (an APT) uploaded DLLs to C:\\Windows\\Temp\\ and executed them via the w3wp.exe IIS worker process, collecting network parameters and sending them to C2 over TCP/443; Threat Actor 2 (XE Group) delivered DLLs masquerading as PNG files that dropped reverse-shell utilities, and a webshell (small.aspx). Critically, the advisory states 'Analysts did not observe evidence of privilege escalation or lateral movement' and 'no indications of additional malicious activity or sub-processes were found executed by the w3wp.exe process'; the abused service account had restrictive write permissions that prevented webshells from being dropped and blocked some DLL execution. The agency's vulnerability scanner had the correct plugin but missed the flaw because Telerik was installed in an unscanned file path; forensics relied on antivirus logs and KAPE event-log extraction from a backup image (AA23-074A).",
+ "machines": [
+  {"name": "web_iis", "role": "internet-facing Microsoft IIS web server running Telerik UI; CVE-2019-18935 exploited, malicious DLLs executed via w3wp.exe, reverse-shell utilities, C2 over TCP/443", "isolatable": true, "critical": false, "disruption": 2}
+ ],
+ "services": [
+  {"name": "government_web_application", "value": 10, "replicas": ["web_iis"], "depends_on": []}
+ ],
+ "links": [],
+ "detection_moments": [
+  {"id": "m1", "hacked": {"web_iis": 5}, "techniques": {"web_iis": ["T1190", "T1505.003", "T1059"]}, "description": "Exploitation of the IIS web server via CVE-2019-18935; DLLs executed through w3wp.exe, reverse-shell utilities and C2 over TCP/443. No lateral movement or privilege escalation was ever observed - the entire intrusion is confined to this host. Detection: agency identified IOCs on the server Nov 2022-early Jan 2023 via antivirus logs.", "evidence": "'Analysts did not observe evidence of privilege escalation or lateral movement'; 'no indications of additional malicious activity or sub-processes were found executed by the w3wp.exe process' - AA23-074A"}
+ ],
+ "attack_path": [
+  ["web_iis", "web_iis", "Remote code execution via CVE-2019-18935 deserialization; DLLs in C:\\Windows\\Temp executed by w3wp.exe; reverse-shell to C2 over TCP/443 - T1190 / T1059 / T1071"]
+ ],
+ "technique_chain": ["T1190", "T1505.003", "T1059", "T1071"],
+ "ambiguities": [
+  "No lateral hop exists in this advisory - the actors stayed on the single IIS web server; per BRIEF rule this case lacks a hop between two identified hosts.",
+  "Two separate threat actors operated on the same host; modelled as one compromised machine.",
+  "Detection trigger (what first alerted the agency) is not described; IOCs were identified Nov 2022-Jan 2023."
+ ],
+ "dropped": true,
+ "drop_reason": "No lateral movement: the advisory explicitly states 'Analysts did not observe evidence of privilege escalation or lateral movement.' There is an entry host (the IIS web server) but no hop between two identified hosts, so per the BRIEF (entry host AND one hop required) this case is dropped. Retained for the corpus as a documented single-host web-server compromise."
+}

@@ -1,0 +1,147 @@
+{
+ "incident": "Iranian APT exploitation of Log4Shell on VMware Horizon (CISA AA22-320A)",
+ "year": 2022,
+ "sector": "government",
+ "case_url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-320a",
+ "sources": [
+  {
+   "title": "CISA AA22-320A cybersecurity advisory",
+   "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-320a",
+   "what_it_gave": "Log4Shell on VMware Horizon entry, XMRig, RDP lateral movement to VDI-KMS host and domain controller, rogue DA account"
+  },
+  {
+   "title": "CISA Iranian APT Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/CISA%20Iranian%20APT.afb",
+   "what_it_gave": "Horizon server -> AD/PowerShell -> RDP to VDI-KMS -> Mimikatz rogue DA -> RDP to domain controller"
+  }
+ ],
+ "narrative_before": "An Iranian government-sponsored APT gained initial access to a federal network by exploiting the Log4Shell vulnerability (CVE-2021-44228) on an unpatched VMware Horizon server (CISA AA22-320A). They used PowerShell to add a Windows Defender exclusion and enumerate domain machines, downloaded the XMRig crypto-mining payload, and created a scheduled task running as SYSTEM. Using the built-in DefaultAccount they moved laterally over RDP to a VMware VDI-KMS host, downloaded tooling (PsExec, Mimikatz, Ngrok) from a transfer.sh server, and used Mimikatz to create a rogue domain-administrator account. With that account they RDP'd to multiple hosts, implanted Ngrok to proxy RDP, and ultimately moved laterally over RDP to the domain controller, where they ran PowerShell to enumerate all domain machines and changed local administrator passwords.",
+ "machines": [
+  {
+   "name": "web_horizon",
+   "role": "internet-facing VMware Horizon server; Log4Shell (CVE-2021-44228) RCE (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vdi_kms",
+   "role": "VMware VDI-KMS host reached via RDP with the built-in DefaultAccount",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller reached via RDP; rogue DA account, PowerShell domain enumeration",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "virtual_desktop",
+   "value": 10,
+   "replicas": [
+    "srv_vdi_kms"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_horizon",
+   "srv_vdi_kms"
+  ],
+  [
+   "srv_vdi_kms",
+   "dc"
+  ],
+  [
+   "web_horizon",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_horizon": 5
+   },
+   "techniques": {
+    "web_horizon": [
+     "T1190",
+     "T1059.001"
+    ]
+   },
+   "description": "Initial access: Log4Shell (CVE-2021-44228) exploited on the VMware Horizon server; PowerShell and XMRig follow.",
+   "evidence": "'Initial access gained through Log4Shell ... PowerShell added an exclusion rule to Windows Defender and was executed on AD' - CTID flow / CISA AA22-320A"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_horizon": 5,
+    "srv_vdi_kms": 6
+   },
+   "techniques": {
+    "srv_vdi_kms": [
+     "T1021.001",
+     "T1078.001",
+     "T1570"
+    ]
+   },
+   "description": "Lateral movement with the DefaultAccount over RDP to the VDI-KMS host; PsExec/Mimikatz/Ngrok tooling downloaded.",
+   "evidence": "'used DefaultAccount to move laterally to a VMware VDI-KMS host ... downloaded around 30MB of files from transfer.sh ... Mimikatz ... Ngrok' - CTID flow / CISA AA22-320A"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_vdi_kms": 8,
+    "dc": 6
+   },
+   "techniques": {
+    "srv_vdi_kms": [
+     "T1003.001",
+     "T1136.002"
+    ],
+    "dc": [
+     "T1021.001",
+     "T1059.001",
+     "T1098"
+    ]
+   },
+   "description": "Rogue domain-admin account created with Mimikatz; RDP to the domain controller, domain enumeration, admin password changes.",
+   "evidence": "'Mimikatz was used to create a rogue domain administrator account ... moved laterally to the domain controller via RDP ... changed the password for the local administrator account on several hosts' - CTID flow / CISA AA22-320A"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_horizon",
+   "srv_vdi_kms",
+   "DefaultAccount used over RDP to VDI-KMS host - T1021.001 / T1078.001"
+  ],
+  [
+   "srv_vdi_kms",
+   "dc",
+   "rogue DA account (Mimikatz) used over RDP to domain controller - T1021.001 / T1136.002"
+  ]
+ ],
+ "ambiguities": [
+  "Advisory notes RDP to 'multiple hosts'; only the explicitly named VDI-KMS host and domain controller are modelled (no inventing hosts).",
+  "XMRig crypto-mining is an impact on compromised hosts, not a separate machine.",
+  "Detection: CISA/affected-agency incident response; moments follow the advisory's activity sequence."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

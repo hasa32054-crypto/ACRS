@@ -1,0 +1,252 @@
+{
+ "incident": "Flash Alert: EtherRAT and TukTuk C2 End in The Gentlemen Ransomware (~3 days)",
+ "year": 2026,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2026/05/11/flash-alert-etherrat-and-tuktuk-c2-end-in-the-gentleman-ransomware/",
+ "sources": [
+  {
+   "title": "Flash Alert: EtherRat and TukTuk C2 End in The Gentleman Ransomware - The DFIR Report (2026-05-11)",
+   "url": "https://thedfirreport.com/2026/05/11/flash-alert-etherrat-and-tuktuk-c2-end-in-the-gentleman-ransomware/",
+   "what_it_gave": "entry (malicious MSI masquerading as Sysinternals RAMMap -> EtherRAT; EtherHiding C2), hops (GoTo Resolve RMM lateral to servers and DCs; RDP/SMB/WinRM; NetExec), cred access (comsvcs LSASS, Kerberoast, Mimikatz, NTDS dump), exfil (Rclone to Wasabi), impact (Gentlemen ransomware via GPO/SYSVOL scheduled task domain-wide), ~3 days"
+  }
+ ],
+ "narrative_before": "In an April 2026 intrusion the DFIR Report observed a user run a malicious MSI masquerading as the Sysinternals RAMMap utility, deploying an EtherRAT variant that used the Ethereum blockchain (EtherHiding via 1rpc[.]io) for C2 configuration, downloaded a portable Node.js runtime, ran obfuscated JavaScript, and persisted via a registry Run key. After the actor updated the Ethereum-hosted config to a TryCloudflare tunnel, the malware ran extensive host/domain reconnaissance and pulled TukTuk payloads from S3 (disguised as Greenshot and sideloaded), establishing SaaS-based C2 (ClickHouse, Supabase). The actor began hands-on activity, Kerberoasting and credential discovery targeting admin accounts, then used compromised service-account creds to deploy GoTo Resolve RMM laterally across multiple systems including servers and domain controllers. Over the following days they expanded via RDP, SMB, WinRM, NetExec (nxc), Mimikatz and LSASS/NTDS dumping (comsvcs.dll MiniDump), reset privileged passwords and did broad AD reconnaissance. They staged and ran Rclone to exfiltrate large volumes to Wasabi cloud storage. Three days in, they deployed The Gentlemen ransomware on key servers (disabling Defender, stopping VMs, deleting shadow copies, clearing logs) and achieved domain-wide deployment via a malicious GPO executing staged binaries from SYSVOL/NETLOGON through scheduled tasks.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (malicious MSI -> EtherRAT; EtherHiding C2; Node.js; TukTuk sideload)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (GoTo Resolve RMM; NTDS dump; malicious GPO / SYSVOL scheduled task deployment)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_svc",
+   "role": "server running a compromised service account (used for RMM lateral deployment; Kerberoast target)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "files",
+   "role": "file server (Rclone exfil source to Wasabi)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "key server (GoTo Resolve; comsvcs LSASS dump; Gentlemen ransomware)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_2",
+   "role": "server (TukTuk implant; NetExec lateral; ransomware via GPO)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (domain-wide ransomware via GPO/SYSVOL scheduled task)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_svc"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2"
+  ],
+  [
+   "srv_svc",
+   "dc"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Malicious MSI (fake Sysinternals RAMMap) deploys EtherRAT with EtherHiding C2; Node.js runtime + registry Run key; TukTuk sideloaded, SaaS C2.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1071.001",
+     "T1574.002"
+    ]
+   },
+   "evidence": "'a user execute a malicious MSI installer masquerading as the Sysinternals RAMMap utility. The installer deployed an EtherRAT variant that used the Ethereum blockchain through EtherHiding' - Flash Alert: EtherRAT and TukTuk, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_svc": 7,
+    "dc": 7,
+    "srv_1": 7
+   },
+   "description": "Hands-on: Kerberoasting + credential discovery; compromised service-account creds deploy GoTo Resolve RMM laterally to servers and domain controllers.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1558.003"
+    ],
+    "srv_svc": [
+     "T1078.002",
+     "T1219"
+    ],
+    "dc": [
+     "T1219",
+     "T1021.002"
+    ],
+    "srv_1": [
+     "T1219"
+    ]
+   },
+   "evidence": "'Kerberoasting operations ... leveraged compromised service account credentials to deploy GoTo Resolve remote management tooling laterally across multiple systems, including servers and domain controllers' - Flash Alert: EtherRAT and TukTuk"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_1": 8,
+    "dc": 8,
+    "srv_2": 6,
+    "files": 5
+   },
+   "description": "Expansion via RDP/SMB/WinRM/NetExec; Mimikatz + comsvcs LSASS/NTDS dumping; privileged passwords reset; Rclone exfil to Wasabi.",
+   "techniques": {
+    "srv_1": [
+     "T1003.001",
+     "T1021.006"
+    ],
+    "dc": [
+     "T1003.003"
+    ],
+    "srv_2": [
+     "T1021.002",
+     "T1047"
+    ],
+    "files": [
+     "T1567.002"
+    ]
+   },
+   "evidence": "'expanded access through RDP, SMB, WinRM, NetExec (nxc), Mimikatz, and LSASS/NTDS dumping activity ... staged and executed Rclone to exfiltrate large volumes of sensitive data to Wasabi cloud storage' - Flash Alert: EtherRAT and TukTuk"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "srv_2": 9,
+    "pc_2": 9,
+    "files": 9
+   },
+   "description": "~3 days: The Gentlemen ransomware on key servers (Defender off, VMs stopped, shadow copies deleted, logs cleared); domain-wide via malicious GPO/SYSVOL scheduled task.",
+   "techniques": {
+    "dc": [
+     "T1486",
+     "T1484.001"
+    ],
+    "srv_1": [
+     "T1486",
+     "T1490"
+    ],
+    "srv_2": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ]
+   },
+   "evidence": "'ransomware operations began with the deployment of The Gentlemen ransomware ... domain-wide ransomware deployment through a malicious Group Policy Object (GPO) that executed staged ransomware binaries within SYSVOL/NETLOGON via scheduled tasks' - Flash Alert: EtherRAT and TukTuk"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "malicious MSI (fake RAMMap) -> EtherRAT with EtherHiding C2; TukTuk sideloaded (T1204.002/T1574.002)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_svc",
+   "Kerberoast + service-account creds; GoTo Resolve RMM deployed laterally (T1558.003/T1219)"
+  ],
+  [
+   "srv_svc",
+   "dc",
+   "GoTo Resolve RMM + remote execution to domain controllers; NTDS dump (T1021.002/T1003.003)"
+  ],
+  [
+   "dc",
+   "files",
+   "Rclone exfiltration of large volumes to Wasabi (T1567.002)"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "domain-wide Gentlemen ransomware via malicious GPO / SYSVOL scheduled task (T1486/T1484.001)"
+  ]
+ ],
+ "ambiguities": [
+  "Flash Alert format organized by DEATH (detection) sections rather than a host-by-host timeline; hosts named by role only; victim sector not stated.",
+  "'Multiple systems' / 'key servers' / 'critical infrastructure' modelled as srv_svc/srv_1/srv_2/pc_2.",
+  "Arweave dead-drop capability present in TukTuk but not confirmed used.",
+  "Moments are the report's own activity markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

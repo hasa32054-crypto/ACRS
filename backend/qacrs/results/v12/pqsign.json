@@ -1,0 +1,107 @@
+{
+ "alg": "ML-DSA-65",
+ "library": "dilithium-py (MIT) vendored, commit 23cb5ee9",
+ "n_certificates": 16,
+ "sign_ms_median": 64.74,
+ "verify_ms_median": 15.08,
+ "sign_plus_verify_ms_median": 78.72,
+ "sig_bytes": 3309,
+ "pk_bytes": 1952,
+ "tamperings": 1000,
+ "rejected_by_kind": {
+  "table_hash_swap": [
+   123,
+   123
+  ],
+  "naive_add_isolation": [
+   152,
+   152
+  ],
+  "resign_with_other_key": [
+   157,
+   157
+  ],
+  "claims_edit": [
+   143,
+   143
+  ],
+  "sig_bitflip": [
+   129,
+   129
+  ],
+  "status_flip": [
+   139,
+   139
+  ],
+  "smart_remove_action": [
+   157,
+   157
+  ]
+ },
+ "accepted_tamperings": [],
+ "parameter_set_sweep": {
+  "ML-DSA-44": {
+   "sign_plus_verify_ms_median": 39.6,
+   "sig_bytes": 2420,
+   "meets_50ms": true
+  },
+  "ML-DSA-65": {
+   "sign_plus_verify_ms_median": 71.4,
+   "sig_bytes": 3309,
+   "meets_50ms": false
+  },
+  "ML-DSA-87": {
+   "sign_plus_verify_ms_median": 107.0,
+   "sig_bytes": 4627,
+   "meets_50ms": false
+  }
+ },
+ "timing_note": "ML-DSA-65 stays the shipped default (NIST category 3); ML-DSA-44 meets the 50 ms clause in pure Python; a C implementation (liboqs) signs+verifies ML-DSA-65 in well under 1 ms but was not installable from this session.",
+ "v9_checker_rejects_genuine_certificate": [
+  {
+   "scenario": "06_colonial_pipeline_2021/m1",
+   "isolate": [
+    "pc_1",
+    "srv_finance_3",
+    "srv_it_3"
+   ],
+   "held": [
+    "pc_2",
+    "pc_3",
+    "pc_ransom_note",
+    "srv_finance_2",
+    "srv_it_2",
+    "web_vpn"
+   ],
+   "claims": {
+    "isolated_subset_of_reported_hacked": true,
+    "no_never_isolate_device_isolated": true,
+    "segment_only_on_critical": true,
+    "no_critical_isolated_automatically": false
+   }
+  },
+  {
+   "scenario": "08_change_healthcare_2024/m1",
+   "isolate": [
+    "srv_backup",
+    "srv_core_2",
+    "srv_core_3"
+   ],
+   "held": [
+    "pc_desktop_1"
+   ],
+   "claims": {
+    "isolated_subset_of_reported_hacked": true,
+    "no_never_isolate_device_isolated": true,
+    "segment_only_on_critical": true,
+    "no_critical_isolated_automatically": false
+   }
+  }
+ ],
+ "v9_observation": "On real incidents the locked v9 solver can place a critical server in the automatic isolate set (gate: PENDING two-person), and the v9 rate limiter (3 automatic isolations per 60 s) keeps 3 of the equal-risk hosts in an order that depends on set iteration; when a critical server lands there the v9 checker rejects the engine's own certificate. Not seen on synthetic data. Locked file, not changed; v12 decides without the limiter.",
+ "T10": {
+  "all_rejected": true,
+  "median_le_50ms": false,
+  "met": false
+ }
+}

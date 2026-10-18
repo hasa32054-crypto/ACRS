@@ -1,0 +1,187 @@
+{
+ "incident": "IcedID to Conti ransomware (zip/JS phishing to domain-wide Conti)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/05/12/conti-ransomware/",
+ "sources": [
+  {
+   "title": "Conti Ransomware - The DFIR Report (2021-05-12)",
+   "url": "https://thedfirreport.com/2021/05/12/conti-ransomware/",
+   "what_it_gave": "entry (phishing zip + JS -> IcedID via rundll32), hops (beacon over SMB/ADMIN$ to DCs, PsExec Beacon DLL to most systems, RDP proxied through IcedID), cred access (GetSystem, LSASS on multiple hosts incl DC, overpass-the-hash), impact (Conti in memory domain-wide, DC unrecoverable), 2d11h"
+  }
+ ],
+ "narrative_before": "In an April 2021 intrusion the DFIR Report assessed initial access was a phishing zip containing a malicious JavaScript file that downloaded and ran IcedID via rundll32 on the beachhead host (beaconing over 443). After more than two days dormant, a Cobalt Strike Beacon was dropped; hands-on activity lasted about two and a half hours on a Saturday morning. The actors got SYSTEM on the beachhead via Cobalt Strike GetSystem, accessed LSASS on multiple hosts including a domain controller, and used overpass-the-hash for a Kerberos ticket. Beacons were moved to domain controllers over SMB (ADMIN$ service binaries); a DC ran port scanning and dsquery, Cobalt Strike enabled RDP/firewall rules, and a local 'nuuser' account was added to Administrators on a DC. A Beacon DLL was pushed to most systems via PsExec and RDP was proxied through the IcedID process. About two and a half hours after hands-on, Conti was loaded as a DLL and executed in memory domain-wide (scanning 445/SMB); multiple machines including a domain controller were unrecoverable, with a 150k demand. Time to domain-wide ransomware was two days and 11 hours.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (IcedID via rundll32, Cobalt Strike, GetSystem, LSASS, RDP pivot)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (SMB beacon, port scan, dsquery, nuuser added to Admins, LSASS; unrecoverable)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "second domain controller (beacon moved over SMB)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server (Beacon DLL via PsExec; Conti in memory)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (Beacon DLL via PsExec; Conti in memory)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation (Beacon DLL via PsExec; Conti in memory)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "dc_2"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "IcedID running on the beachhead and beaconing; >2 days dormant before Cobalt Strike Beacon dropped.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1566.001",
+     "T1204.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'a zip file, which included a malicious JavaScript file ... IcedID ran via rundll32.exe and beaconed over port 443 for the whole intrusion' - Conti Ransomware, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 8,
+    "dc_2": 6
+   },
+   "description": "Hands-on: SYSTEM via GetSystem, LSASS accessed on multiple hosts incl a DC, overpass-the-hash; beacons moved to DCs over SMB.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1134",
+     "T1003.001"
+    ],
+    "dc": [
+     "T1003.001",
+     "T1021.002",
+     "T1550.002"
+    ],
+    "dc_2": [
+     "T1021.002"
+    ]
+   },
+   "evidence": "'LSASS: Accessed by runonce.exe on multiple hosts, including a domain controller ... Overpass-the-hash was used to get a Kerberos ticket' - Conti Ransomware"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 9,
+    "dc_2": 9,
+    "srv_1": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "~2.5h after hands-on: Conti loaded as a DLL and executed in memory domain-wide (scans 445/SMB); DC among unrecoverable hosts.",
+   "techniques": {
+    "dc": [
+     "T1486"
+    ],
+    "dc_2": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "pc_3": [
+     "T1486"
+    ]
+   },
+   "evidence": "'Conti, loaded as a DLL and executed in memory ... scans the network for 445/SMB, looking for machines to encrypt ... Multiple machines ... including a domain controller were unrecoverable' - Conti Ransomware"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "phishing zip + malicious JavaScript downloads/runs IcedID via rundll32 (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "Cobalt Strike Beacon moved to DC over SMB (ADMIN$ service binary); LSASS accessed (T1021.002/T1003.001)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "PsExec copies Beacon DLL to ADMIN$ and runs it with rundll32 on most systems (T1021.002)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Most of the systems' modelled as srv_1/pc_2/pc_3.",
+  "Number of DCs: the report references domain controllers (plural); modelled as two.",
+  "No exfiltration described. Domain admin not explicitly confirmed (nuuser added to Administrators).",
+  "Moments are the report's activity markers (IcedID, hands-on cred access, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

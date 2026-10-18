@@ -1,0 +1,173 @@
+{
+ "incident": "Hancitor downloader to domain admin via Zerologon (DFIR Report)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
+ "sources": [
+  {
+   "title": "From Zero to Domain Admin (DFIR Report)",
+   "url": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
+   "what_it_gave": "malspam Hancitor -> Cobalt Strike, Zerologon against DC, PtH, lateral to DCs/backup/file shares"
+  },
+  {
+   "title": "Hancitor DLL Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Hancitor%20DLL.afb",
+   "what_it_gave": "phish -> Hancitor -> Cobalt Strike -> Zerologon DC -> pass-the-hash -> DCs/backup/file shares"
+  }
+ ],
+ "narrative_before": "An email campaign lured a user into enabling macros on a malicious document (delivered via a Google Feed Proxy link), which downloaded and ran the Hancitor DLL (ier.dll) via rundll32 (DFIR Report). Hancitor downloaded Cobalt Strike payloads and Ficker Stealer; the beacon injected into svchost.exe, port-scanned for backup products, and enumerated local admin access by checking C$ shares. The actors deployed a custom Zerologon (CVE-2020-1472) implementation (zero.exe) to obtain the NTLM hash of a Domain Administrator account, then used pass-the-hash to authenticate to other domain controllers and deploy Cobalt Strike beacons on them. From the domain controllers they enumerated computers with the AD RSAT module, ran ICMP sweeps, and moved laterally to additional domain controllers, backup servers and file shares using Cobalt Strike.",
+ "machines": [
+  {
+   "name": "pc_victim",
+   "role": "initial victim; macro -> Hancitor -> Cobalt Strike, port/share scanning",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; Zerologon used to steal DA hash, Cobalt Strike beacon deployed",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "additional domain controller reached by pass-the-hash (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server reached by lateral movement (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file shares reached by lateral movement with Cobalt Strike",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_victim",
+   "dc"
+  ],
+  [
+   "dc",
+   "dc_2"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "files"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_victim": 5
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1566.002",
+     "T1204.002",
+     "T1218.011",
+     "T1055"
+    ]
+   },
+   "description": "Initial access: macro-enabled doc -> Hancitor DLL -> Cobalt Strike beacon injected into svchost on the victim.",
+   "evidence": "'User enabled macros ... Macro downloads ier.dll and executes it ... Multiple instances of svchost.exe launched and injected with Cobalt Strike' - CTID flow / DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_victim": 7,
+    "dc": 5,
+    "dc_2": 5,
+    "srv_backup": 6,
+    "files": 6
+   },
+   "techniques": {
+    "dc": [
+     "T1212",
+     "T1550.002"
+    ],
+    "dc_2": [
+     "T1550.002"
+    ],
+    "srv_backup": [
+     "T1021"
+    ],
+    "files": [
+     "T1021"
+    ]
+   },
+   "description": "Zerologon DA-hash theft, pass-the-hash to domain controllers, and lateral movement to DCs, backup servers and file shares.",
+   "evidence": "'custom implementation of Zerologon ... obtains the NTLM hash of a Domain Administrator account ... use the Domain Administrator's NTLM hash to authenticate to other domain controllers ... moved lateral ... to additional domain controllers, backup servers, and file shares' - CTID flow / DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_victim",
+   "dc",
+   "Zerologon (CVE-2020-1472) to steal DA hash, Cobalt Strike beacon on DC - T1212 / T1550.002"
+  ],
+  [
+   "dc",
+   "dc_2",
+   "pass-the-hash to additional domain controllers - T1550.002"
+  ],
+  [
+   "dc",
+   "files",
+   "lateral movement to file shares with Cobalt Strike - T1021"
+  ]
+ ],
+ "ambiguities": [
+  "'additional domain controllers, backup servers, and file shares' are not individually named; modelled as dc_2, srv_backup, files.",
+  "Detection: DFIR Report timeline rather than a defender alert; m1 = initial access, m2 = Zerologon + lateral movement."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

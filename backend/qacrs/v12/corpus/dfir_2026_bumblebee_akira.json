@@ -1,0 +1,235 @@
+{
+ "incident": "From Bing Search to Ransomware: Bumblebee and AdaptixC2 Deliver Akira (TTR ~44h)",
+ "year": 2026,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/",
+ "sources": [
+  {
+   "title": "From Bing Search to Ransomware: Bumblebee and AdaptixC2 Deliver Akira - The DFIR Report (2026-06-29)",
+   "url": "https://thedfirreport.com/2026/06/29/from-bing-search-to-ransomware-bumblebee-and-adaptixc2-deliver-akira-3/",
+   "what_it_gave": "entry (SEO poisoning -> trojanized MSI -> BumbleBee DLL side-load), hops (AdaptixC2, RDP to DC + backup server, reverse SSH tunnel, RustDesk service), cred access (wbadmin ntds.dit, Veeam DPAPI, lsassy LSASS on multiple hosts), exfil (FileZilla ~75GB to Ukraine), impact (Akira locker.exe, WMI shadow delete), TTR ~44h"
+  }
+ ],
+ "narrative_before": "In a July 2025 intrusion (published 2026) the DFIR Report observed an SEO-poisoning attack: a user searching for 'ManageEngine OpManager' downloaded a trojanized MSI that side-loaded the BumbleBee first-stage loader (msimg32.dll) on a beachhead host, establishing C2. ~5 hours later the actor deployed AdgNsy.exe (renamed Windows Address Book) injected with AdaptixC2, ran systeminfo/nltest discovery, created new domain accounts with Enterprise Admin privileges, and installed RustDesk as a Windows service on multiple servers. On days 2-3 they used RDP to pivot to a domain controller and a backup server; they used wbadmin.exe to extract the NTDS.dit AD database (plus SYSTEM/SECURITY hives) on the DC, dumped and DPAPI-decrypted Veeam credentials from the backup server, and used lsassy to dump LSASS across multiple hosts. They tunneled RDP through a reverse SSH tunnel and used mixed-case command obfuscation. FileZilla (via RDP clipboard) exfiltrated over 75GB (file shares, credentials, SYSVOL) to a server in Ukraine. ~44 hours after initial access they deployed Akira (locker.exe), using WMI to delete Volume Shadow Copies.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (trojanized MSI -> BumbleBee DLL side-load; AdaptixC2; FileZilla)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP; wbadmin NTDS.dit extraction; Enterprise Admin accounts created)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; Veeam creds dumped and DPAPI-decrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (shares exfiltrated via FileZilla ~75GB to Ukraine)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (RustDesk service; lsassy LSASS dump; Akira)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "host (lsassy LSASS dump; Akira locker.exe)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "srv_backup"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "SEO poisoning -> trojanized MSI side-loads BumbleBee (msimg32.dll) on the beachhead; ~5h later AdaptixC2 via AdgNsy.exe; Enterprise Admin accounts created; RustDesk installed.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1195.002",
+     "T1574.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'the BumbleBee first-stage loader (msimg32.dll) was executed on a beachhead host via DLL side-loading ... deployed AdgNsy.exe ... injected with AdaptixC2 ... created new domain accounts with Enterprise Admin privileges and installed RustDesk' - From Bing Search to Ransomware, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 7,
+    "dc": 8,
+    "srv_backup": 8,
+    "srv_1": 8,
+    "pc_2": 8
+   },
+   "description": "Days 2-3: RDP to a DC and backup server; wbadmin extracts NTDS.dit; Veeam creds DPAPI-decrypted; lsassy dumps LSASS across multiple hosts; reverse SSH tunnel proxies RDP.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1003.003"
+    ],
+    "srv_backup": [
+     "T1021.001",
+     "T1003"
+    ],
+    "srv_1": [
+     "T1003.001",
+     "T1219"
+    ],
+    "pc_2": [
+     "T1003.001"
+    ],
+    "pc_beachhead": [
+     "T1572"
+    ]
+   },
+   "evidence": "'used wbadmin.exe to extract the NTDS.dit Active Directory database ... dump and decrypt Veeam credentials via DPAPI ... employed the lsassy utility to dump LSASS memory across multiple hosts' - From Bing Search to Ransomware"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 5
+   },
+   "description": "FileZilla (via RDP clipboard) exfiltrates over 75GB (file shares, credentials, SYSVOL) to a server in Ukraine.",
+   "techniques": {
+    "files": [
+     "T1048",
+     "T1567"
+    ]
+   },
+   "evidence": "'Data exfiltration was primarily facilitated through FileZilla ... Over 75GB of data ... were exfiltrated to an threat actor controlled server in Ukraine' - From Bing Search to Ransomware"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "pc_2": 9,
+    "srv_backup": 9,
+    "files": 9
+   },
+   "description": "~44h: Akira (locker.exe) deployed, using WMI to delete Volume Shadow Copies across the infrastructure.",
+   "techniques": {
+    "dc": [
+     "T1486",
+     "T1490"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ]
+   },
+   "evidence": "'the deployment of Akira ransomware (staged as locker.exe), which used WMI to delete Volume Shadow Copies and maximize impact across the infrastructure' - From Bing Search to Ransomware"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "SEO poisoning -> trojanized MSI side-loads BumbleBee msimg32.dll (T1195.002/T1574.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "RDP to domain controller; wbadmin extracts NTDS.dit (T1021.001/T1003.003)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_backup",
+   "RDP to backup server; Veeam creds dumped and DPAPI-decrypted (T1021.001/T1003)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "FileZilla exfiltration of ~75GB of file shares to Ukraine (T1048)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "RustDesk service + lsassy LSASS dump; Akira locker.exe with WMI shadow delete (T1219/T1486/T1490)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Multiple hosts' for lsassy/Akira modelled as srv_1/pc_2.",
+  "Report references a 'parallel incident' with BYOVD; not modelled as part of this environment.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

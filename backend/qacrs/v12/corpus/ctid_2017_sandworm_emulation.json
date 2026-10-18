@@ -1,0 +1,163 @@
+{
+ "incident": "Sandworm adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2017,
+ "sector": "critical-infrastructure",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/sandworm",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - Sandworm Operations Flow & Scenario 1 Infrastructure",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/sandworm/Operations_Flow/Operations_Flow.md",
+   "what_it_gave": "named 4-host env (caladan/gammu/arrakis/quadra), webshell entry on Linux, SMB to gammu, RDP to DC arrakis, NotPetya"
+  },
+  {
+   "title": "DoJ indictment - GRU Unit 74455 (Sandworm)",
+   "url": "https://www.justice.gov/opa/press-release/file/1328521/download",
+   "what_it_gave": "real Sandworm NotPetya 2017 campaign the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of Sandworm (GRU Unit 74455), modelling TTPs from the real 2017 NotPetya campaign and related Exaramel/TeleBots activity. The lab environment has a Linux server 'caladan' (10.0.1.5), domain controller 'arrakis' (10.0.1.4) and Windows user machines 'gammu' (10.0.1.7) and 'quadra' (10.0.1.8). Sandworm logs into caladan over SSH and deploys a P.A.S. PHP webshell, runs discovery, downloads and executes Linux/Exaramel for C2, installs cron/systemd persistence, and exfiltrates /etc/shadow, bash history and SSH keys - cracking credentials for Frank Herbert on gammu. Using those credentials Sandworm uploads Windows/Exaramel to gammu via smbclient and PsExec, keylogs an RDP login, and harvests domain-admin credentials from an active RDP session. It then RDPs from gammu into the domain controller arrakis, uploads NotPetya, and executes it; NotPetya dumps credentials, copies itself to discovered hosts, encrypts files and reboots.",
+ "machines": [
+  {
+   "name": "web_caladan",
+   "role": "Linux server 'caladan'; SSH + P.A.S. webshell entry, Exaramel C2, credential exfil",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_gammu",
+   "role": "Windows user machine 'gammu' reached via smbclient/PsExec with cracked creds; keylog, DA creds",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller 'arrakis' reached via RDP from gammu; NotPetya uploaded and executed",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 5
+  },
+  {
+   "name": "pc_quadra",
+   "role": "Windows user machine 'quadra' reached by NotPetya self-propagation (generic)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "linux_server",
+   "value": 20,
+   "replicas": [
+    "web_caladan"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_caladan",
+   "pc_gammu"
+  ],
+  [
+   "pc_gammu",
+   "dc"
+  ],
+  [
+   "dc",
+   "pc_quadra"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_caladan": 7
+   },
+   "techniques": {
+    "web_caladan": [
+     "T1505.003",
+     "T1105",
+     "T1071"
+    ]
+   },
+   "description": "Initial access: SSH login to caladan + P.A.S. webshell, Linux/Exaramel downloaded for C2.",
+   "evidence": "'Sandworm logs into the Caladan host via SSH and deploys a PHP webshell ... downloads the Linux\\\\Exaramel ELF executable ... establishes connection to the C2' - Sandworm Operations Flow Steps 11-13"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_caladan": 8,
+    "pc_gammu": 8
+   },
+   "techniques": {
+    "web_caladan": [
+     "T1003.008"
+    ],
+    "pc_gammu": [
+     "T1021.002",
+     "T1569.002",
+     "T1056.001",
+     "T1003.001"
+    ]
+   },
+   "description": "Credential exfil + offline cracking; Windows/Exaramel uploaded to gammu via SMB/PsExec, keylogging yields domain-admin creds.",
+   "evidence": "'exfiltrates the /etc/shadow, bash history, and SSH keys ... obtains credentials for Frank Herbert on the Gammu host ... uploads Windows/Exaramel to the Gammu host using the smbclient ... obtains domain admin credentials from an active RDP session' - Sandworm Operations Flow Steps 14-17"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_gammu": 7,
+    "dc": 9,
+    "pc_quadra": 9
+   },
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1486",
+     "T1003.001"
+    ],
+    "pc_quadra": [
+     "T1021.002",
+     "T1486"
+    ]
+   },
+   "description": "RDP from gammu into DC arrakis; NotPetya uploaded and executed, self-propagating and encrypting/wiping.",
+   "evidence": "'Sandworm RDPs into the Arrakis host ... uploads NotPetya to Arrakis ... NotPetya ... copies itself to discovered hosts, and executes itself ... encrypts the files ... reboot' - Sandworm Operations Flow Steps 18-19"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_caladan",
+   "pc_gammu",
+   "smbclient upload + PsExec to gammu using cracked Frank Herbert creds - T1021.002 / T1569.002"
+  ],
+  [
+   "pc_gammu",
+   "dc",
+   "RDP from gammu into domain controller arrakis with DA creds - T1021.001"
+  ],
+  [
+   "dc",
+   "pc_quadra",
+   "NotPetya self-propagation to discovered hosts - T1021.002 / T1486"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of the real Sandworm NotPetya campaign (2017); year 2017 set accordingly.",
+  "Hostnames (caladan/gammu/arrakis/quadra) and IPs are the plan's lab values (Dune-themed).",
+  "DC 'arrakis' disruption set to 5 because the plan detonates NotPetya there (destructive impact on a domain controller); quadra is the self-propagation target."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

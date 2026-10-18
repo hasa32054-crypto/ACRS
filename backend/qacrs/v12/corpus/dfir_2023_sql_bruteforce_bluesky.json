@@ -1,0 +1,191 @@
+{
+ "incident": "SQL Brute Force Leads to BlueSky Ransomware (32 minutes)",
+ "year": 2023,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2023/12/04/sql-brute-force-leads-to-bluesky-ransomware/",
+ "sources": [
+  {
+   "title": "SQL Brute Force Leads to BlueSky Ransomware - The DFIR Report (2023-12-04)",
+   "url": "https://thedfirreport.com/2023/12/04/sql-brute-force-leads-to-bluesky-ransomware/",
+   "what_it_gave": "entry (MSSQL 'sa' brute force on internet-facing server -> xp_cmdshell -> CS), hops (remote service creation to DCs and file shares running PowerShell/Tor2Mine), impact (BlueSky vmware.exe network-wide over SMB), TTR 32 min"
+  }
+ ],
+ "narrative_before": "In a December 2022 intrusion the DFIR Report observed brute-forcing of the MSSQL 'sa' account on an internet-facing SQL server. The actors enabled xp_cmdshell and ran a base64 PowerShell command that connected to a Cobalt Strike C2 and injected into winlogon, which spawned PowerShell/cmd for SMB scans and SMBexec discovery; a Tor2Mine stager and miner (java.exe) were also dropped. ~15 minutes after initial access they moved laterally to domain controllers and file shares using remote service creation (Cobalt Strike psexec_psh pattern) to run the same PowerShell download-and-execute. ~30 minutes in, the BlueSky ransomware binary (vmware.exe) was dropped and executed on the beachhead, spreading to all devices over SMB (445), renaming files .bluesky. Time to ransomware was 32 minutes, with limited discovery and no exfiltration observed.",
+ "machines": [
+  {
+   "name": "web_sql",
+   "role": "internet-facing MSSQL server beachhead ('sa' brute-forced; xp_cmdshell; CS; BlueSky dropped)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (remote service creation; PowerShell/Tor2Mine; encrypted over SMB)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file share server (remote service creation target; encrypted over SMB)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (encrypted over SMB in network-wide BlueSky)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "workstation (encrypted over SMB)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "mssql_database",
+   "value": 20,
+   "replicas": [
+    "web_sql"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_sql",
+   "dc"
+  ],
+  [
+   "web_sql",
+   "files"
+  ],
+  [
+   "web_sql",
+   "srv_1"
+  ],
+  [
+   "web_sql",
+   "pc_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_sql": 7
+   },
+   "description": "MSSQL 'sa' brute force on an internet-facing server; xp_cmdshell enabled; PowerShell -> Cobalt Strike C2; winlogon injection; Tor2Mine stager.",
+   "techniques": {
+    "web_sql": [
+     "T1190",
+     "T1059.001",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'brute force password attempts for the MS SQL sa account on an internet facing server ... enabled xp_cmdshell ... established a connection to a Cobalt Strike command and control server' - SQL Brute Force to BlueSky, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_sql": 7,
+    "dc": 6,
+    "files": 6
+   },
+   "description": "~15 min: lateral movement to domain controllers and file shares via remote service creation (psexec_psh) running the same PowerShell/Tor2Mine.",
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1569.002"
+    ],
+    "files": [
+     "T1021.002"
+    ]
+   },
+   "evidence": "'moved laterally toward domain controllers and file shares using remote service creation ... associated with the Cobalt Strike psexec_psh jump module' - SQL Brute Force to BlueSky"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_sql": 9,
+    "dc": 9,
+    "files": 9,
+    "srv_1": 9,
+    "pc_1": 9
+   },
+   "description": "~30 min: BlueSky vmware.exe executed on the beachhead and spread to all devices over SMB/445 (.bluesky). TTR 32 min.",
+   "techniques": {
+    "web_sql": [
+     "T1486"
+    ],
+    "dc": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_1": [
+     "T1486"
+    ]
+   },
+   "evidence": "'The BlueSky ransomware binary named vmware.exe was dropped on the beachhead ... resulted in network wide ransomware ... connecting to host over port 445 to encrypt files' - SQL Brute Force to BlueSky"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_sql",
+   "MSSQL 'sa' brute force on an internet-facing server; xp_cmdshell RCE -> Cobalt Strike (T1190/T1059.001)"
+  ],
+  [
+   "web_sql",
+   "dc",
+   "remote service creation (psexec_psh) running PowerShell/Tor2Mine on domain controllers (T1021.002/T1569.002)"
+  ],
+  [
+   "web_sql",
+   "files",
+   "remote service creation to file shares (T1021.002)"
+  ],
+  [
+   "web_sql",
+   "srv_1",
+   "BlueSky vmware.exe spreads to all devices over SMB/445 (T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'All devices' modelled as srv_1/pc_1 plus DC/file share.",
+  "No exfiltration observed; discovery was limited.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}
