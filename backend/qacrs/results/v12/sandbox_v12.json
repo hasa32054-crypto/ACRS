@@ -1,0 +1,963 @@
+{
+ "meta": {
+  "experiment": "sandbox_v12",
+  "scope": "real iptables + real TCP on loopback in an isolated container",
+  "real_scenarios": 16,
+  "synthetic_scenarios": 50,
+  "probe_timeout_s": 0.005,
+  "seconds": 9.8
+ },
+ "time_to_contain": {
+  "decisions": 66,
+  "ms": {
+   "median": 10.324369000045408,
+   "p95": 117.91295900002297,
+   "max": 271.82476199982375
+  },
+  "model_equals_measured": 66,
+  "probe_checks": 1693,
+  "isolated_host_leaks": 0,
+  "target_met": true,
+  "rows": [
+   {
+    "scenario": "01_bangladesh_bank_2016/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 3.81,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "01_bangladesh_bank_2016/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 3.53,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "02_wannacry_nhs_2017/m1",
+    "status": "CONTAINED",
+    "isolated": 4,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.41,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "02_wannacry_nhs_2017/m2",
+    "status": "CONTAINED",
+    "isolated": 8,
+    "segmented": 2,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 271.82,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "03_notpetya_maersk_2017/m1",
+    "status": "CONTAINED",
+    "isolated": 5,
+    "segmented": 4,
+    "shields": 11,
+    "ms_decision_to_first_blocked_attempt": 107.46,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     8,
+     8
+    ]
+   },
+   {
+    "scenario": "03_notpetya_maersk_2017/m2",
+    "status": "CONTAINED",
+    "isolated": 10,
+    "segmented": 4,
+    "shields": 11,
+    "ms_decision_to_first_blocked_attempt": 84.52,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     3,
+     3
+    ]
+   },
+   {
+    "scenario": "04_norsk_hydro_2019/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 9.46,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "04_norsk_hydro_2019/m2",
+    "status": "CONTAINED",
+    "isolated": 4,
+    "segmented": 1,
+    "shields": 14,
+    "ms_decision_to_first_blocked_attempt": 30.3,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     10,
+     10
+    ]
+   },
+   {
+    "scenario": "05_duesseldorf_hospital_2020/m1",
+    "status": "CONTAINED",
+    "isolated": 10,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 10.65,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "06_colonial_pipeline_2021/m1",
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolated": 8,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 13.41,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "07_hse_conti_2021/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 9.39,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "07_hse_conti_2021/m2",
+    "status": "CONTAINED",
+    "isolated": 7,
+    "segmented": 6,
+    "shields": 15,
+    "ms_decision_to_first_blocked_attempt": 122.09,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     10,
+     10
+    ]
+   },
+   {
+    "scenario": "07_hse_conti_2021/m3",
+    "status": "CONTAINED",
+    "isolated": 9,
+    "segmented": 7,
+    "shields": 17,
+    "ms_decision_to_first_blocked_attempt": 117.91,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     10,
+     10
+    ]
+   },
+   {
+    "scenario": "07_hse_conti_2021/m4",
+    "status": "CONTAINED",
+    "isolated": 11,
+    "segmented": 7,
+    "shields": 17,
+    "ms_decision_to_first_blocked_attempt": 98.3,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     9,
+     9
+    ]
+   },
+   {
+    "scenario": "07_hse_conti_2021/m5",
+    "status": "CONTAINED",
+    "isolated": 12,
+    "segmented": 7,
+    "shields": 15,
+    "ms_decision_to_first_blocked_attempt": 124.25,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     7,
+     7
+    ]
+   },
+   {
+    "scenario": "08_change_healthcare_2024/m1",
+    "status": "CONTAINED_PENDING_APPROVAL",
+    "isolated": 4,
+    "segmented": 3,
+    "shields": 3,
+    "ms_decision_to_first_blocked_attempt": 29.33,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     2,
+     2
+    ]
+   },
+   {
+    "scenario": "c000/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 22.78,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c001/m4",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 18.77,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c002/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.98,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c003/m3",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 11.37,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     7,
+     7
+    ]
+   },
+   {
+    "scenario": "c004/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 9.68,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     4,
+     4
+    ]
+   },
+   {
+    "scenario": "c005/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 10.44,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c006/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.95,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c007/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 1,
+    "ms_decision_to_first_blocked_attempt": 10.42,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c008/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 18.0,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c009/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.78,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c010/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 12.72,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c011/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 1,
+    "ms_decision_to_first_blocked_attempt": 10.09,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c012/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.97,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c013/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.22,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c014/m2",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 1,
+    "shields": 2,
+    "ms_decision_to_first_blocked_attempt": 10.32,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c015/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.69,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c016/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 9.61,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c017/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 11.62,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     4,
+     4
+    ]
+   },
+   {
+    "scenario": "c018/m4",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.36,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c019/m1",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 10.56,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c020/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.83,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c021/m1",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.69,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c022/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 9.59,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c023/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.9,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c024/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.02,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c025/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 11.19,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c026/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 1,
+    "ms_decision_to_first_blocked_attempt": 10.12,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c027/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.93,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c028/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 9.76,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c029/m4",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.62,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c030/m1",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.62,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c031/m3",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 1,
+    "ms_decision_to_first_blocked_attempt": 9.8,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c032/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.01,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c033/m1",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 1,
+    "shields": 2,
+    "ms_decision_to_first_blocked_attempt": 10.54,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c034/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 11.45,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c035/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 13.51,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     7,
+     7
+    ]
+   },
+   {
+    "scenario": "c036/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.13,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c037/m3",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.59,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c038/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 6,
+    "ms_decision_to_first_blocked_attempt": 10.9,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c039/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 10.44,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     4,
+     4
+    ]
+   },
+   {
+    "scenario": "c040/m2",
+    "status": "CONTAINED",
+    "isolated": 3,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 10.07,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c041/m3",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 10.89,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c042/m1",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 9.32,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     5,
+     5
+    ]
+   },
+   {
+    "scenario": "c043/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 0,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 8.24,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c044/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 11.75,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c045/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 1,
+    "shields": 2,
+    "ms_decision_to_first_blocked_attempt": 8.85,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     1,
+     1
+    ]
+   },
+   {
+    "scenario": "c046/m2",
+    "status": "CONTAINED",
+    "isolated": 1,
+    "segmented": 1,
+    "shields": 0,
+    "ms_decision_to_first_blocked_attempt": 10.0,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   },
+   {
+    "scenario": "c047/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 3,
+    "shields": 5,
+    "ms_decision_to_first_blocked_attempt": 10.16,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     4,
+     4
+    ]
+   },
+   {
+    "scenario": "c048/m3",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 4,
+    "shields": 7,
+    "ms_decision_to_first_blocked_attempt": 12.13,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     6,
+     6
+    ]
+   },
+   {
+    "scenario": "c049/m2",
+    "status": "CONTAINED",
+    "isolated": 2,
+    "segmented": 1,
+    "shields": 1,
+    "ms_decision_to_first_blocked_attempt": 9.42,
+    "model_equals_measured": true,
+    "leaks": 0,
+    "shield_checks": [
+     0,
+     0
+    ]
+   }
+  ]
+ },
+ "digital_twin": {
+  "healthy_committed": 50,
+  "healthy_trials": 50,
+  "faulty_aborted": 50,
+  "faulty_trials": 50,
+  "faulty_caught_by": {
+   "structure": 50
+  },
+  "precheck_ms": {
+   "median": 11.230462999947122,
+   "p95": 16.685777000020607,
+   "max": 29.073260000131995
+  },
+  "target_met": true
+ }
+}
