@@ -1,0 +1,136 @@
+{
+ "incident": "Uber breach, September 2022: Lapsus$-affiliated attacker compromises an EXT contractor via MFA fatigue, finds admin credentials for the Thycotic PAM on an internal network share, and gains access to multiple internal systems (Slack, G-Suite, AWS, GCP, vSphere, HackerOne)",
+ "year": 2022,
+ "sector": "technology",
+ "case_url": "https://www.uber.com/newsroom/security-update/",
+ "sources": [
+  {
+   "title": "Uber Newsroom / SEC 8-K Ex-99.1: Security Update (2022-09-19)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1543151/000155278122000558/e22427_ex99-1.htm",
+   "what_it_gave": "entry (EXT contractor account, credentials likely bought on dark web, MFA fatigue - repeated 2FA prompts until one accepted); then 'accessed several other employee accounts' giving elevated permissions to G-Suite and Slack; response (blocked/reset accounts, disabled tools, locked codebase); Lapsus$ attribution"
+  },
+  {
+   "title": "Dark Reading: Attacker Apparently Didn't Have to Breach a Single System to Pwn Uber (2022-09)",
+   "url": "https://www.darkreading.com/cyberattacks-data-breaches/attacker-apparently-didnt-breach-single-system-pwn-uber",
+   "what_it_gave": "VPN initial access; internal network share with PowerShell scripts containing admin credentials for Thycotic PAM; extraction of secrets for DA, Duo, OneLogin, AWS, GSuite; root on AWS and GCP; screenshots of vSphere, Slack, HackerOne (attacker/researcher claims, unverified)"
+  }
+ ],
+ "narrative_before": "In September 2022 an attacker (which Uber believes is affiliated with Lapsus$) compromised an Uber EXT contractor's account, most likely after buying the contractor's corporate password on the dark web following a malware infection of their personal device (Uber Security Update). The contractor received repeated two-factor login approval requests, which initially blocked access, until they eventually accepted one (MFA fatigue), letting the attacker authenticate - reported to be the corporate VPN. On an internal network share the attacker found PowerShell scripts, one of which contained the username and password for an admin user of Uber's Thycotic privileged access management (PAM) platform; using that, the attacker 'was able to extract secrets for all services' (per the attacker's own account relayed by researchers). Uber states 'The attacker then accessed several other employee accounts which ultimately gave the attacker elevated permissions to a number of tools, including G-Suite and Slack,' and posted to a company-wide Slack channel. Researchers and the attacker's screenshots indicated access to AWS, Google Cloud, VMware vSphere, and HackerOne vulnerability reports (unverified by Uber, which said it had not seen access to production systems). On detection Uber identified compromised accounts and blocked them or forced password resets, disabled affected internal tools, and locked down its codebase.",
+ "machines": [
+  {
+   "name": "pc_contractor",
+   "role": "EXT contractor account/endpoint; MFA-fatigue compromise, VPN access (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files_share",
+   "role": "internal network share holding PowerShell scripts with hardcoded Thycotic PAM admin credentials",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_pam",
+   "role": "Thycotic privileged access management (PAM) platform; admin login reused to extract secrets for DA, Duo, OneLogin, AWS, GSuite",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "privileged_secrets_pam",
+   "value": 20,
+   "replicas": [
+    "srv_pam"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "internal_collaboration_gsuite_slack",
+   "value": 20,
+   "replicas": [
+    "srv_pam"
+   ],
+   "depends_on": [
+    "srv_pam"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_contractor",
+   "files_share"
+  ],
+  [
+   "files_share",
+   "srv_pam"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_contractor": 5
+   },
+   "techniques": {
+    "pc_contractor": [
+     "T1078",
+     "T1621",
+     "T1133"
+    ]
+   },
+   "description": "Initial access: EXT contractor credentials (likely dark-web purchase) + MFA fatigue; VPN login as the contractor.",
+   "evidence": "'An Uber EXT contractor had their account compromised by an attacker... the contractor received a two-factor login approval request... eventually accepted one' - Uber Security Update",
+   "ambiguity_note": "VPN specifically per Dark Reading; Uber's own note says 'account compromised'."
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_contractor": 5,
+    "files_share": 5,
+    "srv_pam": 5
+   },
+   "techniques": {
+    "files_share": [
+     "T1552.001"
+    ],
+    "srv_pam": [
+     "T1078.004",
+     "T1555"
+    ]
+   },
+   "description": "Attacker finds PowerShell scripts with Thycotic PAM admin credentials on an internal share and uses the PAM to extract secrets for many services; then accesses other employee accounts (G-Suite, Slack) and - per screenshots - AWS/GCP/vSphere/HackerOne.",
+   "evidence": "'One of the PowerShell scripts contained the username and password for an admin user in Thycotic (PAM). Using this I was able to extract secrets for all services' (attacker, via Dark Reading); 'accessed several other employee accounts which ultimately gave the attacker elevated permissions to a number of tools, including G-Suite and Slack' - Uber"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_contractor",
+   "files_share",
+   "After VPN access as the contractor, the attacker browses an internal network share and finds PowerShell scripts with hardcoded credentials - T1552.001"
+  ],
+  [
+   "files_share",
+   "srv_pam",
+   "Hardcoded admin credentials log into the Thycotic PAM, from which secrets for DA/Duo/OneLogin/AWS/GSuite are extracted - T1078.004 / T1555"
+  ]
+ ],
+ "technique_chain": [
+  "T1078",
+  "T1621",
+  "T1133",
+  "T1552.001",
+  "T1078.004",
+  "T1555"
+ ],
+ "ambiguities": [
+  "Much of the lateral detail (network share, Thycotic PAM, AWS/GCP/vSphere/HackerOne) comes from the attacker's own account relayed by researchers (Dark Reading), not Uber's statement; Uber confirmed only the contractor compromise, MFA fatigue, and elevated access to G-Suite and Slack.",
+  "No ransomware; this was access/data-exposure, no production systems confirmed accessed by Uber.",
+  "Downstream cloud services (AWS, GCP, vSphere) modelled as reached via the PAM secrets rather than as separate on-prem machines, to avoid inventing hosts."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

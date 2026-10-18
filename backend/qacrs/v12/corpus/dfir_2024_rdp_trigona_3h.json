@@ -1,0 +1,180 @@
+{
+ "incident": "Buzzing on Christmas Eve: Trigona Ransomware in 3 Hours",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/01/29/buzzing-on-christmas-eve-trigona-ransomware-in-3-hours/",
+ "sources": [
+  {
+   "title": "Buzzing on Christmas Eve: Trigona Ransomware in 3 Hours - The DFIR Report (2024-01-29)",
+   "url": "https://thedfirreport.com/2024/01/29/buzzing-on-christmas-eve-trigona-ransomware-in-3-hours/",
+   "what_it_gave": "entry (exposed RDP with valid Administrator creds, no brute force), hops (RDP beachhead->file server 1, file server 2, backup server), exfil (Rclone batch scripts to Mega from two file servers), impact (Trigona build_redacted.exe staged + run over RDP, spreads via SMB), TTR 2h49m"
+  }
+ ],
+ "narrative_before": "In this December 2023 intrusion the DFIR Report observed a threat actor access an internet-exposed RDP host using legitimate default Administrator credentials (no brute-forcing; prior logins suggested an access broker). The actor deployed a toolkit (batch scripts, SoftPerfect Netscan, Rclone) to the beachhead, scanned the network and browsed shares. ~20 minutes in they RDPed to a file server, copied the toolkit over, staged Rclone, disabled Windows Defender and ran batch scripts (start - копия.bat) to exfiltrate file shares to Mega.io; they also RDPed to a second file server and re-ran the Rclone scripts. ~45 minutes after exfil they re-logged from a new IP and RDPed to a backup server, applying the same Defender-disabling commands. They staged a Trigona binary (build_redacted.exe) on each accessible host and ran it over their RDP sessions; Trigona also spread over SMB to network-accessible hosts. Ransomware executed ~2h49m after initial access (dual extortion).",
+ "machines": [
+  {
+   "name": "web_rdp",
+   "role": "internet-exposed RDP beachhead (valid Administrator creds; toolkit, netscan, Rclone)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; Defender disabled; Rclone exfil to Mega; Trigona)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "files_2",
+   "role": "second file server (RDP; Rclone exfil; Trigona)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; Defender disabled; Trigona staged and run)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "network-accessible server (encrypted via Trigona SMB spread)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files",
+    "files_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_rdp",
+   "files"
+  ],
+  [
+   "web_rdp",
+   "files_2"
+  ],
+  [
+   "web_rdp",
+   "srv_backup"
+  ],
+  [
+   "web_rdp",
+   "srv_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_rdp": 5
+   },
+   "description": "Login to an exposed RDP host with valid default Administrator creds; toolkit + SoftPerfect Netscan deployed; shares browsed.",
+   "techniques": {
+    "web_rdp": [
+     "T1133",
+     "T1078",
+     "T1046"
+    ]
+   },
+   "evidence": "'the login utilized legitimate credentials for the default Administrator account, with no evidence of brute-forcing ... initiated network scans using Netscan' - Trigona in 3 Hours, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_rdp": 5,
+    "files": 6,
+    "files_2": 6
+   },
+   "description": "~20 min: RDP to a file server, Defender disabled, Rclone batch scripts exfiltrate shares to Mega; second file server re-runs Rclone.",
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1567.002",
+     "T1562.001"
+    ],
+    "files_2": [
+     "T1021.001",
+     "T1567.002"
+    ]
+   },
+   "evidence": "'establishing an RDP connection to one of the file servers ... execute a batch script responsible for initiating the Rclone exfiltration process to Mega.io ... RDP to access a second file server, where they executed the Rclone scripts again' - Trigona in 3 Hours"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 9,
+    "files_2": 9,
+    "srv_backup": 9,
+    "srv_1": 9
+   },
+   "description": "~2h49m: Defender disabled on backup server too; Trigona staged on each accessible host and run over RDP, spreading via SMB.",
+   "techniques": {
+    "srv_backup": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "files_2": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ]
+   },
+   "evidence": "'staged a ransomware binary on each of the hosts they had access to ... initiated the ransomware binary on each host through their RDP sessions ... propagating to all network-accessible hosts through ... SMB' - Trigona in 3 Hours"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_rdp",
+   "login to exposed RDP with valid default Administrator credentials (T1133/T1078)"
+  ],
+  [
+   "web_rdp",
+   "files",
+   "RDP to a file server; Defender disabled; Rclone exfil to Mega (T1021.001/T1567.002)"
+  ],
+  [
+   "web_rdp",
+   "files_2",
+   "RDP to a second file server; Rclone re-run (T1021.001/T1567.002)"
+  ],
+  [
+   "web_rdp",
+   "srv_backup",
+   "RDP to backup server; Trigona staged and run; SMB spread (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Network-accessible hosts reached by SMB spread modelled as srv_1.",
+  "No on-host privilege escalation/credential dumping; the default Administrator account was valid from entry.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

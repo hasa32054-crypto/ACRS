@@ -1,0 +1,238 @@
+{
+ "incident": "Cat's Got Your Files: Lynx Ransomware (TTR ~178h / 9 days)",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2025/12/17/cats-got-your-files-lynx-ransomware/",
+ "sources": [
+  {
+   "title": "Cat's Got Your Files: Lynx Ransomware - The DFIR Report (2025-12-17)",
+   "url": "https://thedfirreport.com/2025/12/17/cats-got-your-files-lynx-ransomware/",
+   "what_it_gave": "entry (single RDP logon to internet-exposed host with valid creds, no brute force), hops (RDP beachhead->DC with separate DA account; RDP to hypervisors, more DCs, backup/file servers), cred access (none on-host - pre-compromised accounts; NetExec password spray 445), exfil (archives to temp.sh), impact (Lynx on backup and file servers via RDP), TTR ~178h"
+  }
+ ],
+ "narrative_before": "In an early-March 2025 intrusion the DFIR Report observed a single successful RDP logon to an internet-exposed system using valid credentials (no brute force, assessed from an access broker). The actor ran discovery and SoftPerfect Network Scanner, and ten minutes after logon identified a domain controller and moved to it by RDP using a separate domain-admin account. On the DC they used Active Directory Users and Computers (dsa.msc) to create two privileged look-alike accounts ('administratr' and a one-character-off clone), added them to Domain Administrators, and installed AnyDesk (never used). Six days later they returned via RDP from the same source, ran NetExec for a password spray over 445, browsed file shares, archived their contents and exfiltrated them to temp[.]sh. ~9 hours later they returned from a new IP (same hostname), connecting via RDP to additional domain controllers and hypervisors for discovery. On day 9 they ran a final netscan, connected via RDP to a backup server (deleting backup jobs), deployed and executed Lynx ransomware there, then repeated the deployment across additional backup and file servers over RDP. TTR was just under 178 hours over nine days.",
+ "machines": [
+  {
+   "name": "web_rdp",
+   "role": "internet-exposed RDP beachhead (valid creds; SoftPerfect netscan; NetExec spray; central pivot)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP with DA account 10 min in; look-alike accounts created; AnyDesk)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "additional domain controller (RDP; discovery; Local Users/Groups snap-in)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dev_hv",
+   "role": "hypervisor (RDP; discovery; look-alike account tested)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; backup jobs deleted; Lynx executed first)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (shares browsed/archived/exfil to temp.sh; Lynx deployed)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup_2",
+   "role": "additional backup server (RDP; Lynx deployed)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "virtualization",
+   "value": 20,
+   "replicas": [
+    "dev_hv"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup",
+    "srv_backup_2"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_rdp",
+   "dc"
+  ],
+  [
+   "web_rdp",
+   "dc_2"
+  ],
+  [
+   "web_rdp",
+   "dev_hv"
+  ],
+  [
+   "web_rdp",
+   "files"
+  ],
+  [
+   "web_rdp",
+   "srv_backup"
+  ],
+  [
+   "web_rdp",
+   "srv_backup_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_rdp": 5
+   },
+   "description": "Single RDP logon to an internet-exposed host with valid credentials (no brute force); discovery + SoftPerfect netscan.",
+   "techniques": {
+    "web_rdp": [
+     "T1133",
+     "T1078",
+     "T1046"
+    ]
+   },
+   "evidence": "'a single successful Remote Desktop Protocol (RDP) logon to an internet-exposed system ... the threat actor likely possessed valid credentials before the activity occurred' - Cat's Got Your Files: Lynx, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_rdp": 5,
+    "dc": 6
+   },
+   "description": "Ten minutes after logon: RDP to a domain controller with a separate domain-admin account; two privileged look-alike accounts created; AnyDesk installed.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1078.002",
+     "T1136.002"
+    ]
+   },
+   "evidence": "'just ten minutes after the initial logon, the threat actor identified a domain controller and moved laterally to it via RDP ... authenticated using a different account with domain administrator privileges ... create two new accounts' - Cat's Got Your Files: Lynx"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_rdp": 5,
+    "files": 5,
+    "dc_2": 6,
+    "dev_hv": 6
+   },
+   "description": "Day 6-8: NetExec password spray over 445; file shares archived and exfiltrated to temp.sh; RDP to additional DCs and hypervisors for discovery.",
+   "techniques": {
+    "files": [
+     "T1567.002"
+    ],
+    "web_rdp": [
+     "T1110.003"
+    ],
+    "dc_2": [
+     "T1021.001"
+    ],
+    "dev_hv": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'downloaded NetExec through a web browser and conducted a password spray attack over port 445 ... compressed the contents into archives and exfiltrated them to the temporary file-sharing service temp[.]sh' - Cat's Got Your Files: Lynx"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "srv_backup": 9,
+    "files": 9,
+    "srv_backup_2": 9
+   },
+   "description": "Day 9 (~178h): final netscan; RDP to a backup server (backup jobs deleted), Lynx executed, then deployed across additional backup and file servers over RDP.",
+   "techniques": {
+    "srv_backup": [
+     "T1486",
+     "T1490"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_backup_2": [
+     "T1486"
+    ]
+   },
+   "evidence": "'connecting via RDP to a backup server, where they proceeded to delete existing backup jobs ... deployed and executed Lynx ransomware on the backup server ... repeated this ransomware deployment across multiple additional backup and file servers' - Cat's Got Your Files: Lynx"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_rdp",
+   "single RDP logon to an internet-exposed host with valid credentials (T1133/T1078)"
+  ],
+  [
+   "web_rdp",
+   "dc",
+   "RDP to a domain controller with a domain-admin account 10 min after entry; look-alike accounts created (T1021.001/T1136.002)"
+  ],
+  [
+   "web_rdp",
+   "files",
+   "file shares archived and exfiltrated to temp.sh (T1021.001/T1567.002)"
+  ],
+  [
+   "web_rdp",
+   "srv_backup",
+   "RDP to backup server; backup jobs deleted; Lynx executed, then spread to backup/file servers (T1021.001/T1486/T1490)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Multiple additional backup and file servers' modelled as srv_backup_2/files.",
+  "No on-host privilege escalation or credential dumping observed; privileged accounts assessed pre-compromised (access broker).",
+  "Moments are the report's own daily timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,108 @@
+{
+ "incident": "OceanLotus (APT32) adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2020,
+ "sector": "unknown",
+ "case_url": "https://github.com/center-for-threat-informed-defense/ocean-lotus",
+ "sources": [
+  {
+   "title": "CTID - OceanLotus Operations Flow",
+   "url": "https://github.com/center-for-threat-informed-defense/ocean-lotus/blob/main/Operations_Flow/Operations_Flow.md",
+   "what_it_gave": "macOS spearphish entry, SSH/SCP hop from macOS host to Linux server, Rota Jakiro, exfiltration"
+  },
+  {
+   "title": "OceanLotus Attack Flow (CTID attack-flow corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/OceanLotus.afb",
+   "what_it_gave": "Hope Potter macOS laptop -> SSH -> Linux server (Rota Jakiro) node/edge structure"
+  },
+  {
+   "title": "MITRE ATT&CK Group G0050 (APT32/OceanLotus)",
+   "url": "https://attack.mitre.org/groups/G0050/",
+   "what_it_gave": "real OceanLotus/APT32 activity the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of OceanLotus (APT32, Vietnam-nexus), modelling the group's real macOS/Linux intrusion TTPs. The user Hope Potter double-clicks a macOS application disguised as a Word document (conkylan.app) delivered by spearphishing, detonating a payload that establishes a Launch Agent and connects to C2. OceanLotus performs local discovery on the macOS host, reads the .ssh folder, and exfiltrates known_hosts and bash history; the history reveals that Hope sends files to a Linux file server via SCP. OceanLotus downloads Rota Jakiro to the macOS host, uses SCP/SSH to transfer it to the Linux server and make it executable, and executes it there - collecting host information, finding and staging .pdf files, compressing them into rota.tar.gz, and exfiltrating to the C2 server.",
+ "machines": [
+  {
+   "name": "pc_hpotter",
+   "role": "Hope Potter macOS laptop; spearphishing conkylan.app entry, Launch Agent, SSH-key discovery",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_linux",
+   "role": "Linux file server reached via SCP/SSH from the macOS host; Rota Jakiro, data staged + exfil",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "linux_file_server",
+   "value": 20,
+   "replicas": [
+    "srv_linux"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_hpotter",
+   "srv_linux"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_hpotter": 5
+   },
+   "techniques": {
+    "pc_hpotter": [
+     "T1566.001",
+     "T1204.002",
+     "T1543.001",
+     "T1041"
+    ]
+   },
+   "description": "Initial access: macOS app (conkylan.app) spearphishing payload on Hope Potter's laptop, Launch Agent persistence, C2.",
+   "evidence": "'Hope Potter downloads a macOS application disguised Word document ... installs persistence via Launch Agent ... connects to the C2 server' - OceanLotus Operations Flow"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_hpotter": 5,
+    "srv_linux": 7
+   },
+   "techniques": {
+    "pc_hpotter": [
+     "T1552.004"
+    ],
+    "srv_linux": [
+     "T1021.004",
+     "T1059.004",
+     "T1105",
+     "T1041"
+    ]
+   },
+   "description": "SSH-key/history discovery on the macOS host; Rota Jakiro transferred over SCP/SSH to the Linux server, data staged and exfiltrated.",
+   "evidence": "'reviews the contents of the .ssh folder ... history file reveals Hope Potter sends files to the file server using SCP ... uses SCP to transfer Rota Jakiro to the /tmp folder of the Linux host ... executes Rota Jakiro on the Linux host' - OceanLotus Operations Flow"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_hpotter",
+   "srv_linux",
+   "SCP transfer + SSH execution of Rota Jakiro from macOS host to Linux file server - T1021.004 / T1059.004"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of real OceanLotus/APT32 TTPs; year 2020 chosen as a representative basis (Rota Jakiro era).",
+  "Only two hosts are named in the plan (Hope Potter's macOS laptop and the Linux file server); no additional hosts invented.",
+  "The macOS host is treated as the entry and the Linux server as the single lateral hop (meets entry + >=1 hop)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

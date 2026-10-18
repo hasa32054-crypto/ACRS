@@ -1,0 +1,184 @@
+{
+ "incident": "FIN13 (Elephant Beetle) intrusion against a bank in Peru - Case 2",
+ "year": 2021,
+ "sector": "finance",
+ "case_url": "https://www.mandiant.com/resources/blog/fin13-cybercriminal-mexico",
+ "sources": [
+  {
+   "title": "Mandiant - FIN13 blog",
+   "url": "https://www.mandiant.com/resources/blog/fin13-cybercriminal-mexico",
+   "what_it_gave": "Log4j DMZ breach, SharePoint pivot, LSASS dumps, domain-admin creds, DC + SecurID"
+  },
+  {
+   "title": "Sygnia - Elephant Beetle",
+   "url": "https://f.hubspotusercontent30.net/hubfs/8776530/Sygnia-%20Elephant%20Beetle_Jan2022.pdf",
+   "what_it_gave": "AKATWEB webshell, SharePoint RCE, PsExec RDP enablement, SecurID VM cloning, fraud"
+  },
+  {
+   "title": "FIN13 Case 2 Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/FIN13%20Case%202.afb",
+   "what_it_gave": "Log4j -> AKATWEB -> SharePoint -> DC -> INTSRV/V-Center -> SecurID clone"
+  }
+ ],
+ "narrative_before": "FIN13 breached a bank in Peru (reported January 2022) by exploiting the Log4j vulnerability (CVE-2021-44228) on an internet-facing proxy web server (AKATWEB) in the DMZ and implanting a JSP webshell (Mandiant, Sygnia). They moved laterally to a DMZ SharePoint server, likely via the SharePoint RCE CVE-2019-0604, and dumped cached SharePoint credentials from LSASS to crack offline, obtaining domain-admin credentials for SQL servers. Using valid accounts they logged into databases, identified a domain controller, and used PsExec (with a batch script, CCfix.bat, enabling RDP on four hosts) to reach it. They then moved to the INTSRV area hosting SecurID servers and a VMware vCenter, cloned a SecurID server VM, exported its image over the webshell, and used the SecurID clone with stolen accounts to commit fraud against mobile-banking users.",
+ "machines": [
+  {
+   "name": "web_akatweb",
+   "role": "internet-facing AKATWEB proxy web server; Log4j RCE + JSP webshell (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_sharepoint",
+   "role": "DMZ SharePoint server reached via RCE; LSASS dumped for domain-admin creds",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller reached via PsExec; RDP enabled on hosts via CCfix.bat",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_vcenter",
+   "role": "VMware vCenter server accessed with stolen valid accounts in INTSRV area",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_securid",
+   "role": "SecurID server cloned in vCenter; image exported over webshell",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "core_databases",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "mfa_securid",
+   "value": 20,
+   "replicas": [
+    "srv_securid"
+   ],
+   "depends_on": [
+    "srv_vcenter"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_akatweb",
+   "srv_sharepoint"
+  ],
+  [
+   "srv_sharepoint",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_vcenter"
+  ],
+  [
+   "srv_vcenter",
+   "srv_securid"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_akatweb": 5
+   },
+   "techniques": {
+    "web_akatweb": [
+     "T1190",
+     "T1505.003"
+    ]
+   },
+   "description": "Initial access: Log4j (CVE-2021-44228) exploited on the AKATWEB proxy server, JSP webshell implanted.",
+   "evidence": "'Exploited the Log4j vulnerability to open a breach head on the DMZ ... Implanted a JSP webshell' - CTID flow / Mandiant"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_akatweb": 5,
+    "srv_sharepoint": 8,
+    "dc": 6
+   },
+   "techniques": {
+    "srv_sharepoint": [
+     "T1203",
+     "T1003.001"
+    ],
+    "dc": [
+     "T1021",
+     "T1078",
+     "T1569.002"
+    ]
+   },
+   "description": "Lateral movement to the SharePoint server (RCE), LSASS dump yielding domain-admin creds, then PsExec to the domain controller.",
+   "evidence": "'Moved laterally to a DMZ segment hosting a SharePoint server ... dumped the SharePoint cached credentials ... Multiple instances of PsExec ... on the targeted DC' - CTID flow / Sygnia"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 8,
+    "srv_vcenter": 5,
+    "srv_securid": 5
+   },
+   "techniques": {
+    "srv_vcenter": [
+     "T1078"
+    ],
+    "srv_securid": [
+     "T1111",
+     "T1041"
+    ]
+   },
+   "description": "Movement into the INTSRV area, access to vCenter with stolen accounts, and cloning/export of a SecurID server VM before fraud.",
+   "evidence": "'accessed the V-Center server using previously stolen valid accounts ... cloned one of the SecurID servers ... exported the SecurID server image over the webshell' - CTID flow / Sygnia"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_akatweb",
+   "srv_sharepoint",
+   "RCE (likely CVE-2019-0604) to DMZ SharePoint server - T1203"
+  ],
+  [
+   "srv_sharepoint",
+   "dc",
+   "PsExec with cracked domain-admin credentials to the domain controller - T1569.002 / T1078"
+  ],
+  [
+   "dc",
+   "srv_vcenter",
+   "valid accounts used to reach INTSRV VMware vCenter - T1078"
+  ],
+  [
+   "srv_vcenter",
+   "srv_securid",
+   "SecurID server VM cloned and image exported over webshell - T1111 / T1041"
+  ]
+ ],
+ "ambiguities": [
+  "Entry (Log4j) dates to late 2021; the report was published January 2022 - year set to 2021 (intrusion year).",
+  "equipos.txt lists four RDP-enabled hosts (QTCBDC02, QTVCTR01, QTBKSR02, QTJPGPA1); modelled by role (dc, vcenter) rather than all four to respect 'do not invent' and the role mapping.",
+  "SecurID 'cluster' modelled as one machine."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

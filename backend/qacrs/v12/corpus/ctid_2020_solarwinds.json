@@ -1,0 +1,157 @@
+{
+ "incident": "SolarWinds Orion supply-chain compromise (SUNBURST / APT29)",
+ "year": 2020,
+ "sector": "technology",
+ "case_url": "https://www.microsoft.com/en-us/security/blog/2020/12/18/analyzing-solorigate-the-compromised-dll-file-that-started-a-sophisticated-cyberattack-and-how-microsoft-defender-helps-protect/",
+ "sources": [
+  {
+   "title": "Microsoft - Analyzing Solorigate compromised DLL",
+   "url": "https://www.microsoft.com/en-us/security/blog/2020/12/18/analyzing-solorigate-the-compromised-dll-file-that-started-a-sophisticated-cyberattack-and-how-microsoft-defender-helps-protect/",
+   "what_it_gave": "trojanized Orion DLL loaded as service, backdoor, TEARDROP/Cobalt Strike, lateral movement with valid accounts"
+  },
+  {
+   "title": "Picus - TTPs used in the SolarWinds breach",
+   "url": "https://www.picussecurity.com/resource/blog/ttps-used-in-the-solarwinds-breach",
+   "what_it_gave": "DGA C2, Kerberoasting/DCSync, ADFIND recon, lateral movement, cloud exfiltration"
+  },
+  {
+   "title": "SolarWinds Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/SolarWinds.afb",
+   "what_it_gave": "supply-chain DLL -> backdoor -> recon -> credential access (DCSync) -> lateral movement -> exfil"
+  }
+ ],
+ "narrative_before": "APT29 (attributed to the SVR) embedded the SUNBURST backdoor in the legitimate SolarWinds Orion component SolarWinds.Orion.Core.BusinessLayer.dll, signed with valid SolarWinds certificates, and distributed it to thousands of organizations through the Orion automated update mechanism (Microsoft, Picus). On victim machines the tampered DLL was loaded by legitimate executables as a Windows service; after environment and sandbox checks the backdoor contacted a DGA-generated C2 which delivered the TEARDROP loader for a Cobalt Strike beacon. The attackers performed ADFIND/WMI reconnaissance, obtained credentials via Kerberoasting, gMSA access and a DCSync attack, then used valid accounts to move laterally, deploying custom loaders and disabling security monitoring. Collected data was archived with 7-Zip and exfiltrated to cloud storage such as OneDrive.",
+ "machines": [
+  {
+   "name": "srv_orion",
+   "role": "SolarWinds Orion server; trojanized DLL loaded as a service (entry on victim network)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "internal server reached by lateral movement with valid accounts + TEARDROP/Cobalt Strike (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; Kerberoasting / gMSA / DCSync credential access",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation reached during lateral movement (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "orion_monitoring",
+   "value": 20,
+   "replicas": [
+    "srv_orion"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "srv_orion",
+   "dc"
+  ],
+  [
+   "srv_orion",
+   "srv_1"
+  ],
+  [
+   "srv_orion",
+   "pc_2"
+  ],
+  [
+   "srv_1",
+   "dc"
+  ],
+  [
+   "pc_2",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "srv_orion": 7
+   },
+   "techniques": {
+    "srv_orion": [
+     "T1195.002",
+     "T1569.002",
+     "T1071"
+    ]
+   },
+   "description": "Supply-chain execution + C2: trojanized Orion DLL loaded as a service on the victim, DGA-generated C2 contacted.",
+   "evidence": "'the tampered DLL is loaded by legitimate executables and installed as a Windows service ... Adversaries use DGAs to dynamically generate a C2 domain' - CTID flow / Microsoft"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "srv_orion": 7,
+    "dc": 8,
+    "srv_1": 6,
+    "pc_2": 5
+   },
+   "techniques": {
+    "srv_orion": [
+     "T1071"
+    ],
+    "dc": [
+     "T1558.003",
+     "T1003.006"
+    ],
+    "srv_1": [
+     "T1078",
+     "T1047"
+    ],
+    "pc_2": [
+     "T1078"
+    ]
+   },
+   "description": "Reconnaissance, DCSync/Kerberoasting credential access, and lateral movement with valid accounts and TEARDROP/Cobalt Strike.",
+   "evidence": "'executed a DCSync attack ... obtained Ticket Granting Service tickets ... used valid accounts to move laterally ... TEARDROP ... loaded onto the machine' - CTID flow / Picus"
+  }
+ ],
+ "attack_path": [
+  [
+   "srv_orion",
+   "dc",
+   "credential access (Kerberoasting/DCSync) then valid-account access to DC - T1558.003 / T1003.006 / T1078"
+  ],
+  [
+   "srv_orion",
+   "srv_1",
+   "lateral movement deploying TEARDROP/Cobalt Strike via WMI with valid accounts - T1078 / T1047"
+  ]
+ ],
+ "ambiguities": [
+  "The flow describes a generic post-compromise network, not specific victim hostnames; modelled as Orion server, a DC, and two generic hosts.",
+  "SolarWinds' own build system compromise (upstream) is summarized in the narrative but the modelled network is the victim side.",
+  "No single defender detection moment in the flow; m1 = supply-chain exec, m2 = domain credential access + lateral movement."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,68 @@
+{
+ "incident": "ToolShell SharePoint RCE and machine-key theft",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://www.varonis.com/blog/toolshell-sharepoint-rce",
+ "sources": [
+  {
+   "title": "Varonis Threat Labs - ToolShell: A SharePoint RCE chain actively exploited",
+   "url": "https://www.varonis.com/blog/toolshell-sharepoint-rce",
+   "what_it_gave": "SharePoint auth-bypass + deserialization RCE, spinstall0.aspx webshell, MachineKey theft, ViewState persistence - all on the SharePoint server"
+  },
+  {
+   "title": "Unit 42 - Active Exploitation of Microsoft SharePoint Vulnerabilities",
+   "url": "https://unit42.paloaltonetworks.com/microsoft-sharepoint-cve-2025-49704-cve-2025-49706-cve-2025-53770/",
+   "what_it_gave": "CVE-2025-49704/49706/53770 exploitation details"
+  },
+  {
+   "title": "ToolShell Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/ToolShell%20Vulnerability%20in%20Sharepoint.afb",
+   "what_it_gave": "node/edge: SharePoint ToolPane exploit -> webshell -> MachineKey extraction -> exfil -> ViewState persistence (single server)"
+  }
+ ],
+ "narrative_before": "The ToolShell campaign exploited on-premises Microsoft SharePoint by sending a crafted HTTP request to the ToolPane endpoint to bypass authentication (CVE-2025-49706) and trigger a deserialization remote-code-execution vulnerability (CVE-2025-49704) (Varonis, Unit 42). A PowerShell payload deployed an ASPX web shell (spinstall0.aspx) that extracted the SharePoint server's cryptographic MachineKey from memory, iterated the webroot for web.config files, staged their contents, and exfiltrated the MachineKey over the web shell. With the stolen MachineKey the attacker forged ASP.NET ViewState to retain code execution even after patching. All activity in the flow occurs on the SharePoint server itself; the flow describes no lateral movement to a second host.",
+ "machines": [
+  {
+   "name": "web_sharepoint",
+   "role": "internet-facing on-prem SharePoint server; ToolShell RCE, webshell, MachineKey theft",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "sharepoint",
+   "value": 20,
+   "replicas": [
+    "web_sharepoint"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_sharepoint": 5
+   },
+   "techniques": {
+    "web_sharepoint": [
+     "T1190",
+     "T1505.003",
+     "T1552"
+    ]
+   },
+   "description": "Single-server compromise: ToolShell auth-bypass + deserialization RCE, spinstall0.aspx webshell, MachineKey extraction.",
+   "evidence": "'authentication bypass vulnerability ... crafted HTTP request ... deserialization vulnerability that allows remote code execution ... web shell ... extracts the MachineKey from memory' - ToolShell flow / Varonis"
+  }
+ ],
+ "attack_path": [],
+ "ambiguities": [
+  "Public reporting (Varonis/Unit 42) and the CTID flow confine the modelled activity to the SharePoint server.",
+  "ViewState persistence via the stolen MachineKey can enable follow-on access, but no concrete lateral hop to a named second host is described in the flow."
+ ],
+ "dropped": true,
+ "drop_reason": "No lateral hop. The ToolShell flow is a single-server RCE + credential (MachineKey) theft + ViewState persistence chain entirely on the SharePoint server; there is an internet-facing entry but no movement to a second internal host, so it fails the entry + >=1 hop requirement."
+}

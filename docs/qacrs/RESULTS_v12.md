@@ -9,9 +9,9 @@ All containment figures are **given an alert** (D10). The open corpus was conver
 
 | ID | Target | Result | Met |
 |---|---|---|---|
-| T1 | 0 REJECTED, 0 NOT_CONTAINED for v12 on every set | 0 / 0 on real16, realistic (894), v9 chains (253), v9 random (412), corpus | **yes** |
-| T2 | Automatic containment ≥ 80 % on real16 (v9 was 31 %) and on the corpus | real16 **16/16 = 100 %** (Wilson 0.81–1.00); corpus: §3 | **yes** |
-| T3 | Services down after approvals: v12 ≤ `rule_segment` on real16; v12 < full isolation in ≥ 70 % where full takes ≥ 1 down | real16 **19 vs 21**; 11/14 = 79 % (Wilson 0.52–0.92) | **yes** |
+| T1 | 0 REJECTED, 0 NOT_CONTAINED for v12 on every set | 0 / 0 on real16, corpus (207), realistic (894), v9 chains (253), v9 random (412) | **yes** |
+| T2 | Automatic containment ≥ 80 % on real16 (v9 was 31 %) and on the corpus | real16 **16/16 = 100 %** (Wilson 0.81–1.00); corpus **188/207 = 91 %** (0.86–0.94) | **yes** |
+| T3 | Services down after approvals: v12 ≤ `rule_segment`; v12 < full isolation in ≥ 70 % where full takes ≥ 1 down | real16 **19 vs 21**, 11/14 = 79 %; corpus **70 vs 126**, 129/139 = 93 % | **yes** |
 | T4 | Guard: 0 burst flags on the 4 real detonations; ≥ 90 % of phase-10 naive injections still flagged | **0/4** (v9: 4/4); naive 398/500 vs v9 406/500 = 98 % of v9; path-aware 158 vs v9 61 | **yes** |
 | T5 | Regression on v9 fresh sets: containment ≥ v9 and services down ≤ v9 | chains 253/253 vs 248, down 6 vs 9; random 392/412 vs 390, down 22 vs 24 | **yes** |
 | T6 | Monotonicity in 100 % of multi-moment incidents | 502/502 | **yes** |
@@ -74,7 +74,29 @@ Converted by Claude from The DFIR Report, MITRE CTID Attack Flow / adversary emu
 the v11 rules; risks recomputed from the D2 table (`corpus_check.py`, manifest hashed). Results are appended here by
 `phase17_v12.py` once the corpus is frozen — see `results/v12/v12.json["summaries"]["corpus"]`.
 
-_(filled in §3-results below after the corpus run)_
+**Corpus:** 84 files written, **75 converted, 9 dropped** with reason (Telerik/IIS: advisory states no lateral
+movement; JLR, Collins Aerospace, CDK, Ascension, Snowflake: no public path; menuPass, Blind Eagle, ToolShell: single
+host). **207 detection moments** spanning 2013–2026: 27 DFIR Report cases (Ryuk, NetWalker, PYSA, Conti ×4, REvil,
+Quantum ×3, Hive, BlueSky, Trigona, LockBit ×2, BlackSuit ×2, RansomHub, Lynx, Akira, …), 28 CTID Attack Flow /
+emulation cases (Target 2013, JPMorgan 2014, Equifax, NotPetya, Marriott, SolarWinds, FIN13, Uber, Ivanti/UTA0178,
+MITRE NERVE, Carbanak, FIN6, APT29, Sandworm, Wizard Spider …), 8 CISA/CERT advisories with a described victim path
+(Log4Shell/Horizon ×2, Impacket/DIB, Volt Typhoon water utility, GeoServer FCEB 2025–26, DynoWiper Poland CHP 2026 …),
+and 5 documented 2022–2025 incidents (Rackspace, 3CX, MGM, M&S …). Six services that listed > 2 replicas were split
+mechanically (logged in `MANIFEST.json`); 70 host risks were re-derived from the D2 table.
+
+| Corpus (207 moments) | v12 | locked v9 | `rule_segment` | Wazuh-style | full isolation |
+|---|---|---|---|---|---|
+| automatic containment | **188 (91 %, Wilson 0.86–0.94)** | 155 (75 %) | 207 | 206 | 207 |
+| services down after approvals | **70** | 90 | 126 | 268 | 268 |
+| unsafe / silent | 0 / 0 | 0 / 1 | 0 / 0 | 1 / 0 | 0 / 0 |
+| escalations to humans | 19 | 77 | 0 | 0 | 0 |
+| fewer services down than full isolation (pool 139) | **129 (93 %)** | 113 | 112 | 0 | — |
+
+T2 (≥ 80 %) and T3 (v12 ≤ rule) **met on the corpus**. The 19 escalations are G3 by design: a host at risk 7–8
+that is the only replica of a service (e.g. the Horizon server in AA22-320A, the aeronautical ServiceDesk in
+AA23-250A, the Sandworm DC in the emulation) — the engine asks two people whether to lose that service, as
+pre-registered. Caveat: DFIR Report anonymises victims (sector unknown), hosts are named by role, and the reports'
+timeline markers stand in for defender detection moments.
 
 ## 4. Survival, recovery, immunity (phase18)
 

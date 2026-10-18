@@ -1,0 +1,238 @@
+{
+ "incident": "MGM Resorts ransomware, September 2023: Scattered Spider/ALPHV(BlackCat) vishing of the IT help desk -> Okta compromise -> Azure tenant Global Admin -> ransomware on 100+ ESXi hypervisors (intrusion ~Sept 8-11 2023)",
+ "year": 2023,
+ "sector": "hospitality",
+ "case_url": "https://www.bleepingcomputer.com/news/security/mgm-resorts-esxi-servers-allegedly-encrypted-in-ransomware-attack/",
+ "sources": [
+  {
+   "title": "BleepingComputer: MGM Resorts ESXi servers allegedly encrypted in ransomware attack (2023-09)",
+   "url": "https://www.bleepingcomputer.com/news/security/mgm-resorts-esxi-servers-allegedly-encrypted-in-ransomware-attack/",
+   "what_it_gave": "entry (voice social-engineering of the help desk); ALPHV statement: lurking on Okta Agent servers sniffing passwords from domain controller hash dumps; super admin on Okta + Global Administrator on the Azure tenant; ransomware on 100+ ESXi hypervisors on Sept 11; MGM disconnected Okta Sync servers"
+  }
+ ],
+ "narrative_before": "In September 2023 MGM Resorts was breached by the Scattered Spider actors (affiliated with the ALPHV/BlackCat ransomware operation). Reporting indicates the attackers gained access by impersonating an employee in a voice social-engineering (vishing) attack on the company's IT help desk. Per the ALPHV statement relayed by BleepingComputer, the attackers were 'lurking' on MGM's Okta Agent servers trying to 'sniff any passwords that they could not recover from the domain controller hash dumps,' and claimed super administrator privileges on MGM's Okta environment and Global Administrator permissions on the company's Azure tenant. After MGM discovered the attackers on the Okta Agent servers and disconnected its Okta Sync servers, the attackers 'launched ransomware attacks against more than 100 ESXi hypervisors in their environment on September 11th.' The attack caused extensive operational disruption across MGM properties (hotel systems, slot machines, digital room keys). BleepingComputer could not independently confirm ALPHV's claims, and MGM did not respond at the time.",
+ "machines": [
+  {
+   "name": "pc_helpdesk_user",
+   "role": "employee account obtained via vishing the IT help desk (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_okta_agent",
+   "role": "Okta Agent servers; attackers 'lurked' and sniffed passwords, obtained super admin of Okta",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; hash dumps that the attackers used to recover passwords",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_azure_tenant",
+   "role": "Azure tenant (identity); attackers claimed Global Administrator permissions",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_1",
+   "role": "VMware ESXi hypervisor (one of 100+); encrypted by ransomware Sept 11",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_2",
+   "role": "VMware ESXi hypervisor (one of 100+); encrypted by ransomware Sept 11",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_3",
+   "role": "VMware ESXi hypervisor (one of 100+); encrypted by ransomware Sept 11",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "identity_sso_okta_azure",
+   "value": 20,
+   "replicas": [
+    "srv_okta_agent",
+    "srv_azure_tenant"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "casino_hotel_operations_vmware_1",
+   "value": 25,
+   "replicas": [
+    "srv_esxi_1",
+    "srv_esxi_2"
+   ],
+   "depends_on": [
+    "srv_okta_agent"
+   ]
+  },
+  {
+   "name": "casino_hotel_operations_vmware_2",
+   "value": 25,
+   "replicas": [
+    "srv_esxi_3"
+   ],
+   "depends_on": [
+    "srv_okta_agent"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_helpdesk_user",
+   "srv_okta_agent"
+  ],
+  [
+   "dc",
+   "srv_okta_agent"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_azure_tenant"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_1"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_2"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_helpdesk_user": 5
+   },
+   "techniques": {
+    "pc_helpdesk_user": [
+     "T1566.004",
+     "T1078"
+    ]
+   },
+   "description": "Initial access: vishing of the IT help desk to impersonate an employee and obtain access.",
+   "evidence": "'impersonating an employee in a voice social engineering attack that targeted the company's help desk' (vx-underground, via BleepingComputer)"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_helpdesk_user": 5,
+    "srv_okta_agent": 8,
+    "dc": 8,
+    "srv_azure_tenant": 5
+   },
+   "techniques": {
+    "srv_okta_agent": [
+     "T1556",
+     "T1003"
+    ],
+    "dc": [
+     "T1003"
+    ],
+    "srv_azure_tenant": [
+     "T1078.004"
+    ]
+   },
+   "description": "Attackers lurk on Okta Agent servers sniffing passwords (from domain controller hash dumps), obtain Okta super admin and Azure Global Administrator. MGM detects them here and disconnects Okta Sync servers.",
+   "evidence": "'learning that we had been lurking on their Okta Agent servers'; 'trying to sniff any passwords that they could not recover from the domain controller hash dumps'; 'super administrator privileges on MGM's Okta environment' and 'Global Administrator permissions to the company's Azure tenant' - ALPHV via BleepingComputer"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_helpdesk_user": 5,
+    "srv_okta_agent": 8,
+    "dc": 8,
+    "srv_azure_tenant": 7,
+    "srv_esxi_1": 9,
+    "srv_esxi_2": 9,
+    "srv_esxi_3": 9
+   },
+   "techniques": {
+    "srv_esxi_1": [
+     "T1486"
+    ],
+    "srv_esxi_2": [
+     "T1486"
+    ],
+    "srv_esxi_3": [
+     "T1486"
+    ]
+   },
+   "description": "After MGM disconnected the Okta Sync servers, the attackers deployed ransomware to 100+ ESXi hypervisors on Sept 11.",
+   "evidence": "'launched ransomware attacks against more than 100 ESXi hypervisors in their environment on September 11th' - ALPHV via BleepingComputer"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_helpdesk_user",
+   "srv_okta_agent",
+   "Help-desk vishing yields access; attackers reach the Okta Agent servers and sniff passwords - T1556 / T1003"
+  ],
+  [
+   "dc",
+   "srv_okta_agent",
+   "Domain controller hash dumps feed the password recovery performed on/around the Okta Agent servers - T1003"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_azure_tenant",
+   "Okta super-admin leveraged to Global Administrator on the Azure tenant - T1078.004"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_1",
+   "Privileged identity access used to deploy ransomware to ESXi hypervisors - T1486"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_2",
+   "Ransomware deployed to ESXi hypervisor - T1486"
+  ],
+  [
+   "srv_okta_agent",
+   "srv_esxi_3",
+   "Ransomware deployed to ESXi hypervisor - T1486"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.004",
+  "T1078",
+  "T1556",
+  "T1003",
+  "T1078.004",
+  "T1486"
+ ],
+ "ambiguities": [
+  "The technical hops come from the ALPHV/BlackCat public statement relayed by BleepingComputer, which could not independently confirm them and which MGM did not corroborate; treat as attacker-claimed.",
+  "100+ ESXi hypervisors modelled as 3 (rule 1 cap for a generic group).",
+  "The dc -> okta hop reflects the statement that passwords were recovered from 'domain controller hash dumps'; the exact DC access path is not detailed.",
+  "Exact initial-access date inferred as ~Sept 8 ('since Friday'); encryption Sept 11.",
+  "MGM's own 8-K and its Sept 10 'cybersecurity issue' disclosure are not in this source."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

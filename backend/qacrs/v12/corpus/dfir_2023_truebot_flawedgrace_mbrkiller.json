@@ -1,0 +1,200 @@
+{
+ "incident": "A Truly Graceful Wipe Out (Truebot/FlawedGrace to MBR Killer wiper in 29 hours)",
+ "year": 2023,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/",
+ "sources": [
+  {
+   "title": "A Truly Graceful Wipe Out - The DFIR Report (2023-06-12)",
+   "url": "https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/",
+   "what_it_gave": "entry (404 TDS email drive-by -> Truebot Document_may_24_16654.exe), hops (pass-the-hash atexec, CS jump psexec every 5-20 min, FlawedGrace on all hosts), cred access (registry-hive remote dump ~secretsdump, LSASS, PtH), exfil (observed, tool not named), impact (MBR Killer wiper on all FlawedGrace hosts incl file server), 29h"
+  }
+ ],
+ "narrative_before": "In a May 2023 intrusion the DFIR Report observed Truebot delivered via the '404 TDS' email-to-drive-by chain (Document_may_24_16654.exe, a fake Adobe doc) on the beachhead host. Truebot loaded FlawedGrace, which abused the Print Spooler service's RequiredPrivileges registry key to escalate and persist, disabled Defender real-time monitoring, created and removed a temporary local admin for failed tunneled-RDP attempts, and did domain-admin/DC discovery. ~1h in, a remote registry-hive credential dump (resembling an older Impacket secretsdump) ran. ~2h in Truebot loaded Cobalt Strike; ~4h in the actors ran net/nltest/AdFind discovery, accessed LSASS on the beachhead, and used a local administrator hash for pass-the-hash lateral movement. They used Impacket atexec for remote discovery and Cobalt Strike jump psexec to move to a new host every 5-20 minutes, loading FlawedGrace on each. After a lull, ~17h later they returned, enumerated shares and exfiltrated data. ~4h after exfil began, merely 29h in, they deployed the MBR Killer wiper on all FlawedGrace hosts including a file server, overwriting the MBR and rebooting hosts to an inoperable boot screen. No ransom note was left.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (Truebot/FlawedGrace/Cobalt Strike; LSASS; spooler priv-esc; wiped)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "file server (FlawedGrace loaded; MBR Killer wiper deployed)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (pass-the-hash / jump psexec; FlawedGrace loaded; wiped)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_2",
+   "role": "server (jump psexec every 5-20 min; FlawedGrace loaded; wiped)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "host (atexec remote discovery; FlawedGrace loaded; wiped)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "host (jump psexec; FlawedGrace loaded; wiped)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 8
+   },
+   "description": "Truebot/FlawedGrace on the beachhead (404 TDS drive-by); spooler-based priv-esc; ~1h in a remote registry-hive credential dump.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1189",
+     "T1204.002",
+     "T1003.002"
+    ]
+   },
+   "evidence": "'delivering the initial Truebot payload Document_may_24_16654.exe ... using a remote dumping tool to extract credentials via the registry hives ... resemble those of secretsdump' - A Truly Graceful Wipe Out, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_1": 6,
+    "srv_2": 6,
+    "pc_2": 5,
+    "pc_3": 6
+   },
+   "description": "~4-5h: LSASS on beachhead; local-admin hash pass-the-hash; atexec remote discovery; CS jump psexec to a new host every 5-20 min, FlawedGrace loaded on each.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1003.001",
+     "T1550.002"
+    ],
+    "srv_1": [
+     "T1021.002"
+    ],
+    "srv_2": [
+     "T1021.002"
+    ],
+    "pc_2": [
+     "T1053.005"
+    ],
+    "pc_3": [
+     "T1021.002"
+    ]
+   },
+   "evidence": "'leveraged a local administrator hash to perform pass-the-hash lateral movement ... used Cobalt Strike's jump psexec module to further move between hosts ... moving to a new system every 5-20 minutes' - A Truly Graceful Wipe Out"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_beachhead": 9,
+    "files": 9,
+    "srv_1": 9,
+    "srv_2": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "~29h: after share enumeration and data exfiltration, the MBR Killer wiper is deployed on all FlawedGrace hosts incl a file server, overwriting MBRs and rebooting to an inoperable state.",
+   "techniques": {
+    "files": [
+     "T1561.002"
+    ],
+    "pc_beachhead": [
+     "T1561.002"
+    ],
+    "srv_1": [
+     "T1561.002"
+    ],
+    "srv_2": [
+     "T1561.002"
+    ],
+    "pc_2": [
+     "T1561.002"
+    ],
+    "pc_3": [
+     "T1561.002"
+    ]
+   },
+   "evidence": "'the threat actors deployed the MBR Killer wiper on all hosts where FlawedGrace had been running, including a file server. This executable overwrote the MBR ... rendering the hosts unusable' - A Truly Graceful Wipe Out"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "404 TDS email drive-by delivers Truebot (Document_may_24_16654.exe) (T1189/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "pass-the-hash with a local admin hash + Cobalt Strike jump psexec (T1550.002/T1021.002)"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2",
+   "Impacket atexec remote discovery and FlawedGrace loaded (T1053.005)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "MBR Killer wiper deployed on all FlawedGrace hosts incl the file server (T1561.002)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Count of hosts moved to not given; modelled as srv_1/srv_2/pc_2/pc_3 plus the file server.",
+  "Exfil tool not named; data exfiltrated but content/volume not quantified.",
+  "This is a wiper (MBR Killer), not ransomware; no ransom note / extortion was found.",
+  "Moments are the report's own timeline markers (initial, PtH/lateral, wipe), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,230 @@
+{
+ "incident": "Diavol ransomware (BazarLoader ISO/LNK to domain-wide Diavol)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/12/13/diavol-ransomware/",
+ "sources": [
+  {
+   "title": "Diavol Ransomware - The DFIR Report (2021-12-13)",
+   "url": "https://thedfirreport.com/2021/12/13/diavol-ransomware/",
+   "what_it_gave": "entry (phishing OneDrive -> zip/ISO/LNK -> BazarLoader via rundll32), hops (beachhead->file server via RDP/CS reverse proxy, AnyDesk RDP to other servers, pivot to DC and backup server), cred access (reg hives, Kerberoast/AS-REP Rubeus, LSASS on DC via Task Manager, Veeam creds via DPAPI), exfil (FileZilla SFTP ~200MB), impact (Diavol via RDP + kill.bat), ~32-42h"
+  }
+ ],
+ "narrative_before": "In this 2021 intrusion the DFIR Report observed a phishing email with a OneDrive link delivering a zip containing an ISO (Documents.lnk + DLL); the LNK ran BazarLoader via rundll32 on a beachhead endpoint (C2 to 159.223.31.75 / 206.189.49.239). After ~1h of inactivity Cobalt Strike DLL beacons dropped; AdFind ran twice, registry hives (SAM/SECURITY/SYSTEM) were dumped via fodhelper_reg_hashes.bat, and a BITS job re-ran the ISO every ~3h. After ~18h, network scanning (Advanced IP Scanner, MSSQLUDPScanner) and Rubeus Kerberoast/AS-REP ran. The first hop was RDP (through the Cobalt Strike reverse proxy) to a file server, where AnyDesk and FileZilla were installed; AnyDesk RDP reached other servers. The actors pivoted to a domain controller (LSASS dumped via Task Manager, uploaded to ufile.io) and a Veeam backup server (Veeam creds dumped via sqlcmd and decrypted via DPAPI, all over RDP). FileZilla exfiltrated ~200MB over SFTP to 192.52.167[.]210. On day 3 a ping sweep from the file server preceded RDP to all machines and kill.bat (shadow-copy deletion, service stops) before Diavol encrypted domain-wide; time to ransom was ~32-42h.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead endpoint (BazarLoader via LNK/rundll32, Cobalt Strike, reg-hive dump)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "files",
+   "role": "file server (first RDP hop; AnyDesk + FileZilla installed; ping sweep; RDP to all machines)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (LSASS dumped via Task Manager, uploaded to ufile.io)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "Veeam backup server (Veeam creds dumped via sqlcmd + DPAPI over RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "server (Invoke-ShareFinder via RDP; FileZilla exfil staging)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "client (AnyDesk installed; Diavol over RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "client (AnyDesk installed; Diavol over RDP)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "files",
+   "srv_1"
+  ],
+  [
+   "files",
+   "dc"
+  ],
+  [
+   "files",
+   "srv_backup"
+  ],
+  [
+   "files",
+   "pc_2"
+  ],
+  [
+   "files",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 8
+   },
+   "description": "BazarLoader + Cobalt Strike on the beachhead; registry hives dumped; after ~18h Rubeus Kerberoast/AS-REP and network scanning.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1071.001",
+     "T1003.002",
+     "T1558.003"
+    ]
+   },
+   "evidence": "'Registry hive dumps (SAM, SECURITY, SYSTEM) via fodhelper_reg_hashes.bat ... Kerberoasting and AS-REP roasting: Rubeus, after the roughly 18-hour gap' - Diavol Ransomware, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "files": 7,
+    "dc": 8,
+    "srv_backup": 8
+   },
+   "description": "First hop RDP to the file server (AnyDesk/FileZilla); pivot to a DC (LSASS via Task Manager) and Veeam backup server (creds via DPAPI); FileZilla exfil ~200MB.",
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1105"
+    ],
+    "dc": [
+     "T1003.001"
+    ],
+    "srv_backup": [
+     "T1003",
+     "T1021.001"
+    ]
+   },
+   "evidence": "'one of the domain controllers had LSASS dumped using Task Manager ... Veeam credentials dumped via sqlcmd ... decryption performed with a DPAPI-based C# program ... FileZilla over SFTP ... about 200MB' - Diavol Ransomware"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 9,
+    "dc": 9,
+    "srv_backup": 9,
+    "srv_1": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "Day 3: ping sweep from the file server, RDP to all machines, kill.bat (vssadmin shadow delete, service stops) then Diavol encrypts domain-wide.",
+   "techniques": {
+    "files": [
+     "T1486",
+     "T1490"
+    ],
+    "dc": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "pc_3": [
+     "T1486"
+    ]
+   },
+   "evidence": "'a ping sweep from a compromised file server, then RDP to all machines ... kill.bat ... Deleted volume shadow copies ... The ransomware was run manually over RDP on each machine' - Diavol Ransomware"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "phishing OneDrive zip/ISO/LNK runs BazarLoader via rundll32 (T1566.002/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "RDP (through Cobalt Strike reverse proxy) to a file server; AnyDesk + FileZilla installed (T1021.001)"
+  ],
+  [
+   "files",
+   "dc",
+   "pivot to a domain controller via RDP/AnyDesk; LSASS dumped via Task Manager (T1021.001/T1003.001)"
+  ],
+  [
+   "files",
+   "srv_backup",
+   "RDP to Veeam backup server; Veeam creds dumped via sqlcmd and decrypted via DPAPI (T1021.001/T1003)"
+  ],
+  [
+   "files",
+   "pc_2",
+   "ping sweep then RDP to all machines; kill.bat and Diavol run manually (T1021.001/T1486/T1490)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Multiple clients'/'all machines' modelled as pc_2/pc_3.",
+  "Time to ransom is reported inconsistently (~32h intro vs ~42h body); logged as ~32-42h.",
+  "Domain admin acquisition not explicitly confirmed; lateral RDP 'most likely' used dumped creds.",
+  "Moments are the report's own timeline markers (beachhead/cred access, RDP pivots, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

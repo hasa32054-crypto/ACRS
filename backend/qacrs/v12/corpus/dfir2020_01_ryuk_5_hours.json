@@ -1,0 +1,166 @@
+{
+ "incident": "Ryuk in 5 Hours (Bazar Loader to domain-wide Ryuk)",
+ "year": 2020,
+ "sector": "unknown",
+ "sources": [
+  {
+   "title": "Ryuk in 5 Hours - The DFIR Report",
+   "url": "https://thedfirreport.com/2020/10/18/ryuk-in-5-hours/",
+   "what_it_gave": "entry point / hops / detection"
+  }
+ ],
+ "narrative_before": "A user received a phishing email that led to a Bazar Loader executable, which injected into explorer.exe and svchost.exe and spawned command shells on the beachhead workstation. Within less than two hours the actors used Zerologon (CVE-2020-1472) to reset the machine password of the primary domain controller and obtain domain-wide privileges. They moved from the beachhead to a secondary domain controller over SMB and WMIC (servisses.exe), then used RDP from the secondary DC to the primary DC and on to the backup server. The DFIR Report states the intrusion 'went from a phishing email to domain wide ransomware in 5 hours', with Ryuk hitting backup servers first, then servers, then workstations.",
+ "machines": [
+  {
+   "name": "pc_1",
+   "role": "beachhead workstation (Bazar Loader execution)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "primary domain controller (Zerologon target)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "secondary domain controller (first lateral target)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP pivot, encrypted first)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "server (encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "Active Directory / authentication",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "Backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_1",
+   "dc_2"
+  ],
+  [
+   "pc_1",
+   "dc"
+  ],
+  [
+   "dc_2",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_1": 7,
+    "dc_2": 6
+   },
+   "description": "Beachhead Bazar/Cobalt Strike beacon active and first lateral movement to the secondary DC via SMB + WMIC process call create.",
+   "evidence": "'SMB file transfer of servisses.exe using a domain admin account, then WMI execution' and Cobalt Strike beacon (Ryuk in 5 Hours, The DFIR Report)"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "dc": 8,
+    "dc_2": 6
+   },
+   "description": "Zerologon used to reset the primary DC machine password; domain admin obtained and RDP pivot from DC2 to DC1.",
+   "evidence": "'reset the machine password of the primary domain controller' via Zerologon CVE-2020-1472 (Ryuk in 5 Hours)"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_1",
+   "phishing email -> Bazar Loader executable run by domain user (T1566/T1204)"
+  ],
+  [
+   "pc_1",
+   "dc_2",
+   "SMB copy of servisses.exe with domain admin account + WMIC process call create; Cobalt Strike beacon (T1021.002/T1047)"
+  ],
+  [
+   "dc_2",
+   "dc",
+   "RDP from secondary DC to primary DC using built-in Administrator; Zerologon CVE-2020-1472 resets DC machine password (T1021.001/T1068)"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "RDP pivot (4h10m) to backup server to stage and run Ryuk (T1021.001)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "Ryuk distributed over RDP to servers and workstations (T1486)"
+  ]
+ ],
+ "technique_chain": [
+  "T1566",
+  "T1204",
+  "T1021.002",
+  "T1047",
+  "T1068",
+  "T1021.001",
+  "T1486"
+ ],
+ "case_url": "https://thedfirreport.com/2020/10/18/ryuk-in-5-hours/",
+ "ambiguities": [
+  "Report uses role placeholders, not real hostnames; machine names are role-derived.",
+  "Report does not state how/when defenders detected the intrusion; detection moments modelled on the beacon/lateral-movement and Zerologon stages (the observable compromise points).",
+  "Exact count of encrypted servers/workstations not given; a small representative set is modelled per the <=10 rule."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

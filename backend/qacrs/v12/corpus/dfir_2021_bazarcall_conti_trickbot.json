@@ -1,0 +1,180 @@
+{
+ "incident": "BazarCall to Conti ransomware via Trickbot and Cobalt Strike",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/08/01/bazarcall-to-conti-ransomware-via-trickbot-and-cobalt-strike/",
+ "sources": [
+  {
+   "title": "BazarCall to Conti Ransomware via Trickbot and Cobalt Strike - The DFIR Report (2021-08-01)",
+   "url": "https://thedfirreport.com/2021/08/01/bazarcall-to-conti-ransomware-via-trickbot-and-cobalt-strike/",
+   "what_it_gave": "entry (BazarCall -> malicious Excel -> Trickbot -> Cobalt Strike), hops (WMIC 165.bat to two hosts, CS loader via service on another, Conti staged on DC share and PsExec to all domain-joined), exfil (AD forest data), impact (Conti [KCRAO] domain-wide), ~2 days"
+  }
+ ],
+ "narrative_before": "In this 2021 intrusion the DFIR Report observed a BazarCall campaign: a malicious macro-enabled Excel file (cancel_sub_VCP1234567890123.xlsx) installed Trickbot, which downloaded a Cobalt Strike beacon on the beachhead host. The actors used WMIC to run 165.bat on two other hosts, then a PowerShell Cobalt Strike loader via a service with SYSTEM. The Conti payload was staged in a share (C:\\share$) on a domain controller, and two batch scripts (_COPY.bat, _EXE.bat) used PsExec with a domain account to copy and run Conti on all domain-joined computers (target lists comps1.txt/comps5.txt), encrypting files with the [KCRAO] extension. AD-forest data (usernames, DC configuration, machine enumeration) was exfiltrated during discovery. The MITRE mapping lists LSASS and NTDS dumping. The operators returned about two days later for the ransomware phase.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (Excel -> Trickbot -> Cobalt Strike; WMIC lateral source)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (Conti staged in C:\\share$; PsExec deployment source via _COPY.bat/_EXE.bat)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (165.bat via WMIC + Cobalt Strike PowerShell loader)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation (165.bat via WMIC + Cobalt Strike PowerShell loader)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_1",
+   "role": "domain-joined server (Conti copied and run via PsExec)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_4",
+   "role": "domain-joined workstation (Conti copied and run via PsExec)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "pc_2"
+  ],
+  [
+   "pc_beachhead",
+   "pc_3"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_4"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "BazarCall-delivered Trickbot running on the beachhead and loading a Cobalt Strike beacon.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1566.001",
+     "T1204.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'The threat actors used BazarCall to install Trickbot in the environment ... Trickbot downloaded and ran a Cobalt Strike Beacon' - BazarCall to Conti, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 5,
+    "pc_2": 6,
+    "pc_3": 6
+   },
+   "description": "WMIC runs 165.bat on two hosts, then a Cobalt Strike PowerShell loader runs via a service as SYSTEM; AD-forest data exfiltrated during discovery.",
+   "techniques": {
+    "pc_2": [
+     "T1047"
+    ],
+    "pc_3": [
+     "T1047"
+    ],
+    "pc_beachhead": [
+     "T1069.002"
+    ]
+   },
+   "evidence": "'Two unnamed hosts: Received 165.bat via WMIC, then a Cobalt Strike PowerShell loader ... Entire AD forest data ... was exfiltrated' - BazarCall to Conti"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "pc_4": 9
+   },
+   "description": "Return ~2 days later: Conti staged in C:\\share$ on a DC; _COPY.bat/_EXE.bat use PsExec to copy and run Conti on all domain-joined computers ([KCRAO]).",
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_4": [
+     "T1486"
+    ]
+   },
+   "evidence": "'The Conti payload was staged in a share on a DC, at C:\\share$ ... Conti was copied to and run on all domain-joined computers, using target lists' - BazarCall to Conti"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "BazarCall malicious Excel installs Trickbot which downloads Cobalt Strike (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "pc_2",
+   "WMIC remotely executes 165.bat then Cobalt Strike PowerShell loader (T1047)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "Conti payload staged in C:\\share$ on the domain controller (T1021.002)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "PsExec (_COPY.bat/_EXE.bat) copies and runs Conti on all domain-joined computers (T1021.002/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only except the DC; victim sector not stated. Generic domain-joined computers modelled as srv_1/pc_4.",
+  "No absolute timestamps; time to ransom ~2 days (approximate).",
+  "LSASS/NTDS dumping appears only in the MITRE mapping, not the narrative; domain admin not explicitly confirmed.",
+  "Exfil tool not named. Moments are the report's activity markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,190 @@
+{
+ "incident": "AA24-038A: Volt Typhoon (PRC state-sponsored) pre-positioning in US critical infrastructure; a Water and Wastewater Systems entity where actors moved from VPN to file server, domain controller, Oracle Management Server and VMware vCenter over nine months (activity multi-year to 2024, advisory 2024-02-07)",
+ "year": 2024,
+ "sector": "water",
+ "case_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
+ "sources": [
+  {
+   "title": "CISA/NSA/FBI Joint CSA AA24-038A: PRC State-Sponsored Actors Compromise and Maintain Persistent Access to U.S. Critical Infrastructure (2024-02-07)",
+   "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
+   "what_it_gave": "entry (compromised VPN/admin credentials; a separate case used FortiGate 300D CVE-2022-42475); hops (VPN -> RDP -> file server, domain controller, Oracle Management Server, VMware vCenter over nine months); NTDS.dit theft via ntdsutil/vssadmin; vCenter adjacent to OT (PuTTY sessions for water plants, wells, substation)"
+  },
+  {
+   "title": "Cyprus CSIRT mirror of AA24-038A (2024)",
+   "url": "https://csirt.cynet.ac.cy/?p=3623",
+   "what_it_gave": "detailed quotes of the Water/Wastewater case hops, NTDS.dit extraction via WMIC/ntdsutil against shadow copies, five-year dwell time"
+  }
+ ],
+ "narrative_before": "In the Water and Wastewater Systems Sector case described in AA24-038A, Volt Typhoon actors connected over VPN using previously obtained administrator credentials, then used RDP with the same credentials, and over a nine-month period 'moved laterally to a file server, a domain controller, an Oracle Management Server (OMS), and a VMware vCenter server.' They obtained domain credentials from the domain controller and performed discovery, collection and exfiltration on the file server. The vCenter server was adjacent to OT assets; the actors enumerated stored PuTTY sessions there that could expose profiles for water-treatment plants, water wells, an electrical substation, OT systems and network security devices. Across Volt Typhoon victims generally, the actors extracted NTDS.dit from domain controllers using WMIC to run ntdsutil against volume shadow copies (vssadmin), staged and compressed the files with a renamed rar utility (ronf.exe), dumped LSASS with an outdated comsvcs.dll, and maintained footholds in some IT environments for at least five years; in one victim NTDS.dit was extracted from three DCs over four years, in another twice in nine months (AA24-038A).",
+ "machines": [
+  {
+   "name": "web_vpn",
+   "role": "VPN access point; actors connected with previously obtained administrator credentials, then used RDP",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server; discovery, collection and exfiltration performed here",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; domain credentials obtained, NTDS.dit targeted via ntdsutil/vssadmin",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_oms",
+   "role": "Oracle Management Server (OMS); lateral movement target",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vcenter",
+   "role": "VMware vCenter server adjacent to OT; stored PuTTY sessions for water plants, wells, substation, OT and network devices enumerated",
+   "isolatable": false,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "virtualization_vcenter",
+   "value": 20,
+   "replicas": [
+    "srv_vcenter"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "file_shares",
+   "value": 10,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_vpn",
+   "files"
+  ],
+  [
+   "web_vpn",
+   "dc"
+  ],
+  [
+   "web_vpn",
+   "srv_oms"
+  ],
+  [
+   "web_vpn",
+   "srv_vcenter"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_vpn": 6
+   },
+   "techniques": {
+    "web_vpn": [
+     "T1133",
+     "T1078",
+     "T1021.001"
+    ]
+   },
+   "description": "Initial access: VPN connection using previously obtained administrator credentials, then RDP with the same credentials.",
+   "evidence": "'The actors connected by VPN using administrator credentials they had obtained, then used RDP with the same credentials' - AA24-038A (Water/Wastewater case)"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_vpn": 5,
+    "files": 6,
+    "dc": 8,
+    "srv_oms": 6,
+    "srv_vcenter": 6
+   },
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1074",
+     "T1041"
+    ],
+    "dc": [
+     "T1003.003",
+     "T1021.001"
+    ],
+    "srv_oms": [
+     "T1021.001"
+    ],
+    "srv_vcenter": [
+     "T1021.001",
+     "T1552.001"
+    ]
+   },
+   "description": "Over nine months: lateral movement by RDP to the file server, domain controller, Oracle Management Server and VMware vCenter; domain credentials obtained from the DC; collection/exfiltration from the file server; PuTTY sessions on vCenter (OT-adjacent) enumerated.",
+   "evidence": "'moved laterally to a file server, a domain controller, an Oracle Management Server (OMS), and a VMware vCenter server'; 'They obtained domain credentials from the DC' - AA24-038A",
+   "ambiguity_note": "Advisory says access to the OT systems via the PuTTY profiles 'would enable them to access these critical systems' but does not confirm they did."
+  }
+ ],
+ "attack_path": [
+  [
+   "web_vpn",
+   "files",
+   "RDP with compromised admin credentials to the file server; discovery, collection and exfiltration - T1021.001 / T1074 / T1041"
+  ],
+  [
+   "web_vpn",
+   "dc",
+   "RDP to the domain controller; domain credentials obtained, NTDS.dit targeted via ntdsutil against shadow copies - T1003.003 / T1021.001"
+  ],
+  [
+   "web_vpn",
+   "srv_oms",
+   "RDP to the Oracle Management Server - T1021.001"
+  ],
+  [
+   "web_vpn",
+   "srv_vcenter",
+   "RDP to the VMware vCenter server (OT-adjacent); stored PuTTY sessions enumerated - T1021.001 / T1552.001"
+  ]
+ ],
+ "technique_chain": [
+  "T1133",
+  "T1078",
+  "T1021.001",
+  "T1074",
+  "T1041",
+  "T1003.003",
+  "T1552.001"
+ ],
+ "ambiguities": [
+  "srv_vcenter marked isolatable=false because it is OT-adjacent and the advisory frames vCenter PuTTY sessions as the pivot into water-treatment/well/substation OT (disconnecting it risks the OT path); this is a judgement call, flagged.",
+  "The advisory describes the hops as a sequence over nine months, not the origin host of each; all drawn from the VPN/RDP beachhead.",
+  "Entry credentials were 'previously obtained'; exact method for this victim not stated (a separate Volt Typhoon case used FortiGate 300D CVE-2022-42475).",
+  "No ransomware/wiper; this is espionage pre-positioning. No specific detection moment for this victim is given; m1/m2 are the advisory's own timeline markers.",
+  "The five-year dwell and multi-DC NTDS.dit figures are aggregate across victims, not all this one entity."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,103 @@
+{
+ "incident": "Bangladesh Bank SWIFT heist",
+ "year": 2016,
+ "sector": "finance",
+ "case_url": "https://www.reuters.com/investigates/special-report/cyber-heist-federal",
+ "sources": [
+  {
+   "title": "Reuters special report - cyber heist",
+   "url": "https://www.reuters.com/investigates/special-report/cyber-heist-federal",
+   "what_it_gave": "malware on bank systems, fraudulent SWIFT payment orders, disabled printer/monitoring, $81M routed to Philippines"
+  },
+  {
+   "title": "Cyber.uk - Bangladesh Bank heist case study",
+   "url": "https://cyber.uk/areas-of-cyber-security/nation-state-hackers-case-study-bangladesh-bank-heist/",
+   "what_it_gave": "suspected phishing/RGS exploitation entry, stolen SWIFT operator credentials, 6 malware types"
+  },
+  {
+   "title": "SWIFT Heist Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/SWIFT%20Heist.afb",
+   "what_it_gave": "phish/RGS exploit -> SWIFT operator creds -> malware on SWIFT system -> fraudulent orders + log/printer tampering"
+  }
+ ],
+ "narrative_before": "Attackers are suspected to have gained access to Bangladesh Bank by phishing employees (dropping malware) and/or exploiting a weakness in a new real-time gross settlement electronic payment system (CTID flow, Reuters). They stole the credentials of a SWIFT operator and installed about six types of malware, including monitoring software on the bank's SWIFT software, testing it and logging in successfully several times. In February 2016 they sent fraudulent payment orders via SWIFT to transfer funds, routing money to accounts in the Philippines, and used malware to delete SWIFT software files, disable the printer that produced acknowledgement messages for manual review, and alter bank balances in the New York Fed account to hide the theft - ultimately moving about $81 million.",
+ "machines": [
+  {
+   "name": "pc_employee",
+   "role": "bank employee workstation; suspected phishing malware drop (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_swift",
+   "role": "SWIFT Alliance operator system; stolen operator credentials, monitoring malware, fraudulent orders",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "swift_payment_system",
+   "value": 25,
+   "replicas": [
+    "srv_swift"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_employee",
+   "srv_swift"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_employee": 5
+   },
+   "techniques": {
+    "pc_employee": [
+     "T1566.001",
+     "T1190"
+    ]
+   },
+   "description": "Initial access: suspected spearphishing (and/or exploitation of the new RGS payment system) compromises a bank workstation.",
+   "evidence": "'Suspected that phishing emails were sent to employees ... which dropped malware ... Suspected that attackers gained access by exploiting weakness in a new electronic payment system' - CTID flow / Reuters"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_employee": 5,
+    "srv_swift": 7
+   },
+   "techniques": {
+    "srv_swift": [
+     "T1078",
+     "T1105",
+     "T1562.001"
+    ]
+   },
+   "description": "SWIFT operator credentials stolen; malware installed on the SWIFT system; fraudulent payment orders sent while printer and logs were tampered.",
+   "evidence": "'Credentials stolen for SWIFT operator ... installed 6 types of malware ... sent fraudulent payment orders via SWIFT ... disable printer, which prevented SWIFT acknowledgement messages' - CTID flow / Reuters"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_employee",
+   "srv_swift",
+   "stolen SWIFT operator credentials used to reach and implant malware on the SWIFT Alliance system - T1078 / T1105"
+  ]
+ ],
+ "ambiguities": [
+  "The flow does not name internal hosts; modelled as the compromised employee workstation and the SWIFT operator system (SWIFT Alliance server role).",
+  "Entry vector is 'suspected' (phishing and/or RGS exploitation); both techniques recorded on m1.",
+  "Downstream money-laundering (RCBC/Philippine accounts, casinos) is financial activity, not victim machines.",
+  "Detection: the heist surfaced when the NY Fed queried transactions and the disabled printer was noticed; m2 marks the fraud stage."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

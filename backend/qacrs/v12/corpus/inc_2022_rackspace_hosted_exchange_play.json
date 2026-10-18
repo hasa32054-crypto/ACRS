@@ -1,0 +1,110 @@
+{
+ "incident": "Rackspace Hosted Exchange ransomware, December 2022: Play ransomware exploits OWASSRF (CVE-2022-41080 + CVE-2022-41082) against the Hosted Exchange environment; accessed PST data of 27 customers (attack 2022-12-02, root cause published 2023-01-05)",
+ "year": 2022,
+ "sector": "technology",
+ "case_url": "https://status.apps.rackspace.com/index/viewincidents?group=2&start=1670130000",
+ "sources": [
+  {
+   "title": "Rackspace Email & Apps System Status Page - root cause update (2023-01-05)",
+   "url": "https://status.apps.rackspace.com/index/viewincidents?group=2&start=1670130000",
+   "what_it_gave": "entry (Play used a previously unknown exploit associated with CVE-2022-41080 to gain initial access to the Hosted Exchange environment); scope (PST of 27 of ~30,000 customers accessed); no evidence data was viewed/exfiltrated; recovery limited to pre-Dec 2 data"
+  },
+  {
+   "title": "Cybersecurity Dive: Rackspace identifies ransomware threat actor behind December attack (2023-01-03)",
+   "url": "https://www.cybersecuritydive.com/news/rackspace-play-ransomware-exchange/639509/",
+   "what_it_gave": "Play attribution; CrowdStrike OWASSRF chain (CVE-2022-41080 + CVE-2022-41082) for RCE via Outlook Web Access; 'threat actor accessed Rackspace systems using compromised credentials of a customer'"
+  },
+  {
+   "title": "CRN: FBI, CrowdStrike Make Progress In Attack Probe (2022-12-14)",
+   "url": "https://www.crn.com/news/security/rackspace-fbi-crowdstrike-make-progress-in-attack-probe",
+   "what_it_gave": "containment; CrowdStrike confirmed no attacker activity in the Hosted Exchange environment since the Dec 2, 2022 attack; attack limited to the Hosted Exchange environment"
+  }
+ ],
+ "narrative_before": "On 2 December 2022 the Play ransomware group hit Rackspace's Hosted Exchange email environment, causing a multi-day outage for thousands of small/medium-business customers (Rackspace). Forensics (CrowdStrike, FBI) determined Play used a previously unknown exploit associated with CVE-2022-41080 - the OWASSRF method chaining CVE-2022-41080 with CVE-2022-41082 to achieve remote code execution via Outlook Web Access - to gain initial access; Rackspace stated the threat actor 'accessed Rackspace systems using compromised credentials of a customer.' Of nearly 30,000 Hosted Exchange customers, the investigation found the actor accessed the Personal Storage Table (PST) of 27 customers, though CrowdStrike found no evidence the actor viewed, obtained, misused, or disseminated the data. Rackspace disconnected its network, contained the incident 'quickly,' and CrowdStrike confirmed no attacker activity in the Hosted Exchange environment after 2 December 2022. Rackspace did not rebuild Hosted Exchange, migrating affected customers to Microsoft 365. The incident was contained solely to the Hosted Exchange business (~1% of annual revenue); no other Rackspace products were affected.",
+ "machines": [
+  {
+   "name": "web_owa",
+   "role": "Hosted Exchange / Outlook Web Access front-end; OWASSRF RCE (CVE-2022-41080 + CVE-2022-41082) entry point",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_exchange_mbx",
+   "role": "Hosted Exchange mailbox/store servers holding customer PSTs; 27 customers' PST accessed, ransomware deployed",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "hosted_exchange_email",
+   "value": 20,
+   "replicas": [
+    "web_owa",
+    "srv_exchange_mbx"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_owa",
+   "srv_exchange_mbx"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_owa": 5
+   },
+   "techniques": {
+    "web_owa": [
+     "T1190",
+     "T1078"
+    ]
+   },
+   "description": "Initial access via the OWASSRF chain against Outlook Web Access using compromised customer credentials, achieving RCE.",
+   "evidence": "'the threat actor, known as PLAY, used a previously unknown security exploit... associated with CVE-2022-41080'; 'The threat actor accessed Rackspace systems using compromised credentials of a customer' - Rackspace / Cybersecurity Dive"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_owa": 7,
+    "srv_exchange_mbx": 9
+   },
+   "techniques": {
+    "srv_exchange_mbx": [
+     "T1486",
+     "T1114"
+    ]
+   },
+   "description": "Ransomware deployed in the Hosted Exchange environment (2022-12-02); PST data of 27 customers accessed; outage detected and network disconnected.",
+   "evidence": "'the forensic investigation determined the threat actor accessed a Personal Storage Table (PST) of 27 Hosted Exchange customers'; attack on 2022-12-02 - Rackspace",
+   "ambiguity_note": "No evidence the PSTs were actually viewed or exfiltrated, per CrowdStrike."
+  }
+ ],
+ "attack_path": [
+  [
+   "web_owa",
+   "srv_exchange_mbx",
+   "From OWA RCE to the Exchange mailbox store; ransomware encrypts the Hosted Exchange environment and 27 customers' PSTs are accessed - T1190 / T1486 / T1114"
+  ]
+ ],
+ "technique_chain": [
+  "T1190",
+  "T1078",
+  "T1114",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Rackspace/CrowdStrike publicly describe entry (OWASSRF) and the outcome (encryption, 27 PSTs) but not a detailed host-by-host internal path inside the multi-tenant Hosted Exchange platform; the single web_owa -> srv_exchange_mbx hop is the minimal supported path (OWA front-end to mailbox store).",
+  "This is a multi-tenant hosted platform, not a single customer's AD; no domain controller or workstation is described.",
+  "Whether OWA and the mailbox store are distinct servers is an architectural inference (standard Exchange roles); flagged.",
+  "Exact ransom and whether paid were not disclosed."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

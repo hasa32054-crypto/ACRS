@@ -1,0 +1,147 @@
+{
+ "incident": "Equifax data breach (Apache Struts on the online dispute portal)",
+ "year": 2017,
+ "sector": "finance",
+ "case_url": "https://www.warren.senate.gov/imo/media/doc/2018.09.06%20GAO%20Equifax%20report.pdf",
+ "sources": [
+  {
+   "title": "GAO report on the Equifax breach",
+   "url": "https://www.warren.senate.gov/imo/media/doc/2018.09.06%20GAO%20Equifax%20report.pdf",
+   "what_it_gave": "entry (Apache Struts CVE-2017-5638 on dispute portal), pivot to databases, PII query/exfil, 34 servers / ~20 countries proxies"
+  },
+  {
+   "title": "DoJ indictment (PLA members)",
+   "url": "https://www.justice.gov/opa/press-release/file/1246891/download",
+   "what_it_gave": "attribution, multi-hop proxy exfiltration, data staging and log wiping"
+  },
+  {
+   "title": "Equifax Breach Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Equifax%20Breach.afb",
+   "what_it_gave": "portal -> web shell -> credentials -> databases -> archive -> multi-hop exfil"
+  }
+ ],
+ "narrative_before": "In 2017 attackers exploited the Apache Struts vulnerability CVE-2017-5638 on Equifax's online dispute portal to gain remote code execution, then installed a web shell (GAO report). From the portal they obtained valid credentials for database servers and queried databases holding personally identifiable information over existing encrypted channels. Output was split, compressed and obfuscated to evade data-loss-prevention, then exfiltrated over encrypted web protocols through multi-hop proxies spanning roughly 34 servers in nearly 20 countries. The attackers deleted compressed files and wiped logs daily; the breach exposed the PII of ~147 million people.",
+ "machines": [
+  {
+   "name": "web_dispute_portal",
+   "role": "internet-facing online dispute portal; Apache Struts RCE + web shell (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_db_1",
+   "role": "database server holding PII, reached with harvested valid credentials (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_db_2",
+   "role": "database server holding PII, reached with harvested valid credentials (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_db_3",
+   "role": "database server holding PII, reached with harvested valid credentials (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "pii_databases_1",
+   "value": 25,
+   "replicas": [
+    "srv_db_1",
+    "srv_db_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "pii_databases_2",
+   "value": 25,
+   "replicas": [
+    "srv_db_3"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "dispute_portal",
+   "value": 20,
+   "replicas": [
+    "web_dispute_portal"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_dispute_portal",
+   "srv_db_1"
+  ],
+  [
+   "web_dispute_portal",
+   "srv_db_2"
+  ],
+  [
+   "web_dispute_portal",
+   "srv_db_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_dispute_portal": 5
+   },
+   "techniques": {
+    "web_dispute_portal": [
+     "T1190",
+     "T1505.003"
+    ]
+   },
+   "description": "Initial access: Apache Struts CVE-2017-5638 exploited on the dispute portal, web shell installed.",
+   "evidence": "'Attackers used software designed to exploit the Apache Struts Web Framework vulnerability to gain access to Equifax's online dispute portal ... installed web shell' - GAO / CTID flow"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_dispute_portal": 5,
+    "srv_db_1": 5,
+    "srv_db_2": 5,
+    "srv_db_3": 5
+   },
+   "techniques": {
+    "srv_db_1": [
+     "T1078"
+    ],
+    "srv_db_2": [
+     "T1078"
+    ],
+    "srv_db_3": [
+     "T1078"
+    ]
+   },
+   "description": "Pivot to PII databases using credentials found on the portal; queried and staged data over existing encrypted channels.",
+   "evidence": "'conducted recon on the online dispute portal to obtain valid credentials for database servers ... Queried databases for PII using existing encrypted channels' - CTID flow / GAO"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_dispute_portal",
+   "srv_db_1",
+   "valid DB credentials discovered on portal, PII databases queried over encrypted channel - T1078"
+  ]
+ ],
+ "ambiguities": [
+  "GAO/DoJ describe multiple PII databases without naming them; modelled as a 3-host generic group.",
+  "Exfiltration multi-hop proxy infrastructure (34 servers/~20 countries) is external attacker infra, not modelled as victim machines.",
+  "No defender detection moment in sources (breach undetected for ~76 days); m2 marks the data-access/exfil stage."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

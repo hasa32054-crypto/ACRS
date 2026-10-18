@@ -1,0 +1,219 @@
+{
+ "incident": "Gootloader SEO-poisoning intrusion to domain compromise (DFIR Report)",
+ "year": 2022,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/",
+ "sources": [
+  {
+   "title": "SEO Poisoning - A Gootloader Story (DFIR Report)",
+   "url": "https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/",
+   "what_it_gave": "drive-by SEO entry, Cobalt Strike, Bloodhound, lateral to workstations/DC/file-server/backup over RDP/SMB/WMI"
+  },
+  {
+   "title": "Gootloader Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Gootloader.afb",
+   "what_it_gave": "initial victim -> workstation -> 3 workstations -> domain controller -> file server -> backup server"
+  }
+ ],
+ "narrative_before": "A user searching the web clicked an SEO-poisoned compromised website and downloaded a zip containing a malicious JavaScript file (Gootloader), which created registry keys holding an encoded Cobalt Strike payload and a .NET loader (DFIR Report). PowerShell extracted and executed the loader in memory, a scheduled task established persistence, and a Cobalt Strike beacon loaded. The actors ran Bloodhound to enumerate Active Directory, pivoted via Cobalt Strike PowerShell beacon to a nearby workstation, harvested credentials with Invoke-Mimikatz and LaZagne, and enabled Restricted Admin Mode to RDP between hosts. SMB transferred Cobalt Strike payloads to three additional workstations, the attackers logged into the domain controller over RDP, ran an Advanced IP Scanner, and used RDP to the file server and backup server to hunt for files before leaving.",
+ "machines": [
+  {
+   "name": "pc_victim",
+   "role": "initial victim; Gootloader JS -> Cobalt Strike, Bloodhound, Mimikatz run here",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "nearby workstation pivoted to via Cobalt Strike PowerShell beacon; LaZagne, RDP",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "additional workstation reached by SMB Cobalt Strike payload transfer (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_4",
+   "role": "additional workstation reached by SMB Cobalt Strike payload transfer (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller logged into over RDP; Advanced IP Scanner run from here",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file-share server accessed interactively over RDP/SMB",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server reached over RDP to hunt for files",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_victim",
+   "pc_2"
+  ],
+  [
+   "pc_victim",
+   "dc"
+  ],
+  [
+   "pc_2",
+   "pc_3"
+  ],
+  [
+   "pc_2",
+   "pc_4"
+  ],
+  [
+   "pc_victim",
+   "files"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "pc_victim",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_victim": 5
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1189",
+     "T1204.002",
+     "T1059.007",
+     "T1059.001"
+    ]
+   },
+   "description": "Initial access: SEO-poisoned drive-by delivers Gootloader JS; Cobalt Strike beacon loaded on the initial victim.",
+   "evidence": "'the user ... clicked on a compromised website ... downloaded a file ... Gootloader creates two registry keys ... encoded Cobalt Strike payload ... loads and executes the payload' - CTID flow / DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_victim": 5,
+    "pc_2": 6,
+    "pc_3": 6,
+    "pc_4": 6,
+    "dc": 6,
+    "files": 5,
+    "srv_backup": 6
+   },
+   "techniques": {
+    "pc_victim": [
+     "T1555"
+    ],
+    "pc_2": [
+     "T1555",
+     "T1021.001"
+    ],
+    "pc_3": [
+     "T1021.002"
+    ],
+    "pc_4": [
+     "T1021.002"
+    ],
+    "dc": [
+     "T1021.001"
+    ],
+    "files": [
+     "T1039"
+    ],
+    "srv_backup": [
+     "T1021.001"
+    ]
+   },
+   "description": "Credential harvesting (Mimikatz/LaZagne) and lateral movement over RDP/SMB/WMI to workstations, the DC, file server and backup server.",
+   "evidence": "'ran LaZagne to retrieve all saved credentials ... used RDP to move ... SMB was used to transfer Cobalt Strike payload executables to 3 additional workstations ... logged into the Domain Controller through RDP ... RDP Connection to Backup Server and File Server' - CTID flow / DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_victim",
+   "pc_2",
+   "Cobalt Strike PowerShell beacon pivot + RDP (Restricted Admin Mode) - T1021.001 / T1021.006"
+  ],
+  [
+   "pc_2",
+   "pc_3",
+   "SMB transfer of Cobalt Strike payloads to additional workstations - T1021.002"
+  ],
+  [
+   "pc_victim",
+   "dc",
+   "harvested credentials used to RDP into the domain controller - T1021.001"
+  ],
+  [
+   "dc",
+   "files",
+   "file-share access over RDP/SMB from the DC - T1039 / T1021.001"
+  ]
+ ],
+ "ambiguities": [
+  "'3 additional workstations' modelled as pc_3, pc_4 (cap) plus the first pivot workstation pc_2.",
+  "The file server was accessed both from the initial victim and the DC; both links retained from the flow.",
+  "Detection: DFIR Report gives a relative timeline, not a defender alert; m1 = initial access, m2 = credential access + full lateral stage."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

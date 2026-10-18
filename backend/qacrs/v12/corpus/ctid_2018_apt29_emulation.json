@@ -1,0 +1,139 @@
+{
+ "incident": "APT29 adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2018,
+ "sector": "government",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/apt29",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - APT29 Operations Flow & Scenario 1/2",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/apt29/Operations_Flow.md",
+   "what_it_gave": "spearphish entry, WinRM/PSExec lateral movement to secondary victim and domain controller, KRBTGT dump, 3-host target env"
+  },
+  {
+   "title": "FireEye - No Easy Breach (APT29, DerbyCon 2016)",
+   "url": "https://www.slideshare.net/MatthewDunwoody1/no-easy-breach-derby-con-2016",
+   "what_it_gave": "real APT29 TTPs (2016-2018) the emulation models: lateral movement, Kerberos ticket abuse, persistence"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of APT29 (attributed to the Russian SVR), modelling TTPs reported from real 2016-2018 intrusions (e.g. FireEye 'No Easy Breach' and PowerDuke post-election campaigns). A user clicks a malicious payload delivered by spearphishing, compromising the initial victim workstation; the attacker performs rapid collection and exfiltration, then deploys a stealthier toolkit, bypasses UAC, and dumps credentials (LSASS/SAM, browser and private keys). Using LDAP queries the attacker enumerates other hosts and creates a remote PowerShell (WinRM) session to a secondary victim workstation, uploading and executing a payload via PsExec with stolen domain credentials. The attacker then creates a WinRM session to the domain controller and dumps the KRBTGT account hash to forge a Kerberos golden ticket, establishing persistence across the three-host domain.",
+ "machines": [
+  {
+   "name": "pc_victim1",
+   "role": "initial spearphishing victim workstation; collection, UAC bypass, credential dumping",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_victim2",
+   "role": "secondary victim workstation reached via WinRM + PsExec with stolen credentials",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller reached via WinRM; KRBTGT hash dumped for golden ticket",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_victim1",
+   "pc_victim2"
+  ],
+  [
+   "pc_victim1",
+   "dc"
+  ],
+  [
+   "pc_victim2",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_victim1": 5
+   },
+   "techniques": {
+    "pc_victim1": [
+     "T1204.002",
+     "T1059.001",
+     "T1041"
+    ]
+   },
+   "description": "Initial breach: spearphishing payload executed on the initial victim; rapid collection and exfil over C2.",
+   "evidence": "'a legitimate user clicking on a malicious payload delivered via a ... spearphishing campaign ... gathering and exfiltrating data' - APT29 Operations Flow / Scenario 1"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_victim1": 8,
+    "pc_victim2": 6
+   },
+   "techniques": {
+    "pc_victim1": [
+     "T1003.001",
+     "T1555.003"
+    ],
+    "pc_victim2": [
+     "T1021.006",
+     "T1021.002",
+     "T1569.002",
+     "T1078.002"
+    ]
+   },
+   "description": "Credential dumping, then LDAP enumeration and WinRM + PsExec lateral movement to the secondary victim.",
+   "evidence": "'creating a remote PowerShell session to a secondary victim ... executed on the secondary victim via the PSExec utility ... using the previously stolen credentials' - APT29 Scenario 1 Step 8"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "pc_victim2": 6,
+    "dc": 8
+   },
+   "techniques": {
+    "dc": [
+     "T1021.006",
+     "T1003.001",
+     "T1558.001"
+    ]
+   },
+   "description": "WinRM session to the domain controller; KRBTGT hash dumped to forge a Kerberos golden ticket (Scenario 2).",
+   "evidence": "'uses the previously dumped credentials ... to create a remote PowerShell session to the domain controller ... dumps the hash of the KRBTGT account' - APT29 Scenario 2 Step 16"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_victim1",
+   "pc_victim2",
+   "WinRM remote PowerShell + PsExec with stolen domain credentials - T1021.006 / T1021.002 / T1569.002"
+  ],
+  [
+   "pc_victim1",
+   "dc",
+   "WinRM session to domain controller, KRBTGT dump for golden ticket - T1021.006 / T1558.001"
+  ]
+ ],
+ "ambiguities": [
+  "Documented emulation of a real actor; year 2018 chosen for the 2016-2018 TTP basis (PowerDuke/No Easy Breach).",
+  "Target environment is 3 role-based hosts (DC + 2 workstations); no real-victim hostnames.",
+  "Scenarios 1 and 2 are merged into one host model (initial victim, secondary victim, DC) since both share the same 3-host topology."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

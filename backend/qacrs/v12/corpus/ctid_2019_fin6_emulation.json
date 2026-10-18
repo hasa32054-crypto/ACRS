@@ -1,0 +1,160 @@
+{
+ "incident": "FIN6 adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2019,
+ "sector": "finance",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/fin6",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - FIN6 Operations Flow & Emulation Plan",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/fin6/Operations_Flow.md",
+   "what_it_gave": "assume-breach entry, AD discovery, NTDS/LSASS credential access, lateral movement to systems of interest (POS/server), ransomware/PoS exfil"
+  },
+  {
+   "title": "FireEye - Pick-Six: Intercepting a FIN6 Intrusion (2019)",
+   "url": "https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html",
+   "what_it_gave": "real 2019 FIN6 ransomware intrusion the emulation is based on: lateral movement + PsExec ransomware deployment"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of FIN6 (Skeleton Spider), a financially-motivated group; the lateral-movement-to-ransomware behaviour models FIN6's real 2019 intrusions reported by FireEye (Pick-Six). The plan begins with an assume-breach foothold on a compromised host using a C2 framework (Cobalt Strike/Metasploit/more_eggs) over HTTPS. The actor enumerates the network and Active Directory with AdFind, escalates privileges via credential access, and copies/exfiltrates the Active Directory database (NTDS.dit) by SSH/FTP. Using the harvested domain credentials the actor moves laterally to systems of interest identified during discovery and deploys its operational capability - PoS malware or ransomware via PsExec/WMI - and exfiltrates data by DNS tunneling or HTTP POST.",
+ "machines": [
+  {
+   "name": "pc_foothold",
+   "role": "assume-breach foothold host; C2 beacon, AdFind discovery",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; NTDS.dit copied/exfiltrated, LSASS credential access",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_target",
+   "role": "server of interest reached by lateral movement; ransomware staged/deployed (generic role)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "dev_pos",
+   "role": "point-of-sale system of interest targeted for PoS malware (generic role)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "pos_payment_processing",
+   "value": 25,
+   "replicas": [
+    "dev_pos"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_foothold",
+   "dc"
+  ],
+  [
+   "pc_foothold",
+   "srv_target"
+  ],
+  [
+   "srv_target",
+   "dev_pos"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_foothold": 7
+   },
+   "techniques": {
+    "pc_foothold": [
+     "T1105",
+     "T1087.002",
+     "T1018"
+    ]
+   },
+   "description": "Assume-breach foothold + discovery: C2 established, AdFind/AD enumeration from the foothold host.",
+   "evidence": "'assume breach using the C2 framework of your choice ... FIN6 enumerates the network and Active Directory (AD) environment' - FIN6 Operations Flow"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_foothold": 8,
+    "dc": 8
+   },
+   "techniques": {
+    "pc_foothold": [
+     "T1003.001"
+    ],
+    "dc": [
+     "T1003.003"
+    ]
+   },
+   "description": "Privilege escalation via credential access; NTDS.dit copied/exfiltrated from the domain.",
+   "evidence": "'escalate privileges ... made heavy use of credential access ... copying and exfiltrating the Active Directory database (NTDS.dit) file' - FIN6 Operations Flow"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 8,
+    "srv_target": 6,
+    "dev_pos": 7
+   },
+   "techniques": {
+    "srv_target": [
+     "T1021.002",
+     "T1047",
+     "T1570"
+    ],
+    "dev_pos": [
+     "T1047",
+     "T1105"
+    ]
+   },
+   "description": "Lateral movement with domain credentials to systems of interest; PsExec/WMI deployment of PoS malware or ransomware.",
+   "evidence": "'deploys tools to systems of interest ... uses bat files for deployment, and WMI or PsExec for execution' - FIN6 Phase 2 / Operations Flow"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_foothold",
+   "dc",
+   "credential access + NTDS.dit theft to control the domain - T1003.003 / T1003.001"
+  ],
+  [
+   "pc_foothold",
+   "srv_target",
+   "lateral movement to systems of interest with harvested credentials - T1021.002 / T1047"
+  ],
+  [
+   "srv_target",
+   "dev_pos",
+   "PsExec/WMI deployment of PoS malware / ransomware to target - T1047 / T1105"
+  ]
+ ],
+ "ambiguities": [
+  "This is a documented emulation of a real campaign; the real-world basis is FIN6's 2019 ransomware intrusions (FireEye Pick-Six), hence year 2019.",
+  "The plan names hosts only by role (foothold, DC, system of interest/PoS); no specific hostnames given (plan is environment-agnostic).",
+  "Initial access is 'assume breach' in the plan, so no initial-access technique ID; foothold modelled as C2-present (risk 7)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

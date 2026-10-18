@@ -1,0 +1,217 @@
+{
+ "incident": "Maastricht University ransomware (Clop / TA505)",
+ "year": 2019,
+ "sector": "education",
+ "case_url": "https://www.maastrichtuniversity.nl/nl/file/foxitrapportreactieuniversiteitmaastrichtnl10-02pdf",
+ "sources": [
+  {
+   "title": "Fox-IT investigation report (via Maastricht University)",
+   "url": "https://www.maastrichtuniversity.nl/nl/file/foxitrapportreactieuniversiteitmaastrichtnl10-02pdf",
+   "what_it_gave": "phishing Excel -> SDBBot, EternalBlue lateral spread, domain-admin compromise, Clop on 267 servers"
+  },
+  {
+   "title": "Maastricht University Ransomware Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Maastricht%20University%20Ransomware.afb",
+   "what_it_gave": "phish -> SDBBot/Meterpreter -> EternalBlue -> AD discovery -> LSASS DA creds -> Clop on DC/Exchange/backup/file servers"
+  }
+ ],
+ "narrative_before": "In October 2019 a phishing Excel macro downloaded the SDBBot malware onto a Maastricht University server, which communicated with its C2 over TCP and deployed an in-memory Meterpreter shell (Fox-IT report). The attacker spread Meterpreter to internal servers by exploiting the EternalBlue vulnerability (CVE-2017-0144) and escalated to the local SYSTEM account, then ran Active Directory discovery (PowerSploit, PingCastle, AdFind) and dumped LSASS to recover domain-administrator credentials. With domain-admin rights they surveyed all servers, disabled McAfee and Microsoft Defender, and placed ransomware deployment tools; on 23 December 2019 Clop ransomware was launched across the UNIMAAS domain, encrypting at least 267 internal servers including the domain controller, Exchange servers, file servers and some backup servers.",
+ "machines": [
+  {
+   "name": "srv_patient_zero",
+   "role": "server where the phishing Excel macro ran; SDBBot + Meterpreter (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "internal server reached by EternalBlue (CVE-2017-0144) Meterpreter spread (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; domain-admin credentials dumped, Clop encrypted",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_exchange",
+   "role": "Exchange server encrypted by Clop",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "files",
+   "role": "file servers holding research/business data encrypted by Clop",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup servers (only a few affected) encrypted by Clop",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "email_exchange",
+   "value": 20,
+   "replicas": [
+    "srv_exchange"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "srv_patient_zero",
+   "srv_1"
+  ],
+  [
+   "srv_patient_zero",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_exchange"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "srv_1",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "srv_patient_zero": 5
+   },
+   "techniques": {
+    "srv_patient_zero": [
+     "T1566.001",
+     "T1204.002",
+     "T1095"
+    ]
+   },
+   "description": "Initial access: phishing Excel macro downloads SDBBot (with in-memory Meterpreter) onto a university server.",
+   "evidence": "'Malicious Microsoft Excel file is attached in a phishing campaign ... An interactive shell is deployed by another malware included in SDBBot' - CTID flow / Fox-IT"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "srv_patient_zero": 6,
+    "srv_1": 6,
+    "dc": 8
+   },
+   "techniques": {
+    "srv_patient_zero": [
+     "T1210"
+    ],
+    "srv_1": [
+     "T1210",
+     "T1068"
+    ],
+    "dc": [
+     "T1003.001"
+    ]
+   },
+   "description": "EternalBlue lateral spread to internal servers, privilege escalation, and LSASS dumping of domain-admin credentials.",
+   "evidence": "'spreads Meterpreter malware to different internal servers through an unpatched vulnerability [EternalBlue] ... retrieves the login credential stored in memory ... administrator account of the domain' - CTID flow / Fox-IT"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_exchange": 9,
+    "files": 9,
+    "srv_backup": 9
+   },
+   "techniques": {
+    "dc": [
+     "T1486"
+    ],
+    "srv_exchange": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_backup": [
+     "T1486"
+    ]
+   },
+   "description": "Clop ransomware launched domain-wide on 23 Dec 2019, encrypting the DC, Exchange, file and backup servers (267+ servers).",
+   "evidence": "'launches ransomware attack on all infected servers in the UNIMAAS domain' - CTID flow / Fox-IT; '267 internal servers were affected'"
+  }
+ ],
+ "attack_path": [
+  [
+   "srv_patient_zero",
+   "srv_1",
+   "EternalBlue (CVE-2017-0144) exploitation of remote services - T1210"
+  ],
+  [
+   "srv_patient_zero",
+   "dc",
+   "AD discovery + LSASS domain-admin credential theft leading to DC control - T1003.001"
+  ],
+  [
+   "dc",
+   "srv_exchange",
+   "domain-wide Clop deployment with domain-admin rights - T1486"
+  ]
+ ],
+ "ambiguities": [
+  "267+ encrypted servers are not individually named; modelled by role (DC, Exchange, file, backup) plus one generic lateral server.",
+  "Fox-IT report is in Dutch; narrative figures follow the English summary and the CTID flow's paraphrase.",
+  "Detection: antivirus (McAfee) flagged the staged malware but was disabled; m3 is the 23 Dec 2019 encryption event (first undeniable detection)."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

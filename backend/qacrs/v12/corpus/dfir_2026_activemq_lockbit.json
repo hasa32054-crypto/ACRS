@@ -1,0 +1,250 @@
+{
+ "incident": "Apache ActiveMQ Exploit (CVE-2023-46604) Leads to LockBit Ransomware (TTR 419h / ~19 days)",
+ "year": 2026,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2026/02/23/apache-activemq-exploit-leads-to-lockbit-ransomware/",
+ "sources": [
+  {
+   "title": "Apache ActiveMQ Exploit Leads to LockBit Ransomware - The DFIR Report (2026-02-23)",
+   "url": "https://thedfirreport.com/2026/02/23/apache-activemq-exploit-leads-to-lockbit-ransomware/",
+   "what_it_gave": "entry (CVE-2023-46604 ActiveMQ RCE -> CertUtil -> Metasploit), hops (remote services Metasploit to DCs/servers with domain admin + service account; RDP to backup/file servers), cred access (GetSystem, LSASS on beachhead + remote hosts), impact (LockBit LB3_pass.exe/LB3.exe via RDP + PsEx spreader), TTR 419h"
+  }
+ ],
+ "narrative_before": "In a mid-February 2024 intrusion (published 2026) the DFIR Report observed exploitation of CVE-2023-46604 on an exposed Apache ActiveMQ server, using a malicious Java Spring bean XML that ran CertUtil to download a Metasploit stager onto the beachhead host. ~40 minutes later GetSystem achieved SYSTEM and LSASS was accessed by the Metasploit process. ~20 minutes after, SMB scanning preceded lateral movement using a domain administrator account to run remote services and execute Metasploit payloads on several hosts (LSASS accessed on several; a privileged service account was harvested from one). On day 2 the actor returned, ran discovery and lost access. 18 days later they re-exploited the same ActiveMQ server, repeated GetSystem/LSASS, checked domain admins, and moved laterally to several servers including domain controllers via remote service Metasploit (same C2), using the privileged service account dumped earlier. They then RDPed to a backup server and a file server, dropped a batch file and AnyDesk, enabled RDP, and dropped a renamed Advanced IP Scanner plus two LockBit files (LB3_pass.exe, LB3.exe, from the leaked LockBit Black builder). RDPing across hosts, they ran LB3_pass.exe (path/password flags) on the backup and file servers and LB3.exe (double-click, -psex SMB spreader) elsewhere for ~4 hours. TTR was 419 hours (~19 days); had the first half gone undetected, under 90 minutes separated re-entry from ransomware.",
+ "machines": [
+  {
+   "name": "web_activemq",
+   "role": "internet-facing Apache ActiveMQ server beachhead (CVE-2023-46604; CertUtil; Metasploit; GetSystem; LSASS)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (remote service Metasploit with service account on 18th day)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_svc",
+   "role": "server running a privileged service account (LSASS dumped day 1; creds reused for lateral movement)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; LB3_pass.exe with path/password flags)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; LB3_pass.exe with path/password flags)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (remote service Metasploit; LB3.exe -psex SMB spreader)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "host (LB3.exe double-clicked from Downloads)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "message_broker_activemq",
+   "value": 20,
+   "replicas": [
+    "web_activemq"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_activemq",
+   "srv_svc"
+  ],
+  [
+   "web_activemq",
+   "dc"
+  ],
+  [
+   "web_activemq",
+   "srv_1"
+  ],
+  [
+   "web_activemq",
+   "srv_backup"
+  ],
+  [
+   "web_activemq",
+   "files"
+  ],
+  [
+   "web_activemq",
+   "pc_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_activemq": 8
+   },
+   "description": "CVE-2023-46604 exploited; CertUtil downloads a Metasploit stager; ~40 min later GetSystem (SYSTEM) and LSASS accessed on the beachhead.",
+   "techniques": {
+    "web_activemq": [
+     "T1190",
+     "T1105",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'a threat actor exploited a vulnerability (CVE-2023-46604) on an exposed Apache ActiveMQ server ... downloaded a payload ... using the Windows CertUtil utility ... GetSystem command ... LSASS process memory was accessed on the beachhead' - Apache ActiveMQ Exploit, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_activemq": 5,
+    "srv_svc": 8,
+    "srv_1": 6
+   },
+   "description": "Day 1: SMB scanning then lateral movement with a domain admin account via remote service Metasploit to several hosts; LSASS dumped on several, harvesting a privileged service account.",
+   "techniques": {
+    "web_activemq": [
+     "T1046"
+    ],
+    "srv_svc": [
+     "T1021.002",
+     "T1003.001"
+    ],
+    "srv_1": [
+     "T1021.002",
+     "T1569.002"
+    ]
+   },
+   "evidence": "'using a domain administrator account to run remote services and execute Metasploit payloads on several remote hosts ... One of these hosts had a privileged service account ... which would be used later' - Apache ActiveMQ Exploit"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "web_activemq": 8,
+    "dc": 6,
+    "srv_1": 6
+   },
+   "description": "Day 18: re-exploit same ActiveMQ server; GetSystem/LSASS; lateral movement to servers incl domain controllers via remote service Metasploit using the harvested service account.",
+   "techniques": {
+    "web_activemq": [
+     "T1190",
+     "T1003.001"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1569.002"
+    ],
+    "srv_1": [
+     "T1021.002"
+    ]
+   },
+   "evidence": "'They used the same access path ... proceeded to move laterally to several servers, including domain controllers ... The account used ... was the privileged service account that we assess was dumped from LSASS' - Apache ActiveMQ Exploit"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "srv_backup": 9,
+    "files": 9,
+    "srv_1": 9,
+    "pc_1": 9,
+    "web_activemq": 9
+   },
+   "description": "TTR 419h: RDP to backup and file servers to run LB3_pass.exe (path/password flags); LB3.exe with -psex SMB spreader elsewhere over ~4 hours.",
+   "techniques": {
+    "srv_backup": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486",
+     "T1021.002"
+    ],
+    "pc_1": [
+     "T1486"
+    ],
+    "web_activemq": [
+     "T1486"
+    ]
+   },
+   "evidence": "'On the file server and backup server, the LB3_pass.exe file was executed with specific path and password flags ... LB3.exe ... spawned a subprocess with the -psex option ... spread via a PsExec-style SMB spreader' - Apache ActiveMQ Exploit"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_activemq",
+   "CVE-2023-46604 ActiveMQ RCE -> CertUtil -> Metasploit stager; GetSystem + LSASS (T1190/T1105/T1003.001)"
+  ],
+  [
+   "web_activemq",
+   "srv_svc",
+   "remote service Metasploit with domain admin; LSASS harvests a privileged service account (T1021.002/T1003.001)"
+  ],
+  [
+   "web_activemq",
+   "dc",
+   "day-18 re-entry: remote service Metasploit to domain controllers with the service account (T1021.002/T1569.002)"
+  ],
+  [
+   "web_activemq",
+   "srv_backup",
+   "RDP to backup/file servers; LB3_pass.exe run; LB3.exe -psex SMB spreader elsewhere (T1021.001/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Several servers' modelled as srv_svc/srv_1 plus named roles.",
+  "Assessed independent actor using the leaked LockBit Black builder (modified ransom note).",
+  "Moments are the report's own timeline markers across the two activity rounds, not a defender detection timeline.",
+  "No data exfiltration emphasized in the summary."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -52,6 +52,8 @@ def corpus_set():
     if not CORPUS.exists():
         return out, dropped
     for p in sorted(CORPUS.glob("*.json")):
+        if p.name == "MANIFEST.json":
+            continue
         try:
             d, net, scs = P16.load(p)
         except Exception as e:  # noqa: BLE001 - a broken conversion is reported, not hidden

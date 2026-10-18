@@ -1,0 +1,168 @@
+{
+ "incident": "JPMorgan Chase data breach",
+ "year": 2014,
+ "sector": "finance",
+ "case_url": "https://www.sans.org/white-papers/35822/",
+ "sources": [
+  {
+   "title": "SANS whitepaper on the JPMorgan breach",
+   "url": "https://www.sans.org/white-papers/35822/",
+   "what_it_gave": "entry via employee personal PC + stolen VPN creds, web-development server without 2FA, lateral to 100+ servers"
+  },
+  {
+   "title": "Computerworld - 2FA oversight led to breach",
+   "url": "https://www.computerworld.com/article/2862675/twofactor-authentication-oversight-led-to-jpmorgan-breach-investigators-reportedly-found.html",
+   "what_it_gave": "missing 2FA on the compromised server enabled lateral movement"
+  },
+  {
+   "title": "JP Morgan Breach Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/JP%20Morgan%20Breach.afb",
+   "what_it_gave": "phish -> personal PC -> VPN creds -> web-dev server -> 100+ servers -> customer data exfil"
+  }
+ ],
+ "narrative_before": "An employee interacted with a phishing email on a personal computer, which was infected with malware; when the employee connected to the bank's network over VPN, the attackers captured their login credentials (SANS). Using those valid credentials, the attackers exploited the absence of two-factor authentication on a web-development server and moved from it to more than 100 other servers across the network, including banking data-center systems and other lines of business. They collected customer data for ~83 million households and businesses and slowly exfiltrated gigabytes over months through multi-hop proxies, deleting log files to evade detection. Security personnel discovered the breach when a routine scan flagged a vulnerability on a charity-race website.",
+ "machines": [
+  {
+   "name": "pc_employee",
+   "role": "employee personal computer; malware captured VPN login credentials (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "web_dev",
+   "role": "web-development server reached over VPN; lacked 2FA, lateral launch point",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "one of 100+ internal servers reached by lateral movement (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_2",
+   "role": "internal server incl. banking data center / lines of business (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  },
+  {
+   "name": "srv_3",
+   "role": "internal server incl. investment/credit-card/banking systems (generic group)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "customer_data_systems_1",
+   "value": 25,
+   "replicas": [
+    "srv_1",
+    "srv_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "customer_data_systems_2",
+   "value": 25,
+   "replicas": [
+    "srv_3"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "web_development",
+   "value": 10,
+   "replicas": [
+    "web_dev"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_employee",
+   "web_dev"
+  ],
+  [
+   "web_dev",
+   "srv_1"
+  ],
+  [
+   "web_dev",
+   "srv_2"
+  ],
+  [
+   "web_dev",
+   "srv_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_employee": 5,
+    "web_dev": 5
+   },
+   "techniques": {
+    "pc_employee": [
+     "T1566",
+     "T1056"
+    ],
+    "web_dev": [
+     "T1190",
+     "T1078"
+    ]
+   },
+   "description": "Initial access: VPN credentials captured from the infected personal PC and used to reach the 2FA-less web-development server.",
+   "evidence": "'employee used infected personal computer to connect to the victim system through a VPN ... used valid credentials to exploit the lack of 2-factor authentication into a web-development server' - CTID flow / SANS"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_dev": 5,
+    "srv_1": 5,
+    "srv_2": 5,
+    "srv_3": 5
+   },
+   "techniques": {
+    "srv_1": [
+     "T1078"
+    ],
+    "srv_2": [
+     "T1078"
+    ],
+    "srv_3": [
+     "T1078"
+    ]
+   },
+   "description": "Lateral movement from the web-development server to 100+ servers across banking lines of business.",
+   "evidence": "'moved from the web-development server to more than 100 other servers within the network' - CTID flow / SANS"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_employee",
+   "web_dev",
+   "stolen VPN credentials used against web-dev server lacking 2FA - T1078 / T1190"
+  ],
+  [
+   "web_dev",
+   "srv_1",
+   "lateral movement to 100+ internal servers (some via zero-days/custom malware) - T1078"
+  ]
+ ],
+ "ambiguities": [
+  "100+ servers are not individually named; modelled as a 3-host generic group (rule cap).",
+  "Flow lists zero-day and custom-malware edges for some lateral hops; not sub-typed per target host.",
+  "Detection: breach found via routine web vulnerability scan, not a specific host-compromise alert; m2 marks the lateral stage."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

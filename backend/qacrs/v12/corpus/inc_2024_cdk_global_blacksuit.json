@@ -1,0 +1,21 @@
+{
+ "incident": "CDK Global BlackSuit ransomware, June 2024: dealer management SaaS outage for ~15,000 car dealerships; initial access vector not publicly disclosed",
+ "year": 2024,
+ "sector": "technology",
+ "case_url": "https://www.esentire.com/security-advisories/blacksuit-ransomware-impacts-cdk-global",
+ "sources": [
+  {"title": "eSentire: BlackSuit Ransomware Impacts CDK Global (2024-06-25)", "url": "https://www.esentire.com/security-advisories/blacksuit-ransomware-impacts-cdk-global", "what_it_gave": "BlackSuit attribution, DMS/CRM outage affecting 15,000+ dealerships, exfil tools (7Zip/WinSCP/FTP); explicitly: 'the initial access method... has not been publicly disclosed'; CDK domains seen in credential logs for sale"}
+ ],
+ "narrative_before": "On 19 June 2024 CDK Global, a major provider of dealer management systems (DMS) and CRM to automotive dealerships, suffered a BlackSuit ransomware attack that caused a widespread outage affecting over 15,000 dealerships across the US and Canada, forcing many to revert to manual processes; a second disruption occurred during restoration. Reported ransom demands were in the tens of millions (reportedly ~$25M paid). eSentire noted data was exfiltrated using 7Zip, WinSCP and FTP, and that CDK domains appeared in credential logs for sale online, but stated plainly that 'the initial access method employed by BlackSuit to access CDK Global has not been publicly disclosed.' No public source describes the entry host and a lateral hop between identified hosts.",
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "technique_chain": [],
+ "ambiguities": [
+  "Initial access method explicitly not publicly disclosed; no named internal hosts or lateral hop."
+ ],
+ "dropped": true,
+ "drop_reason": "Initial access vector not publicly disclosed and no lateral hop between identified hosts is described. Entry-point-plus-hop requirement unmet, so dropped per the BRIEF."
+}

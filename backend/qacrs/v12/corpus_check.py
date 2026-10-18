@@ -35,6 +35,19 @@ def normalise(p: Path) -> dict:
                 if r != m["hacked"][h]:
                     rep["risk_changed"].append([m.get("id"), h, m["hacked"][h], r])
                 m["hacked"][h] = r; rep["risk_recomputed"] += 1
+    # engine limit: a service has 1-2 replicas (keeps the QUBO quadratic). A converter that listed k > 2 replicas
+    # (e.g. "all workstations") gets the service split mechanically into ceil(k/2) services of <= 2 replicas, same
+    # value and depends_on. Logged here; never silently.
+    new_services = []
+    for s in d.get("services", []):
+        reps = list(s.get("replicas", []))
+        if len(reps) > 2:
+            rep["warnings"].append(f"service '{s['name']}' had {len(reps)} replicas -> split into {-(-len(reps) // 2)} services of <= 2")
+            for i in range(0, len(reps), 2):
+                new_services.append({**s, "name": f"{s['name']}_{i // 2 + 1}", "replicas": reps[i:i + 2]})
+        else:
+            new_services.append(s)
+    d["services"] = new_services
     for s in d.get("services", []):
         if int(s.get("value", 0)) not in VALUES:
             rep["warnings"].append(f"service '{s['name']}' value {s.get('value')} not in {sorted(VALUES)}")
@@ -50,7 +63,7 @@ def normalise(p: Path) -> dict:
 
 
 def main() -> None:
-    reports = [normalise(p) for p in sorted(CORPUS.glob("*.json"))]
+    reports = [normalise(p) for p in sorted(CORPUS.glob("*.json")) if p.name != "MANIFEST.json"]
     man = {"files": [], "n_files": len(reports), "n_dropped": sum(r["dropped"] for r in reports),
            "risk_table_hash": RM.table_hash()}
     for r in reports:

@@ -1,0 +1,231 @@
+{
+ "incident": "From ScreenConnect to Hive Ransomware in 61 hours",
+ "year": 2023,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware/",
+ "sources": [
+  {
+   "title": "From ScreenConnect to Hive Ransomware in 61 hours - The DFIR Report (2023-09-25)",
+   "url": "https://thedfirreport.com/2023/09/25/from-screenconnect-to-hive-ransomware/",
+   "what_it_gave": "entry (document8765.exe -> ScreenConnect install), hops (remote services Atera/Splashtop on a server, wmiexec.py to other hosts, RDP to file shares/backups), cred access (Mimikatz on several servers), exfil (Rclone SFTP from file share server), impact (Hive manual on key servers + failed GPO scheduled task), TTR 61h"
+  }
+ ],
+ "narrative_before": "In an October 2022 intrusion the DFIR Report observed initial access via a trojanized executable (document8765.exe, loaded from environmentca[.]com per Huntress, likely email) installing ScreenConnect on the beachhead host (required local admin). ~1h in, discovery ran via ScreenConnect and a BITS transfer dropped a Cobalt Strike beacon; a trojanized ApacheBench (Metasploit shellcode) started a Meterpreter channel. The actors moved laterally with remote services to run PowerShell and MSI installers for Atera and Splashtop on a server, then used Impacket wmiexec.py to reach other hosts (quser checks, BITS CS). Next day Mimikatz was dropped and run remotely (wmiexec) on several servers. After an AD-data batch file, the actor RDPed to hosts, reviewed file shares and backups, dropped Rclone on a file-share server and exfiltrated its contents over SFTP, and ran netscan. ~3h after exfil they deployed Hive: they changed an admin password, manually ran the ransomware on several key servers, then staged the binary on a share and created a domain-wide GPO scheduled task - which had incorrect settings and failed. Key servers were encrypted manually; TTR was 61 hours.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (document8765.exe -> ScreenConnect; CS; Meterpreter)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_1",
+   "role": "server (remote service Atera/Splashtop install; Mimikatz; key server encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_2",
+   "role": "server (wmiexec.py lateral; Mimikatz; key server encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (AD-data extraction; domain-wide GPO scheduled task created - failed)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file share server (RDP; Rclone SFTP exfil source; netscan)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; backups reviewed)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2"
+  ],
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "ScreenConnect installed on the beachhead via document8765.exe; ~1h later discovery + BITS Cobalt Strike beacon + Meterpreter.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1219",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'The execution of the file resulted in the installation of ScreenConnect ... run a BITS transfer job to deploy a Cobalt Strike beacon ... initiate a Meterpreter command and control channel' - From ScreenConnect to Hive, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 7,
+    "srv_1": 8,
+    "srv_2": 8
+   },
+   "description": "Lateral movement via remote services (Atera/Splashtop on a server) and Impacket wmiexec.py to other hosts; next-day Mimikatz on several servers.",
+   "techniques": {
+    "srv_1": [
+     "T1021.002",
+     "T1219",
+     "T1003.001"
+    ],
+    "srv_2": [
+     "T1047",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'lateral movement using remote services to execute PowerShell and MSI installers for Atera and Splashtop on a server ... lateral movement towards other hosts using Impacket's wmiexec.py ... dropped a Mimikatz binary on several servers' - From ScreenConnect to Hive"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 6,
+    "srv_backup": 6,
+    "dc": 6
+   },
+   "description": "RDP to file shares and backups; Rclone exfil over SFTP from a file-share server; netscan with RDP focus.",
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1567.002"
+    ],
+    "srv_backup": [
+     "T1021.001"
+    ],
+    "dc": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'dropped Rclone on a server with file shares and proceeded to configure a connection to a remote server over SFTP ... exfiltrate the file share's contents' - From ScreenConnect to Hive"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "srv_1": 9,
+    "srv_2": 9,
+    "dc": 5
+   },
+   "description": "~3h after exfil: admin password changed, Hive run manually on key servers; domain-wide GPO scheduled task created but misconfigured and failed.",
+   "techniques": {
+    "srv_1": [
+     "T1486"
+    ],
+    "srv_2": [
+     "T1486"
+    ],
+    "dc": [
+     "T1484.001"
+    ]
+   },
+   "evidence": "'manually executed the ransomware on several key servers ... created a new domain-wide GPO with a scheduled task ... incorrect settings, resulting in a failed domain-wide ransomware deployment' - From ScreenConnect to Hive"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "trojanized document8765.exe installs ScreenConnect (T1204.002/T1219)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1",
+   "remote services install Atera/Splashtop on a server; Mimikatz (T1021.002/T1003.001)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_2",
+   "Impacket wmiexec.py lateral movement to other hosts (T1047)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "RDP to a file-share server; Rclone SFTP exfiltration (T1021.001/T1567.002)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "Hive run manually on key servers; GPO scheduled task attempt from the DC (failed) (T1486/T1484.001)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. 'Several key servers' modelled as srv_1/srv_2.",
+  "Domain-wide deployment failed; only key servers successfully encrypted.",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

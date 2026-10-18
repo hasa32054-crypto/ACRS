@@ -1,0 +1,175 @@
+{
+ "incident": "MITRE NERVE intrusion (Ivanti zero-days, UNC5221)",
+ "year": 2024,
+ "sector": "research",
+ "case_url": "https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3",
+ "sources": [
+  {
+   "title": "MITRE Engenuity - Technical Deep Dive: Anatomy of a Cyber Intrusion",
+   "url": "https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3",
+   "what_it_gave": "Ivanti ICS zero-days entry, ROOTROT webshell, RDP into VMs, vCenter compromise, rogue VMs, BRICKSTORM"
+  },
+  {
+   "title": "MITRE NERVE Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/MITRE%20NERVE.afb",
+   "what_it_gave": "Ivanti appliance -> RDP VMs -> vCenter -> rogue VMs / BRICKSTORM / webshells"
+  }
+ ],
+ "narrative_before": "In January 2024 the state-sponsored actor UNC5221 compromised MITRE's NERVE research/prototyping network by chaining two Ivanti Connect Secure zero-days, CVE-2023-46805 (auth bypass) and CVE-2024-21887 (command injection), and installed the ROOTROT web shell on the Ivanti appliance (MITRE Engenuity). Using compromised credentials and hijacked RDP sessions (bypassing MFA) they moved from the appliance into multiple virtual machines in the NERVE environment and then connected to the VMware vCenter server. On vCenter they enumerated and cloned VMs, created rogue VMs using a blending naming convention, and deployed the BRICKSTORM Go backdoor (with rc.local/init.d persistence) and additional webshells (WIREFIRE/BUSHWALK/BEEFLUSH) for C2 and exfiltration of several gigabytes of documents.",
+ "machines": [
+  {
+   "name": "web_ivanti",
+   "role": "Ivanti Connect Secure SSL VPN appliance; dual zero-day exploit + ROOTROT webshell (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vm_1",
+   "role": "NERVE virtual machine reached from the Ivanti appliance via RDP with compromised creds (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vm_2",
+   "role": "NERVE virtual machine reached via hijacked RDP session (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_vcenter",
+   "role": "VMware vCenter server; VM cloning, rogue-VM creation, BRICKSTORM deployed",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_rogue_vm",
+   "role": "rogue VM created by the adversary on the cluster for persistence/evasion",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "virtualization_vcenter",
+   "value": 20,
+   "replicas": [
+    "srv_vcenter"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "prototyping_environment",
+   "value": 20,
+   "replicas": [
+    "srv_vm_1",
+    "srv_vm_2"
+   ],
+   "depends_on": [
+    "srv_vcenter"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_ivanti",
+   "srv_vm_1"
+  ],
+  [
+   "web_ivanti",
+   "srv_vm_2"
+  ],
+  [
+   "srv_vm_1",
+   "srv_vcenter"
+  ],
+  [
+   "srv_vcenter",
+   "srv_rogue_vm"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_ivanti": 5
+   },
+   "techniques": {
+    "web_ivanti": [
+     "T1190",
+     "T1505.003"
+    ]
+   },
+   "description": "Initial access: Ivanti ICS CVE-2023-46805 + CVE-2024-21887 chain, ROOTROT web shell installed on the appliance.",
+   "evidence": "'compromises MITRE's NERVE system through multiple zero-day vulnerabilities in Ivanti Connect Secure ... installs ROOTROT web shell' - CTID flow / MITRE Engenuity"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_ivanti": 5,
+    "srv_vm_1": 6,
+    "srv_vm_2": 5,
+    "srv_vcenter": 5
+   },
+   "techniques": {
+    "srv_vm_1": [
+     "T1021.001",
+     "T1078"
+    ],
+    "srv_vm_2": [
+     "T1563.002"
+    ],
+    "srv_vcenter": [
+     "T1078"
+    ]
+   },
+   "description": "RDP session hijacking and compromised credentials used to reach NERVE VMs and the vCenter server.",
+   "evidence": "'highjacks multiple RDP sessions to move laterally into the VMware environment, bypassing MFA ... connects to VMWare vCenter appliance using compromised credentials' - CTID flow / MITRE Engenuity"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_vcenter": 7,
+    "srv_rogue_vm": 6
+   },
+   "techniques": {
+    "srv_vcenter": [
+     "T1071.001",
+     "T1564.006"
+    ],
+    "srv_rogue_vm": [
+     "T1021.001"
+    ]
+   },
+   "description": "On vCenter: VM cloning, rogue-VM creation, BRICKSTORM backdoor and additional webshells deployed for C2/exfil.",
+   "evidence": "'clones the vCenter VM and creates several other VMs ... deploys BRICKSTORM backdoor on multiple VMs ... BRICKSTORM communicates with C2 domains over HTTP' - CTID flow / MITRE Engenuity"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_ivanti",
+   "srv_vm_1",
+   "RDP from Ivanti appliance to NERVE VMs with compromised creds - T1021.001 / T1078"
+  ],
+  [
+   "srv_vm_1",
+   "srv_vcenter",
+   "connection to VMware vCenter with compromised credentials - T1078"
+  ],
+  [
+   "srv_vcenter",
+   "srv_rogue_vm",
+   "rogue VMs created and connected to; BRICKSTORM deployed - T1564.006 / T1021.001"
+  ]
+ ],
+ "ambiguities": [
+  "'multiple VMs' in NERVE not individually named; modelled as srv_vm_1/srv_vm_2 and one rogue VM.",
+  "Detection: MITRE discovered suspicious activity on NERVE (reported) but the flow gives staged markers; moments follow the intrusion stages."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

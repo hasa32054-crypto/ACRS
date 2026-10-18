@@ -1,0 +1,60 @@
+{
+ "incident": "menuPass (APT10) adversary emulation plan (CTID Adversary Emulation Library)",
+ "year": 2021,
+ "sector": "technology",
+ "case_url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master/menu_pass",
+ "sources": [
+  {
+   "title": "CTID Adversary Emulation Library - menuPass Operations Flow & Infrastructure",
+   "url": "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/menu_pass/Operations_Flow.md",
+   "what_it_gave": "assume-breach MSP entry, generic 'lateral movement to systems of interest', 1 DC + 2 workstations + 2 servers by role only - no concrete named A->B hop"
+  },
+  {
+   "title": "MITRE ATT&CK Group G0045 (menuPass/APT10)",
+   "url": "https://attack.mitre.org/groups/G0045/",
+   "what_it_gave": "real menuPass/APT10 MSP-targeting activity the emulation models"
+  }
+ ],
+ "narrative_before": "This is a documented CTID emulation of menuPass (APT10), modelling the group's real MSP-subscriber-network intrusions. The plan is deliberately advisory and environment-agnostic: initial access is an assume-breach VPN/RDP connection with elevated permissions (abusing an MSP trust relationship), followed by tool ingress, discovery, credential access, lateral movement 'to systems of interest' via mounted shares/RDP/PsExec, collection/staging in the Recycle Bin, and exfiltration. The required infrastructure is specified only as roles (1 domain controller, 2 workstations, 2 servers) with no hostnames and no concrete source->destination lateral step between named hosts.",
+ "machines": [
+  {
+   "name": "pc_foothold",
+   "role": "assume-breach MSP foothold (VPN/RDP with elevated permissions)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (role only; no named host or concrete hop)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [],
+ "links": [],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_foothold": 5
+   },
+   "techniques": {
+    "pc_foothold": [
+     "T1133",
+     "T1199"
+    ]
+   },
+   "description": "Assume-breach MSP foothold via VPN/RDP with elevated permissions (trusted-relationship abuse).",
+   "evidence": "'assume breach by providing the emulation team with a VPN/RDP connection ... menuPass is reported to have compromised MSP networks with the intent of abusing trust relationships' - menuPass Operations Flow Scenario 1"
+  }
+ ],
+ "attack_path": [],
+ "ambiguities": [
+  "Documented emulation of the real menuPass/APT10 MSP campaigns.",
+  "The plan describes lateral movement only in the abstract ('to systems of interest') with role-only infrastructure (1 DC, 2 workstations, 2 servers) and no named source->destination hop."
+ ],
+ "dropped": true,
+ "drop_reason": "No concrete lateral hop between identifiable hosts. The menuPass plan is advisory/environment-agnostic: it names infrastructure only by role and describes lateral movement abstractly ('to systems of interest'), giving no specific A->B edge to model, so it fails the entry + >=1 concrete hop requirement."
+}

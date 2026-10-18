@@ -1,0 +1,197 @@
+{
+ "incident": "IcedID to ALPHV/BlackCat ransomware via ScreenConnect and CSharp Streamer (DFIR Report, intrusion Oct 2023, published 2024-06-10)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/06/10/icedid-brings-screenconnect-and-csharp-streamer-to-alphv-ransomware-deployment/",
+ "sources": [
+  {
+   "title": "IcedID Brings ScreenConnect and CSharp Streamer to ALPHV Ransomware Deployment - The DFIR Report (2024-06-10)",
+   "url": "https://thedfirreport.com/2024/06/10/icedid-brings-screenconnect-and-csharp-streamer-to-alphv-ransomware-deployment/",
+   "what_it_gave": "entry point (spam email, forked IcedID via VBS on beachhead), hops (ScreenConnect+wmiexec to DC, RDP DC->backup server, ->file server), exfil (Rclone to 217.23.12.8 NL), TTR ~180h / 8 days, ALPHV across all domain-joined hosts"
+  }
+ ],
+ "narrative_before": "In October 2023 a spam email delivered a ZIP containing a VBS that executed a forked IcedID loader on a beachhead host, with a scheduled task for persistence (DFIR Report). About two hours in, the actor installed ScreenConnect (renamed toovey.exe) on the beachhead and used it plus Impacket wmiexec and RDP to spread. They logged into a domain controller via ScreenConnect and dropped CSharp Streamer; on day two they ran SoftPerfect netscan from the DC and RDP'd to a backup server, then to a file server, previewing financial documents. A custom tool 'confucius_cpp' staged and compressed sensitive files on the file server, and Rclone exfiltrated the staged data over SSH (port 22) to 217.23.12.8 in the Netherlands. On the eighth and final day the actor staged a ScreenConnect installer (setup.exe) and the ALPHV binary (BNUfUOmFT2.exe) on the backup server, used xcopy to copy both to C$ of all domain-joined hosts, executed them via WMI, interactively deleted all backups, and encrypted all domain-joined Windows systems. Time to ransomware was about 180 hours over 8 days (DFIR Report).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead workstation; forked IcedID via VBS, ScreenConnect toovey.exe, Cobalt Strike, LSASS access",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; ScreenConnect login, CSharp Streamer dropped, netscan, RDP pivot source",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server; RDP from DC, CSharp Streamer + ScreenConnect via wmiexec, ALPHV staged here, backups deleted",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server; RDP access, netscan, confucius_cpp staging tool, Rclone exfiltration",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_1",
+   "role": "domain-joined Windows host encrypted by ALPHV (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_2",
+   "role": "domain-joined Windows host encrypted by ALPHV (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "domain-joined Windows host encrypted by ALPHV (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "srv_backup",
+   "files"
+  ],
+  [
+   "srv_backup",
+   "pc_1"
+  ],
+  [
+   "srv_backup",
+   "pc_2"
+  ],
+  [
+   "srv_backup",
+   "pc_3"
+  ],
+  [
+   "srv_backup",
+   "dc"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "First compromise: forked IcedID loader executed from a VBS in a spam ZIP on the beachhead, scheduled task persistence, C2 established; ~2 hours of IcedID-only activity before ScreenConnect installed.",
+   "evidence": "'this email was part of a spam campaign delivering a forked variant of IcedID... Upon user interaction with the archive's contents, the VBS file was executed, initiating the embedded forked IcedID loader.' - DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 7,
+    "dc": 7,
+    "srv_backup": 6,
+    "files": 7
+   },
+   "description": "By the end of day two the actor had pivoted ScreenConnect/CSharp Streamer to the DC, RDP'd to the backup and file servers, and run LSASS/netscan on them - the active footprint before data staging and exfil.",
+   "evidence": "'we observed a log in to the domain controller using ScreenConnect... They then initiated an RDP connection from the domain controller to a backup server... Using RDP, they connected to the file server...' - DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "dc",
+   "ScreenConnect installer copied over SMB and executed via Impacket wmiexec; ScreenConnect login to DC, CSharp Streamer dropped - T1021.002 / T1072 / T1570"
+  ],
+  [
+   "dc",
+   "srv_backup",
+   "RDP from DC to backup server; CSharp Streamer + ScreenConnect run, LSASS accessed - T1021.001 / T1003.001"
+  ],
+  [
+   "dc",
+   "files",
+   "RDP to file server; netscan, confucius_cpp staging, Rclone exfil over SSH - T1021.001 / T1074 / T1567.002 / T1048"
+  ],
+  [
+   "srv_backup",
+   "pc_1",
+   "xcopy of ALPHV binary to C$ of all domain-joined hosts then WMI execution - T1021.002 / T1047 / T1486"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.001",
+  "T1204.002",
+  "T1053.005",
+  "T1219",
+  "T1072",
+  "T1021.002",
+  "T1047",
+  "T1003.001",
+  "T1021.001",
+  "T1074",
+  "T1567.002",
+  "T1048",
+  "T1490",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Victim sector not stated.",
+  "Report does not state victim detection; m1 = initial IcedID execution, m2 = end of day-two active lateral movement.",
+  "Number of domain-joined hosts encrypted ('all domain joined Windows systems') not quantified; represented as pc_1..pc_3 (3 generic).",
+  "Number of domain controllers: 'domain controllers' (plural) in lateral movement but narrative describes one DC; modelled as one.",
+  "Workstation->dc / workstation->files links not added for generic encrypted hosts because domain credential use by those hosts is not described; their only described relationship is receiving the payload from the backup server."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

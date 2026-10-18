@@ -1,0 +1,123 @@
+{
+ "incident": "From OneNote to RansomNote: IcedID to Nokoyawa ransomware (DFIR Report, intrusion Feb-Mar 2023, published 2024-04-01)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2024/04/01/from-onenote-to-ransomnote-an-ice-cold-intrusion/",
+ "sources": [
+  {
+   "title": "From OneNote to RansomNote: An Ice Cold Intrusion - The DFIR Report (2024-04-01)",
+   "url": "https://thedfirreport.com/2024/04/01/from-onenote-to-ransomnote-an-ice-cold-intrusion/",
+   "what_it_gave": "entry point (phishing OneNote -> IcedID on beachhead), hops (RDP beachhead->backup server, ->file server with Cobalt Strike+AnyDesk), exfil (FileZilla SFTP to 45.155.204.5 RU), Nokoyawa on two servers, 34-day timeline"
+  }
+ ],
+ "narrative_before": "In late February 2023 a phishing campaign delivered a malicious OneNote attachment that ran a cmd/PowerShell chain to download and execute an IcedID DLL on a beachhead host, with a scheduled task for persistence (DFIR Report). The loader only beaconed for ~21 days; on day 22 it ran standard IcedID discovery (net, nltest, systeminfo), and on day 33 it launched Cobalt Strike beacons that ran AdFind, installed AnyDesk, and accessed LSASS - the compromised user was a domain administrator. After NetScan and share browsing, the actor used RDP from the beachhead to a backup server, downloaded and ran a Cobalt Strike beacon and AnyDesk there, then pivoted to a file server and repeated. On the file server they downloaded FileZilla and exfiltrated data over SFTP to 45.155.204.5 (Russia) across several hours. About 34 days after the first infection they deployed Nokoyawa ransomware (svchost.exe driven by a batch file via AnyDesk), encrypting the file server and the backup server only - no domain-wide deployment - after uninstalling backup software (DFIR Report).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead workstation; OneNote->IcedID, Cobalt Strike, AnyDesk, LSASS (domain-admin user), NetScan",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server; RDP from beachhead, Cobalt Strike + AnyDesk, Nokoyawa encrypted, backup software uninstalled",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server; RDP, Cobalt Strike + AnyDesk, FileZilla SFTP exfil, Nokoyawa encrypted",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_backup"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Initial compromise: OneNote attachment executes IcedID DLL on the beachhead with scheduled-task persistence; then ~21 days of C2 beaconing only.",
+   "evidence": "'the file triggered the execution of a cmd file. This, in turn, launched PowerShell to facilitate the download of an IcedID DLL... a scheduled task was established to maintain persistence... For the next 21 days, activity was limited to command and control beaconing' - DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 7,
+    "srv_backup": 6,
+    "files": 6
+   },
+   "description": "Day 33-34 hands-on phase: Cobalt Strike + AnyDesk + LSASS on beachhead, RDP to backup and file servers with beacons/AnyDesk, FileZilla SFTP exfiltration from the file server - before ransomware.",
+   "evidence": "'the threat actor initiated their first lateral movement, using RDP to connect to a backup server from their beachhead host... they pivoted to a file server and performed the same actions... established a SFTP connection to a remote server, initiating the data exfiltration' - DFIR Report"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_beachhead",
+   "srv_backup",
+   "RDP from beachhead to backup server; Cobalt Strike beacon (csrss.exe from 91.215.85.183) and AnyDesk installed - T1021.001 / T1219 / T1105"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "RDP to file server; Cobalt Strike + AnyDesk, FileZilla SFTP exfil to 45.155.204.5 - T1021.001 / T1219 / T1048 / T1567"
+  ],
+  [
+   "files",
+   "files",
+   "Nokoyawa svchost.exe deployed via AnyDesk session with --config batch; DELETE_SHADOW, ENCRYPT_NETWORK - T1486 / T1490"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.001",
+  "T1204.002",
+  "T1053.005",
+  "T1219",
+  "T1003.001",
+  "T1021.001",
+  "T1105",
+  "T1048",
+  "T1567",
+  "T1490",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Victim sector not stated (insurance-related documents were browsed but victim industry not given).",
+  "Report does not state victim detection; m1 = initial IcedID execution, m2 = day 33-34 hands-on phase before encryption.",
+  "No domain controller or file-server/DC credential links described; ransomware hit only two servers, so no workstation->dc links apply.",
+  "Exact start/end dates only given as late Feb to late Mar 2023; TTR ~34 days per narrative."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,181 @@
+{
+ "incident": "Ivanti Connect Secure zero-day exploitation (Volexity, UTA0178)",
+ "year": 2024,
+ "sector": "unknown",
+ "case_url": "https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/",
+ "sources": [
+  {
+   "title": "Volexity - Active Exploitation of Two Zero-Day Vulnerabilities in Ivanti Connect Secure VPN",
+   "url": "https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/",
+   "what_it_gave": "ICS VPN zero-day entry + GLASSTOKEN webshell, credential capture, RDP/SSH/SMB lateral movement, DC NTDS theft"
+  },
+  {
+   "title": "Ivanti Vulnerabilities Attack Flow (CTID corpus)",
+   "url": "https://github.com/center-for-threat-informed-defense/attack-flow/blob/main/corpus/Ivanti%20Vulnerabilities.afb",
+   "what_it_gave": "ICS appliance -> captured VPN creds -> RDP/SSH/SMB internal servers -> Cyberoam proxy -> DC NTDS/Veeam"
+  }
+ ],
+ "narrative_before": "The China-nexus actor Volexity tracks as UTA0178 chained two Ivanti Connect Secure zero-days, CVE-2023-46805 (auth bypass) and CVE-2024-21887 (command injection), against a customer's internet-facing VPN appliance, installing GLASSTOKEN and other web shells and backdooring legitimate appliance files to capture plaintext SSL VPN credentials (Volexity). Using the stolen credentials the adversary accessed internal servers over RDP, SSH and SMB, pivoted onto a Cyberoam appliance to tunnel a SOCKS proxy back to their C2, and dumped LSASS for additional domain credentials. They obtained a backup of a domain controller's virtual hard disk, extracted NTDS.DIT, compressed it, and accessed credentials from the Veeam backup system.",
+ "machines": [
+  {
+   "name": "web_ivanti",
+   "role": "Ivanti Connect Secure VPN appliance; dual zero-day + GLASSTOKEN webshell, credential capture (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "internal server accessed with captured VPN credentials over RDP/SSH/SMB (generic group)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dev_cyberoam",
+   "role": "Cyberoam appliance pivoted to for SSH/SOCKS proxy back to C2",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "dc",
+   "role": "domain controller; VHD backup obtained, NTDS.DIT extracted",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "Veeam backup system whose credentials were accessed",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "vpn_access",
+   "value": 20,
+   "replicas": [
+    "web_ivanti"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "web_ivanti",
+   "srv_1"
+  ],
+  [
+   "web_ivanti",
+   "dev_cyberoam"
+  ],
+  [
+   "srv_1",
+   "dc"
+  ],
+  [
+   "srv_1",
+   "srv_backup"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_ivanti": 5
+   },
+   "techniques": {
+    "web_ivanti": [
+     "T1190",
+     "T1505.003",
+     "T1056.003"
+    ]
+   },
+   "description": "Initial access: ICS zero-day chain, GLASSTOKEN web shell, and plaintext SSL VPN credential capture on the appliance.",
+   "evidence": "'uses a chain of two 0-day exploits ... inserts a backdoor into a legitimate JavaScript file ... collects plaintext credentials from SSL VPN logins' - CTID flow / Volexity"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_ivanti": 5,
+    "srv_1": 6,
+    "dev_cyberoam": 5
+   },
+   "techniques": {
+    "srv_1": [
+     "T1021.001",
+     "T1021.004",
+     "T1021.002"
+    ],
+    "dev_cyberoam": [
+     "T1090.001"
+    ]
+   },
+   "description": "Lateral movement with captured credentials over RDP/SSH/SMB and a SOCKS proxy pivot through the Cyberoam appliance.",
+   "evidence": "'uses stolen credentials to access servers on the internal network over RDP / SSH / SMB ... establishes an SSH tunnel / SOCKS proxy through Cyberoam appliance back to their C2' - CTID flow / Volexity"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_1": 5,
+    "dc": 8,
+    "srv_backup": 5
+   },
+   "techniques": {
+    "dc": [
+     "T1003.003"
+    ],
+    "srv_backup": [
+     "T1552.002"
+    ]
+   },
+   "description": "LSASS dumping and theft of a DC virtual-disk backup to extract NTDS.DIT; Veeam backup credentials accessed.",
+   "evidence": "'obtained a backup of a virtual hard disk from a domain controller ... extracts NTDS.DIT ... accessed credentials used by a backup system called Veeam' - CTID flow / Volexity"
+  }
+ ],
+ "attack_path": [
+  [
+   "web_ivanti",
+   "srv_1",
+   "captured VPN credentials used over RDP/SSH/SMB to internal servers - T1021.001 / T1021.004 / T1021.002"
+  ],
+  [
+   "web_ivanti",
+   "dev_cyberoam",
+   "pivot onto Cyberoam appliance for SOCKS proxy to C2 - T1090.001"
+  ],
+  [
+   "srv_1",
+   "dc",
+   "LSASS creds then DC VHD backup obtained, NTDS.DIT extracted - T1003.003"
+  ]
+ ],
+ "ambiguities": [
+  "Internal servers accessed over RDP/SSH/SMB are not individually named; modelled as one generic server plus the DC and Veeam backup host.",
+  "Victim organization/sector unspecified ('an unnamed organization that is a Volexity customer').",
+  "Detection: Volexity identified the activity (reported Jan 2024); moments follow the write-up's stages."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

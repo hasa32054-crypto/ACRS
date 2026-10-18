@@ -1,0 +1,202 @@
+{
+ "incident": "IcedID to XingLocker ransomware in 24 hours",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/",
+ "sources": [
+  {
+   "title": "IcedID to XingLocker Ransomware in 24 Hours - The DFIR Report (2021-10-18)",
+   "url": "https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/",
+   "what_it_gave": "entry (phishing IcedID via regsvr32), hops (beachhead->DC remote service running spoolsv.exe, jump psexec_psh to other hosts, CS to critical server), cred access (LSASS cached creds, PtH named pipe, admin creds in 4 min), impact (XingLocker/Mountlocker via wmic+batch on DC/external server/multiple servers), ~23h"
+  }
+ ],
+ "narrative_before": "In a late-July 2021 intrusion the DFIR Report observed IcedID delivered by phishing and executed on the beachhead with regsvr32.exe, dropping ikaqkk.dll (rundll32) and loading Cobalt Strike beacons (DLLHost.exe via process hollowing; kaslose.dll via curl+regsvr32; an HTA/PowerShell in-memory beacon). Within four minutes of beacon activity the actors read cached credentials from LSASS and 'gained administrative credentials' (a Mimikatz-style pass-the-hash named pipe was seen). About two hours in, IcedID pulled the next-stage beacon; around three hours in beacons were deployed broadly. Lateral movement to a domain controller created a remote service running spoolsv.exe (Cobalt Strike), and jump psexec_psh moved beacons to other hosts including a 'critical' server (kaslose64.dll). kasper.bat (1,698 lines) killed processes and disabled security tools on a file server, and an 'important' host had backup utilities disabled. XingLocker (a Mountlocker variant) was deployed via wmic and batch scripts (start.bat -> rundll32 update64.dll,start), first observed on the DC and an external server, around 23 hours after intrusion; RecoveryManual.html was dropped.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (IcedID via regsvr32, Cobalt Strike, LSASS, ShareFinder, BloodHound)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (remote service running spoolsv.exe, AdFind/BloodHound; ransomware first observed)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_critical",
+   "role": "critical server (second kaslose64.dll beacon right after initial lateral; regsvr32 persistence)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file server (kasper.bat kills processes / disables security tools; HpSupport persistence)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_backup",
+   "role": "'important' host with backup utilities disabled",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "srv_1",
+   "role": "external/other server (ransomware execution observed)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "srv_critical"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 8
+   },
+   "description": "IcedID executed via regsvr32 on the beachhead; Cobalt Strike beacons loaded; within 4 minutes LSASS cached creds read and admin credentials obtained.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1566",
+     "T1071.001",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'A phishing campaign delivered IcedID, which was executed on the beachhead with regsvr32.exe ... Within four minutes they gained administrative credentials' - IcedID to XingLocker, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 6,
+    "srv_critical": 7
+   },
+   "description": "~3h: lateral movement to DC via remote service (spoolsv.exe), jump psexec_psh to other hosts, second beacon on a critical server.",
+   "techniques": {
+    "dc": [
+     "T1021.002",
+     "T1569.002"
+    ],
+    "srv_critical": [
+     "T1021.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'lateral movement from the beachhead, which created a remote service running spoolsv.exe ... Cobalt Strike jump psexec_psh ... A second kaslose64.dll Beacon was executed right after the initial lateral movement' - IcedID to XingLocker"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "files": 5,
+    "srv_backup": 9,
+    "srv_critical": 8
+   },
+   "description": "~23h: XingLocker deployed via wmic/batch, first observed on the DC and an external server; security tools/backup utilities disabled beforehand.",
+   "techniques": {
+    "dc": [
+     "T1486",
+     "T1047"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "files": [
+     "T1562.001"
+    ],
+    "srv_backup": [
+     "T1490"
+    ]
+   },
+   "evidence": "'Ransomware deployment: Via wmic and batch scripts ... The domain controller (first observed), an external server, and multiple servers' - IcedID to XingLocker"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "phishing IcedID executed via regsvr32; Cobalt Strike loaded (T1566/T1218.010)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "remote service creation running spoolsv.exe (Cobalt Strike) on the domain controller (T1021.002/T1569.002)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_critical",
+   "jump psexec_psh delivering kaslose64.dll beacon to a critical server (T1021.002)"
+  ],
+  [
+   "dc",
+   "srv_1",
+   "XingLocker executed via wmic and batch scripts on servers (T1047/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role / importance only; victim sector not stated.",
+  "No exfiltration observed (may have used the encrypted Cobalt Strike channel).",
+  "Report does not confirm domain admin specifically ('administrative credentials'); 'important' host not confirmed to be a dedicated backup server.",
+  "Moments are the report's activity markers (IcedID+creds, lateral, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

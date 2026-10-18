@@ -1,0 +1,679 @@
+{
+ "files": [
+  {
+   "file": "cert_2026_poland_energy_chp_dynowiper.json",
+   "sha256": "06677918b104b2e5905553671217927cc8bceb30cca9d146c7675f144c910439",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2022_aa22_074a_russia_mfa_printnightmare_ngo.json",
+   "sha256": "003103a6921f6148698a8f076c4f8194bbd688b235cffe5464f3eba5eecdff5d",
+   "dropped": false,
+   "risk_recomputed": 2,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2022_aa22_174a_log4shell_horizon_victim2.json",
+   "sha256": "83fe829305aab112b2734c0c63cf176ef55f2723bda9b0e4bdf3cf9a407b3617",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2022_aa22_277a_impacket_dib.json",
+   "sha256": "430999fa1da0f53eff27e198930ef4a4cac0c5b9aad32a821a949b77b8f33116",
+   "dropped": false,
+   "risk_recomputed": 6,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2022_aa22_320a_iran_log4shell_horizon.json",
+   "sha256": "a7c74a1278fa772a0bb445ffae137040d97263ea6a76f6b71ccfad261885b0f9",
+   "dropped": false,
+   "risk_recomputed": 10,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2023_aa23_074a_telerik_iis.json",
+   "sha256": "bda69c04b871dfae159fad14100824e090929fe15311469c53a1c50dae2adf84",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2023_aa23_250a_aeronautical_zoho_fortinet.json",
+   "sha256": "9863f4f9bb30c838b91e10ef3e50c605687159f18c558ff83eaba38e11280cfc",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2024_aa24_038a_volt_typhoon_water.json",
+   "sha256": "eb60cc30b148d67f9c89fb1428346e16e60c59f227318fbc7004e37d3f8cf687",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "cisa_2026_aa25_266a_geoserver_fceb.json",
+   "sha256": "ffa18c7bd30e53f542821212b350dc374213e247ab392729b16a40a8626e621b",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2013_target.json",
+   "sha256": "6c1b6496981a46e3d253431a4e6d72b4d9d9a713bd0bafe5bb1ab0b143798d2e",
+   "dropped": false,
+   "risk_recomputed": 6,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2014_jpmorgan.json",
+   "sha256": "3e1b3c32d0f94ef2609b0253b72a22918a1dd86dc2fedc65273ee8003b0d8927",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2015_carbanak_emulation.json",
+   "sha256": "b48a3e6f770464917e57954a270392ea39d838d12cf187b9ba2de6a4d42a9d03",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2016_swift_bangladesh_bank.json",
+   "sha256": "361f98e6966df06c8ec334db5e9c3d45b1179e08b651cb648ac34ecca9a55b88",
+   "dropped": false,
+   "risk_recomputed": 2,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2017_cobalt_kitty_oceanlotus.json",
+   "sha256": "09b56b17a583f2efa1955679036b16dadde025d0cc38c1105e1c3a03aa8e9b5f",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2017_equifax.json",
+   "sha256": "0f60839ed55493f67ea4331cbbf4ae1b2b6f248959ed92b6400b8f1f3515970f",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2017_fin7_emulation.json",
+   "sha256": "a0c345c00f3a75c421da0441d2f5086589b782908f830b4b8c21bda2059f4f53",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2017_notpetya.json",
+   "sha256": "ca0f489ea283f61fba27c7b1c2da72cefeddbbf358cfbd39ba53c0d8b23c289e",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2017_sandworm_emulation.json",
+   "sha256": "e0168017459448cf61b97e7f7e85cb031f089ba054db321493f9ac4047e0ba8d",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2018_apt29_emulation.json",
+   "sha256": "168d3c51bc718375f1007ea3b251efc96b001d926c7d888a918aa156a9cde68d",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2018_marriott_starwood.json",
+   "sha256": "20d7c21165e6a081dcf4f25e939eece57894e5c38eb056694d11f8854bebfd6f",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2019_fin6_emulation.json",
+   "sha256": "ca74a618b6667768961b4202631b649e933005148b2bfcf59596bdc01f7c29ce",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2019_maastricht_university.json",
+   "sha256": "0cd917dd75a3feb737711ca8d162864b16ce162435748a0f84b6d9fc5c194808",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2019_oilrig_emulation.json",
+   "sha256": "e5ca3840704c42603e5090ec2667b0a2fb468e49f87401210a369e4701e7b171",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2020_oceanlotus_emulation.json",
+   "sha256": "2a9957372e48c597ae97e8b61913e7497225010f36a094dc7d53140defc76600",
+   "dropped": false,
+   "risk_recomputed": 3,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2020_solarwinds.json",
+   "sha256": "aa0a4f9787c9f1b2486cedbc6cd7c3ef43e6f620866d2c50d4522bcd6a79e8b4",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2020_wizard_spider_emulation.json",
+   "sha256": "4cfcbea6f78bbaa463b1db28b66e0d20ab683e714767942df8fc05c27821d995",
+   "dropped": false,
+   "risk_recomputed": 3,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_conti_dfir_icedid.json",
+   "sha256": "3d16f2ead9ce5b781078d62827477d1374aba44ecc1f97a397973c735236830d",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_conti_hse_pwc.json",
+   "sha256": "59a4d3e5429c6601adb859b07283d07977ac58ed0d31327e986255bc3becdff1",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_fin13_case1_bank.json",
+   "sha256": "e2aaa89cfd765a1e097e320ba7774eef14c414d9b988ca78edbfe774a94739c9",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_fin13_case2_peru.json",
+   "sha256": "de1ee556af2320e0c41ebefe4248199ac3e536487d9308375b32056dd7addb89",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_hancitor_zerologon_dfir.json",
+   "sha256": "32e83927763021e426edb081608c4ff8ada2ae0f0b8520f9daba9a1e7ef3ae71",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2021_menupass_emulation.json",
+   "sha256": "57aea54641d5f7b8f87ce26b97a5fae76f74b00865f3ab18936f88ed156bccb8",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2022_bumblebee_round2_dfir.json",
+   "sha256": "2f7bc2b1918a7a8a13aa8805f3fa7e719f8857ac5e26d81df0721c1a8be5e648",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2022_cisa_iranian_apt_log4shell.json",
+   "sha256": "65db0ed15321ecacf88490727452be6f73c0e31ae80f5dc4dfaee0522d48c605",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2022_gootloader_dfir.json",
+   "sha256": "adf93e9680fe69bbdc23df3f4ee622df1a7757434c902f8ea270524bbcd7b5bf",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2022_uber_lapsus.json",
+   "sha256": "00334cd534eb3fa3480f8fec9f628f30bf58de80a32a8d39189e57938ea558d5",
+   "dropped": false,
+   "risk_recomputed": 6,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2023_blind_eagle_emulation.json",
+   "sha256": "449aa040667b0777b95dfc4b840e9634ca121148692c9efd29d1cf19ddc257cf",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2024_ivanti_volexity_uta0178.json",
+   "sha256": "ecca5bf7121a267b88e787fe54033e3d6e28aab76ce2ecae1f8ca118cb5156c4",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2024_mitre_nerve.json",
+   "sha256": "4c8051ad5dbae6aa84b6887eeb08c4d6e0e57276dbda053551e0ebd7db45438a",
+   "dropped": false,
+   "risk_recomputed": 6,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "ctid_2025_toolshell_sharepoint.json",
+   "sha256": "04dd1fdfeb04d3baa2621ac358498fca38a157b8b9bd1668eca5618793e55be1",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2020_01_ryuk_5_hours.json",
+   "sha256": "e8b8b7418ee71a1e0f6bff36dee9f519b4a5168fe08851cf8585adbf05028fa1",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2020_02_ryuk_speed_run.json",
+   "sha256": "35c6894f016e34537b80cb5c23c3b63b26d57000831cad046171a26e4233ce7b",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2024_01_blacksuit_cobaltstrike_2024.json",
+   "sha256": "48ede09c2d5c8747f447a3ab9b89afd26f9dd6f659af138dafdd781bffb3f8fe",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2024_02_icedid_screenconnect_alphv_2024.json",
+   "sha256": "2e7be55456894b03d616e198170b9208583472c02cad614eb9c14bfc24f0d7bc",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2024_03_nitrogen_sliver_blackcat_2024.json",
+   "sha256": "030e80d554f6dc853a7333c51523db35ecc96c858d6e2f40229e17ebc4048c67",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2024_04_onenote_nokoyawa_2024.json",
+   "sha256": "69f32c13577a6d5bc44005277dfe26ff84ece8234a7937f90128c06f202c5b4c",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir2024_05_icedid_dagonlocker_2024.json",
+   "sha256": "4f90099afb37001c080f393416dc6a845579b1e25ed6acc9459858c93da14cc3",
+   "dropped": false,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2020_netwalker_1_hour.json",
+   "sha256": "41eb9b350c2dd774ef380635a58faf73488fe05f9b851d8949e9adbd30b80c85",
+   "dropped": false,
+   "risk_recomputed": 3,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2020_pysa_mespinoza.json",
+   "sha256": "c69e65cd4cd587d66e30e576945d4d4b2f3f064b40799c925c74a149da14de14",
+   "dropped": false,
+   "risk_recomputed": 11,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2020_ryuks_return.json",
+   "sha256": "f29fc363c7c5d0226eb5a90c83f7b35c5e8350129c89b8ee1951768c2dc2b46c",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2020_snatch.json",
+   "sha256": "0cadcf9aab7d3a6b55b0aad72185ada2b553d6471afef5201a3e017972dcf4c7",
+   "dropped": false,
+   "risk_recomputed": 6,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_bazarcall_conti_trickbot.json",
+   "sha256": "398f811409bbe577d28aa59d869cc8506fe3cfa930cf0918b41e2290b493e5ae",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_bazarloader_conti_32h.json",
+   "sha256": "65e01d7198c9a83c9266c1a8e7587da0b98ad0f3689f1f9cc503d705bc676819",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_bazarloader_conti_leaks.json",
+   "sha256": "bcaa24094df8eb31b4e08ca19be287db71c887137548a3dc1d961a18bbb7ef76",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_bazarloader_diavol.json",
+   "sha256": "013db0b5696f8b9a7bd82983bfe2af49b8e8123ee4c267b14df8a887f854a013",
+   "dropped": false,
+   "risk_recomputed": 10,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_icedid_conti.json",
+   "sha256": "06754e1e3f579704ae125e1c171c2c5a6243f411e3ee18102b38c31301129593",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_icedid_xinglocker.json",
+   "sha256": "91286fb6f15e2ff32b55253b898a18f356c73955161614e90d3b14017e9c2502",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2021_sodinokibi_revil.json",
+   "sha256": "9ba3c3b9682d1ba45692aecdc5bdf466cb81f467222fbcc505cf2551f1e92f9f",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2022_emotet_quantum.json",
+   "sha256": "99c6b7668952b5eb4b38f750de433be8fea472d49cad6b01b64dbf9e3334ddd4",
+   "dropped": false,
+   "risk_recomputed": 10,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2022_icedid_quantum.json",
+   "sha256": "de7453a5a860f581741ccdef258fd7bc57b38f5f89dac37582f235256f31d8f0",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2023_html_smuggling_nokoyawa.json",
+   "sha256": "47333ab2f0d94d5664654cdaa3c6c0683d36351e8c3357f9c48bbc9cd126f2be",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2023_malicious_iso_quantum.json",
+   "sha256": "fc6d15ce1176818767c2da672ab104906c297096692f2aa8e3583fc6131003d5",
+   "dropped": false,
+   "risk_recomputed": 10,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2023_screenconnect_hive.json",
+   "sha256": "6fbb6a25aa9ab6c17fa1f5277f6690179c4e0df21759c3c247d01e76cbc49c49",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2023_sql_bruteforce_bluesky.json",
+   "sha256": "192e6632e5db6eaadff1851deae9849b6ef866c227eef52945be3420f8d95e27",
+   "dropped": false,
+   "risk_recomputed": 8,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2023_truebot_flawedgrace_mbrkiller.json",
+   "sha256": "fd532b35c6526592ce93bf4a22d2c9e52b690d2788ce76cac7b9832b63b1ec99",
+   "dropped": false,
+   "risk_recomputed": 12,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2024_rdp_trigona_3h.json",
+   "sha256": "0adc163d6c8a57ad739d780578f5fe854815de3d56d69b81eb2e653a76dac692",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2025_confluence_elpaco_team.json",
+   "sha256": "899f6b298c383de8f67922f2563dcd05770e43aa73a0911cf80e764757894d77",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2025_confluence_lockbit.json",
+   "sha256": "9bda1573b2c65260d0ea7d96519c7188eb0ae1a81cc6f7b9d08cceba0ede46b8",
+   "dropped": false,
+   "risk_recomputed": 11,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2025_fake_zoom_blacksuit.json",
+   "sha256": "67a82d29b72138d1725927f6de432a3ed28fc9e0beb74b2375a349374dd13621",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2025_rdp_lynx.json",
+   "sha256": "a9409cd05b254e380048bccbceb3877676480cf6b79ba2879daf7a0ae6fdf3e6",
+   "dropped": false,
+   "risk_recomputed": 9,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2025_rdp_spray_ransomhub.json",
+   "sha256": "39ecd6bb4a90d00bbea963efe32b9827912ab328fb0c240b97e2c651d75e61d5",
+   "dropped": false,
+   "risk_recomputed": 14,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2026_activemq_lockbit.json",
+   "sha256": "ff0cf56d9eac0eb3264c52ba9d6ff789b6f4243d5a7fa7209fb1d9c704e1dd2a",
+   "dropped": false,
+   "risk_recomputed": 12,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2026_bumblebee_akira.json",
+   "sha256": "00a0daf6605c7bf2335f257e04e82f874c85b1b11ea3f2c798e599e9c95315e1",
+   "dropped": false,
+   "risk_recomputed": 12,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "dfir_2026_etherrat_tuktuk_gentlemen.json",
+   "sha256": "6e3cf908db2bd9f4b0350fb008b2d6c26cf297180ed924e41b1aa9441e8ec929",
+   "dropped": false,
+   "risk_recomputed": 14,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2022_rackspace_hosted_exchange_play.json",
+   "sha256": "ac249c707cc5537850b4e7042316c27514a43eec622f0fbeb97f9d9f1e4d3a46",
+   "dropped": false,
+   "risk_recomputed": 2,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2022_uber_lapsus_mfa_fatigue.json",
+   "sha256": "cbc102bcdea5b817f6b84df2274d92cb53f532e4ef87b77c3f67f09de7983b8c",
+   "dropped": false,
+   "risk_recomputed": 3,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2023_3cx_supply_chain.json",
+   "sha256": "dfa7c7a4531df6fdf17c41519fde36319f4972eb34303e80f178a251b1843867",
+   "dropped": false,
+   "risk_recomputed": 4,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2023_mgm_resorts_scattered_spider_alphv.json",
+   "sha256": "f745e1c0f2fd9946f968eb94934f32d4518c025b749b20ab206055858c4a8dc2",
+   "dropped": false,
+   "risk_recomputed": 7,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2024_ascension_black_basta.json",
+   "sha256": "c69d9a6fd0a2e32d5ae1b6d972220592b6b92bf80d68d06fa237966412ff9203",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2024_cdk_global_blacksuit.json",
+   "sha256": "0e320e6354b6ca1caa7f89b4c405b693652955f9bdae569c88267908286b1f4c",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2024_snowflake_customer_breaches_unc5537.json",
+   "sha256": "4b568af95aebead07fe97ca3d93f3a2c0bc4b4f156671ced28ab8cd765d2dce3",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2025_collins_aerospace_muse_hardbit.json",
+   "sha256": "22b4b8398f604c6c246800db19481cdb731af9c345bd84899465132b12406a2c",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2025_jaguar_land_rover_scattered_lapsus.json",
+   "sha256": "06e92f34bead78aa8615fd3c5629917561f8ed3bc2053eb4f2c3eee5e68d8f5b",
+   "dropped": true,
+   "risk_recomputed": 0,
+   "risk_changed": [],
+   "warnings": []
+  },
+  {
+   "file": "inc_2025_marks_spencer_scattered_spider_dragonforce.json",
+   "sha256": "7da367e6232a60077618962070f601c415f9df9c457468f574bcd29da2d8bf7d",
+   "dropped": false,
+   "risk_recomputed": 5,
+   "risk_changed": [],
+   "warnings": []
+  }
+ ],
+ "n_files": 84,
+ "n_dropped": 9,
+ "risk_table_hash": "1e6886e5870db324"
+}

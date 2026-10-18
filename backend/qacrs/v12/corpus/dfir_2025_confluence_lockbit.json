@@ -1,0 +1,242 @@
+{
+ "incident": "Confluence Exploit (CVE-2023-22527) Leads to LockBit Ransomware (TTR 2h06m)",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2025/02/24/confluence-exploit-leads-to-lockbit-ransomware/",
+ "sources": [
+  {
+   "title": "Confluence Exploit Leads to LockBit Ransomware - The DFIR Report (2025-02-24)",
+   "url": "https://thedfirreport.com/2025/02/24/confluence-exploit-leads-to-lockbit-ransomware/",
+   "what_it_gave": "entry (CVE-2023-22527 Confluence RCE -> mshta Metasploit -> AnyDesk), hops (all RDP from beachhead to backup, file, DC, Exchange), cred access (Mimikatz, Veeam-Get-Creds on backup server), exfil (Rclone from file server to Mega), impact (LockBit manual + PDQ Deploy over SMB + Exchange C$ failsafe), TTR 2h06m"
+  }
+ ],
+ "narrative_before": "In this 2025 intrusion the DFIR Report observed exploitation of CVE-2023-22527 (Confluence RCE) on a Windows server. The actor ran net user/whoami, used mshta to fetch a Metasploit stager, then downloaded and installed AnyDesk with a preset password for persistence. They created a new local admin account, RDPed into the beachhead with it and ran Mimikatz, then used SoftPerfect NetScan to enumerate hosts. They moved by RDP to a backup server (default Administrator) and ran Veeam-Get-Creds-New.ps1 to extract Veeam credentials, then pivoted by RDP to a file server, deployed Rclone and exfiltrated data to MEGA.io (clearing event logs afterward). They RDPed to a domain controller with domain admin creds and enumerated admins. They then launched LockBit: manual execution on the backup and file servers over RDP, then PDQ Deploy on the beachhead to distribute the binary + asd.bat over SMB to remote hosts, and finally pivoted to an Exchange server, stopped services, and ran a batch script mounting remote C$ shares as a secondary encryption wave. TTR was just over 2 hours (02:06:14). All RDP was from the beachhead.",
+ "machines": [
+  {
+   "name": "web_confluence",
+   "role": "internet-facing Confluence server beachhead (CVE-2023-22527; Metasploit; AnyDesk; Mimikatz; netscan; PDQ Deploy)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (RDP; Veeam-Get-Creds-New.ps1; LockBit manual)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; Rclone exfil to Mega; event logs cleared; LockBit manual)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (RDP with domain admin; admin enumeration; PDQ/LockBit staging)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_exchange",
+   "role": "Exchange server (RDP; net stop/taskkill; batch script C$ failsafe encryption)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server (LockBit distributed via PDQ Deploy over SMB)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_1",
+   "role": "workstation (LockBit distributed via PDQ Deploy over SMB)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "email_exchange",
+   "value": 20,
+   "replicas": [
+    "srv_exchange"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "web_confluence",
+   "srv_backup"
+  ],
+  [
+   "web_confluence",
+   "files"
+  ],
+  [
+   "web_confluence",
+   "dc"
+  ],
+  [
+   "web_confluence",
+   "srv_exchange"
+  ],
+  [
+   "web_confluence",
+   "srv_1"
+  ],
+  [
+   "web_confluence",
+   "pc_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "web_confluence": 7
+   },
+   "description": "CVE-2023-22527 exploited on the Confluence server; discovery (net user/whoami); mshta Metasploit stager; AnyDesk installed with preset password.",
+   "techniques": {
+    "web_confluence": [
+     "T1190",
+     "T1059.001",
+     "T1219"
+    ]
+   },
+   "evidence": "'the exploitation of CVE-2023-22527, a critical remote code execution vulnerability in Confluence ... pivoted to using mshta to retrieve a remote HTA file containing a Metasploit stager ... download and install AnyDesk' - Confluence Exploit, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "web_confluence": 8,
+    "srv_backup": 8,
+    "files": 6,
+    "dc": 6
+   },
+   "description": "Mimikatz + netscan on beachhead; RDP to backup server (Veeam creds), file server (Rclone exfil to Mega), and DC (domain admin, admin enumeration).",
+   "techniques": {
+    "web_confluence": [
+     "T1003.001",
+     "T1046"
+    ],
+    "srv_backup": [
+     "T1021.001",
+     "T1003"
+    ],
+    "files": [
+     "T1021.001",
+     "T1567.002"
+    ],
+    "dc": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'executed a PowerShell script, Veeam-Get-Creds-New.ps1, to extract Veeam credentials ... deployed Rclone to exfiltrate data to MEGA.io ... pivoted to a domain controller via RDP using domain administrator credentials' - Confluence Exploit"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "srv_backup": 9,
+    "files": 9,
+    "srv_exchange": 9,
+    "web_confluence": 9,
+    "srv_1": 9,
+    "pc_1": 9,
+    "dc": 6
+   },
+   "description": "TTR 2h06m: LockBit run manually on backup+file servers, PDQ Deploy distributes the binary over SMB, and an Exchange batch script mounts remote C$ as a failsafe encryption wave.",
+   "techniques": {
+    "srv_backup": [
+     "T1486"
+    ],
+    "files": [
+     "T1486"
+    ],
+    "srv_exchange": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_1": [
+     "T1486"
+    ],
+    "web_confluence": [
+     "T1486"
+    ]
+   },
+   "evidence": "'manually executing the ransomware on a backup server and a file share server ... leveraged PDQ Deploy ... distributed the ransomware binary and a batch script to remote hosts over SMB ... mount remote systems' C$ shares, effectively enabling a secondary encryption wave' - Confluence Exploit"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "web_confluence",
+   "CVE-2023-22527 Confluence RCE -> Metasploit stager -> AnyDesk (T1190/T1219)"
+  ],
+  [
+   "web_confluence",
+   "srv_backup",
+   "RDP to backup server; Veeam-Get-Creds-New.ps1 (T1021.001/T1003)"
+  ],
+  [
+   "web_confluence",
+   "files",
+   "RDP to file server; Rclone exfiltration to Mega (T1021.001/T1567.002)"
+  ],
+  [
+   "web_confluence",
+   "dc",
+   "RDP to domain controller with domain admin creds (T1021.001)"
+  ],
+  [
+   "web_confluence",
+   "srv_1",
+   "PDQ Deploy distributes LockBit over SMB to remote hosts (T1072/T1486)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Remote hosts reached by PDQ Deploy modelled as srv_1/pc_1.",
+  "All RDP was from the beachhead per the report (links modelled accordingly).",
+  "Moments are the report's own timeline markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

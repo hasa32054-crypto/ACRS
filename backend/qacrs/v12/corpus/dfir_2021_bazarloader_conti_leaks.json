@@ -1,0 +1,177 @@
+{
+ "incident": "BazarLoader and the Conti Leaks (evicted before ransomware; exfil to Mega)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/10/04/bazarloader-and-the-conti-leaks/",
+ "sources": [
+  {
+   "title": "BazarLoader and the Conti Leaks - The DFIR Report (2021-10-04)",
+   "url": "https://thedfirreport.com/2021/10/04/bazarloader-and-the-conti-leaks/",
+   "what_it_gave": "entry (macro Word -> BazarLoader via rundll32), hops (beachhead->DC1 via RDP through CS reverse proxy, DC1->DC2, RDP to file servers), cred access (LSASS on beachhead, ntdsutil IFM + NtdsAudit on DC1), exfil (Rclone from file servers to Mega), impact (evicted before suspected Conti deployment - no encryption)"
+  }
+ ],
+ "narrative_before": "In a July 2021 intrusion the DFIR Report assessed initial access was a macro-enabled Word document delivering BazarLoader (executed via rundll32, injecting into svchost.exe) on a beachhead host. ~20 minutes in, a Cobalt Strike beacon loaded; the actors ran AdFind, Advanced IP Scanner and dumped LSASS (from searchindexer.exe) to get an administrator account, then set up a reverse proxy/RDP session. 'Many hours' later they moved laterally by RDP (through the Cobalt Strike reverse proxy) to the 'main domain controller', created sqlbackup/localadmin accounts, installed AnyDesk, ran Invoke-ShareFinder, and dumped domain hashes with an ntdsutil IFM backup plus NtdsAudit. They pivoted to a second domain controller (method not stated) and repeated discovery, then used RDP to reach file servers, staged data in a 'Shares' directory and exfiltrated it with Rclone to Mega.io. No ransomware was deployed: the actors were evicted 'before a final suspected ransomware deployment commenced' (Conti suspected from related cases).",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (BazarLoader via rundll32, Cobalt Strike, LSASS dump, RDP pivot)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "main domain controller (RDP; sqlbackup/localadmin, AnyDesk, ntdsutil IFM + NtdsAudit)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc_2",
+   "role": "second domain controller (pivot; discovery repeated, Invoke-ShareFinder)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "files",
+   "role": "file server (RDP; data staged in 'Shares' and exfiltrated via Rclone to Mega)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "files_2",
+   "role": "file server (RDP; data staged and exfiltrated via Rclone)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc",
+    "dc_2"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files",
+    "files_2"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "dc",
+   "dc_2"
+  ],
+  [
+   "pc_beachhead",
+   "files"
+  ],
+  [
+   "pc_beachhead",
+   "files_2"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 8
+   },
+   "description": "BazarLoader + Cobalt Strike on the beachhead; LSASS dumped (searchindexer.exe) to obtain an administrator account before first lateral move.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1071.001",
+     "T1003.001"
+    ]
+   },
+   "evidence": "'successfully escalated privileges by dumping credentials from the LSASS process ... The LSASS access came from a process named searchindexer.exe, just before lateral movement' - BazarLoader and the Conti Leaks, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 8,
+    "dc_2": 6
+   },
+   "description": "RDP via reverse proxy to the main DC (IFM ntds hash dump, local accounts, AnyDesk), then pivot to a second DC.",
+   "techniques": {
+    "dc": [
+     "T1021.001",
+     "T1003.003",
+     "T1136.001"
+    ],
+    "dc_2": [
+     "T1021.001"
+    ]
+   },
+   "evidence": "'move laterally for the first time to the Domain Controller using RDP ... They created an IFM backup with ntdsutil and dumped hashes with NtdsAudit ... pivoted over to another domain controller' - BazarLoader and the Conti Leaks"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 6,
+    "files_2": 6
+   },
+   "description": "RDP to file servers; data staged in a 'Shares' directory and exfiltrated via Rclone to Mega.io. Actors evicted before any ransomware deployment.",
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1567.002"
+    ],
+    "files_2": [
+     "T1021.001",
+     "T1567.002"
+    ]
+   },
+   "evidence": "'Operators used RDP to reach them, staged data in a Shares directory, and exfiltrated it ... exfiltrate the data to the Mega Fileshare service' - BazarLoader and the Conti Leaks"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "macro Word document delivers BazarLoader via rundll32 (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "RDP through Cobalt Strike reverse proxy to the main domain controller; ntds hash dump (T1021.001/T1003.003)"
+  ],
+  [
+   "dc",
+   "dc_2",
+   "pivot to a second domain controller, discovery repeated (T1021.001)"
+  ],
+  [
+   "pc_beachhead",
+   "files",
+   "RDP to file servers; Rclone exfiltration to Mega.io (T1021.001/T1567.002)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Number of file servers not stated (modelled as two).",
+  "Method of DC1->DC2 pivot not stated.",
+  "No ransomware was deployed (actors evicted); Conti only suspected from related cases - impact is exfiltration only.",
+  "Detection: researchers received a canary notification (file opened from 46.38.235.14); the report does not confirm this drove the eviction."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

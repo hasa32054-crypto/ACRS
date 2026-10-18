@@ -1,0 +1,204 @@
+{
+ "incident": "Sodinokibi (REvil) ransomware (IcedID malspam to domain-wide REvil in 4.5 hours)",
+ "year": 2021,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/",
+ "sources": [
+  {
+   "title": "Sodinokibi (aka REvil) Ransomware - The DFIR Report (2021-03-29)",
+   "url": "https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/",
+   "what_it_gave": "entry (xlsm macro -> wmic regsvr32 IcedID), hops (beacon to Exchange then pivot to DC/other servers over SMB + PowerShell service, RDP between systems), cred access (UAC bypass, lsass on server+DC), exfil (Rclone as svchost to network shares), impact (Sodinokibi staged on DC, BITSAdmin to each host, -smode Safe Mode reboot), 4.5h"
+  }
+ ],
+ "narrative_before": "In a March 2021 intrusion the DFIR Report observed malspam with an xlsm document whose macro called wmic to run regsvr32 against microsoft.security, downloading IcedID (posing as index.gif) which beaconed to 161.35.109[.]168. Persistence used a scheduled task. ~1.5h after entry IcedID pulled Cobalt Strike beacons from two C2 servers; lateral movement went first to an Exchange server, then pivoted to domain controllers and other systems over SMB and PowerShell beacons via remote service. AdFind and Ping discovery ran from the DC, credentials were dumped from LSASS on a server and a DC, UAC-bypass PowerShell escalated privileges, and RDP connections were established between systems. ~3.5h in, Rclone (masquerading as svchost) exfiltrated network-share contents for double extortion; a GPO named 'new' disabled Defender across OUs. At ~4h the actors staged Sodinokibi on a domain controller and used BITSAdmin to pull it to each system, executing with -smode (RunOnce keys + reboot into Safe Mode with Networking) or via rundll32; ~4.5h after entry all domain-joined systems were encrypted, with a ~$200k (Monero) demand.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (xlsm macro -> IcedID via regsvr32; Cobalt Strike; UAC bypass)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "srv_exchange",
+   "role": "Exchange server (first lateral target / pivot; no app interaction)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (AdFind/Ping discovery, LSASS dump, Sodinokibi staging)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_1",
+   "role": "server (LSASS dumped; encrypted)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (BITSAdmin download + -smode Safe Mode reboot encryption)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "pc_3",
+   "role": "workstation (BITSAdmin download + encryption)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "email_exchange",
+   "value": 20,
+   "replicas": [
+    "srv_exchange"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "srv_exchange"
+  ],
+  [
+   "srv_exchange",
+   "dc"
+  ],
+  [
+   "srv_exchange",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "pc_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "IcedID downloaded via xlsm macro/regsvr32 and beaconing; ~1.5h later Cobalt Strike beacons pulled from two C2 servers.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1566.001",
+     "T1204.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'malspam using an xlsm document which ... initiated a wmic command to execute the IcedID trojan ... the malware pulled down Cobalt Strike Beacons from 2 different command and control servers' - Sodinokibi (REvil), The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "srv_exchange": 6,
+    "dc": 8,
+    "srv_1": 8
+   },
+   "description": "Lateral to Exchange then pivot to DC and other servers over SMB/PowerShell beacons; LSASS dumped on a server and a DC; RDP established.",
+   "techniques": {
+    "srv_exchange": [
+     "T1021.002"
+    ],
+    "dc": [
+     "T1003.001",
+     "T1021.002"
+    ],
+    "srv_1": [
+     "T1003.001",
+     "T1021.001"
+    ]
+   },
+   "evidence": "'lateral movement began, first to an Exchange server, then pivoting to other servers ... the attackers moved to domain controllers and other systems ... credentials were dumped from lsass' - Sodinokibi (REvil)"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "srv_exchange": 9,
+    "pc_2": 9,
+    "pc_3": 9
+   },
+   "description": "~4h: Rclone exfil of shares; Sodinokibi staged on a DC and pushed via BITSAdmin to each host; -smode reboots into Safe Mode and all domain-joined systems encrypted by ~4.5h.",
+   "techniques": {
+    "dc": [
+     "T1486"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "srv_exchange": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ],
+    "pc_3": [
+     "T1486"
+    ]
+   },
+   "evidence": "'They staged the ransomware executable on a domain controller and then used BITSAdmin to download it to each system ... execute the Sodinokibi ransomware using a particular flag -smode ... reboot the system into Safe Mode with Networking' - Sodinokibi (REvil)"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "xlsm macro runs wmic -> regsvr32 IcedID (posing as index.gif) (T1566.001/T1204.002)"
+  ],
+  [
+   "pc_beachhead",
+   "srv_exchange",
+   "Cobalt Strike lateral movement to Exchange server used as a pivot (T1021.002)"
+  ],
+  [
+   "srv_exchange",
+   "dc",
+   "pivot from Exchange to domain controllers over SMB + PowerShell beacon via remote service (T1021.002)"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "Sodinokibi staged on the DC and pulled to each host via BITSAdmin, executed with -smode (T1486/T1490)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Generic domain-joined systems modelled as srv_1/pc_2/pc_3.",
+  "Rclone exfil content/volume not quantified.",
+  "Domain Administrator escalation stated generally; exact account not named.",
+  "Moments are the report's activity markers, not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

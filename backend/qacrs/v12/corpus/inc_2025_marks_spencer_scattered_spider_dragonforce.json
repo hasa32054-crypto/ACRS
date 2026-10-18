@@ -1,0 +1,184 @@
+{
+ "incident": "Marks & Spencer ransomware, April 2025: Scattered Spider steals the Windows domain NTDS.dit (~Feb 2025), moves laterally across the domain, and deploys DragonForce ransomware to VMware ESXi hosts on 24 April; contactless payments and online ordering disrupted",
+ "year": 2025,
+ "sector": "retail",
+ "case_url": "https://www.bleepingcomputer.com/news/security/marks-and-spencer-breach-linked-to-scattered-spider-ransomware-attack/",
+ "sources": [
+  {
+   "title": "BleepingComputer: Marks & Spencer breach linked to Scattered Spider ransomware attack (2025-04-28)",
+   "url": "https://bleepingcomputer.com/news/security/marks-and-spencer-breach-linked-to-scattered-spider-ransomware-attack",
+   "what_it_gave": "timeline (NTDS.dit stolen ~Feb 2025; lateral movement with cracked credentials; DragonForce encryptor on VMware ESXi hosts 24 April); disruption (contactless payments, online ordering paused); responders (CrowdStrike, Microsoft, Fenix24)"
+  },
+  {
+   "title": "The Times: M&S and Co-op cyberattackers 'tricked IT into resetting passwords' (2025-05-05)",
+   "url": "https://www.thetimes.com/uk/technology-uk/article/m-and-s-and-co-op-cyberattackers-tricked-it-into-resetting-passwords-rx5t08jdv",
+   "what_it_gave": "social-engineering vector: Scattered Spider tricked IT help desks into resetting passwords to gain access"
+  }
+ ],
+ "narrative_before": "Marks & Spencer suffered a ransomware attack disclosed in late April 2025 and attributed to the Scattered Spider actors using the DragonForce encryptor (BleepingComputer). The attackers are believed to have first breached M&S 'as early as February' 2025, when they reportedly stole the Windows domain's NTDS.dit file (containing password hashes that can be cracked offline); reporting on the parallel M&S/Co-op intrusions indicates Scattered Spider gained access by tricking IT help desks into resetting passwords (The Times). Using the cracked/obtained credentials, the attackers moved laterally across the Windows domain and stole data from network devices and servers. On 24 April the attackers deployed the DragonForce encryptor to VMware ESXi hosts, encrypting virtual machines. The attack caused widespread disruption including to contactless payments and online ordering (online orders were paused), and around 200 warehouse workers were told to stay home; M&S engaged CrowdStrike, Microsoft and Fenix24 to investigate and respond.",
+ "machines": [
+  {
+   "name": "pc_helpdesk_reset",
+   "role": "employee account obtained by social-engineering the IT help desk into a password reset (entry)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "Windows domain controller; NTDS.dit stolen (~Feb 2025), hashes cracked offline",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_1",
+   "role": "VMware ESXi host; DragonForce encryptor deployed 24 April, VMs encrypted",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_2",
+   "role": "VMware ESXi host; DragonForce encryptor deployed 24 April, VMs encrypted",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_esxi_3",
+   "role": "VMware ESXi host; DragonForce encryptor deployed 24 April, VMs encrypted",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  }
+ ],
+ "services": [
+  {
+   "name": "retail_ecommerce_and_payments_1",
+   "value": 25,
+   "replicas": [
+    "srv_esxi_1",
+    "srv_esxi_2"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "retail_ecommerce_and_payments_2",
+   "value": 25,
+   "replicas": [
+    "srv_esxi_3"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "active_directory_domain",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_helpdesk_reset",
+   "dc"
+  ],
+  [
+   "dc",
+   "srv_esxi_1"
+  ],
+  [
+   "dc",
+   "srv_esxi_2"
+  ],
+  [
+   "dc",
+   "srv_esxi_3"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_helpdesk_reset": 5,
+    "dc": 8
+   },
+   "techniques": {
+    "pc_helpdesk_reset": [
+     "T1566.004",
+     "T1078"
+    ],
+    "dc": [
+     "T1003.003"
+    ]
+   },
+   "description": "~February 2025: initial access (help-desk password reset) and theft of the domain NTDS.dit file for offline hash cracking.",
+   "evidence": "'believed to have first breached M&S as early as February, when they reportedly stole the Windows domain's NTDS.dit file'; help desks 'tricked... into resetting passwords' - BleepingComputer / The Times"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_helpdesk_reset": 5,
+    "dc": 8,
+    "srv_esxi_1": 9,
+    "srv_esxi_2": 9,
+    "srv_esxi_3": 9
+   },
+   "techniques": {
+    "srv_esxi_1": [
+     "T1486"
+    ],
+    "srv_esxi_2": [
+     "T1486"
+    ],
+    "srv_esxi_3": [
+     "T1486"
+    ]
+   },
+   "description": "24 April 2025: after lateral movement with cracked credentials, DragonForce encryptor deployed to VMware ESXi hosts; contactless payments and online ordering disrupted.",
+   "evidence": "'the attackers deployed the DragonForce encryptor to VMware ESXi hosts to encrypt virtual machines'; disruption 'including to its contactless payment system and online ordering' - BleepingComputer"
+  }
+ ],
+ "attack_path": [
+  [
+   "pc_helpdesk_reset",
+   "dc",
+   "Help-desk-reset credentials used to reach the domain controller and steal NTDS.dit; hashes cracked offline - T1078 / T1003.003"
+  ],
+  [
+   "dc",
+   "srv_esxi_1",
+   "Domain credentials used to move laterally and deploy the DragonForce encryptor to ESXi hosts - T1486"
+  ],
+  [
+   "dc",
+   "srv_esxi_2",
+   "DragonForce encryptor deployed to ESXi host - T1486"
+  ],
+  [
+   "dc",
+   "srv_esxi_3",
+   "DragonForce encryptor deployed to ESXi host - T1486"
+  ]
+ ],
+ "technique_chain": [
+  "T1566.004",
+  "T1078",
+  "T1003.003",
+  "T1486"
+ ],
+ "ambiguities": [
+  "Lateral-movement detail between NTDS.dit theft and ESXi encryption is summarized ('could move laterally across the Windows domain'); no intermediate hosts are named, so the path is modelled as help-desk account -> DC -> ESXi hosts.",
+  "The help-desk password-reset vector is reported for the combined M&S/Co-op intrusions (The Times); BleepingComputer did not itself confirm the M&S entry vector.",
+  "ESXi hosts modelled as 3 (generic group cap).",
+  "Much reporting relies on unnamed sources; M&S declined to confirm technical details."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}

@@ -1,0 +1,221 @@
+{
+ "incident": "Fake Zoom Ends in BlackSuit Ransomware (TTR ~194 hours / 9 days)",
+ "year": 2025,
+ "sector": "unknown",
+ "case_url": "https://thedfirreport.com/2025/03/31/fake-zoom-ends-in-blacksuit-ransomware/",
+ "sources": [
+  {
+   "title": "Fake Zoom Ends in BlackSuit Ransomware - The DFIR Report (2025-03-31)",
+   "url": "https://thedfirreport.com/2025/03/31/fake-zoom-ends-in-blacksuit-ransomware/",
+   "what_it_gave": "entry (fake Zoom installer -> d3f@ck/IDAT loader -> SectopRAT), hops (CS jump psexec_psh to DC + hosts, QDoor proxy RDP to file server + DC via DC/backup), cred access (LSASS via CS beacon), exfil (WinRAR to Bublup cloud ~934MB), impact (BlackSuit 123.exe via PsExec COPY.bat/EXE.bat + WMIC on DC), TTR ~194h"
+  }
+ ],
+ "narrative_before": "In a May 2024 intrusion the DFIR Report observed a fake Zoom website deliver an Inno Setup installer (d3f@ck loader) that pulled stages via a Steam Community page, ran the real Zoom installer as a decoy, and injected SectopRAT into MSBuild.exe (C2 IP from Pastebin); activity then ceased for eight days. On day nine SectopRAT spawned a Brute Ratel 'Badger' which ran discovery and launched a Cobalt Strike beacon (injected into dllhost, accessed LSASS). The actor moved laterally with Cobalt Strike jump psexec_psh, launching a PowerShell beacon on a domain controller and more hosts. On a DC and a backup server they dropped svhost.exe (QDoor proxy) and ran it via WMIC to tunnel RDP; using that tunnel they RDPed to a file share server (WinRAR archived shares), exfiltrated the archives to the Bublup SaaS cloud (~934MB), then RDPed to the first DC and fetched a RAR (123.exe/PsExec/comps[1-4].txt/COPY.bat/EXE.bat) from temp.sh. COPY.bat distributed BlackSuit (123.exe) via PsExec and EXE.bat executed it (vssadmin shadow deletion); the DC was encrypted last via WMIC. TTR was ~194 hours over nine days.",
+ "machines": [
+  {
+   "name": "pc_beachhead",
+   "role": "beachhead host (fake Zoom -> d3f@ck/IDAT -> SectopRAT; Brute Ratel; Cobalt Strike; LSASS)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  },
+  {
+   "name": "dc",
+   "role": "domain controller (CS PowerShell beacon; QDoor proxy; BlackSuit staging/deploy; encrypted via WMIC)",
+   "isolatable": true,
+   "critical": true,
+   "disruption": 4
+  },
+  {
+   "name": "srv_backup",
+   "role": "backup server (QDoor svhost.exe proxy via WMIC)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "files",
+   "role": "file share server (RDP via QDoor tunnel; WinRAR archive; Bublup exfil)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 3
+  },
+  {
+   "name": "srv_1",
+   "role": "server (Cobalt Strike beacon; BlackSuit via PsExec)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 2
+  },
+  {
+   "name": "pc_2",
+   "role": "workstation (BlackSuit 123.exe via PsExec COPY.bat/EXE.bat)",
+   "isolatable": true,
+   "critical": false,
+   "disruption": 1
+  }
+ ],
+ "services": [
+  {
+   "name": "active_directory",
+   "value": 20,
+   "replicas": [
+    "dc"
+   ],
+   "depends_on": []
+  },
+  {
+   "name": "file_shares",
+   "value": 20,
+   "replicas": [
+    "files"
+   ],
+   "depends_on": [
+    "dc"
+   ]
+  },
+  {
+   "name": "backups",
+   "value": 10,
+   "replicas": [
+    "srv_backup"
+   ],
+   "depends_on": []
+  }
+ ],
+ "links": [
+  [
+   "pc_beachhead",
+   "dc"
+  ],
+  [
+   "pc_beachhead",
+   "srv_1"
+  ],
+  [
+   "dc",
+   "srv_backup"
+  ],
+  [
+   "dc",
+   "files"
+  ],
+  [
+   "dc",
+   "pc_2"
+  ],
+  [
+   "dc",
+   "srv_1"
+  ]
+ ],
+ "detection_moments": [
+  {
+   "id": "m1",
+   "hacked": {
+    "pc_beachhead": 7
+   },
+   "description": "Fake Zoom installer -> d3f@ck/IDAT loader -> SectopRAT injected into MSBuild.exe; 8 days dormant.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1204.002",
+     "T1055",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'installing a malicious program created with Inno Setup ... resulted in the injection of SectopRAT into MSBuild.exe ... activity ceased for eight days' - Fake Zoom, The DFIR Report"
+  },
+  {
+   "id": "m2",
+   "hacked": {
+    "pc_beachhead": 8,
+    "dc": 6,
+    "srv_1": 7
+   },
+   "description": "Day 9: Brute Ratel + Cobalt Strike (LSASS); jump psexec_psh PowerShell beacon on a DC and more hosts; QDoor proxy dropped on DC and backup server.",
+   "techniques": {
+    "pc_beachhead": [
+     "T1003.001"
+    ],
+    "dc": [
+     "T1021.002",
+     "T1569.002"
+    ],
+    "srv_1": [
+     "T1021.002",
+     "T1071.001"
+    ]
+   },
+   "evidence": "'moving laterally using Cobalt Strike psexec_psh to launch a remote service for a PowerShell Cobalt beacon on a domain controller ... dropped a binary svhost.exe ... QDoor ... proxied RDP traffic' - Fake Zoom"
+  },
+  {
+   "id": "m3",
+   "hacked": {
+    "files": 6,
+    "srv_backup": 5
+   },
+   "description": "QDoor-tunneled RDP to a file share server; WinRAR archives shares and ~934MB exfiltrated to Bublup cloud.",
+   "techniques": {
+    "files": [
+     "T1021.001",
+     "T1567.002"
+    ],
+    "srv_backup": [
+     "T1090"
+    ]
+   },
+   "evidence": "'connected to a file share server where they used the Edge browser to download WinRAR ... exfiltrated these archives using the SaaS project management suite Bublup ... 934.38 MB was transferred' - Fake Zoom"
+  },
+  {
+   "id": "m4",
+   "hacked": {
+    "dc": 9,
+    "srv_1": 9,
+    "pc_2": 9
+   },
+   "description": "~194h: RAR with 123.exe/PsExec/COPY.bat/EXE.bat fetched to a DC; COPY.bat distributes BlackSuit via PsExec, EXE.bat runs it (vssadmin), DC encrypted via WMIC.",
+   "techniques": {
+    "dc": [
+     "T1486",
+     "T1490"
+    ],
+    "srv_1": [
+     "T1486"
+    ],
+    "pc_2": [
+     "T1486"
+    ]
+   },
+   "evidence": "'COPY.BAT ... distributed the BlackSuit ransomware payload named 123.exe to multiple remote hosts using PsExec ... used WMIC on their staging domain controller, to execute the ransomware a final time' - Fake Zoom"
+  }
+ ],
+ "attack_path": [
+  [
+   "",
+   "pc_beachhead",
+   "fake Zoom installer -> d3f@ck/IDAT loader -> SectopRAT into MSBuild.exe (T1204.002/T1055)"
+  ],
+  [
+   "pc_beachhead",
+   "dc",
+   "Cobalt Strike jump psexec_psh PowerShell beacon on a domain controller (T1021.002/T1569.002)"
+  ],
+  [
+   "dc",
+   "files",
+   "QDoor-tunneled RDP to file share server; WinRAR archive + Bublup exfil (T1021.001/T1567.002)"
+  ],
+  [
+   "dc",
+   "pc_2",
+   "COPY.bat/EXE.bat distribute and run BlackSuit via PsExec; DC encrypted via WMIC (T1486/T1490)"
+  ]
+ ],
+ "ambiguities": [
+  "Hosts named by role only; victim sector not stated. Remote hosts reached by PsExec modelled as srv_1/pc_2.",
+  "QDoor proxy dropped on a DC and a backup server; link dc->srv_backup models the proxy relationship.",
+  "Moments are the report's own timeline markers (loader, day-9 lateral, exfil, encryption), not a defender detection timeline."
+ ],
+ "dropped": false,
+ "drop_reason": ""
+}
