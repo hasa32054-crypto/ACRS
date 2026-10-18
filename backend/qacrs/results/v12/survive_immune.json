@@ -1,0 +1,529 @@
+{
+ "T8_survival": {
+  "solver_timeout": {
+   "n": 354,
+   "unsafe": 0,
+   "silent": 0,
+   "fallback_used": 354,
+   "median_ms": 200.9,
+   "max_ms": 306.7
+  },
+  "solver_crash": {
+   "n": 354,
+   "unsafe": 0,
+   "silent": 0,
+   "fallback_used": 354,
+   "median_ms": 0.4,
+   "max_ms": 1.9
+  },
+  "crash_restart": {
+   "n": 200,
+   "released_hosts": 0,
+   "audit_chain_broken": 0
+  },
+  "flood": {
+   "alerts": 1000,
+   "seconds": 0.7,
+   "unsafe": 0,
+   "isolated_at_end": 7,
+   "audit_ok": true,
+   "never_isolatable_isolated": []
+  },
+  "met": true
+ },
+ "D11_terminal_gate": {
+  "readmit_high_risk_refused": true,
+  "readmit_after_restore_ok": true,
+  "critical_needs_two": true,
+  "same_person_twice_refused": true,
+  "second_person_ok": true,
+  "unknown_host_refused": true,
+  "close_with_risk_refused": true,
+  "audit_ok": true,
+  "audit_tamper_detected": true,
+  "met": true
+ },
+ "T9_immunity": {
+  "summary": {
+   "n": 8,
+   "same_ok": 7,
+   "similar_ok": 6,
+   "dissimilar_identical": 4,
+   "dissimilar_n": 4,
+   "met": false
+  },
+  "rows": [
+   {
+    "incident": "01_bangladesh_bank_2016",
+    "fingerprint": {
+     "incident": "01_bangladesh_bank_2016",
+     "roles": [
+      "pc",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.002",
+      "T1021",
+      "T1078",
+      "T1543.003",
+      "T1565",
+      "T1071"
+     ],
+     "links": [
+      [
+       "pc_phish",
+       "srv_swift_alliance"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     0,
+     0
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_2",
+     "srv_swift_2"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "02_wannacry_nhs_2017",
+    "fingerprint": {
+     "incident": "02_wannacry_nhs_2017",
+     "roles": [
+      "web",
+      "pc",
+      "pc",
+      "dev"
+     ],
+     "techniques": [
+      "T1190",
+      "T1486",
+      "T1210",
+      "T1486",
+      "T1210",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_smb_entry",
+       "pc_1"
+      ],
+      [
+       "pc_1",
+       "pc_4"
+      ],
+      [
+       "pc_4",
+       "dev_mri_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_smb_entry",
+     "pc_6",
+     "pc_1",
+     "dev_pathology_1"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_5": 5,
+      "dev_mri_2": 7
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "03_notpetya_maersk_2017",
+    "fingerprint": {
+     "incident": "03_notpetya_maersk_2017",
+     "roles": [
+      "pc",
+      "dc",
+      "pc",
+      "srv",
+      "web"
+     ],
+     "techniques": [
+      "T1195.002",
+      "T1003.001",
+      "T1021.002",
+      "T1047",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1021.002",
+      "T1561.002",
+      "T1210",
+      "T1485",
+      "T1210",
+      "T1485"
+     ],
+     "links": [
+      [
+       "pc_odessa_medoc",
+       "dc"
+      ],
+      [
+       "dc",
+       "pc_cph_1"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_cph_5",
+     "dc_ghana",
+     "pc_cph_2",
+     "srv_4",
+     "web_booking"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "04_norsk_hydro_2019",
+    "fingerprint": {
+     "incident": "04_norsk_hydro_2019",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "pc"
+     ],
+     "techniques": [
+      "T1003)",
+      "T1486);"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "dc",
+       "srv_extruded_us"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_4",
+     "dc",
+     "srv_backup",
+     "pc_patient_zero"
+    ],
+    "similar_down_before_after": [
+     1,
+     1
+    ],
+    "similar_first_hop_isolated": false,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "web_www": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "05_duesseldorf_hospital_2020",
+    "fingerprint": {
+     "incident": "05_duesseldorf_hospital_2020",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1105)",
+      "T1486)"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "srv_loader"
+      ],
+      [
+       "srv_loader",
+       "srv_ransom_note"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     2,
+     2
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_citrix",
+     "srv_1",
+     "srv_6"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "06_colonial_pipeline_2021",
+    "fingerprint": {
+     "incident": "06_colonial_pipeline_2021",
+     "roles": [
+      "web",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078",
+      "T1021.001)"
+     ],
+     "links": [
+      [
+       "web_vpn",
+       "srv_it_1"
+      ],
+      [
+       "srv_it_1",
+       "srv_finance_1"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "srv"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     1,
+     1
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "web_vpn",
+     "srv_finance_1",
+     "srv_finance_3"
+    ],
+    "similar_down_before_after": [
+     0,
+     0
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": {
+     "hacked": {
+      "pc_1": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   },
+   {
+    "incident": "07_hse_conti_2021",
+    "fingerprint": {
+     "incident": "07_hse_conti_2021",
+     "roles": [
+      "pc",
+      "dc",
+      "srv",
+      "srv",
+      "srv",
+      "dc",
+      "srv",
+      "files",
+      "srv"
+     ],
+     "techniques": [
+      "T1566.001,",
+      "T1204.002",
+      "T1003,",
+      "T1087,",
+      "T1078.002",
+      "T1021,",
+      "T1071",
+      "T1078.002,",
+      "T1021",
+      "T1021",
+      "T1210,",
+      "T1003",
+      "T1021",
+      "T1083,",
+      "T1005,",
+      "T1048",
+      "T1486"
+     ],
+     "links": [
+      [
+       "pc_patient_zero",
+       "dc"
+      ],
+      [
+       "srv_hosp_c_1",
+       "dc_hosp_c"
+      ]
+     ],
+     "first_hop": [
+      "pc",
+      "dc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     3
+    ],
+    "same_ok": true,
+    "similar_path": [
+     "pc_hse_3",
+     "dc_hosp_c",
+     "srv_hosp_a",
+     "srv_mncms",
+     "srv_nimis",
+     "dc",
+     "srv_hse_5",
+     "files",
+     "srv_hosp_l"
+    ],
+    "similar_down_before_after": [
+     2,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": true,
+    "dissimilar": null
+   },
+   {
+    "incident": "08_change_healthcare_2024",
+    "fingerprint": {
+     "incident": "08_change_healthcare_2024",
+     "roles": [
+      "web",
+      "pc",
+      "srv",
+      "srv",
+      "srv"
+     ],
+     "techniques": [
+      "T1078,",
+      "T1133",
+      "T1021.001",
+      "T1021",
+      "T1021,",
+      "T1490",
+      "T1567,",
+      "T1486"
+     ],
+     "links": [
+      [
+       "web_citrix",
+       "pc_desktop_1"
+      ],
+      [
+       "pc_desktop_1",
+       "srv_core_1"
+      ],
+      [
+       "srv_core_1",
+       "srv_backup"
+      ]
+     ],
+     "first_hop": [
+      "web",
+      "pc"
+     ]
+    },
+    "same_first_hop_isolated_at_m1": true,
+    "same_down_before_after": [
+     3,
+     4
+    ],
+    "same_ok": false,
+    "similar_path": [
+     "web_citrix",
+     "pc_desktop_2",
+     "srv_cloud",
+     "srv_payments",
+     "srv_backup"
+    ],
+    "similar_down_before_after": [
+     1,
+     2
+    ],
+    "similar_first_hop_isolated": true,
+    "similar_ok": false,
+    "dissimilar": {
+     "hacked": {
+      "pc_laptop_3": 5
+     },
+     "identical_decision": true,
+     "healthy_isolated_after": []
+    }
+   }
+  ]
+ },
+ "meta": {
+  "n_items": 354,
+  "seconds": 76.9
+ }
+}

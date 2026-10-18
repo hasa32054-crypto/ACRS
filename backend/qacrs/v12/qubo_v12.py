@@ -105,6 +105,8 @@ def approve_all(net, sc, iso, seg, escalations):
 
 def decide_v12(net: Network, sc: Scenario, immunity=None, solver=H.solve) -> DecisionV12:
     t = time.perf_counter()
+    if immunity is not None:
+        net = immunity.network(net)          # shielded links cannot carry lateral movement
     fl = safety_floor(net, sc, immunity)
     s_iso, s_seg, how = solver(net, sc)
     iso = set(s_iso) | fl.isolate
