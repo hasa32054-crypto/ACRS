@@ -1,0 +1,40 @@
+{
+ "incident": "Irish Health Service Executive (HSE) — Conti ransomware (Wizard Spider), 14 May 2021",
+ "year": 2021,
+ "sector": "health",
+ "sources": [
+  {
+   "title": "PwC, Conti cyber attack on the HSE — Independent Post Incident Review (full report, Dec 2021)",
+   "url": "https://www.hse.ie/eng/services/publications/conti-cyber-attack-on-the-hse-full-report.pdf",
+   "what_it_gave": "entry point (16/18 March phishing Excel on Patient Zero workstation), 23 March persistence, 31 March AV in monitor mode, 7 May first HSE server compromise + AD recon + highly privileged accounts, 8-12 May six voluntary + one statutory hospital compromised, 10 May Hospital C DC alert, 12 May Hospital A alert, 13 May AV vendor email (16 systems), 14 May 01:00 execution / 02:50 reports / 04:36 encryption identified in data centre, services lost (NIMIS, labs, radiotherapy, MN-CMS, iPMS), 80% encrypted, 1,075/1,087 apps recovered by 21 Sep"
+  },
+  {
+   "title": "KrebsOnSecurity, Inside Ireland's Public Healthcare Ransomware Scare (13 Dec 2021, summarising PwC)",
+   "url": "https://krebsonsecurity.com/2021/12/inside-irelands-public-healthcare-ransomware-scare/",
+   "what_it_gave": "31 March Cobalt Strike + Mimikatz detected on Patient Zero but not blocked; 7 May attacker compromised HSE servers; 10 May Hospital C AV detected Cobalt Strike on two systems, evidence at Hospital C and Hospital L; 13 May vendor email 'at least 16 systems' since 7 May; $20m demand; 30,000+ Windows 7 workstations"
+  },
+  {
+   "title": "HHS HC3, Lessons learned from the HSE cyber attack (summary of PwC review)",
+   "url": "https://www.hhs.gov/sites/default/files/lessons-learned-hse-attack.pdf",
+   "what_it_gave": "7 May antivirus flagged Cobalt Strike on six servers, 'alerts were not appropriately actioned'; two voluntary hospitals saw suspicious activity before execution; ~80% of environment encrypted; ~700 GB exfiltrated; Exchange encrypted; National Healthcare Network disconnected"
+  },
+  {
+   "title": "The Register, Irish health service's Conti ransomware report (10 Dec 2021)",
+   "url": "https://www.theregister.com/2021/12/10/ireland_health_conti_ransomware_attack_report/",
+   "what_it_gave": "Hospital A reset 4,500 passwords after activating IR plan; 'exploited an unpatched known vulnerability' to reach a hospital AD domain; HSE wrongly concluded activity originated from Hospital A"
+  },
+  {
+   "title": "Irish Times, Cyberattack: HSE faces final bill of at least €100m (27 May 2021, HSE CEO briefing)",
+   "url": "https://www.irishtimes.com/news/health/cyberattack-will-cost-hse-at-least-100-million-to-restore-and-upgrade-network-1.4577076",
+   "what_it_gave": "HSE statements on impact: ~80,000 devices, NIMIS at 24 of 64 sites, 16 of 44 labs offline, ~7,000 appointments/day cancelled, cost >= EUR 100m"
+  }
+ ],
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [],
+ "dropped": false,
+ "drop_reason": ""
+}

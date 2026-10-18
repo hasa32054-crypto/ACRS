@@ -17,13 +17,15 @@ All containment figures are **given an alert** (D10). The open corpus was conver
 | T6 | Monotonicity in 100 % of multi-moment incidents | 502/502 | **yes** |
 | T7 | Scale: median ≤ 2 s at 1,000 machines, 0 unsafe | 1,000 machines: median **2.2 ms**, p95 9.2 ms, max 25.7 ms, 0 unsafe, 50/50 auto | **yes** |
 | T8 | Survival: 0 unsafe and 0 released hosts under solver timeout / crash / restart / flood | timeout 354/354 fallback, 0 unsafe, ≤ 307 ms; crash 354/354, 0 unsafe; 200 restarts, 0 released, audit chain intact; 1,000-alert flood 0 unsafe | **yes** |
-| T9 | Immunity: same attack ≤ before in 8/8; similar ≥ 6/8; dissimilar identical in 8/8 | same **7/8**, similar 6/8, dissimilar 4/4 (4 incidents had no dissimilar variant) | **no** (same 7/8) |
-| T10 | ML-DSA: 1,000/1,000 tamperings rejected; sign + verify median ≤ 50 ms | **1,000/1,000 rejected**; median **97.6 ms** (pure-Python library) | **partial** (timing) |
+| T9 | Immunity: same attack ≤ before in 8/8; similar ≥ 6/8; dissimilar identical in 8/8 | v12 rule: same **7/8**, similar 6/8, dissimilar 4/4 → **no**. **v13 rule** (pre-registered after, `PREREGISTRATION_v13.md`): same **8/8**, similar 8/8, dissimilar 4/4; corpus same-attack replay **0/75 worse** (v12 rule: 2/75) | v12 **no** · v13 **yes** |
+| T10 | ML-DSA: 1,000/1,000 tamperings rejected; sign + verify median ≤ 50 ms | **1,000/1,000 rejected**; ML-DSA-65 median 71–98 ms (pure Python); parameter sweep on the same payload: **ML-DSA-44 39.6 ms (meets)**, 65 71.4 ms, 87 107 ms | **partial** (timing; 44 meets, 65 shipped) |
 | T11 | Sensitivity ±50 % on real16: published | ×0.5 unchanged 12/16 (v9: 8/16); ×1.5 14/16 | published |
 | D11 | Terminal gate mechanics | 9/9 checks (high-risk readmit refused, two-person on critical, same person twice refused, tamper detected) | **yes** |
 | D8 | Kernel: twin agreement 100 %; 0 probe through an isolated host | 66/66 model = measured (16 real + 50 realistic); 0 leaks; twin 50/50 healthy committed, 50/50 faulty aborted; median 10 ms decision→first blocked attempt | **yes** |
 
-Two targets not met, both published: T9 (one incident) and T10's timing clause.
+Two targets not met under v12 rules, both published: T9 (one incident; closed by the v13 refinement, pre-registered separately and re-run) and T10's timing clause (ML-DSA-65 in pure Python; ML-DSA-44 meets it; the shipped default stays 65 for security category 3).
+
+**Closed after publication (each pre-registered or unit-tested, nothing re-tuned):** v13 immunity rule (§4); ML-DSA parameter sweep (§6); **determinism** of v12 across processes with different `PYTHONHASHSEED` (`tests/test_v12.py`, 3 seeds × 16 real moments identical — the v9 limiter's set-order dependence does not exist in v12); kernel segmentation semantics (§5); a **blind-converter pack** for a human converter (`docs/qacrs/blind_converter_pack/`) — the one weakness only a person can close.
 
 ## 2. How it was / how it is — the five policies on identical scenarios
 
@@ -113,8 +115,13 @@ timeline markers stand in for defender detection moments.
   Healthcare, where the first hop is the Citrix portal that is itself a service replica, so isolating it at hop 1 costs
   the remote-access service (3 → 4). **Similar** attack (same technique chain, relabelled hosts): 6/8. **Dissimilar**
   attack: decision identical to the un-immunised engine in 4/4 (no over-blocking); 4 incidents had no generable
-  dissimilar variant. T9 is **not met** as written; immunity ships **off by default** per the pre-registration, with the
-  refinement "do not first-hop-isolate a service replica — segment it" left for a v13 pre-registration.
+  dissimilar variant. T9 is **not met** as written under the v12 rule. The refinement was then pre-registered as **v13** (`PREREGISTRATION_v13.md`,
+  committed alone) and run once (`phase19_v13.py` → `results/v13/immunity_v13.json`): a matched first-hop host is isolated
+  only if that costs no live service; otherwise shields only. Result: same attack ≤ before **8/8** (first hop isolated 7/8;
+  Change Healthcare deliberately shields instead), similar 8/8, dissimilar 4/4; on the 75-case corpus the same-attack
+  replay is worse in **0/75** (v12 rule: 2/75 — Target 2013, Equifax 2017). Honest reading: immunity buys **earlier**
+  action (27/75 corpus first hops isolated at once) and never costs a service; it does not reduce services down at
+  the detonation moment, because v12 already contains there. With v13 immunity can ship **on**.
 
 ## 5. Kernel (sandbox_v12)
 

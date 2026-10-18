@@ -17,6 +17,7 @@ from qacrs.v12 import immunity as IM
 from qacrs.v12 import qubo_v12 as Q
 from qacrs.v12 import realism_v12 as R
 from qacrs.v12 import recover as RC
+from qacrs.network import Scenario
 
 OUT = Path(__file__).parent.parent / "results" / "v12"
 
@@ -151,7 +152,7 @@ def path_of(d: dict) -> list[str]:
     return path
 
 
-def immunity(real) -> dict:
+def immunity(real, v13: bool = False) -> dict:
     rng = random.Random(12015)
     rows = []
     for stem, net, scs, d in real:
@@ -161,7 +162,7 @@ def immunity(real) -> dict:
         tech = [t for hop in d.get("attack_path", []) for t in hop[2].split() if t.startswith("T1")] if d.get("attack_path") else []
         first, last = scs[0], scs[-1]
         before = {k: Q.evaluate_policy(net, s, "v12") for k, s in (("first", first), ("last", last))}
-        im = IM.Immunity(); fp = im.learn(net, path, tech, stem)
+        im = IM.Immunity(v13=v13); fp = im.learn(net, path, tech, stem)
         after_same = {k: Q.evaluate_policy(net, s, "v12", im) for k, s in (("first", first), ("last", last))}
         sim, spath = similar_scenario(net, last, path, rng)
         sim_before = Q.evaluate_policy(net, sim, "v12"); sim_after = Q.evaluate_policy(net, sim, "v12", im)

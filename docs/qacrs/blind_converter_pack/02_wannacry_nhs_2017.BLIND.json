@@ -1,0 +1,45 @@
+{
+ "incident": "WannaCry ransomware on NHS England (modelled as one representative infected acute trust), 12 May 2017",
+ "year": 2017,
+ "sector": "health",
+ "sources": [
+  {
+   "title": "NAO - Investigation: WannaCry cyber attack and the NHS, HC 414 (full report PDF, 27 Oct 2017)",
+   "url": "https://nao.org.uk/wp-content/uploads/2017/10/Investigation-WannaCry-cyber-attack-and-the-NHS.pdf",
+   "what_it_gave": "entry (internet-facing firewalls / N3, unpatched Windows 7), hop (automatic spread via Windows file-sharing weakness, para 2.9), impact (34 trusts locked out, 46 disrupted, 603 other orgs/595 GP practices, 6,912 confirmed / 19,494 estimated cancellations, 5 A&E diverts, 1,220 infected diagnostic devices incl. MRI), detection timeline (late morning first reports, 13:06 EPRR notified, 16:00 major incident, 18:45 NHS England leads, evening kill-switch), CareCERT alerts 17 Mar and 28 Apr"
+  },
+  {
+   "title": "NAO - Investigation: WannaCry cyber attack and the NHS (web summary)",
+   "url": "https://www.nao.org.uk/reports/investigation-wannacry-cyber-attack-and-the-nhs/",
+   "what_it_gave": "80+ of 236 trusts, 603 primary-care orgs, no ransom paid, no patient data stolen, 'could have been prevented by basic IT security best practice'"
+  },
+  {
+   "title": "Computing - NHS could have avoided WannaCry simply by patching Windows 7 or securing firewalls, claims NAO",
+   "url": "https://www.computing.co.uk/news/3019954/nhs-could-have-avoided-wannacry-simply-by-patching-windows-7-or-securing-their-firewalls-claims-nao",
+   "what_it_gave": "all infected orgs had unpatched/unsupported Windows; spread via internet incl. N3; no spread via NHSmail; 39 CareCERT alerts"
+  },
+  {
+   "title": "National Health Executive - WannaCry cyber-attack cost the NHS £92m after 19,000 appointments were cancelled (DHSC lessons-learned, Feb 2018)",
+   "url": "https://www.nationalhealthexecutive.com/News/wannacry-cyber-attack-cost-the-nhs-92m-after-19000-appointments-were-cancelled/213511",
+   "what_it_gave": "DHSC cost estimate £92m (£20m lost output during attack, £72m IT restoration), 1% of NHS care disrupted, 8% of GP practices"
+  },
+  {
+   "title": "CISA / US-CERT - Alert TA17-181A (Petya) - for MS17-010 context only",
+   "url": "https://cisa.gov/ncas/alerts/TA17-181A",
+   "what_it_gave": "MS17-010 released 14 March 2017 fixes EternalBlue/EternalRomance SMBv1 exploits used by WannaCry and NotPetya"
+  },
+  {
+   "title": "NCSC - UK supports US charges against North Korean cyber actors",
+   "url": "https://www.ncsc.gov.uk/news/uk-supports-us-charges-against-north-korean-cyber-actors",
+   "what_it_gave": "attribution of WannaCry to the North Korean (Lazarus) actor"
+  }
+ ],
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [],
+ "dropped": false,
+ "drop_reason": ""
+}

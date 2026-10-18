@@ -1,0 +1,50 @@
+{
+ "incident": "Colonial Pipeline - DarkSide ransomware (intrusion 29 April, ransom note 7 May 2021)",
+ "year": 2021,
+ "sector": "energy",
+ "sources": [
+  {
+   "title": "Joseph Blount, written testimony, U.S. Senate Committee on Homeland Security and Governmental Affairs, 8 June 2021",
+   "url": "https://www.hsgac.senate.gov/imo/media/doc/Testimony-Blount-2021-06-08.pdf",
+   "what_it_gave": "detection ('just before 5:00 AM EDT' on 7 May an employee 'identified the ransom note on a system in the IT network'); Operations Supervisor at Control Center issued stop-work order, shutdown began ~5:55, all 5,500 miles confirmed shut by 6:10 AM EDT to keep malware off the OT network; entry via 'legacy VPN profile that was not intended to be in use'; Mandiant retained; restart evening 12 May; 950 employees, 29 refineries, 260 delivery points, 13 states"
+  },
+  {
+   "title": "CISA/FBI Joint Advisory AA21-131A: DarkSide Ransomware: Best Practices for Preventing Business Disruption",
+   "url": "https://www.cisa.gov/ncas/alerts/aa21-131a",
+   "what_it_gave": "DarkSide deployed against the pipeline company's IT network; no indication OT was directly affected; company proactively disconnected certain OT systems; DarkSide initial access via phishing / remotely accessible accounts and systems / VDI (T1566, T1190, T1133); Cobalt Strike C2, RDP persistence, T1486"
+  },
+  {
+   "title": "Dark Reading (9 Jun 2021): Colonial Pipeline CEO: Ransomware Attack Started via Pilfered 'Legacy' VPN Account",
+   "url": "https://www.darkreading.com/cyberattacks-data-breaches/colonial-pipeline-ceo-ransomware-attack-started-via-pilfered-legacy-vpn-account",
+   "what_it_gave": "VPN account had only single-factor authentication; complex password; ransom note found on IT network at 5:00 a.m. ET 7 May; legacy VPN profile shut down; DOJ seized 63.7 BTC (~USD 2.3m) of the payment"
+  },
+  {
+   "title": "The Hacker News / Bloomberg (Mandiant, Charles Carmakal): Hackers Breached Colonial Pipeline Using Compromised VPN Password",
+   "url": "https://thehackernews.com/2021/06/hackers-breached-colonial-pipeline.html",
+   "what_it_gave": "VPN account unused but active, no MFA; password later found in a dark-web batch of leaked passwords; first foothold 29 April 2021; ~100 GB stolen; USD 4.4m ransom paid; operations halted nearly a week"
+  },
+  {
+   "title": "The Stack: How the Colonial Pipeline hack happened (Mandiant findings)",
+   "url": "https://www.thestack.technology/how-the-colonial-pipeline-hack-happened/",
+   "what_it_gave": "Mandiant saw no attacker activity before 29 April; no evidence of phishing against the account owner; Carmakal: attackers did not move from the IT network to the OT network; no CISO at the time"
+  },
+  {
+   "title": "BNN Bloomberg (9 May 2021): Colonial hackers stole data Thursday ahead of pipeline shutdown",
+   "url": "https://www.bnnbloomberg.ca/colonial-hackers-stole-data-thursday-ahead-of-pipeline-shutdown-1.1601037",
+   "what_it_gave": "about 100 GB exfiltrated from the network in roughly two hours on Thursday 6 May, then computers encrypted; double extortion; Mandiant assisting"
+  },
+  {
+   "title": "BankInfoSecurity: Colonial CEO at Senate Hearing Details Ransomware Attack",
+   "url": "https://www.bankinfosecurity.net/colonial-ceo-at-senate-hearing-details-ransomware-attack-a-16836",
+   "what_it_gave": "legacy VPN 'essentially invisible' to IT, no MFA; decision to pay 7 May, payment 8 May; seven finance systems back online 8 June; FBI contacted the morning of the attack"
+  }
+ ],
+ "machines": [],
+ "services": [],
+ "links": [],
+ "detection_moments": [],
+ "attack_path": [],
+ "ambiguities": [],
+ "dropped": false,
+ "drop_reason": ""
+}

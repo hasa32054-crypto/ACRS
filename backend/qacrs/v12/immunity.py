@@ -66,20 +66,35 @@ class Immunity:
         n.links = [l for l in net.links if tuple(l) not in self.shields]
         return n
 
+    v13: bool = False                      # PREREGISTRATION_v13.md: skip first-hop isolation when it costs a live service
+
     def first_hop_actions(self, net: Network, sc: Scenario) -> dict[str, str]:
-        """Hosts to isolate at once because the alert matches a known first hop (role + link shape)."""
+        """Hosts to isolate at once because the alert matches a known first hop (role + link shape).
+
+        v13 (D13-v13): a matched host is isolated only if isolating it takes no service down that is currently up;
+        otherwise immunity leaves it to the ordinary floor/solver/gate (its path links are shielded anyway)."""
         out = {}
         succ: dict[str, set[str]] = {}
         for a, b in net.links:
             succ.setdefault(a, set()).add(b)
+        hacked = set(sc.hacked)
         for h in sc.hacked:
             r = role_key(net, h)
             next_roles = {role_key(net, b) for b in succ.get(h, set())}
             for fp in self.fingerprints:
                 if fp.first_hop[0] == r and (not fp.first_hop[1] or fp.first_hop[1] in next_roles):
+                    if self.v13 and self._isolation_costs_live_service(net, h, hacked):
+                        break                                   # shields only; no isolation by immunity
                     out[h] = f"matches first hop of '{fp.incident}' ({r} -> {fp.first_hop[1]}) -> isolate at once"
                     break
         return out
+
+    @staticmethod
+    def _isolation_costs_live_service(net: Network, h: str, hacked: set[str]) -> bool:
+        from qacrs import qubo_v7 as V7
+        before = set(V7.services_down_v7(net, set(), set(), hacked))
+        after = set(V7.services_down_v7(net, {h}, set(), hacked))
+        return bool(after - before)
 
     def as_dict(self) -> dict:
         return {"fingerprints": [f.as_dict() for f in self.fingerprints], "shields": sorted(map(list, self.shields))}

@@ -128,11 +128,22 @@ def main() -> None:
         if ok: accepted.append({"scenario": sc.id, "kind": kind})
         else: rejected[kind][0] += 1
     med = lambda v: sorted(v)[len(v) // 2]  # noqa: E731
+    # parameter-set sweep on the same certificate payload (pure Python): which sets meet the <= 50 ms clause
+    from dilithium_py.ml_dsa import ML_DSA_44, ML_DSA_87
+    sweep = {}
+    payload = canonical({"certificate": base[0][2]["certificate"], "risk_table_hash": RM.table_hash(), "alg": "x", "hmac": "0" * 64})
+    for name, M in (("ML-DSA-44", ML_DSA_44), ("ML-DSA-65", ML_DSA_65), ("ML-DSA-87", ML_DSA_87)):
+        pk2, sk2 = M.keygen(); ts = []
+        for _ in range(15):
+            t = time.perf_counter(); s2 = M.sign(sk2, payload); M.verify(pk2, payload, s2); ts.append(1000 * (time.perf_counter() - t))
+        sweep[name] = {"sign_plus_verify_ms_median": round(med(ts), 1), "sig_bytes": len(s2), "meets_50ms": med(ts) <= 50}
     res = {"alg": ALG, "library": "dilithium-py (MIT) vendored, commit 23cb5ee9", "n_certificates": len(base),
            "sign_ms_median": round(med(t_sign), 2), "verify_ms_median": round(med(t_verify), 2),
            "sign_plus_verify_ms_median": round(med([a + b for a, b in zip(t_sign, t_verify)]), 2),
            "sig_bytes": len(bytes.fromhex(base[0][2]["sig"])), "pk_bytes": len(pk),
            "tamperings": 1000, "rejected_by_kind": rejected, "accepted_tamperings": accepted,
+           "parameter_set_sweep": sweep,
+           "timing_note": "ML-DSA-65 stays the shipped default (NIST category 3); ML-DSA-44 meets the 50 ms clause in pure Python; a C implementation (liboqs) signs+verifies ML-DSA-65 in well under 1 ms but was not installable from this session.",
            "v9_checker_rejects_genuine_certificate": checker_rejects,
            "v9_observation": "On real incidents the locked v9 solver can place a critical server in the automatic "
                              "isolate set (gate: PENDING two-person), and the v9 rate limiter (3 automatic isolations "
