@@ -3,7 +3,7 @@
 exec(open('make.py').read().split('rows1=')[0])   # reuse HEAD + colours
 W=1100; H=560
 s=f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}"><rect width="{W}" height="{H}" fill="{BG}"/>'
-s+=f'<text x="{W-20}" y="34" direction="rtl" text-anchor="start" font-size="21" font-weight="600" fill="{INK}">شكل 3: الرسم الهندسي لـ ACRS — المكوّنات، الواجهات، وما يُقاس عند كل واجهة</text>'
+s+=f'<text x="{W-20}" y="34" direction="rtl" text-anchor="start" font-size="21" font-weight="600" fill="{INK}">شكل 1: الرسم الهندسي لـ ACRS — المكوّنات، الواجهات، وما يُقاس عند كل واجهة</text>'
 def box(x,y,w,h,title,sub,hl=False):
     global s
     s+=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="{"#EAF1FD" if hl else "#F4F5F5"}" stroke="{BLUE if hl else GRAY}" stroke-width="{2 if hl else 1.2}"/>'
