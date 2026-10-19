@@ -15,7 +15,7 @@ All containment figures are **given an alert** (D10). The open corpus was conver
 | T4 | Guard: 0 burst flags on the 4 real detonations; ≥ 90 % of phase-10 naive injections still flagged | **0/4** (v9: 4/4); naive 398/500 vs v9 406/500 = 98 % of v9; path-aware 158 vs v9 61 | **yes** |
 | T5 | Regression on v9 fresh sets: containment ≥ v9 and services down ≤ v9 | chains 253/253 vs 248, down 6 vs 9; random 392/412 vs 390, down 22 vs 24 | **yes** |
 | T6 | Monotonicity in 100 % of multi-moment incidents | 502/502 | **yes** |
-| T7 | Scale: median ≤ 2 s at 1,000 machines, 0 unsafe | 1,000 machines: median **2.2 ms**, p95 9.2 ms, max 25.7 ms, 0 unsafe, 50/50 auto | **yes** |
+| T7 | Scale: median ≤ 2 s at 1,000 machines, 0 unsafe | 1,000 machines: median **2.3 ms**, p95 9.8 ms, max 26.5 ms (final run; an earlier run gave 2.2 / 9.2), 0 unsafe, 50/50 auto | **yes** |
 | T8 | Survival: 0 unsafe and 0 released hosts under solver timeout / crash / restart / flood | timeout 354/354 fallback, 0 unsafe, ≤ 307 ms; crash 354/354, 0 unsafe; 200 restarts, 0 released, audit chain intact; 1,000-alert flood 0 unsafe | **yes** |
 | T9 | Immunity: same attack ≤ before in 8/8; similar ≥ 6/8; dissimilar identical in 8/8 | v12 rule: same **7/8**, similar 6/8, dissimilar 4/4 → **no**. **v13 rule** (pre-registered after, `PREREGISTRATION_v13.md`): same **8/8**, similar 8/8, dissimilar 4/4; corpus same-attack replay **0/75 worse** (v12 rule: 2/75) | v12 **no** · v13 **yes** |
 | T10 | ML-DSA: 1,000/1,000 tamperings rejected; sign + verify median ≤ 50 ms | **1,000/1,000 rejected**; ML-DSA-65 median 71–98 ms (pure Python); parameter sweep on the same payload: **ML-DSA-44 39.6 ms (meets)**, 65 71.4 ms, 87 107 ms | **partial** (timing; 44 meets, 65 shipped) |
@@ -33,7 +33,7 @@ Primary metric: services down **after every escalation is approved as written** 
 
 | Set (n) | v12 | locked v9 | `rule_segment` | Wazuh-style AR | full isolation |
 |---|---|---|---|---|---|
-| **Real incidents 2016–2024** (16 moments) — auto contained | **16/16** | 5/16 | 16/16 | 16/16 | 16/16 |
+| **Real incidents 2016–2024** (16 moments; in-sample — the v12 floor was designed after v11-pilot saw them) — auto contained | **16/16** | 5/16 | 16/16 | 16/16 | 16/16 |
 | — services down after approvals | **19** | 24 | 21 | 42 | 42 |
 | — fewer than full isolation (pool 14) | **11** | 9 | 10 | 0 | — |
 | **Realistic generator** (894 moments, 3 sectors, never-isolate 0–30 %) — auto | **883** (99 %) | 780 (87 %) | 894 | 882 | 894 |
@@ -127,7 +127,7 @@ timeline markers stand in for defender detection moments.
 
 Real iptables on loopback, own chains, one atomic restore per decision. 16 real + 50 realistic detonations:
 **66/66** model = measured, **0** probes through an isolated host, 1,693 probe checks; decision → first blocked
-attacker attempt median **10 ms**, p95 118 ms. Twin: 50/50 healthy plans committed, 50/50 sabotaged plans aborted
+attacker attempt median **10 ms**, p95 **118 ms** — above the v9 target of < 50 ms (met on synthetic data: 41 ms); published as a miss on real incidents. Twin: 50/50 healthy plans committed, 50/50 sabotaged plans aborted
 (all caught at structure check), precheck median 11 ms.
 Engineering finding from the first kernel run (23/66 mismatches): segmenting a *healthy* critical neighbour
 (Amendment 1d) with a stateless `DROP hacked→server` also drops the replies to connections the healthy server opens
@@ -161,7 +161,7 @@ v12 decides without the limiter and orders deterministically.
 الحارس يكذّب 4 هجمات حقيقية، والأوزان تقلب القرار في 8/16.
 **صار (v12، نفس الحوادث، نفس البوابة المقفولة، نفس الثوابت):** **100%** احتواء آلي، **19** خدمة متوقفة (أقل من القاعدة 21 ومن
 العزل الكامل 42)، 0 غير آمن، 0 صامت، الحارس 0/4 إنذار كاذب مع كشف أفضل 2.6× للحقن الذكي، الاستقرار 12/16، اتساق زمني
-502/502، 1,000 جهاز في 2.2 ms، ارتداد آمن عند قتل المُحسِّن 354/354، 200 إعادة تشغيل بلا إطلاق أي جهاز، طرفية إنعاش كل
+502/502، 1,000 جهاز في 2.3 ms، ارتداد آمن عند قتل المُحسِّن 354/354، 200 إعادة تشغيل بلا إطلاق أي جهاز، طرفية إنعاش كل
 أمر فيها يمر على البوابة 9/9، المناعة 7/8 (نُشر الفشل، وتُشحن مطفأة افتراضيًا)، ML-DSA يرفض 1,000/1,000 تلاعب لكن أبطأ
 من الهدف، والنواة الحقيقية 66/66 بصفر تسريب. وعلى 894 سيناريو واقعي: v12 114 خدمة مقابل القاعدة 131 وv9 165 ونمط Wazuh 890
 مع 12 قرارًا غير آمن. الجملة الصادقة: **أرضية أمان + مُحسِّن < قاعدة بسيطة < عزل كامل** — والمُحسِّن وحده بدون الأرضية ما كان
