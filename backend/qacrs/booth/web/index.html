@@ -10,18 +10,27 @@
 <script src="app.js" defer></script>
 </head>
 <body>
+<div class="boot" id="boot" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <div class="boot-mark"><span class="boot-word">ACRS</span><span class="boot-sub">Automated Compromise Response System</span></div>
+    <ol class="boot-lines" id="bootLines"></ol>
+    <div class="boot-bar"><span id="bootBar"></span></div>
+    <p class="boot-skip" id="bootSkip"></p>
+  </div>
+</div>
 <a class="sr-only" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
 <header class="top">
-  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en">v9</span></div>
+  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span></div>
   <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
-    <button class="tab" role="tab" data-view="break" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.break">اكسره</span></button>
-    <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.twin">مستشفيان</span></button>
-    <button class="tab" role="tab" data-view="judge" aria-selected="false"><span class="tab-n">3</span><span data-i18n="tab.judge">أنت ضد الآلة</span></button>
-    <button class="tab" role="tab" data-view="ransom" aria-selected="false"><span class="tab-n">4</span><span data-i18n="tab.ransom">الفدية</span></button>
-    <button class="tab" role="tab" data-view="quantum" aria-selected="false"><span class="tab-n">5</span><span data-i18n="tab.quantum">الحاسوب الكمّي</span></button>
-    <button class="tab" role="tab" data-view="verify" aria-selected="false"><span class="tab-n">6</span><span data-i18n="tab.verify">تحقّق بنفسك</span></button>
-    <button class="tab" role="tab" data-view="memory" aria-selected="false"><span class="tab-n">7</span><span data-i18n="tab.memory">ذاكرة الهجمات</span></button>
-    <button class="tab" role="tab" data-view="story" aria-selected="false"><span class="tab-n">8</span><span data-i18n="tab.story">القصة والأدلة</span></button>
+    <button class="tab" role="tab" data-view="real" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.real">حوادث حقيقية</span></button>
+    <button class="tab" role="tab" data-view="break" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.break">اكسره</span></button>
+    <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">3</span><span data-i18n="tab.twin">مستشفيان</span></button>
+    <button class="tab" role="tab" data-view="judge" aria-selected="false"><span class="tab-n">4</span><span data-i18n="tab.judge">أنت ضد الآلة</span></button>
+    <button class="tab" role="tab" data-view="ransom" aria-selected="false"><span class="tab-n">5</span><span data-i18n="tab.ransom">الفدية</span></button>
+    <button class="tab" role="tab" data-view="quantum" aria-selected="false"><span class="tab-n">6</span><span data-i18n="tab.quantum">الحاسوب الكمّي</span></button>
+    <button class="tab" role="tab" data-view="verify" aria-selected="false"><span class="tab-n">7</span><span data-i18n="tab.verify">تحقّق بنفسك</span></button>
+    <button class="tab" role="tab" data-view="memory" aria-selected="false"><span class="tab-n">8</span><span data-i18n="tab.memory">ذاكرة الهجمات</span></button>
+    <button class="tab" role="tab" data-view="story" aria-selected="false"><span class="tab-n">9</span><span data-i18n="tab.story">القصة والأدلة</span></button>
   </nav>
   <div class="top-tools">
     <span class="lab-chip" id="labChip" hidden><span class="dot" id="labDot"></span><span data-i18n="lab.chip">المختبر</span></span>
@@ -35,8 +44,41 @@
 <main id="main">
   <div id="fatal" class="error-box" hidden></div>
 
+  <!-- 0. real incidents -------------------------------------------------------------------------------------->
+  <section class="view" id="view-real" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="real.title">اختر قطاعًا وحادثة حقيقية موثّقة، وشاهد ACRS يحتويها.</h1>
+        <p class="view-lede" data-i18n="real.lede">كل حادثة محوّلة من تقرير منشور (مصدره ظاهر). شغّلها عاديًا، أو مع عطل حقيقي يُحقن في المحرك لترى كيف ينجو ويُنعَش ويكمل.</p>
+      </div>
+    </div>
+    <div class="sectors" id="sectors" role="group" aria-label="Sectors"></div>
+    <div class="real-grid">
+      <aside class="panel inc-list" id="incList" aria-label="Incidents"></aside>
+      <div class="panel hud real-main">
+        <div class="toolbar">
+          <div class="inc-head grow"><p class="inc-title" id="incTitle"></p><p class="xs muted" id="incMeta"></p></div>
+          <div class="seg" role="group" aria-label="Mode">
+            <button data-rmode="normal" aria-pressed="true" data-i18n="rmode.normal">تشغيل طبيعي</button>
+            <button data-rmode="fault" aria-pressed="false" data-i18n="rmode.fault">مع عطل وإنعاش</button>
+          </div>
+          <button class="btn btn-attack" id="runBtn" disabled data-i18n="real.run">شغّل الحادثة</button>
+        </div>
+        <div class="moments" id="moments"></div>
+        <div class="map-wrap" id="incWrap"><svg class="map inc-map" id="incMap" viewBox="0 0 1000 460" role="img" aria-label="Incident network"></svg><div class="scan" aria-hidden="true"></div><div class="fault-flash" id="faultFlash" aria-hidden="true"></div></div>
+        <div class="legend" id="legend2"></div>
+      </div>
+      <aside class="rail">
+        <div class="panel panel-pad hud" id="incCard"><div class="empty"><h2 data-i18n="real.pick">اختر حادثة</h2><p class="small" data-i18n="real.pick2">ابدأ بقطاع من الأعلى، ثم حادثة من القائمة.</p></div></div>
+        <div class="panel term" id="term" hidden><div class="term-bar"><span></span><span></span><span></span><b>acrs-recover · audit chain</b></div><ol class="term-body" id="termBody" aria-live="polite"></ol></div>
+      </aside>
+    </div>
+    <div class="panel panel-pad hud mt4" id="incSummary" hidden></div>
+    <p class="mt4 note" data-i18n="real.note">التحويل من التقارير إلى شبكة ولحظات كشف أجراه Claude بقواعد منشورة، ولم يُعد تحويله إنسان مستقل بعد. «قطع الشبكة كلها» هو العزل الكامل الآمن على نفس اللحظة. الأرقام هنا من تشغيل حي للكود، لا من ملف مكتوب مسبقًا.</p>
+  </section>
+
   <!-- 1. break it ---------------------------------------------------------------------------------------------->
-  <section class="view is-active" id="view-break" role="tabpanel" aria-labelledby="break">
+  <section class="view" id="view-break" role="tabpanel" aria-labelledby="break">
     <div class="view-head">
       <div>
         <h1 class="view-title" data-i18n="break.title">هاجم المستشفى. وشاهد ACRS يحتوي الهجوم والخدمات تعمل.</h1>
@@ -44,7 +86,7 @@
       </div>
     </div>
     <div class="grid-break">
-      <div class="panel">
+      <div class="panel hud">
         <div class="toolbar">
           <div class="seg" role="group" data-i18n-aria="mode" aria-label="نوع الاختيار">
             <button data-mode="real" aria-pressed="true" data-i18n="mode.real">هجوم حقيقي</button>
@@ -58,7 +100,7 @@
           </div>
         </div>
         <div class="hint" id="hint" aria-live="polite"></div>
-        <div class="map-wrap"><svg class="map" id="mapMain" viewBox="0 0 1200 770" role="group" aria-label="Hospital map"></svg></div>
+        <div class="map-wrap" id="mapWrap"><svg class="map" id="mapMain" viewBox="0 0 1200 770" role="group" aria-label="Hospital map"></svg><div class="scan" aria-hidden="true"></div><div class="map-hud" id="mapHud" aria-hidden="true"></div></div>
         <div class="legend" id="legend"></div>
         <div class="ecg" id="ecgMain" aria-label="Services"></div>
       </div>
@@ -76,12 +118,15 @@
             </ol>
           </div>
         </div>
-        <div class="panel panel-pad" id="decisionPanel" hidden aria-live="polite">
+        <div class="panel panel-pad hud" id="decisionPanel" hidden aria-live="polite">
+          <ol class="pipe" id="pipe" aria-label="Decision pipeline"></ol>
           <div class="status" id="status"></div>
           <div class="mt3 metrics" id="metrics"></div>
+          <div class="vs" id="vs"></div>
           <hr class="divider">
           <p class="eyebrow" data-i18n="card.title">بطاقة القرار</p>
           <ul class="actions-list" id="actions"></ul>
+          <ul class="floor" id="floor"></ul>
           <div id="escalations" class="mt3"></div>
           <ul class="mt3 why" id="why"></ul>
           <hr class="divider">
@@ -89,6 +134,7 @@
             <div class="grow stack">
               <button class="btn" id="toSave" data-i18n="save.open">احفظ الهجوم كزر</button>
               <button class="btn" id="toVerify" data-i18n="verify.open">تحقّق من الشهادة</button>
+              <div class="seal" id="seal"></div>
               <p class="xs muted" id="msLine"></p>
             </div>
             <figure class="m0 qr"><img id="receiptQr" alt="" hidden><figcaption class="xs muted" data-i18n="receipt">إيصال القرار</figcaption></figure>
@@ -248,6 +294,7 @@
         <p class="view-lede" data-i18n="s.lede">كل رقم هنا يُقرأ عند التشغيل من ملف نتائج محفوظ في المستودع، ومعه مساره.</p>
       </div>
     </div>
+    <div class="hero-nums" id="heroNums"></div>
     <div class="timeline" id="timeline"></div>
     <h2 data-i18n="s.align" class="sec-h">مصمَّم لدعم الأطر الوطنية</h2>
     <div class="panel panel-pad" id="align"></div>

@@ -1,4 +1,38 @@
-# Booth design record
+# Booth design record (v12, 2026-10-19)
+
+**Direction:** «غرفة عمليات ليلية», a night operations room (chosen by the student on 2026-10-19; it replaces the
+light "drafting paper" world). The hospital network is a live engineering instrument:
+- packets walk the live links;
+- the attack flows along its path;
+- a scan passes when ACRS decides;
+- then the network rewires: isolated stations detach, segmented ones get a wall drawn round them, cut links go dark,
+  and clinical links stay lit;
+- the decision pipeline lights up step by step (alert, fixed rules, optimiser, safety gate, ML-DSA signature).
+
+**New first tab, "Real incidents":** 83 documented incidents by sector.
+- Normal run, or a fault run: an injected optimiser crash, then kill and restart from disk, then the recovery terminal
+  and immunity.
+- Every line on screen is produced by the real code.
+
+**Dials:** variance 6 · motion 7 · density 5.
+
+**Tokens:**
+- Dark is the default: background #060A0D, surfaces #0D161C and #132029.
+- Signals: alive #3FD49A, attack #FF5B3F, segment #F3B544, human #72AAFF, isolate #8A9AA4.
+- A light theme is available on toggle.
+- Type: IBM Plex Sans Arabic, with Plex Mono for data.
+- Easing: ease-out cubic-bezier(.23,1,.32,1) and ease-in-out cubic-bezier(.77,0,.175,1).
+- UI transitions run 120–320 ms; the scan runs 750 ms and the station rewire 500 ms, staggered by position.
+- Reduced motion turns off all movement.
+
+**Kept on purpose (detector advisories):**
+- the ECG heartbeat loop is the "services alive" metaphor and stops under reduced motion;
+- the QR `<img>` elements stay hidden until the server fills them.
+
+---
+
+## Previous record (v9 booth, light "drafting paper" world)
+
 
 **Direction (chosen by the student):** «المستشفى الذي يغيّر شكله أثناء الهجوم», the hospital that changes shape during an
 attack.
