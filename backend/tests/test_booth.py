@@ -44,10 +44,16 @@ class TestSecure(unittest.TestCase):
         self.assertEqual(secure.attack({"hacked": {"web1": 8}, "forged": ["web1"]}, names), ({"web1": 8}, ["web1"]))
         bad = [{"hacked": {"nope": 8}}, {"hacked": {"web1": True}}, {"hacked": {"web1": 11}}, {"hacked": {"web1": "8"}},
                {"hacked": {}}, {"hacked": {"web1": 8}, "extra": 1}, {"hacked": {"web1": 8}, "forged": ["dc1"]},
-               {"hacked": {m: 5 for m in sorted(names)[:21]}}, {"forged": []}, []]
+               {"forged": []}, []]
         for b in bad:
             with self.assertRaises(secure.Invalid, msg=b):
                 secure.attack(b, names)
+        # the whole hospital may be marked (full breach), one machine more than the ceiling may not
+        everything = {m: 9 for m in sorted(names)}
+        self.assertEqual(len(secure.attack({"hacked": everything}, names)[0]), len(names))
+        wide = names | {f"x{i}" for i in range(secure.MAX_PICKS)}
+        with self.assertRaises(secure.Invalid):
+            secure.attack({"hacked": {m: 5 for m in sorted(wide)[:secure.MAX_PICKS + 1]}}, wide)
         self.assertEqual(secure.label("  <b>هجوم</b>  ١ "), "bهجوم/b ١")
         for b in ["", "x" * 41, 5, "<>"]:
             with self.assertRaises(secure.Invalid):
