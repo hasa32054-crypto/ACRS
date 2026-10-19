@@ -14,6 +14,12 @@ light "drafting paper" world). The hospital network is a live engineering instru
   and immunity.
 - Every line on screen is produced by the real code.
 
+**Logo (approved by the student, 2026-10-19):** the "network A" monogram.
+- The letter A is drawn from network links.
+- An intruder (red) is stopped at an amber bar.
+- The crossbar closes in green.
+- The animated version plays in the boot sequence; a static version is used in the top bar and as `web/mark.svg` (favicon).
+
 **Dials:** variance 6 · motion 7 · density 5.
 
 **Tokens:**

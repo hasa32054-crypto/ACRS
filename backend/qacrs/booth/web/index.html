@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ACRS</title>
 <meta name="description" content="ACRS booth: attack a simulated hospital and watch it contain the attack while clinical services keep running.">
+<link rel="icon" href="mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="app.css">
 <script src="i18n.js" defer></script>
 <script src="app.js" defer></script>
@@ -14,12 +15,14 @@
   <div class="boot-stage">
     <div class="boot-left">
       <div class="boot-mark">
-        <svg class="boot-logo" viewBox="0 0 120 120" aria-hidden="true">
-          <path class="bl-shell" d="M60 6 L104 30 V64 C104 88 86 106 60 114 C34 106 16 88 16 64 V30 Z"/>
-          <path class="bl-link" d="M38 70 L60 46 L82 70 M60 46 V30 M38 70 H82"/>
-          <circle class="bl-node n1" cx="60" cy="30" r="5"/><circle class="bl-node n2" cx="60" cy="46" r="6"/>
-          <circle class="bl-node n3" cx="38" cy="70" r="5"/><circle class="bl-node n4" cx="82" cy="70" r="5"/>
-          <path class="bl-cut" d="M71 58 L77 52"/>
+        <svg class="boot-logo" viewBox="0 0 220 200" aria-hidden="true">
+          <path class="m-leg" d="M100 30 L44 170"/><path class="m-leg" d="M100 30 L156 170"/>
+          <path class="m-bar" d="M73 114 H127"/>
+          <path class="m-trail" d="M146 114 H206"/>
+          <path class="m-stop" d="M144 100 V128"/>
+          <circle class="m-intr" cx="160" cy="114" r="8"/>
+          <circle class="m-nd" cx="100" cy="30" r="9"/><circle class="m-nd" cx="44" cy="170" r="9"/><circle class="m-nd" cx="156" cy="170" r="9"/>
+          <circle class="m-nd m-g" cx="73" cy="114" r="8"/><circle class="m-nd m-g" cx="127" cy="114" r="8"/>
         </svg>
         <div><span class="boot-word">ACRS</span><span class="boot-box">BOX</span>
           <span class="boot-sub">Automated Compromise Response System</span></div>
@@ -37,7 +40,7 @@
 <div class="attract" id="attract" hidden><i></i><span id="attractText"></span></div>
 <a class="sr-only" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
 <header class="top">
-  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span><span class="clock" id="uptime" aria-hidden="true"></span></div>
+  <div class="brand"><svg class="brand-mark" viewBox="0 0 220 200" aria-hidden="true"><path d="M100 30 L44 170 M100 30 L156 170"/><path class="bm-bar" d="M73 114 H127"/><circle cx="100" cy="30" r="10"/><circle cx="44" cy="170" r="10"/><circle cx="156" cy="170" r="10"/><circle class="bm-g" cx="73" cy="114" r="9"/><circle class="bm-g" cx="127" cy="114" r="9"/></svg><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span><span class="clock" id="uptime" aria-hidden="true"></span></div>
   <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
     <button class="tab" role="tab" data-view="real" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.real">حوادث حقيقية</span></button>
     <button class="tab" role="tab" data-view="break" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.break">اكسره</span></button>
