@@ -441,7 +441,7 @@
     if (fault) box.append(el("div", { class: "fault-banner mt2", text: t("real.fault") }));
     const stat = el("div", { class: "status mt3" }); box.append(stat);
     statusBlock(stat, step.status, S.lang === "ar" ? step.status_ar : step.status);
-    stat.append(el("span", { class: "status-sub", text: `${step.status} · ${step.fallback ? "fail-safe" : (step.method || "")} · ${nf(step.ms, 1)} ms · audit ${step.audit}` }));
+    stat.append(el("span", { class: "status-sub", text: `${step.status} · ${step.fallback ? "fail-safe" : (step.method || "")} · ${nf(step.ms)} ms · audit ${step.audit}` }));
     box.append(el("p", { class: "desc mt3", text: step.description }));
     const vs = el("div", { class: "vs" }); box.append(vs);
     vs.append(el("p", { class: "eyebrow", text: t("real.vs") }));
@@ -633,7 +633,7 @@
         const prev = i ? r.steps[i - 1] : { isolate: [], segment: [] };
         const ni = s.isolate.filter((x) => !prev.isolate.includes(x)), ns = s.segment.filter((x) => !prev.segment.includes(x));
         const human = !/^CONTAINED/.test(s.status);
-        stamp(human ? "human" : "ok", fault ? "FAIL-SAFE" : "DECIDED", human ? t("fx.human") : t("fx.decided", { ms: nf(s.ms, 1) }),
+        stamp(human ? "human" : "ok", fault ? "FAIL-SAFE" : "DECIDED", human ? t("fx.human") : t("fx.decided", { ms: nf(s.ms) }),
           t("fx.decided2", { i: s.isolate.length, s: s.segment.length, d: s.acrs_down.length }));
         stagger(ni, (id) => nodeFx(c, id, "iso", t("tag.iso")), 70);
         setTimeout(() => stagger(ns, (id) => nodeFx(c, id, "seg", t("tag.seg")), 70), 250);
@@ -782,7 +782,7 @@
     const i = S.picks.findIndex((p) => p.id === id);
     if (i >= 0) { S.picks.splice(i, 1); }
     else {
-      if (S.picks.length >= 20) { setHint("hint.max", "warn"); return; }
+      if (S.picks.length >= 60) { setHint("hint.max", "warn"); return; }
       if (S.mode === "real" && !canReach(id)) {
         const g = S.maps.main.st[id].g; g.classList.remove("is-refused"); void g.getBBox(); g.classList.add("is-refused");
         setHint("hint.notlinked", "warn"); return;
@@ -823,7 +823,7 @@
     $("#decideBtn").disabled = S.picks.length === 0;
     $("#decisionPanel").hidden = true;
     setEcg(S.ecg.main, []);
-    if (many) setHint("hint.full", "warn", { n: S.picks.length }); else if (S.mode === "forged") setHint("hint.forged"); else setHint(g.length ? "hint.next" : "hint.start");
+    if (S.mode === "forged") setHint("hint.forged"); else setHint(g.length ? "hint.next" : "hint.start");
     renderSaveWhat();
   }
 
@@ -846,49 +846,6 @@
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, reduced() ? 0 : ms));
-
-  /* full breach: every machine in the hospital turns red, spreading from the entry points, then the real engine decides */
-  function burst(c, id) {
-    if (reduced() || !c.st[id]) return;
-    const ring = sv("circle", { r: 22, class: "fx fx-attack" }); c.st[id].mv.append(ring);
-    ring.animate([{ transform: "scale(.85)", opacity: .95 }, { transform: "scale(2.2)", opacity: 0 }], { duration: 650, easing: "cubic-bezier(.23,1,.32,1)" }).onfinish = () => ring.remove();
-  }
-  async function fullBreach() {
-    if (S.breaching) return; S.breaching = true;
-    const btn = $("#breachBtn"); busy(btn, true); btn.disabled = true;
-    try {
-      S.mode = "real"; $$("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === "real")));
-      const ids = S.model.machines.map((m) => m.id), seen = new Set(), order = [];
-      const q = ids.filter((id) => S.M[id].entry);
-      for (const id of q) seen.add(id);
-      while (q.length) { const x = q.shift(); order.push(x); for (const y of S.adj[x] || []) if (!seen.has(y)) { seen.add(y); q.push(y); } }
-      for (const id of ids) if (!seen.has(id)) order.push(id);
-      S.picks = []; S.last = null; $("#decisionPanel").hidden = true;
-      $("#mapWrap").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" });
-      const n = order.length, step = Math.max(1, Math.ceil(n / 16));
-      for (let i = 0; i < n; i += step) {
-        const chunk = order.slice(i, i + step);
-        for (const id of chunk) S.picks.push({ id, risk: 9, forged: false });
-        renderPicks(); for (const id of chunk) burst(S.maps.main, id);
-        const sub = t("full.wave2", { k: S.picks.length, n }) + " · " + chunk.map(mname).join(" · ");
-        const live = $("#stampsMain .stamp.is-breach");
-        if (live) live.querySelector(".stamp-tx span").textContent = sub;
-        else { stamp("attack", "BREACH", t("full.wave"), sub, "#stampsMain"); $("#stampsMain .stamp:last-child").classList.add("is-breach"); }
-        await wait(130);
-      }
-      await wait(650);
-      await decide();
-      const d = S.last && S.last.d; if (!d) return;
-      const sv_ = d.services || [], up = sv_.filter((x) => x.hassan_up).length, fdown = sv_.filter((x) => !x.full_up);
-      stamp(up === sv_.length ? "ok" : "human", d.fallback ? "FAIL-SAFE" : "DECIDED", t("full.res", { up, n: sv_.length }),
-        t("full.res2", { r: (d.hassan.restrict || []).length, i: d.hassan.isolate.length, s: d.hassan.segment.length, e: (d.escalations || []).length }), "#stampsMain");
-      await wait(4200);
-      if (S.last && S.last.d === d) stamp("attack", "CUT ALL", t("full.cmp"), t("full.cmp2", { f: fdown.length, n: sv_.length,
-        list: fdown.slice(0, 4).map((x) => S.lang === "ar" ? x.ar : (x.en || x.id)).join("، ") + (fdown.length > 4 ? "…" : "") }), "#stampsMain");
-      await wait(4200);
-      if (S.last && S.last.d === d) $("#stampsMain").textContent = "";
-    } finally { S.breaching = false; busy(btn, false); btn.disabled = false; }
-  }
 
   async function decide() {
     const btn = $("#decideBtn"); busy(btn, true);
@@ -943,13 +900,13 @@
     $("#decisionPanel").hidden = false;
     pipeline(d, animate);
     statusBlock($("#status"), d.status, S.lang === "ar" ? d.status_ar : d.status_en);
-    $("#status").append(el("span", { class: "status-sub", text: `${d.status} · ${d.engine || "v9"} · ${nf(d.ms, 1)} ms` }));
+    $("#status").append(el("span", { class: "status-sub", text: `${d.status} · ${d.engine || "v9"} · ${nf(d.ms)} ms` }));
     const met = $("#metrics"); met.textContent = "";
     const m = (v, k, tone, unit) => {
-      const vEl = el("span", { class: "v " + (tone || "") }); const n = el("span", { text: animate ? "0" : nf(v, unit === "ms" ? 1 : 0) });
+      const vEl = el("span", { class: "v " + (tone || "") }); const n = el("span", { text: animate ? "0" : nf(v) });
       vEl.append(n); if (unit) vEl.append(el("small", { text: unit }));
       met.append(el("div", { class: "metric" }, [vEl, el("span", { class: "k", text: t(k) })]));
-      if (animate) countTo(n, v, unit === "ms" ? 1 : 0);
+      if (animate) countTo(n, v, 0);
     };
     const after = d.after_approval_down || d.hassan.services_down;
     m(d.hassan.services_down.length, "m.down", d.hassan.services_down.length ? "bad" : "good");
@@ -976,7 +933,7 @@
     sha256hex(d.certificate).then((h) => { shaRow.textContent = h ? h.slice(0, 24) + "…" : "—"; });
     $("#mapHud").textContent = "";
     $("#mapHud").append(el("span", {}, [el("b", { text: d.engine || "v9" }), document.createTextNode(" engine")]),
-      el("span", {}, [document.createTextNode("decision "), el("b", { text: nf(d.ms, 1) + " ms" })]));
+      el("span", {}, [document.createTextNode("decision "), el("b", { text: nf(d.ms) + " ms" })]));
     const ul = $("#actions"); ul.textContent = "";
     const lists = [
       ["isolate", S.lang === "ar" ? "عزل كامل" : "Isolate", d.hassan.isolate],
@@ -1112,7 +1069,7 @@
         row("judge.status", S.lang === "ar" ? j.status_ar : j.status_en, S.lang === "ar" ? h.status_ar : h.status_en),
         row("judge.down", nf(j.services_down.length), nf(h.hassan.services_down.length), j.services_down.length ? "bad" : "ok", h.hassan.services_down.length ? "bad" : "ok"),
         row("judge.pm", nf(j.patient_minutes), nf(h.hassan.patient_minutes)),
-        row("judge.time", `${nf(secs, 1)} ${t("sec")}`, `${nf(h.ms, 1)} ${t("msu")}`),
+        row("judge.time", `${nf(secs, 1)} ${t("sec")}`, `${nf(h.ms)} ${t("msu")}`),
       ]);
       box.append(tbl);
       if (!safeJ) box.append(el("p", { class: "small bad mt3", text: t("judge.viol") + " " + j.safety_violations.join("؛ ") }));
@@ -1508,8 +1465,7 @@
       S.mode = b.dataset.mode; $$(".seg button").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false")); renderPicks();
     }));
     $("#risk").addEventListener("input", (e) => { S.risk = +e.target.value; $("#riskOut").textContent = e.target.value; });
-    $("#clearBtn").addEventListener("click", () => { S.picks = []; S.last = null; $("#stampsMain").textContent = ""; renderPicks(); renderVerify(); });
-    $("#breachBtn").addEventListener("click", fullBreach);
+    $("#clearBtn").addEventListener("click", () => { S.picks = []; S.last = null; renderPicks(); renderVerify(); });
     $("#decideBtn").addEventListener("click", decide);
     $("#toSave").addEventListener("click", () => { show("memory"); $("#attackName").focus(); });
     $("#toVerify").addEventListener("click", () => show("verify"));

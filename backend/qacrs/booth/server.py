@@ -34,6 +34,7 @@ from qacrs.booth.memory import AttackMemory
 WEB = Path(__file__).resolve().parent / "web"
 MAX_BODY = 16 * 1024
 EVALUATED_SOLVER_BUDGET_S = H.SOLVER_TIMEOUT_S          # the budget used in every reported evaluation
+STABLE_SOLVER_BUDGET_S = 3.0      # booth setting: the optimiser always finishes, so the same attack gives the same decision
 CSP = ("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; "
        "connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'")
 TYPES = {".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8",
@@ -326,7 +327,8 @@ def selfcheck(app: App) -> dict:
     """Start-up check: how often the solver budget forces the fail-safe on typical critical attacks."""
     tests = [{"pc_admin1": 9, "dc1": 9}, {"pc_admin1": 9, "dc1": 9, "ehr_db": 9, "backup": 8},
              {"pc_doc1": 8, "pacs1": 8, "pacs_store": 9}, {"pc_nurse2": 7, "ehr_app2": 8, "ehr_db": 9},
-             {"pc_recep1": 8, "web1": 8, "ehr_app1": 8}]
+             {"pc_recep1": 8, "web1": 8, "ehr_app1": 8},
+             {m: 9 for m in sorted(app.booth.names)}]                 # the whole hospital at once (heaviest case)
     fb = sum(bool(app.booth.decide(t, [])["fallback"]) for t in tests)
     return {"attacks": len(tests), "fail_safe": fb}
 
@@ -337,33 +339,26 @@ def main(argv=None):
     ap.add_argument("--agent", help="LAN address of the Linux mini-hospital agent, e.g. 192.168.1.50:8900")
     ap.add_argument("--engine", choices=("v12", "v9"), default="v12", help="decision engine (default v12)")
     ap.add_argument("--auto-budget", action="store_true",
-                    help="if the start-up self-check hits the fail-safe, raise the solver budget step by step "
-                         "(0.2 / 0.3 / 0.5 / 1.0 s) until it does not; the value is shown on screen as a deviation")
+                    help=f"booth setting: solver budget {STABLE_SOLVER_BUDGET_S} s so the optimiser always finishes and "
+                         "the same attack always gives the same decision on a slow laptop; shown on screen as a deviation")
     ap.add_argument("--solver-budget", type=float, default=EVALUATED_SOLVER_BUDGET_S,
                     help=f"solver time budget in s (default {EVALUATED_SOLVER_BUDGET_S} = the evaluated setting; "
                          "a different value is shown on screen as a deviation)")
     a = ap.parse_args(argv)
-    if not 0.05 <= a.solver_budget <= 2.0:
-        raise SystemExit("--solver-budget must be between 0.05 and 2.0 s")
+    if a.auto_budget:
+        a.solver_budget = max(a.solver_budget, STABLE_SOLVER_BUDGET_S)
+    if not 0.05 <= a.solver_budget <= 5.0:
+        raise SystemExit("--solver-budget must be between 0.05 and 5.0 s")
     key = secure.load_secret("plan_key")
     agent = Agent(a.agent, key) if a.agent else None
     srv = make_server(a.port, key=key, agent=agent, solver_budget_s=a.solver_budget, engine=a.engine)
     sc = selfcheck(srv.app)
-    if a.auto_budget and sc["fail_safe"]:
-        for b in (0.2, 0.3, 0.5, 1.0):
-            if b <= a.solver_budget:
-                continue
-            H.SOLVER_TIMEOUT_S = a.solver_budget = b
-            srv.app.model["config"]["solver_budget_s"] = b
-            sc = selfcheck(srv.app)
-            if not sc["fail_safe"]:
-                break
     srv.app.model["selftest"]["reference_attacks"] = sc["attacks"]
     srv.app.model["selftest"]["fail_safe"] = sc["fail_safe"]
     print(f"ACRS booth: http://127.0.0.1:{srv.server_address[1]}/   (loopback only; secrets in {secure.secret_dir()})")
     print(f"self-check: {sc['fail_safe']}/{sc['attacks']} reference attacks hit the solver budget "
           f"({a.solver_budget:.2f} s) and fell back to the safe path."
-          + ("  On this laptop consider --solver-budget 0.3 (shown on screen as a deviation)." if sc["fail_safe"] else ""))
+          + ("  Decisions may differ between runs on this machine; start with --auto-budget." if sc["fail_safe"] else ""))
     if agent:
         print(f"mini hospital agent: {agent.base} (signed plans, 30 s window, one-time nonces)")
     try:
