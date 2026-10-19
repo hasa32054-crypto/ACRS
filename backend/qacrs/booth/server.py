@@ -50,6 +50,22 @@ def static_table(root: Path = WEB) -> dict:
     return {k: v for k, v in table.items() if v}
 
 
+def self_test(booth, incidents, ev) -> dict:
+    """Start-up self test shown by the boot sequence. Every value is computed here, never typed."""
+    root = Path(__file__).resolve().parents[1]
+    lock = json.loads((root / "blind_v9" / "LOCK_blind_v9.json").read_text(encoding="utf-8"))
+    files = lock["sha256"]
+    ok = sum(hashlib.sha256((root / Path(k).name).read_bytes()).hexdigest() == v
+             for k, v in files.items() if isinstance(v, str) and (root / Path(k).name).exists())
+    pk = getattr(booth.engine, "pk", None)
+    return {"locked_ok": ok, "locked_n": sum(isinstance(v, str) for v in files.values()),
+            "pq_alg": "ML-DSA-65" if pk else None, "pq_pk_bytes": len(pk) if pk else 0,
+            "engine": booth.engine_name, "hosts": len(booth.net.machines), "links": len(booth.net.links),
+            "services": len(booth.net.services), "incidents": len(incidents.items),
+            "incidents_real": sum(i["origin"] == "real" for i in incidents.items.values()),
+            "evidence_files": len(ev["files"]), "started_at": time.time()}
+
+
 def receipt_text(d: dict) -> str:
     """What the 'verify yourself' QR carries: status, SHA-256 of the certificate, signature prefix, repo."""
     sha = hashlib.sha256(secure.canonical(d["certificate"])).hexdigest()
@@ -106,6 +122,7 @@ class App:
         self.quantum = evidence.quantum_shots()
         self.incidents = Incidents()
         self.incident_catalog = self.incidents.catalog()
+        self.model["selftest"] = self_test(self.booth, self.incidents, ev)
 
     # every API handler: (validated body) -> (code, object)
     def decide(self, b):
@@ -341,6 +358,8 @@ def main(argv=None):
             sc = selfcheck(srv.app)
             if not sc["fail_safe"]:
                 break
+    srv.app.model["selftest"]["reference_attacks"] = sc["attacks"]
+    srv.app.model["selftest"]["fail_safe"] = sc["fail_safe"]
     print(f"ACRS booth: http://127.0.0.1:{srv.server_address[1]}/   (loopback only; secrets in {secure.secret_dir()})")
     print(f"self-check: {sc['fail_safe']}/{sc['attacks']} reference attacks hit the solver budget "
           f"({a.solver_budget:.2f} s) and fell back to the safe path."
