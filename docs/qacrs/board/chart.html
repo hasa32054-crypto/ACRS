@@ -1,0 +1,19 @@
+<!doctype html><html lang="ar"><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(IBMPlexSansArabic-Regular.woff2)}@font-face{font-family:P;font-weight:600;src:url(IBMPlexSansArabic-SemiBold.woff2)}
+body{margin:0;background:#fff;font-family:P}svg text{font-family:P}</style><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="400" viewBox="0 0 980 400"><rect width="980" height="400" fill="#fff"/>
+<text x="960" y="38" direction="rtl" text-anchor="start" font-size="26" font-weight="600" fill="#1C2328">75 حادثة حقيقية جديدة (2013–2026)</text>
+<text x="960" y="70" direction="rtl" text-anchor="start" font-size="19" fill="#4B555B">خدمات توقفت بسبب قرار الاحتواء ← الأقل أفضل</text>
+<g id="bars"></g>
+<text x="960" y="385" direction="rtl" text-anchor="start" font-size="14" fill="#4B555B">بعد موافقة البشر على كل تصعيد، و0 قرارات غير آمنة لـ ACRS</text>
+</svg>
+<script>
+const rows=[["ACRS",70,true],["النسخة السابقة v9",90,false],["قاعدة بسيطة",126,false],["العزل الكامل",268,false]];
+const g=document.getElementById('bars');const ns='http://www.w3.org/2000/svg';
+let y=100;const right=760,maxw=640;
+for(const [n,v,h] of rows){
+ const t=document.createElementNS(ns,'text');t.setAttribute('x',960);t.setAttribute('y',y+33);t.setAttribute('direction','rtl');t.setAttribute('text-anchor','start');t.setAttribute('font-size',h?24:21);t.setAttribute('font-weight',h?600:400);t.setAttribute('fill',h?'#1C2328':'#4B555B');t.textContent=n;g.appendChild(t);
+ const w=maxw*v/268;const r=document.createElementNS(ns,'rect');r.setAttribute('x',right-w);r.setAttribute('y',y+8);r.setAttribute('width',w);r.setAttribute('height',38);r.setAttribute('rx',5);r.setAttribute('fill',h?'#00A86B':'#9AA4AA');g.appendChild(r);
+ const l=document.createElementNS(ns,'text');l.setAttribute('x',right-w-10);l.setAttribute('y',y+35);l.setAttribute('text-anchor','end');l.setAttribute('font-size',22);l.setAttribute('font-weight',600);l.setAttribute('fill','#1C2328');l.textContent=v;g.appendChild(l);
+ y+=64;}
+</script></body></html>
