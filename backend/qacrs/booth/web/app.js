@@ -364,7 +364,7 @@
     const meta = $("#incMeta"); meta.textContent = `${it.year || ""} · ${it.sector} · ${it.machines} hosts · ${it.moments} detection moments · `;
     if (it.url) { const a = el("a", { href: it.url, target: "_blank", rel: "noopener noreferrer", text: it.source || "source" }); meta.append(a); }
     $("#runBtn").disabled = false;
-    $("#moments").textContent = ""; $("#incMap").textContent = ""; $("#term").hidden = true; $("#incSummary").hidden = true;
+    $("#moments").textContent = ""; $("#incMap").textContent = ""; $("#term").hidden = true; $("#incSummary").hidden = true; crashHide();
     $("#incCard").textContent = "";
     $("#incCard").append(el("div", { class: "empty" }, [el("h2", { text: t("real.ready") }), el("p", { class: "small", text: t("real.ready2") })]));
   }
@@ -468,10 +468,58 @@
       l.audit ? el("span", { class: "h", text: "#" + l.audit }) : null, el("span", { class: "tx", text: l.text }), l.out ? el("span", { class: "o", text: l.out }) : null]);
     body.append(li); body.scrollTop = body.scrollHeight;
   }
+  /* ---- engine-down overlay: what broke, what held, how long it has been down */
+  function crashShow(s) {
+    const box = $("#crash"), wrap = $("#incWrap"); box.textContent = ""; box.className = "crash";
+    const since = el("b", { class: "crash-t", text: "00.0s" });
+    box.append(
+      el("div", { class: "crash-h" }, [el("span", { class: "crash-dot" }), el("span", { class: "crash-code", text: t("crash.code") }), el("strong", { text: t("crash.title") })]),
+      el("ol", { class: "crash-l" }, [
+        el("li", { class: "bad", text: t("crash.l1") }),
+        el("li", { class: "held", text: t("crash.l2", { i: s.isolate.length, s: s.segment.length }) }),
+        el("li", { class: "bad", text: t("crash.l3") })]),
+      el("div", { class: "crash-f" }, [el("span", { text: t("crash.since") }), since]),
+      el("p", { class: "crash-hint", text: t("crash.hint") }));
+    box.hidden = false; wrap.classList.add("is-down");
+    requestAnimationFrame(() => box.classList.add("is-on"));
+    const t0 = performance.now();
+    const iv = setInterval(() => { since.textContent = ((performance.now() - t0) / 1000).toFixed(1).padStart(4, "0") + "s"; }, 100);
+    return () => clearInterval(iv);
+  }
+  function crashHide() { const box = $("#crash"); box.hidden = true; box.className = "crash"; $("#incWrap").classList.remove("is-down", "is-revive"); }
+  async function crashRevive(s) {
+    const box = $("#crash"), wrap = $("#incWrap"), rs = s.restart;
+    box.textContent = ""; box.className = "crash is-on is-back";
+    box.append(el("div", { class: "crash-h" }, [el("span", { class: "crash-dot" }), el("span", { class: "crash-code", text: "ENGINE UP" }), el("strong", { text: t("revive.title") })]),
+      el("p", { class: "crash-sub", text: t("revive.sub", { n: rs.isolated.length, r: rs.released.length, a: t(rs.audit_ok ? "revive.intact" : "revive.broken") }) }));
+    wrap.classList.remove("is-down"); wrap.classList.add("is-revive");
+    await wait(2200);
+    box.classList.remove("is-on"); await wait(300); crashHide();
+  }
+  /* a ready-typed command in the terminal; resolves true on Enter (key or button), false if the run was abandoned */
+  function promptEnter(cmd, alive, auto) {
+    const li = el("li", { class: "k-prompt" }), tx = el("span", { class: "tx" }), caret = el("span", { class: "term-caret" });
+    const btn = el("button", { class: "term-enter", type: "button", text: t("term.enter") });
+    li.append(el("span", { class: "ps", text: "root@acrs-box:~#" }), tx, caret, btn);
+    const body = $("#termBody"); body.append(li); body.scrollTop = body.scrollHeight;
+    let i = 0; const typer = setInterval(() => { tx.textContent = " " + cmd.slice(0, ++i); if (i >= cmd.length) clearInterval(typer); }, reduced() ? 0 : 22);
+    if (!reduced()) $("#term").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    return new Promise((res) => {
+      let done = false;
+      const finish = (v) => { if (done) return; done = true; clearInterval(typer); clearInterval(poll); clearTimeout(at);
+        window.removeEventListener("keydown", onKey, true); li.remove(); res(v); };
+      const onKey = (e) => { if (e.key === "Enter") { e.preventDefault(); e.stopPropagation(); finish(true); } };
+      window.addEventListener("keydown", onKey, true);
+      btn.addEventListener("click", () => finish(true));
+      const poll = setInterval(() => { if (!alive()) finish(false); }, 200);
+      const at = auto ? setTimeout(() => finish(true), 3200) : 0;
+      setTimeout(() => btn.focus({ preventScroll: true }), cmd.length * 22);
+    });
+  }
   async function runIncident(auto = false) {
     if (auto !== true) auto = false;
     const R = S.real, my = ++R.token, btn = $("#runBtn"); busy(btn, true);
-    const vsw = $("#verdictSweep"); vsw.className = "verdict-sweep"; vsw.textContent = "";
+    const vsw = $("#verdictSweep"); vsw.className = "verdict-sweep"; vsw.textContent = ""; crashHide();
     let r;
     try { r = await api("/api/incident", { id: R.id, mode: R.mode }); } catch (e) { toast(e.message); busy(btn, false); return; }
     busy(btn, false); R.run = r;
@@ -496,9 +544,18 @@
       await wait(450);
       if (!alive()) return;
       incApply(c, s, true); incCard(s, i, r.steps.length, fault);
-      if (fault) for (const l of sysLines.slice(2, 4)) { await wait(550); termLine(l); }
       mos[i].classList.remove("is-on"); mos[i].classList.add(fault ? "is-fault" : "is-done");
-      await wait(fault ? 1500 : 1300);
+      if (fault && s.restart) {
+        // the engine goes down on screen, the fix waits typed in the terminal, Enter brings it back
+        await wait(900); if (!alive()) return;
+        termLine(sysLines[2]);
+        const stop = crashShow(s); await wait(700);
+        const ok = await promptEnter("systemctl start acrs-engine", alive, auto);
+        stop(); if (!ok || !alive()) { crashHide(); return; }
+        termLine(sysLines[3]);
+        await crashRevive(s); if (!alive()) return;
+        await wait(500);
+      } else await wait(fault ? 1500 : 1300);
     }
     if (R.mode === "fault") {
       for (const l of cmdLines) { if (!alive()) return; termLine(l); await wait(l.text.includes("approve") || l.text.includes("restore") ? 140 : 420); }
