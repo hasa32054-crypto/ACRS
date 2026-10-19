@@ -630,3 +630,7 @@ html[dir="rtl"] .sum .v { text-align: right; }
 .seal { grid-template-columns: 6.5em minmax(0, 1fr); }
 .seal span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 720px) { .sectors { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .sector { flex: none; } .inc-list { max-height: 260px; } }
+
+.real-main .term { border-block-start: 1px solid #16242B; border-end-start-radius: var(--r-md); border-end-end-radius: var(--r-md); }
+.real-main .term-body { max-height: 230px; }
+.real-grid { scroll-margin-top: 76px; }
