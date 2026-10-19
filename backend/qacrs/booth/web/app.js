@@ -469,8 +469,8 @@
     body.append(li); body.scrollTop = body.scrollHeight;
   }
   /* ---- proof-of-action motion: a stamp on the map says what just happened, the touched hosts answer with a ring and a tag */
-  function stamp(tone, code, title, sub) {
-    const box = $("#stamps");
+  function stamp(tone, code, title, sub, where = "#stamps") {
+    const box = $(where);
     for (const old of box.children) { old.classList.remove("is-on"); old.classList.add("is-out"); setTimeout(() => old.remove(), 180); }
     const s = el("div", { class: `stamp t-${tone}` }, [el("span", { class: "stamp-code", text: code }),
       el("div", { class: "stamp-tx" }, [el("b", { text: title }), sub ? el("span", { text: sub }) : null])]);
@@ -776,7 +776,7 @@
     if (!g.length) return S.M[id].entry;
     return S.M[id].entry || g.some((x) => (S.adj[x] || []).includes(id));
   }
-  function setHint(key, tone) { const h = $("#hint"); h.textContent = t(key); h.dataset.tone = tone || ""; }
+  function setHint(key, tone, vars) { const h = $("#hint"); h.textContent = t(key, vars); h.dataset.tone = tone || ""; }
 
   function onPick(id) {
     const i = S.picks.findIndex((p) => p.id === id);
@@ -796,8 +796,10 @@
   function renderPicks() {
     const c = S.maps.main; resetMap(c);
     const g = genuinePicks(), gs = new Set(g);
+    const many = S.picks.length > 20;
     S.picks.forEach((p, k) => {
       cls(c, p.id, p.forged ? "is-forged" : "is-hacked");
+      if (many) return;
       const o = sv("g", { class: "order", transform: "translate(0,-27)" });
       o.append(sv("circle", { r: 8 })); const tx = sv("text", { y: 3.5 }); tx.textContent = String(k + 1); o.append(tx);
       c.st[p.id].mv.append(o);
@@ -810,7 +812,8 @@
       for (const l of c.links) if ((gs.has(l.a) && !gs.has(l.b)) || (gs.has(l.b) && !gs.has(l.a))) l.el.classList.add("is-next");
     }
     const box = $("#picks"); box.textContent = "";
-    for (const p of S.picks) {
+    if (many) box.append(el("span", { class: "pick" }, [el("span", { text: t("picks.all", { n: S.picks.length }) })]));
+    else for (const p of S.picks) {
       const rm = el("button", { "aria-label": (S.lang === "ar" ? "إزالة " : "Remove ") + mname(p.id), text: "×" });
       rm.addEventListener("click", () => onPick(p.id));
       box.append(el("span", { class: "pick" + (p.forged ? " is-forged" : "") }, [
@@ -820,7 +823,7 @@
     $("#decideBtn").disabled = S.picks.length === 0;
     $("#decisionPanel").hidden = true;
     setEcg(S.ecg.main, []);
-    if (S.mode === "forged") setHint("hint.forged"); else setHint(g.length ? "hint.next" : "hint.start");
+    if (many) setHint("hint.full", "warn", { n: S.picks.length }); else if (S.mode === "forged") setHint("hint.forged"); else setHint(g.length ? "hint.next" : "hint.start");
     renderSaveWhat();
   }
 
@@ -843,6 +846,50 @@
   }
 
   const wait = (ms) => new Promise((r) => setTimeout(r, reduced() ? 0 : ms));
+
+  /* full breach: every machine in the hospital turns red, spreading from the entry points, then the real engine decides */
+  function burst(c, id) {
+    if (reduced() || !c.st[id]) return;
+    const ring = sv("circle", { r: 22, class: "fx fx-attack" }); c.st[id].mv.append(ring);
+    ring.animate([{ transform: "scale(.85)", opacity: .95 }, { transform: "scale(2.2)", opacity: 0 }], { duration: 650, easing: "cubic-bezier(.23,1,.32,1)" }).onfinish = () => ring.remove();
+  }
+  async function fullBreach() {
+    if (S.breaching) return; S.breaching = true;
+    const btn = $("#breachBtn"); busy(btn, true); btn.disabled = true;
+    try {
+      S.mode = "real"; $$("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === "real")));
+      const ids = S.model.machines.map((m) => m.id), seen = new Set(), order = [];
+      const q = ids.filter((id) => S.M[id].entry);
+      for (const id of q) seen.add(id);
+      while (q.length) { const x = q.shift(); order.push(x); for (const y of S.adj[x] || []) if (!seen.has(y)) { seen.add(y); q.push(y); } }
+      for (const id of ids) if (!seen.has(id)) order.push(id);
+      S.picks = []; S.last = null; $("#decisionPanel").hidden = true;
+      $("#mapWrap").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" });
+      const n = order.length, step = Math.max(1, Math.ceil(n / 16));
+      for (let i = 0; i < n; i += step) {
+        const chunk = order.slice(i, i + step);
+        for (const id of chunk) S.picks.push({ id, risk: 9, forged: false });
+        renderPicks(); for (const id of chunk) burst(S.maps.main, id);
+        const sub = t("full.wave2", { k: S.picks.length, n }) + " · " + chunk.map(mname).join(" · ");
+        const live = $("#stampsMain .stamp.is-breach");
+        if (live) live.querySelector(".stamp-tx span").textContent = sub;
+        else { stamp("attack", "BREACH", t("full.wave"), sub, "#stampsMain"); $("#stampsMain .stamp:last-child").classList.add("is-breach"); }
+        await wait(130);
+      }
+      await wait(650);
+      await decide();
+      const d = S.last && S.last.d; if (!d) return;
+      const sv_ = d.services || [], up = sv_.filter((x) => x.hassan_up).length, fdown = sv_.filter((x) => !x.full_up);
+      stamp(up === sv_.length ? "ok" : "human", d.fallback ? "FAIL-SAFE" : "DECIDED", t("full.res", { up, n: sv_.length }),
+        t("full.res2", { r: (d.hassan.restrict || []).length, i: d.hassan.isolate.length, s: d.hassan.segment.length, e: (d.escalations || []).length }), "#stampsMain");
+      await wait(4200);
+      if (S.last && S.last.d === d) stamp("attack", "CUT ALL", t("full.cmp"), t("full.cmp2", { f: fdown.length, n: sv_.length,
+        list: fdown.slice(0, 4).map((x) => S.lang === "ar" ? x.ar : (x.en || x.id)).join("، ") + (fdown.length > 4 ? "…" : "") }), "#stampsMain");
+      await wait(4200);
+      if (S.last && S.last.d === d) $("#stampsMain").textContent = "";
+    } finally { S.breaching = false; busy(btn, false); btn.disabled = false; }
+  }
+
   async function decide() {
     const btn = $("#decideBtn"); busy(btn, true);
     const wrap = $("#mapWrap");
@@ -1461,7 +1508,8 @@
       S.mode = b.dataset.mode; $$(".seg button").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false")); renderPicks();
     }));
     $("#risk").addEventListener("input", (e) => { S.risk = +e.target.value; $("#riskOut").textContent = e.target.value; });
-    $("#clearBtn").addEventListener("click", () => { S.picks = []; S.last = null; renderPicks(); renderVerify(); });
+    $("#clearBtn").addEventListener("click", () => { S.picks = []; S.last = null; $("#stampsMain").textContent = ""; renderPicks(); renderVerify(); });
+    $("#breachBtn").addEventListener("click", fullBreach);
     $("#decideBtn").addEventListener("click", decide);
     $("#toSave").addEventListener("click", () => { show("memory"); $("#attackName").focus(); });
     $("#toVerify").addEventListener("click", () => show("verify"));

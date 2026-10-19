@@ -22,7 +22,7 @@ from collections import OrderedDict, deque
 from pathlib import Path
 
 PLAN_WINDOW_S = 30            # a plan older (or further in the future) than this is refused
-MAX_PICKS = 20                # machines a visitor can mark in one attack
+MAX_PICKS = 60                # whole modelled hospital (60 machines): "full breach" marks every one; names are still validated
 RISK_MIN, RISK_MAX = 1, 10
 MAX_NAME = 40                 # attack-button label (display only, never interpreted)
 

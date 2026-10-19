@@ -834,3 +834,11 @@ html[dir="ltr"] .bl-label::after { left: calc(100% + 8px); }
 .st.is-waiting .body { stroke: var(--human); stroke-dasharray: 4 3; } .st.is-waiting .label { fill: var(--human); text-decoration: none; }
 .st.is-shield .ring { stroke: var(--alive); stroke-width: 3; stroke-dasharray: 6 4; }
 @media (max-width: 720px) { .stamps { inset-block-end: 8px; } .stamp-tx b { font-size: var(--t-sm); } }
+
+/* ------------------------------------------------------------------ full breach */
+.btn-breach { color: var(--attack-ink); background: var(--attack-soft); border: 1px solid color-mix(in srgb, var(--attack) 55%, transparent); }
+@media (hover: hover) and (pointer: fine) { .btn-breach:hover { background: color-mix(in srgb, var(--attack) 22%, transparent); } }
+.btn-breach:active { transform: scale(.97); }
+#mapMain .fx { fill: none; stroke-width: 2.5; transform-box: fill-box; transform-origin: center; pointer-events: none; }
+#mapMain .fx-attack { stroke: var(--attack); }
+#mapWrap .stamps { inset-block-end: 18px; }
