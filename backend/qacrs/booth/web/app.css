@@ -742,3 +742,17 @@ html[dir="ltr"] .bl-label::after { left: calc(100% + 8px); }
 .p-base .mk { position: absolute; right: 26px; bottom: 22px; width: 64px; height: 58px; }
 @media (max-width: 900px) { .bl-label { display: none; } .bl-plate, .bl-edge { width: 260px; height: 174px; left: -130px; top: -87px; } }
 @media (prefers-reduced-motion: reduce) { .bl { transition: none !important; } }
+
+/* 3D mode (WebGL) */
+.box3d-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.box-stage.is-3d .box-layers, .box-stage.is-3d .box-floor { display: none; }
+.box3d-labels { position: absolute; inset: 0; pointer-events: none; }
+.b3-label { position: absolute; left: 0; top: 0; width: 270px; text-align: right; opacity: 0; transition: opacity .25s var(--ease-out); will-change: transform; }
+.b3-label.is-on { opacity: 1; }
+.b3-label b { display: block; font-size: var(--t-md); color: var(--ink); line-height: 1.35; }
+.b3-label span { display: block; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.5; margin-block-start: 2px; }
+.b3-label i { display: inline-block; font-style: normal; font-size: 12px; margin-block-start: 6px; padding: 1px 8px; border-radius: 999px; }
+.b3-label i.ok { color: var(--alive); background: var(--alive-soft); }
+.b3-label i.wip { color: var(--segment); background: var(--segment-soft); }
+.b3-label em { position: absolute; top: 14px; left: calc(100% + 6px); width: 26px; height: 1px; background: color-mix(in srgb, var(--alive) 70%, transparent); }
+@media (max-width: 900px) { .box3d-labels { display: none; } }

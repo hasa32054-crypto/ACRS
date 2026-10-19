@@ -589,7 +589,13 @@
     BX.raf = moving && S.view === "box" ? requestAnimationFrame(boxFrame) : 0;
   }
   const boxKick = () => { if (!BX.raf) BX.raf = requestAnimationFrame(boxFrame); };
+  const boxLabels = () => BOX_LAYERS.map((k) => ({ t: t("bx." + k + ".t"), d: t("bx." + k + ".d"), st: t("bx." + k + ".st"), ok: t("bx." + k + ".ok") === "1" }));
   function boxInit() {
+    if (!BX.tried3d && window.ACRSBox3D) {
+      BX.tried3d = true;
+      try { BX.is3d = window.ACRSBox3D.start({ stage: $("#boxStage"), BX, labels: boxLabels(), isActive: () => S.view === "box" }); } catch (e) { BX.is3d = false; }
+      $("#boxStage").classList.toggle("is-3d", !!BX.is3d);
+    }
     if (!BX.built) {
       boxBuild();
       const stage = $("#boxStage");
@@ -1183,6 +1189,7 @@
     if (S.ransom) ransomShow(S.ransom.tick);
     if (S.real && S.real.cat) { renderSectors(); renderIncList(); }
     if (BX.built) boxBuild();
+    if (BX.is3d && window.ACRSBox3D.relabel) window.ACRSBox3D.relabel(boxLabels());
     if (S.judge) { const J = S.judge; applyDecision(S.maps.judge, J.a.hacked, J.a.forged, { isolate: [], segment: [] });
       for (const id of J.iso) cls(S.maps.judge, id, "is-judge-iso"); for (const id of J.seg) cls(S.maps.judge, id, "is-judge-seg"); }
   }
