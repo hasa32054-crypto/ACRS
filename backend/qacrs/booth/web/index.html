@@ -43,14 +43,15 @@
   <div class="brand"><svg class="brand-mark" viewBox="0 0 220 200" aria-hidden="true"><path d="M100 30 L44 170 M100 30 L156 170"/><path class="bm-bar" d="M73 114 H127"/><circle cx="100" cy="30" r="10"/><circle cx="44" cy="170" r="10"/><circle cx="156" cy="170" r="10"/><circle class="bm-g" cx="73" cy="114" r="9"/><circle class="bm-g" cx="127" cy="114" r="9"/></svg><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span><span class="clock" id="uptime" aria-hidden="true"></span></div>
   <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
     <button class="tab" role="tab" data-view="real" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.real">حوادث حقيقية</span></button>
-    <button class="tab" role="tab" data-view="break" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.break">اكسره</span></button>
-    <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">3</span><span data-i18n="tab.twin">مستشفيان</span></button>
-    <button class="tab" role="tab" data-view="judge" aria-selected="false"><span class="tab-n">4</span><span data-i18n="tab.judge">أنت ضد الآلة</span></button>
-    <button class="tab" role="tab" data-view="ransom" aria-selected="false"><span class="tab-n">5</span><span data-i18n="tab.ransom">الفدية</span></button>
-    <button class="tab" role="tab" data-view="quantum" aria-selected="false"><span class="tab-n">6</span><span data-i18n="tab.quantum">الحاسوب الكمّي</span></button>
-    <button class="tab" role="tab" data-view="verify" aria-selected="false"><span class="tab-n">7</span><span data-i18n="tab.verify">تحقّق بنفسك</span></button>
-    <button class="tab" role="tab" data-view="memory" aria-selected="false"><span class="tab-n">8</span><span data-i18n="tab.memory">ذاكرة الهجمات</span></button>
-    <button class="tab" role="tab" data-view="story" aria-selected="false"><span class="tab-n">9</span><span data-i18n="tab.story">القصة والأدلة</span></button>
+    <button class="tab" role="tab" data-view="box" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.box">الجهاز</span></button>
+    <button class="tab" role="tab" data-view="break" aria-selected="false"><span class="tab-n">3</span><span data-i18n="tab.break">اكسره</span></button>
+    <button class="tab" role="tab" data-view="twin" aria-selected="false"><span class="tab-n">4</span><span data-i18n="tab.twin">مستشفيان</span></button>
+    <button class="tab" role="tab" data-view="judge" aria-selected="false"><span class="tab-n">5</span><span data-i18n="tab.judge">أنت ضد الآلة</span></button>
+    <button class="tab" role="tab" data-view="ransom" aria-selected="false"><span class="tab-n">6</span><span data-i18n="tab.ransom">الفدية</span></button>
+    <button class="tab" role="tab" data-view="quantum" aria-selected="false"><span class="tab-n">7</span><span data-i18n="tab.quantum">الحاسوب الكمّي</span></button>
+    <button class="tab" role="tab" data-view="verify" aria-selected="false"><span class="tab-n">8</span><span data-i18n="tab.verify">تحقّق بنفسك</span></button>
+    <button class="tab" role="tab" data-view="memory" aria-selected="false"><span class="tab-n">9</span><span data-i18n="tab.memory">ذاكرة الهجمات</span></button>
+    <button class="tab" role="tab" data-view="story" aria-selected="false"><span class="tab-n">10</span><span data-i18n="tab.story">القصة والأدلة</span></button>
   </nav>
   <div class="top-tools">
     <span class="lab-chip" id="labChip" hidden><span class="dot" id="labDot"></span><span data-i18n="lab.chip">المختبر</span></span>
@@ -95,6 +96,29 @@
     </div>
     <div class="panel panel-pad hud mt4" id="incSummary" hidden></div>
     <p class="mt4 note" data-i18n="real.note">التحويل من التقارير إلى شبكة ولحظات كشف أجراه Claude بقواعد منشورة، ولم يُعد تحويله إنسان مستقل بعد. «قطع الشبكة كلها» هو العزل الكامل الآمن على نفس اللحظة. الأرقام هنا من تشغيل حي للكود، لا من ملف مكتوب مسبقًا.</p>
+  </section>
+
+  <!-- box: exploded view of the ACRS Box hardware ----------------------------------------------------------->
+  <section class="view" id="view-box" role="tabpanel">
+    <div class="view-head">
+      <div>
+        <h1 class="view-title" data-i18n="box.title">ACRS Box: الصندوق اللي يحمي الشبكة.</h1>
+        <p class="view-lede" data-i18n="box.lede">حرّك الماوس للأعلى يتفكّك الجهاز للأعلى، ولليمين يتفكّك لليمين. كل طبقة مكتوب جنبها وش تسوي، وأي جزء منها مبني في البرنامج الآن وأي جزء قيد البناء.</p>
+      </div>
+      <div class="row">
+        <label class="risk"><span data-i18n="box.slider">فكّ الجهاز</span><input type="range" id="boxRange" min="0" max="100" value="0"></label>
+        <div class="seg" role="group" aria-label="Direction">
+          <button data-boxdir="up" aria-pressed="true" data-i18n="box.up">للأعلى</button>
+          <button data-boxdir="side" aria-pressed="false" data-i18n="box.side">لليمين</button>
+        </div>
+      </div>
+    </div>
+    <div class="box-stage panel hud" id="boxStage" aria-label="ACRS Box exploded view">
+      <div class="box-floor" aria-hidden="true"></div>
+      <div class="box-layers" id="boxLayers"></div>
+      <p class="box-hint" id="boxHint" data-i18n="box.hint">حرّك الماوس فوق الجهاز</p>
+    </div>
+    <p class="mt4 note" data-i18n="box.note">الجهاز نموذج أولي لمسابقة سيف: البرنامج (المحرك v12، بوابة السلامة، التوقيع، السجل، حفظ الحالة، الطرفية) يعمل الآن وهو نفسه اللي في هذا الموقع. القطع المكتوب عليها «قيد البناء» مخططة ولم تُختبر بعد.</p>
   </section>
 
   <!-- 1. break it ---------------------------------------------------------------------------------------------->
