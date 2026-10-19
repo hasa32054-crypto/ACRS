@@ -478,6 +478,7 @@
     const mos = r.steps.map((s) => { const m = el("div", { class: "mo" }, [el("i"), el("span", { text: s.moment })]); mbox.append(m); return m; });
     $("#incSummary").hidden = true;
     const term = $("#term"), body = $("#termBody"); body.textContent = ""; term.hidden = R.mode !== "fault";
+    if (!reduced()) document.querySelector(".real-grid").scrollIntoView({ behavior: "smooth", block: "start" });
     const sysLines = r.terminal.filter((l) => l.kind !== "cmd"), cmdLines = r.terminal.filter((l) => l.kind === "cmd");
     const alive = () => my === R.token && S.view === "real";
     for (let i = 0; i < r.steps.length; i++) {
