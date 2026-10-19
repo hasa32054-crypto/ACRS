@@ -234,7 +234,7 @@ class TestServer(unittest.TestCase):
     def test_full_journey(self):
         s, _, b = self.req("POST", "/api/decide", {"hacked": {"pc_doc1": 8, "pacs1": 8, "pacs_store": 9}})
         d = json.loads(b)
-        self.assertEqual(s, 200); self.assertIn("receipt_qr", d); self.assertTrue(d["receipt"].startswith("ACRS v9|"))
+        self.assertEqual(s, 200); self.assertIn("receipt_qr", d); self.assertTrue(d["receipt"].startswith("ACRS v12|"))
         s, _, b = self.req("POST", "/api/verify", {"hacked": {"pc_doc1": 8, "pacs1": 8, "pacs_store": 9},
                                                     "certificate": d["certificate"], "signature": d["signature"]})
         self.assertTrue(json.loads(b)["accepted"])
@@ -255,3 +255,57 @@ class TestServer(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestBoothV12(unittest.TestCase):
+    """Booth engine v12: certificate re-derived independently, tampering refused, ML-DSA verified."""
+
+    def test_v12_certificate_and_tamper(self):
+        hacked = {"pc_recep1": 9, "web1": 8}
+        d = BOOTH.decide(hacked, [])
+        self.assertEqual(d["engine"], "v12")
+        ok = BOOTH.verify(hacked, d["certificate"], d["signature"], d["pq_signature"])
+        self.assertTrue(ok["accepted"] and ok["pq_ok"] and ok["certificate_ok"])
+        import copy
+        bad = copy.deepcopy(d["certificate"]); bad["isolate"] = []
+        self.assertFalse(BOOTH.verify(hacked, bad, d["signature"], d["pq_signature"])["accepted"])
+        self.assertFalse(BOOTH.verify({"pc_recep1": 9}, d["certificate"], d["signature"])["certificate_ok"])
+
+    def test_v12_floor_isolates_destroyed_host(self):
+        d = BOOTH.decide({"pc_nurse3": 9, "pc_nurse4": 9}, [])
+        self.assertIn("pc_nurse3", d["hassan"]["isolate"])
+        self.assertTrue(any(f["kind"] == "destructive" for f in d["floor"]))
+
+    def test_v12_forged_alert_isolates_nothing(self):
+        d = BOOTH.decide({"ehr_app1": 9}, ["ehr_app1"])
+        self.assertEqual(d["hassan"]["isolate"], [])
+
+
+class TestBoothIncidents(unittest.TestCase):
+    """Real-incident replay: real engine, fault injection, restart, recovery terminal, immunity."""
+
+    @classmethod
+    def setUpClass(cls):
+        from qacrs.booth.incidents import Incidents
+        cls.I = Incidents()
+
+    def test_catalog_has_real_and_corpus(self):
+        c = self.I.catalog()
+        self.assertGreaterEqual(c["n"], 80)
+        self.assertTrue(any(r["origin"] == "real" for r in c["incidents"]))
+
+    def test_normal_run_is_safe(self):
+        r = self.I.run("07_hse_conti_2021", "normal")
+        self.assertEqual(r["totals"]["unsafe"], 0); self.assertEqual(r["totals"]["silent"], 0)
+        self.assertLessEqual(r["totals"]["acrs_down"], r["totals"]["full_down"])
+        self.assertTrue(r["audit_ok"])
+
+    def test_fault_run_survives_and_recovers(self):
+        r = self.I.run("07_hse_conti_2021", "fault")
+        self.assertTrue(any(s["fallback"] for s in r["steps"]))
+        st = next(s for s in r["steps"] if "restart" in s)
+        self.assertEqual(st["restart"]["released"], []); self.assertTrue(st["restart"]["audit_ok"])
+        rec = r["recovery"]
+        self.assertTrue(rec["refused_premature_readmit"]); self.assertTrue(rec["closed"]); self.assertTrue(rec["audit_ok"])
+        self.assertLessEqual(rec["replay"]["services_down_after"], rec["replay"]["services_down_before"])
+        self.assertEqual(r["totals"]["unsafe"], 0)

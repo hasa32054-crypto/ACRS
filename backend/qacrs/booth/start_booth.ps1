@@ -11,7 +11,7 @@ icacls $secret /inheritance:r /grant:r "$($env:USERNAME):(OI)(CI)F" | Out-Null
 if ($Agent -and -not (Test-Path (Join-Path $secret "plan_key"))) {
   Write-Host "Copy plan_key from the Linux laptop (USB) to $secret\plan_key first." -ForegroundColor Red; exit 1
 }
-$pyArgs = @("-m", "qacrs.booth.server", "--port", "8800")
+$pyArgs = @("-m", "qacrs.booth.server", "--port", "8800", "--auto-budget")
 if ($Agent) { $pyArgs += @("--agent", "$($Agent):8900") }
 if ($SolverBudget -gt 0) { $pyArgs += @("--solver-budget", "$SolverBudget") }
 Set-Location $backend

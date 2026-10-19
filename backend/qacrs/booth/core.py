@@ -51,8 +51,29 @@ RULE_EN = {"G1": "Critical server isolation is never automatic: two-person appro
            "FAILSAFE": "Solver over its time budget: restrict reported machines only; humans decide"}
 
 
+FLOOR_AR = {"destructive": "حمولة مدمّرة نُفّذت على الجهاز (خطر 9): يُعزل فورًا",
+            "critical": "خادم حرج مخترق: يُجزّأ فورًا، وتبقى خدمته السريرية تعمل",
+            "neighbour": "خادم حرج سليم بجوار خادم حرج مخترق: يُجزّأ ليُغلق الطريق إليه",
+            "free": "عزله لا يوقف أي خدمة إضافية: يُعزل",
+            "owner": "جهاز طبي لا يُعزل أبدًا: يُحال لصاحبه"}
+FLOOR_EN = {"destructive": "Destructive payload ran on the host (risk 9): isolate at once",
+            "critical": "Hacked critical server: segment at once; its clinical service keeps running",
+            "neighbour": "Healthy critical neighbour of a hacked critical server: segment to close the path",
+            "free": "Isolating it stops no additional service: isolate",
+            "owner": "Never-isolate medical device: referred to its owner"}
+
+
+def floor_kind(reason: str) -> str:
+    r = reason.lower()
+    if "destructive" in r: return "destructive"
+    if "neighbour" in r: return "neighbour"
+    if "costs no service" in r: return "free"
+    if "owner" in r: return "owner"
+    return "critical"
+
+
 class Booth:
-    def __init__(self, key: bytes = b"demo-key-not-secret"):
+    def __init__(self, key: bytes = b"demo-key-not-secret", engine: str = "v12"):
         self.net = RV.hospital60()
         self.names = {m.name for m in self.net.machines}
         self.machine = {m.name: m for m in self.net.machines}
@@ -60,7 +81,12 @@ class Booth:
         # booth-wide rate limit stays the engine's own default (3 automatic isolations / 60 s) would make a queue of
         # visitors look like an attack flood; each visitor attack is independent, so the limiter is per decision.
         self.key = key
-        self.engine = EngineV9(self.net, key=key, limiter=H.RateLimiter(limit=10 ** 9))
+        self.engine_name = engine
+        if engine == "v12":
+            from qacrs.booth.engine_v12 import EngineV12
+            self.engine = EngineV12(self.net, key=key, limiter=H.RateLimiter(limit=10 ** 9))
+        else:
+            self.engine = EngineV9(self.net, key=key, limiter=H.RateLimiter(limit=10 ** 9))
         self._links = set(self.net.links)
         for sc in ({"pc_recep1": 8, "web1": 8}, {"pc_admin1": 9, "dc1": 9, "ehr_db": 9}):   # warm caches
             self.engine.decide(Scenario("warm", "hospital60", sc, "warm-up"), lateral=set())
@@ -113,7 +139,20 @@ class Booth:
             "card": self.card_ar(hacked, forged, d, hassan, full),
             "card_en": d.card["en"],
             "certificate": d.certificate, "signature": d.signature,
+            "engine": self.engine_name,
+            "pq_signature": getattr(d, "pq_signature", None), "pq_alg": "ML-DSA-65" if getattr(d, "pq_signature", None) else None,
+            "floor": [{"machine": m, "kind": floor_kind(r), "ar": FLOOR_AR[floor_kind(r)], "en": FLOOR_EN[floor_kind(r)]}
+                      for m, r in sorted((d.certificate.get("floor_reasons") or {}).items())]
+                     if isinstance(d.certificate, dict) else [],
+            "after_approval_down": self._after_approval(sc, d),
+            "full_down_n": len(full["services_down"]),
         }
+
+    def _after_approval(self, sc, d) -> list[str]:
+        from qacrs.booth.engine_v12 import services_after_approval
+        if d.status == "REJECTED":
+            return []
+        return services_after_approval(self.net, sc, set(d.isolate), set(d.segment), d.escalations)
 
     def card_ar(self, hacked, forged, d, hassan, full) -> dict:
         n = lambda ms: "، ".join(AR.name(m) for m in ms) or "لا شيء"
@@ -182,10 +221,19 @@ class Booth:
                 "services_unavailable": sorted(set(down) | set(enc_down))}
 
     # -------------------------------------------------------------- verify yourself -------------------------------
-    def verify(self, hacked: dict, certificate: dict, signature: str) -> dict:
+    def verify(self, hacked: dict, certificate: dict, signature: str, pq_signature: str | None = None) -> dict:
         sig_ok = H.verify_signature(certificate, signature, self.key) if isinstance(signature, str) else False
+        sc = Scenario("v", "hospital60", dict(hacked), "verify")
         try:
-            cert_ok = verify_certificate_v9(self.net, Scenario("v", "hospital60", dict(hacked), "verify"), certificate)
+            if self.engine_name == "v12":
+                from qacrs.booth.engine_v12 import verify_certificate_v12
+                cert_ok = verify_certificate_v12(self.net, sc, certificate)
+            else:
+                cert_ok = verify_certificate_v9(self.net, sc, certificate)
         except Exception:
             cert_ok = False
-        return {"signature_ok": bool(sig_ok), "certificate_ok": bool(cert_ok), "accepted": bool(sig_ok and cert_ok)}
+        out = {"signature_ok": bool(sig_ok), "certificate_ok": bool(cert_ok), "accepted": bool(sig_ok and cert_ok)}
+        if pq_signature is not None and hasattr(self.engine, "verify_pq"):
+            out["pq_ok"] = bool(self.engine.verify_pq(certificate, pq_signature))
+            out["accepted"] = out["accepted"] and out["pq_ok"]
+        return out

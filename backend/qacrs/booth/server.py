@@ -28,6 +28,7 @@ from pathlib import Path
 from qacrs import hassan as H
 from qacrs.booth import evidence, qr, secure
 from qacrs.booth.core import Booth
+from qacrs.booth.incidents import Incidents
 from qacrs.booth.memory import AttackMemory
 
 WEB = Path(__file__).resolve().parent / "web"
@@ -52,7 +53,7 @@ def static_table(root: Path = WEB) -> dict:
 def receipt_text(d: dict) -> str:
     """What the 'verify yourself' QR carries: status, SHA-256 of the certificate, signature prefix, repo."""
     sha = hashlib.sha256(secure.canonical(d["certificate"])).hexdigest()
-    return f"ACRS v9|{d['status']}|cert-sha256:{sha}|hmac:{d['signature'][:16]}|{evidence.REPO}"
+    return f"ACRS {d.get('engine', 'v9')}|{d['status']}|cert-sha256:{sha}|hmac:{d['signature'][:16]}|{evidence.REPO}"
 
 
 class Agent:
@@ -88,9 +89,9 @@ class Agent:
 
 class App:
     def __init__(self, token: str, key: bytes, memory: AttackMemory | None = None, agent: Agent | None = None,
-                 solver_budget_s: float = EVALUATED_SOLVER_BUDGET_S):
+                 solver_budget_s: float = EVALUATED_SOLVER_BUDGET_S, engine: str = "v12"):
         H.SOLVER_TIMEOUT_S = solver_budget_s                    # process-local; default = evaluated value
-        self.token, self.booth, self.memory, self.agent = token, Booth(key), memory or AttackMemory(), agent
+        self.token, self.booth, self.memory, self.agent = token, Booth(key, engine=engine), memory or AttackMemory(), agent
         self.static = static_table()
         self.limiter = secure.ClientLimiter(limit=40, window=10.0)
         self.lock = threading.Lock()
@@ -98,11 +99,13 @@ class App:
         self.model = self.booth.model() | {
             "evidence": ev,
             "config": {"solver_budget_s": solver_budget_s, "evaluated_solver_budget_s": EVALUATED_SOLVER_BUDGET_S,
-                       "agent": bool(agent)},
+                       "agent": bool(agent), "engine": engine},
             "repo_qr": qr.svg(ev["repo"], scale=5),
-            "reproduce": "git clone " + ev["repo"] + " && cd ACRS && make hassan-repro-v9",
+            "reproduce": "git clone " + ev["repo"] + " && cd ACRS && make hassan-test",
         }
         self.quantum = evidence.quantum_shots()
+        self.incidents = Incidents()
+        self.incident_catalog = self.incidents.catalog()
 
     # every API handler: (validated body) -> (code, object)
     def decide(self, b):
@@ -140,14 +143,17 @@ class App:
             return 200, self.booth.spread_timeline(start, b["policy"])
 
     def verify(self, b):
-        secure._keys(b, {"hacked", "certificate", "signature"}, {"hacked", "certificate", "signature"})
+        secure._keys(b, {"hacked", "certificate", "signature", "pq_signature"}, {"hacked", "certificate", "signature"})
+        pq = b.get("pq_signature")
+        if pq is not None and (not isinstance(pq, str) or len(pq) > 8000):
+            raise secure.Invalid("pq_signature: hex text")
         hacked, _ = secure.attack({"hacked": b["hacked"]}, self.booth.names)
         if not isinstance(b["certificate"], dict) or len(secure.canonical(b["certificate"])) > 8192:
             raise secure.Invalid("certificate: object up to 8 KB")
         if not isinstance(b["signature"], str) or len(b["signature"]) > 128:
             raise secure.Invalid("signature: text")
         with self.lock:
-            return 200, self.booth.verify(hacked, b["certificate"], b["signature"])
+            return 200, self.booth.verify(hacked, b["certificate"], b["signature"], pq)
 
     def save_attack(self, b):
         secure._keys(b, {"name", "hacked", "forged", "consent"}, {"name", "hacked", "consent"})
@@ -179,7 +185,16 @@ class App:
         except Exception as e:
             return 200, {"connected": False, "error": type(e).__name__}
 
-    POST = {"/api/decide": decide, "/api/judge": judge, "/api/spread": spread, "/api/verify": verify,
+    def incident(self, b):
+        secure._keys(b, {"id", "mode"}, {"id", "mode"})
+        if not isinstance(b["id"], str) or b["id"] not in self.incidents.items:
+            raise secure.Invalid("id: unknown incident")
+        if b["mode"] not in ("normal", "fault"):
+            raise secure.Invalid("mode: normal | fault")
+        with self.lock:
+            return 200, self.incidents.run(b["id"], b["mode"])
+
+    POST = {"/api/incident": incident, "/api/decide": decide, "/api/judge": judge, "/api/spread": spread, "/api/verify": verify,
             "/api/attacks/save": save_attack, "/api/attacks/delete": delete_attack, "/api/attacks/regress": regress,
             "/api/lab": lab}
 
@@ -237,6 +252,8 @@ def make_handler(app: App, port_ref: list):
                 return self._json(200, app.model)
             if path == "/api/quantum":
                 return self._json(200, app.quantum)
+            if path == "/api/incidents":
+                return self._json(200, app.incident_catalog)
             if path == "/api/attacks":
                 return self._json(200, {"attacks": app.memory.public()})
             hit = app.static.get(path)
@@ -301,6 +318,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser(prog="python -m qacrs.booth.server")
     ap.add_argument("--port", type=int, default=8800)
     ap.add_argument("--agent", help="LAN address of the Linux mini-hospital agent, e.g. 192.168.1.50:8900")
+    ap.add_argument("--engine", choices=("v12", "v9"), default="v12", help="decision engine (default v12)")
+    ap.add_argument("--auto-budget", action="store_true",
+                    help="if the start-up self-check hits the fail-safe, raise the solver budget step by step "
+                         "(0.2 / 0.3 / 0.5 / 1.0 s) until it does not; the value is shown on screen as a deviation")
     ap.add_argument("--solver-budget", type=float, default=EVALUATED_SOLVER_BUDGET_S,
                     help=f"solver time budget in s (default {EVALUATED_SOLVER_BUDGET_S} = the evaluated setting; "
                          "a different value is shown on screen as a deviation)")
@@ -309,8 +330,17 @@ def main(argv=None):
         raise SystemExit("--solver-budget must be between 0.05 and 2.0 s")
     key = secure.load_secret("plan_key")
     agent = Agent(a.agent, key) if a.agent else None
-    srv = make_server(a.port, key=key, agent=agent, solver_budget_s=a.solver_budget)
+    srv = make_server(a.port, key=key, agent=agent, solver_budget_s=a.solver_budget, engine=a.engine)
     sc = selfcheck(srv.app)
+    if a.auto_budget and sc["fail_safe"]:
+        for b in (0.2, 0.3, 0.5, 1.0):
+            if b <= a.solver_budget:
+                continue
+            H.SOLVER_TIMEOUT_S = a.solver_budget = b
+            srv.app.model["config"]["solver_budget_s"] = b
+            sc = selfcheck(srv.app)
+            if not sc["fail_safe"]:
+                break
     print(f"ACRS booth: http://127.0.0.1:{srv.server_address[1]}/   (loopback only; secrets in {secure.secret_dir()})")
     print(f"self-check: {sc['fail_safe']}/{sc['attacks']} reference attacks hit the solver budget "
           f"({a.solver_budget:.2f} s) and fell back to the safe path."

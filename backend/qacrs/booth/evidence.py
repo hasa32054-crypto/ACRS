@@ -66,6 +66,17 @@ SOURCES = [
     ("e9_fez_optimal", "v3/ibm/e9_run_fez.json", "summary.qpu_components_optimal"),
     ("e9_fez_backend", "v3/ibm/e9_run_fez.json", "backend"),
     ("e9_single_shot_all_optimal", "v3/ibm/e9_run.json", "summary.single_shot_all_components_optimal"),
+    # v12 (the engine the booth runs): open incident corpus, 75 real incidents 2013-2026
+    ("v12_corpus_cases", "v12/v12.json", "meta.corpus_converted"),
+    ("v12_corpus_moments", "v12/v12.json", "summaries.corpus.n"),
+    ("v12_corpus_auto_ratio", "v12/v12.json", "summaries.corpus.policies.v12.auto_ratio"),
+    ("v12_corpus_unsafe", "v12/v12.json", "summaries.corpus.policies.v12.unsafe"),
+    ("v12_corpus_down", "v12/v12.json", "summaries.corpus.policies.v12.services_down_after_approval"),
+    ("v12_corpus_v9_down", "v12/v12.json", "summaries.corpus.policies.v9.services_down_after_approval"),
+    ("v12_corpus_rule_down", "v12/v12.json", "summaries.corpus.policies.rule_segment.services_down_after_approval"),
+    ("v12_corpus_full_down", "v12/v12.json", "summaries.corpus.policies.full_isolation.services_down_after_approval"),
+    ("v12_scale_1000_median_ms", "v12/v12.json", "targets.T7.1000.median_ms"),
+    ("v12_pq_tamperings", "v12/pqsign.json", "tamperings"),
 ]
 
 
