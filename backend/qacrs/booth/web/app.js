@@ -1296,6 +1296,12 @@
     S.pos = layout();
     buildAll();
     bootSequence();
+    // presentation set: five views; the rest stay in the code and come back with ?all=1
+    if (!/[?&]all=1/.test(location.search)) {
+      for (const v of ["twin", "judge", "ransom", "verify", "memory"]) { const b = $(`.tab[data-view="${v}"]`); if (b) b.remove(); }
+      for (const id of ["#toSave", "#toVerify"]) { const b = $(id); if (b) b.hidden = true; }
+    }
+    $$(".tab").forEach((b, i) => { const n = b.querySelector(".tab-n"); if (n) n.textContent = String(i + 1); });
     $$(".tab").forEach((b) => b.addEventListener("click", () => show(b.dataset.view)));
     $("#tabs").addEventListener("keydown", (e) => {
       const tabs = $$(".tab"), i = tabs.findIndex((x) => x.getAttribute("aria-selected") === "true");
@@ -1339,7 +1345,7 @@
       S.real.mode = b.dataset.rmode; $$("[data-rmode]").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
     }));
     $("#runBtn").addEventListener("click", runIncident);
-    const v = store.get("hassan-view"); show(v && $("#view-" + v) ? v : "real");
+    const v = store.get("hassan-view"); show(v && $(`.tab[data-view="${v}"]`) ? v : "real");
   }
 
   const th = store.get("hassan-theme"); if (th === "light") document.documentElement.dataset.theme = "light";
