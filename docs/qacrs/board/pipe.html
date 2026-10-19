@@ -1,0 +1,29 @@
+<!doctype html><html lang="ar"><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(IBMPlexSansArabic-Regular.woff2)}@font-face{font-family:P;font-weight:600;src:url(IBMPlexSansArabic-SemiBold.woff2)}
+body{margin:0;background:#fff;font-family:P}svg text{font-family:P}</style><body>
+<svg id="s" xmlns="http://www.w3.org/2000/svg" width="1650" height="500" viewBox="0 0 1650 500">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4B555B"/></marker>
+<linearGradient id="g" x1="1" x2="0"><stop offset="0" stop-color="#417FB5"/><stop offset=".5" stop-color="#0DA4A6"/><stop offset="1" stop-color="#00A866"/></linearGradient></defs>
+<rect width="1650" height="500" fill="#fff"/>
+</svg>
+<script>
+const S=document.getElementById('s'),ns='http://www.w3.org/2000/svg';
+function el(t,a,txt){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;S.appendChild(e);return e;}
+const nodes=[["١","التنبيه","تقنية ATT&CK على جهاز"],["٢","أرضية الأمان","مشفَّر ← عزل · حرج ← تجزئة"],["٣","مُحسِّن QUBO","أقل إجراء لبقية الشبكة"],["٤","بوابة السلامة","الحرج ← موافقة شخصين"],["٥","التوأم ثم التنفيذ","يختبر القواعد ثم جدار Linux"]];
+const W=290,H=210,G=40,T0=40;let x=1650-20-W;
+nodes.forEach((n,i)=>{
+ const hl=(i==1||i==3);
+ el('rect',{x,y:T0,width:W,height:H,rx:16,fill:hl?'#EAF6F0':'#F3F6F8',stroke:hl?'#00A866':'#417FB5','stroke-width':hl?4:2.5});
+ el('circle',{cx:x+W-38,cy:T0+40,r:24,fill:'url(#g)'});
+ el('text',{x:x+W-38,y:T0+50,'text-anchor':'middle','font-size':28,'font-weight':600,fill:'#fff'},n[0]);
+ el('text',{x:x+W-74,y:T0+52,direction:'rtl','text-anchor':'start','font-size':32,'font-weight':600,fill:'#1C2328'},n[1]);
+ el('text',{x:x+W/2,y:T0+140,direction:'rtl','text-anchor':'middle','font-size':24,fill:'#3A444A'},n[2]);
+ if(i<nodes.length-1) el('line',{x1:x-4,y1:T0+H/2,x2:x-G+6,y2:T0+H/2,stroke:'#4B555B','stroke-width':3,'marker-end':'url(#a)'});
+ x-=W+G;});
+// protection bands
+const y2=T0+H+34;
+el('rect',{x:20,y:y2,width:1610,height:84,rx:14,fill:'#E6F1FA'});
+el('text',{x:1650-40,y:y2+54,direction:'rtl','text-anchor':'start','font-size':28,'font-weight':600,fill:'#1C2328'},'حماية الشبكة: أقل إجراء يوقف المهاجم ويُبقي الخدمات');
+el('rect',{x:20,y:y2+100,width:1610,height:84,rx:14,fill:'#E7F6EF'});
+el('text',{x:1650-40,y:y2+154,direction:'rtl','text-anchor':'start','font-size':28,'font-weight':600,fill:'#1C2328'},'حماية النظام نفسه: بوابة ثابتة · توأم يرفض الخطة المعطوبة · شهادة موقّعة ML-DSA · طرفية إنعاش');
+</script></body></html>
