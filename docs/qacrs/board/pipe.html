@@ -9,7 +9,7 @@ body{margin:0;background:#fff;font-family:P}svg text{font-family:P}</style><body
 <script>
 const S=document.getElementById('s'),ns='http://www.w3.org/2000/svg';
 function el(t,a,txt){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;S.appendChild(e);return e;}
-const nodes=[["١","التنبيه",["تقنية ATT&CK","على جهاز"]],["٢","أرضية الأمان",["مشفَّر ← عزل","حرج ← تجزئة"]],["٣","مُحسِّن QUBO",["أقل إجراء","لبقية الشبكة"]],["٤","بوابة السلامة",["الحرج يحتاج","موافقة شخصين"]],["٥","التوأم ثم التنفيذ",["يختبر القواعد","ثم جدار Linux"]]];
+const nodes=[["١","التنبيه",["جهاز فيه","شي غريب"]],["٢","القواعد الثابتة",["خربان ← يُفصل","مهم ← نضيّق عليه"]],["٣","أصغر خطوة",["يحسب أفضل خطة","لباقي الشبكة"]],["٤","بوابة السلامة",["القرار الكبير","بموافقة شخصين"]],["٥","نجرّب ثم ننفّذ",["على نسخة تجريبية","ثم الشبكة"]]];
 const W=296,H=320,G=36,T0=16;let x=1650-20-W;
 nodes.forEach((n,i)=>{
  const hl=(i==1||i==3);
@@ -17,13 +17,13 @@ nodes.forEach((n,i)=>{
  el('circle',{cx:x+W/2,cy:T0+52,r:34,fill:'url(#g)'});
  el('text',{x:x+W/2,y:T0+66,'text-anchor':'middle','font-size':38,'font-weight':600,fill:'#fff'},n[0]);
  el('text',{x:x+W/2,y:T0+148,direction:'rtl','text-anchor':'middle','font-size':40,'font-weight':600,fill:'#1C2328'},n[1]);
- n[2].forEach((L,j)=>el('text',{x:x+W/2,y:T0+218+j*48,direction:'rtl','text-anchor':'middle','font-size':36,fill:'#3A444A'},L));
+ n[2].forEach((L,j)=>el('text',{x:x+W/2,y:T0+218+j*48,direction:'rtl','text-anchor':'middle','font-size':34,fill:'#3A444A'},L));
  if(i<nodes.length-1) el('line',{x1:x-4,y1:T0+H/2,x2:x-G+6,y2:T0+H/2,stroke:'#4B555B','stroke-width':3,'marker-end':'url(#a)'});
  x-=W+G;});
 // protection bands
 const y2=T0+H+22;
 el('rect',{x:20,y:y2,width:1610,height:118,rx:14,fill:'#E6F1FA'});
-el('text',{x:1630-24,y:y2+73,direction:'rtl','text-anchor':'start','font-size':38,'font-weight':600,fill:'#1C2328'},'حماية الشبكة: أقل إجراء يوقف المهاجم ويُبقي الخدمات');
+el('text',{x:1630-24,y:y2+73,direction:'rtl','text-anchor':'start','font-size':38,'font-weight':600,fill:'#1C2328'},'حماية الشبكة: أصغر خطوة توقف المخترق وتخلي الخدمات شغّالة');
 el('rect',{x:20,y:y2+132,width:1610,height:118,rx:14,fill:'#E7F6EF'});
-el('text',{x:1630-24,y:y2+132+73,direction:'rtl','text-anchor':'start','font-size':34,'font-weight':600,fill:'#1C2328'},'حماية النظام نفسه: بوابة ثابتة · توأم يرفض الخطة المعطوبة · توقيع ML-DSA · طرفية إنعاش');
+el('text',{x:1630-24,y:y2+132+73,direction:'rtl','text-anchor':'start','font-size':34,'font-weight':600,fill:'#1C2328'},'حماية النظام نفسه: قواعد ما تتغيّر · نسخة تجريبية ترفض الخطة الغلط · ختم رقمي ضد التزوير');
 </script></body></html>
