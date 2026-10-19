@@ -468,9 +468,91 @@
       l.audit ? el("span", { class: "h", text: "#" + l.audit }) : null, el("span", { class: "tx", text: l.text }), l.out ? el("span", { class: "o", text: l.out }) : null]);
     body.append(li); body.scrollTop = body.scrollHeight;
   }
+  /* ---- proof-of-action motion: a stamp on the map says what just happened, the touched hosts answer with a ring and a tag */
+  function stamp(tone, code, title, sub) {
+    const box = $("#stamps");
+    for (const old of box.children) { old.classList.remove("is-on"); old.classList.add("is-out"); setTimeout(() => old.remove(), 180); }
+    const s = el("div", { class: `stamp t-${tone}` }, [el("span", { class: "stamp-code", text: code }),
+      el("div", { class: "stamp-tx" }, [el("b", { text: title }), sub ? el("span", { text: sub }) : null])]);
+    box.append(s); requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add("is-on")));
+  }
+  function stampClear() { $("#stamps").textContent = ""; }
+  function nodeFx(c, id, tone, tag) {
+    const n = c && c.st[id]; if (!n) return;
+    if (!reduced()) {
+      const ring = sv("circle", { r: 24, class: `fx fx-${tone}` }); n.mv.append(ring);
+      ring.animate([{ transform: "scale(.85)", opacity: .95 }, { transform: "scale(2.3)", opacity: 0 }], { duration: 750, easing: "cubic-bezier(.23,1,.32,1)" }).onfinish = () => ring.remove();
+    }
+    if (tag) {
+      const tx = sv("text", { class: `fx-tag fx-${tone}`, y: -34 }); tx.textContent = tag; n.mv.append(tx);
+      tx.animate([{ transform: "translateY(6px)", opacity: 0 }, { transform: "none", opacity: 1, offset: .15 }, { transform: "none", opacity: 1, offset: .8 }, { transform: "translateY(-4px)", opacity: 0 }],
+        { duration: reduced() ? 1600 : 1900, easing: "cubic-bezier(.23,1,.32,1)" }).onfinish = () => tx.remove();
+    }
+    if (tone === "deny" && !reduced()) n.mv.animate([{ transform: n.mv.style.transform || "none" }, { transform: `${n.mv.style.transform || ""} translateX(-4px)` }, { transform: `${n.mv.style.transform || ""} translateX(4px)` }, { transform: n.mv.style.transform || "none" }], { duration: 280, iterations: 2 });
+  }
+  const stagger = async (ids, fn, gap = 70) => { for (const id of ids) { fn(id); await wait(gap); } };
+
+  /* recovery session, played command by command with a visible effect for each step */
+  async function playRecovery(c, r, cmdLines, sysLines, alive) {
+    const last = r.steps[r.steps.length - 1], pend = {};
+    const by = (rx) => cmdLines.filter((l) => rx.test(l.text));
+    const arg = (l) => l.text.split(/\s+/)[2];
+    const show = async (ls, gap) => { for (const l of ls) { if (!alive()) return false; termLine(l); await wait(gap); } return true; };
+    const status = by(/> status$/);
+    stamp("info", "RECOVER", t("fx.session"), t("fx.session2", { i: last.isolate.length, s: last.segment.length }));
+    if (!(await show(status.slice(0, 1), 1300))) return;
+    for (const l of by(/> readmit /)) {
+      const h = arg(l), rk = ((l.out || "").match(/risk (\d+)/) || [])[1] || "9";
+      termLine(l); stamp("attack", "REFUSED", t("fx.readmit", { h }), t("fx.readmit2", { r: rk })); nodeFx(c, h, "deny", t("tag.deny"));
+      await wait(2200); if (!alive()) return;
+    }
+    const rot = by(/> rotate-creds/);
+    if (rot.length) { stamp("human", "ROTATED", t("fx.rotate"), t("fx.rotate2"));
+      stagger(Object.keys(last.risk), (id) => nodeFx(c, id, "human"), 40);
+      if (!(await show(rot, 1800))) return; }
+    const rest = by(/> restore /);
+    if (rest.length) {
+      const crit = rest.filter((l) => /pending #/.test(l.out || ""));
+      stamp("ok", "RESTORE", t("fx.restore", { n: rest.length }), crit.length ? t("fx.restore2", { c: crit.length }) : "");
+      for (const l of rest) {
+        if (!alive()) return; termLine(l); const h = arg(l), m = (l.out || "").match(/pending #(\d+)/);
+        if (m) { pend[m[1]] = h; nodeFx(c, h, "human", t("tag.wait")); c.st[h] && c.st[h].g.classList.add("is-waiting"); }
+        else { nodeFx(c, h, "ok", t("tag.clean")); c.st[h] && c.st[h].g.classList.add("is-clean"); }
+        await wait(170);
+      }
+      await wait(1200);
+    }
+    const appr = by(/> approve /);
+    if (appr.length) {
+      stamp("human", "2-PERSON", t("fx.two"), t("fx.two2", { n: Object.keys(pend).length }));
+      for (const l of appr) {
+        if (!alive()) return; termLine(l); const h = pend[arg(l)];
+        if (l.ok === false) nodeFx(c, h, "deny", t("tag.deny"));
+        else { nodeFx(c, h, "ok", t("tag.ok")); if (c.st[h]) { c.st[h].g.classList.remove("is-waiting"); c.st[h].g.classList.add("is-clean"); } }
+        await wait(l.ok === false ? 260 : 420);
+      }
+      await wait(900);
+    }
+    const close = by(/> close-incident /), path = r.model.path || [];
+    if (close.length && path.length >= 2) {
+      termLine(close[0]); stamp("ok", "IMMUNE", t("fx.immune"), t("fx.immune2", { a: path[0], b: path[1] }));
+      for (const h of path.slice(0, 2)) { nodeFx(c, h, "shield", t("tag.shield")); c.st[h] && c.st[h].g.classList.add("is-shield"); }
+      await wait(2300); if (!alive()) return;
+    }
+    if (!(await show(status.slice(1), 500))) return;
+    const rp = r.recovery && r.recovery.replay;
+    for (const l of sysLines.slice(4)) { termLine(l); }
+    if (rp) {
+      stamp("ok", "REPLAY", t("fx.replay"), t("fx.replay2", { a: rp.services_down_after, b: rp.services_down_before }));
+      if (path[0]) { nodeFx(c, path[0], "attack", t("tag.alert")); await wait(450); nodeFx(c, path[0], "shield", t("tag.shield")); }
+      await wait(2300);
+    }
+    stampClear();
+  }
+
   /* ---- engine-down overlay: what broke, what held, how long it has been down */
   function crashShow(s) {
-    const box = $("#crash"), wrap = $("#incWrap"); box.textContent = ""; box.className = "crash";
+    stampClear(); const box = $("#crash"), wrap = $("#incWrap"); box.textContent = ""; box.className = "crash";
     const since = el("b", { class: "crash-t", text: "00.0s" });
     box.append(
       el("div", { class: "crash-h" }, [el("span", { class: "crash-dot" }), el("span", { class: "crash-code", text: t("crash.code") }), el("strong", { text: t("crash.title") })]),
@@ -519,7 +601,7 @@
   async function runIncident(auto = false) {
     if (auto !== true) auto = false;
     const R = S.real, my = ++R.token, btn = $("#runBtn"); busy(btn, true);
-    const vsw = $("#verdictSweep"); vsw.className = "verdict-sweep"; vsw.textContent = ""; crashHide();
+    const vsw = $("#verdictSweep"); vsw.className = "verdict-sweep"; vsw.textContent = ""; crashHide(); stampClear();
     let r;
     try { r = await api("/api/incident", { id: R.id, mode: R.mode }); } catch (e) { toast(e.message); busy(btn, false); return; }
     busy(btn, false); R.run = r;
@@ -537,13 +619,25 @@
       const s = r.steps[i], fault = R.mode === "fault" && s.fallback;
       mos.forEach((m, k) => m.classList.toggle("is-on", k === i));
       incApply(c, s, false);
-      await wait(700);
+      const fresh = Object.keys(s.alert || {});
+      stamp("attack", "ALERT · " + s.moment, t("fx.alert", { n: fresh.length }), fresh.slice(0, 4).join(" · ") + (fresh.length > 4 ? " …" : ""));
+      stagger(fresh, (id) => nodeFx(c, id, "attack", t("tag.alert")), 60);
+      await wait(900);
       const wrap = $("#incWrap"); wrap.classList.remove("is-scanning"); void wrap.offsetWidth; wrap.classList.add("is-scanning");
       if (fault) { const ff = $("#faultFlash"); ff.classList.remove("is-on"); void ff.offsetWidth; ff.classList.add("is-on");
         for (const l of sysLines.slice(0, 2)) { termLine(l); await wait(380); } }
       await wait(450);
       if (!alive()) return;
       incApply(c, s, true); incCard(s, i, r.steps.length, fault);
+      {
+        const prev = i ? r.steps[i - 1] : { isolate: [], segment: [] };
+        const ni = s.isolate.filter((x) => !prev.isolate.includes(x)), ns = s.segment.filter((x) => !prev.segment.includes(x));
+        const human = !/^CONTAINED/.test(s.status);
+        stamp(human ? "human" : "ok", fault ? "FAIL-SAFE" : "DECIDED", human ? t("fx.human") : t("fx.decided", { ms: nf(s.ms, 1) }),
+          t("fx.decided2", { i: s.isolate.length, s: s.segment.length, d: s.acrs_down.length }));
+        stagger(ni, (id) => nodeFx(c, id, "iso", t("tag.iso")), 70);
+        setTimeout(() => stagger(ns, (id) => nodeFx(c, id, "seg", t("tag.seg")), 70), 250);
+      }
       mos[i].classList.remove("is-on"); mos[i].classList.add(fault ? "is-fault" : "is-done");
       if (fault && s.restart) {
         // the engine goes down on screen, the fix waits typed in the terminal, Enter brings it back
@@ -555,12 +649,10 @@
         termLine(sysLines[3]);
         await crashRevive(s); if (!alive()) return;
         await wait(500);
-      } else await wait(fault ? 1500 : 1300);
+      } else await wait(fault ? 1800 : 1700);
     }
-    if (R.mode === "fault") {
-      for (const l of cmdLines) { if (!alive()) return; termLine(l); await wait(l.text.includes("approve") || l.text.includes("restore") ? 140 : 420); }
-      for (const l of sysLines.slice(4)) { termLine(l); await wait(300); }
-    }
+    stampClear();
+    if (R.mode === "fault") await playRecovery(c, r, cmdLines, sysLines, alive);
     if (!alive()) return;
     const last = r.steps[r.steps.length - 1], contained = last.status === "CONTAINED" || last.status === "CONTAINED_PENDING_APPROVAL";
     const up = r.model.services.length - last.acrs_down.length;

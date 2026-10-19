@@ -803,3 +803,34 @@ html[dir="ltr"] .bl-label::after { left: calc(100% + 8px); }
   .crash-l li { animation: none; opacity: 1; transform: none; }
   .crash, .map-wrap .inc-map { transition: none; }
 }
+
+/* ------------------------------------------------------------------ proof-of-action stamps + node answers */
+.stamps { position: absolute; inset-inline: 0; inset-block-end: 14px; display: grid; place-items: center; pointer-events: none; z-index: 2; }
+.stamp { grid-area: 1 / 1; display: flex; align-items: center; gap: var(--s3); max-width: calc(100% - 32px); padding: 10px 16px 10px 12px;
+  border-radius: var(--r-md); background: color-mix(in srgb, #04080A 90%, transparent); border: 1px solid var(--line); box-shadow: var(--sh-2);
+  opacity: 0; transform: translateY(8px) scale(.97); filter: blur(2px);
+  transition: opacity .22s var(--ease-out), transform .22s var(--ease-out), filter .22s var(--ease-out); }
+.stamp.is-on { opacity: 1; transform: none; filter: none; }
+.stamp.is-out { opacity: 0; transform: translateY(-6px) scale(.98); transition-duration: .15s; }
+.stamp-code { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; padding: 3px 8px; border-radius: 4px; color: #04080A; background: var(--ink-2); direction: ltr; white-space: nowrap; flex: none; }
+.stamp-tx { display: grid; gap: 2px; min-width: 0; }
+.stamp-tx b { font-size: var(--t-md); color: #F2F7F9; }
+.stamp-tx span { font-size: var(--t-xs); color: #A3B4BD; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.stamp.t-attack { border-color: color-mix(in srgb, var(--attack) 55%, transparent); } .stamp.t-attack .stamp-code { background: var(--attack); }
+.stamp.t-ok { border-color: color-mix(in srgb, var(--alive) 50%, transparent); } .stamp.t-ok .stamp-code { background: var(--alive); }
+.stamp.t-human { border-color: color-mix(in srgb, var(--human) 50%, transparent); } .stamp.t-human .stamp-code { background: var(--human); }
+.stamp.t-info .stamp-code { background: var(--segment); }
+
+.inc-map .fx { fill: none; stroke-width: 2.5; transform-box: fill-box; transform-origin: center; pointer-events: none; }
+.inc-map .fx-attack { stroke: var(--attack); } .inc-map .fx-iso { stroke: var(--isolate); } .inc-map .fx-seg { stroke: var(--segment); }
+.inc-map .fx-ok { stroke: var(--alive); } .inc-map .fx-human { stroke: var(--human); } .inc-map .fx-deny { stroke: var(--attack); stroke-dasharray: 4 3; }
+.inc-map .fx-shield { stroke: var(--alive); stroke-width: 3.5; }
+.inc-map text.fx-tag { stroke: none; font-family: var(--font); font-size: 15px; font-weight: 700; text-anchor: middle; paint-order: stroke; pointer-events: none;
+  stroke: #04080A; stroke-width: 4px; stroke-linejoin: round; }
+.inc-map text.fx-attack, .inc-map text.fx-deny { fill: var(--attack-ink); } .inc-map text.fx-iso { fill: var(--ink-2); } .inc-map text.fx-seg { fill: var(--segment); }
+.inc-map text.fx-ok, .inc-map text.fx-shield { fill: var(--alive); } .inc-map text.fx-human { fill: var(--human); }
+.st.is-clean .body { stroke: var(--alive); stroke-dasharray: none; fill: var(--alive-soft); }
+.st.is-clean .glyph { stroke: var(--alive); } .st.is-clean .label { fill: var(--alive); text-decoration: none; }
+.st.is-waiting .body { stroke: var(--human); stroke-dasharray: 4 3; } .st.is-waiting .label { fill: var(--human); text-decoration: none; }
+.st.is-shield .ring { stroke: var(--alive); stroke-width: 3; stroke-dasharray: 6 4; }
+@media (max-width: 720px) { .stamps { inset-block-end: 8px; } .stamp-tx b { font-size: var(--t-sm); } }
