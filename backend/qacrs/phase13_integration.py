@@ -63,7 +63,7 @@ def acrs_timers(pairs):
     engines, within, n, worst = {}, 0, 0, 0.0
     for net, sc in pairs:
         eng = engines.setdefault(net.name, H.Engine(net, limiter=H.RateLimiter(limit=10 ** 9)))
-        a = SV.to_acrs(net, eng.decide(sc), tier=0)
+        a = SV.to_acrs(net, eng.decide(sc), tier=0, sc=sc)
         within += a["within_deadline"]; n += 1; worst = max(worst, a["decision_s"])
     return {"decisions": n, "within_7s": within, "worst_decision_s": worst, "target_met": within == n,
             "note": "decision time only; ACRS executor/controller latency is measured separately in research/e2e_timing.py"}
