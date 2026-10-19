@@ -541,6 +541,79 @@
     }
   }
 
+
+  // ------------------------------------------------------------------------------------------- ACRS Box exploded view
+  /* six layers of the box; the pointer pulls them apart: up -> the stack opens upward, right -> it fans out sideways.
+     A rAF loop eases toward the target (critically damped feel) so it never jumps. */
+  const MARK_SVG = '<svg class="m" viewBox="0 0 220 200"><path d="M100 30 L44 170 M100 30 L156 170" fill="none" stroke="#E8F0F3" stroke-width="14" stroke-linecap="round"/><path d="M73 114 H127" stroke="#3FD49A" stroke-width="14" stroke-linecap="round"/></svg>';
+  const BOX_ART = {
+    screen: '<div class="ui"><svg class="m" viewBox="0 0 220 200" width="34" height="30"><path d="M100 30 L44 170 M100 30 L156 170" fill="none" stroke="#E8F0F3" stroke-width="16" stroke-linecap="round"/><path d="M73 114 H127" stroke="#3FD49A" stroke-width="16" stroke-linecap="round"/></svg><div class="g"></div><div class="r"></div><div class="r" data-s="width:70%"></div><div class="r" data-s="width:85%"></div></div><div class="glare"></div>',
+    pcb: '<div class="pins"></div><div class="chip" data-s="left:96px;top:66px;width:70px;height:70px"></div><div class="chip dark" data-s="left:186px;top:72px;width:48px;height:58px"></div><div class="chip" data-s="right:0;top:40px;width:56px;height:46px"></div><div class="chip" data-s="right:0;top:100px;width:56px;height:46px"></div><div class="chip dark" data-s="left:24px;top:150px;width:40px;height:26px"></div><span class="silk">RASPBERRY PI 5 · ACRS v12</span>',
+    sec: '<div class="chip glow" data-s="left:40px;top:50px;width:110px;height:80px"></div><span class="silk" data-s="left:46px;top:140px">ML-DSA-65 · HMAC chain</span><div class="chip" data-s="left:180px;top:46px;width:110px;height:120px"></div><span class="silk" data-s="left:188px;top:176px">STATE · SSD</span>',
+    net: '<div class="port" data-s="left:40px;top:40px"></div><div class="port" data-s="left:120px;top:40px"></div><div class="led" data-s="left:60px;top:104px"></div><div class="led" data-s="left:140px;top:104px"></div><div class="cable" data-s="left:40px;top:150px;width:240px"></div><div class="cable" data-s="left:120px;top:176px;width:160px"></div>',
+    pow: '<div class="cell" data-s="left:40px;top:40px"></div><div class="cell" data-s="left:40px;top:92px"></div><div class="cell" data-s="left:40px;top:144px"></div>',
+    base: '<div class="vent" data-s="top:40px"></div><div class="vent" data-s="top:58px"></div><div class="vent" data-s="top:76px"></div><div class="vent" data-s="top:94px"></div>' + MARK_SVG.replace('class="m"', 'class="mk"'),
+  };
+  const BOX_LAYERS = ["screen", "pcb", "sec", "net", "pow", "base"];
+  const BX = { built: false, up: 0, side: 0, tu: 0, ts: 0, tilt: 0, tt: 0, raf: 0, dir: "up", els: [], touched: false };
+  function boxBuild() {
+    const box = $("#boxLayers"); box.textContent = ""; BX.els = [];
+    BOX_LAYERS.forEach((k, i) => {
+      const w = el("div", { class: "bl" });
+      const edge = el("div", { class: "bl-edge" }), plate = el("div", { class: "bl-plate p-" + k });
+      plate.innerHTML = BOX_ART[k];          // static artwork authored above, no data
+      for (const n of plate.querySelectorAll("[data-s]")) {   // CSP: no style attributes; apply through CSSOM
+        for (const d of n.dataset.s.split(";")) { const [p, v] = d.split(":"); if (p && v) n.style.setProperty(p.trim(), v.trim()); }
+        n.removeAttribute("data-s");
+      }
+      const st = t("bx." + k + ".st");
+      const lab = el("div", { class: "bl-label" }, [el("b", { text: t("bx." + k + ".t") }), el("span", { text: t("bx." + k + ".d") }),
+        el("i", { class: t("bx." + k + ".ok") === "1" ? "ok" : "wip", text: st })]);
+      w.append(edge, plate, lab); box.append(w); BX.els.push({ w, lab });
+      w.style.zIndex = String(20 - i);
+    });
+    BX.built = true; boxFrame();
+  }
+  function boxFrame() {
+    const n = BX.els.length, k = reduced() ? 1 : 0.14;
+    BX.up += (BX.tu - BX.up) * k; BX.side += (BX.ts - BX.side) * k; BX.tilt += (BX.tt - BX.tilt) * k;
+    BX.els.forEach(({ w, lab }, i) => {
+      const c = i - (n - 1) / 2;
+      const dy = c * (22 + BX.up * 84) + BX.side * 30;
+      const dx = -c * BX.side * 120 - BX.side * 40;
+      w.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) rotate(${(BX.tilt * (1 + i * .15)).toFixed(2)}deg)`;
+      lab.classList.toggle("is-on", BX.up > 0.45 && BX.up >= BX.side);
+    });
+    $("#boxHint").style.opacity = BX.touched ? "0" : "1";
+    const moving = Math.abs(BX.tu - BX.up) + Math.abs(BX.ts - BX.side) + Math.abs(BX.tt - BX.tilt) > 0.002;
+    BX.raf = moving && S.view === "box" ? requestAnimationFrame(boxFrame) : 0;
+  }
+  const boxKick = () => { if (!BX.raf) BX.raf = requestAnimationFrame(boxFrame); };
+  function boxInit() {
+    if (!BX.built) {
+      boxBuild();
+      const stage = $("#boxStage");
+      stage.addEventListener("pointermove", (e) => {
+        const r = stage.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width * 2 - 1, ny = (e.clientY - r.top) / r.height * 2 - 1;
+        BX.tu = Math.max(0, Math.min(1, -ny * 1.6 + 0.15)); BX.ts = Math.max(0, Math.min(1, nx * 1.6 - 0.1)); BX.tt = nx * 3;
+        BX.touched = true; $("#boxRange").value = String(Math.round(100 * Math.max(BX.tu, BX.ts))); boxKick();
+      });
+      stage.addEventListener("pointerleave", () => { BX.tt = 0; boxKick(); });
+      $("#boxRange").addEventListener("input", (e) => {
+        const v = +e.target.value / 100; if (BX.dir === "up") { BX.tu = v; BX.ts = 0; } else { BX.ts = v; BX.tu = 0; } BX.touched = true; boxKick();
+      });
+      $$("[data-boxdir]").forEach((b) => b.addEventListener("click", () => {
+        BX.dir = b.dataset.boxdir; $$("[data-boxdir]").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+        const v = Math.max(BX.tu, BX.ts, 0.85); if (BX.dir === "up") { BX.tu = v; BX.ts = 0; } else { BX.ts = v; BX.tu = 0; }
+        $("#boxRange").value = String(Math.round(v * 100)); boxKick();
+      }));
+    }
+    // intro: the box opens once on entry so the visitor sees it is made of parts
+    BX.tu = 0; BX.ts = 0; BX.up = 0; BX.side = 0; boxKick();
+    setTimeout(() => { if (S.view === "box" && !BX.touched) { BX.tu = 0.75; boxKick(); } }, 450);
+  }
+
   // ------------------------------------------------------------------------------------------- 1. break it
   const genuinePicks = () => S.picks.filter((p) => !p.forged).map((p) => p.id);
   function canReach(id) {
@@ -1074,6 +1147,7 @@
     for (const b of $$(".tab")) b.setAttribute("aria-selected", b.dataset.view === view ? "true" : "false");
     for (const v of $$(".view")) v.classList.toggle("is-active", v.id === "view-" + view);
     if (view === "real") realLoad();
+    if (view === "box") boxInit();
     if (view === "twin") { presetButtons($("#twinPresets"), runTwin, true); runTwin(S.picks.length ? "current" : "nurse"); }
     if (view === "judge" && (!S.judge || !S.judge.running)) judgeInit();
     if (view === "ransom" && !S.ransom) ransomLoad("pc_recep1");
@@ -1108,6 +1182,7 @@
     if (S.quantum) renderQuantum();
     if (S.ransom) ransomShow(S.ransom.tick);
     if (S.real && S.real.cat) { renderSectors(); renderIncList(); }
+    if (BX.built) boxBuild();
     if (S.judge) { const J = S.judge; applyDecision(S.maps.judge, J.a.hacked, J.a.forged, { isolate: [], segment: [] });
       for (const id of J.iso) cls(S.maps.judge, id, "is-judge-iso"); for (const id of J.seg) cls(S.maps.judge, id, "is-judge-seg"); }
   }
