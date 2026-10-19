@@ -11,16 +11,33 @@
 </head>
 <body>
 <div class="boot" id="boot" role="status" aria-live="polite">
-  <div class="boot-inner">
-    <div class="boot-mark"><span class="boot-word">ACRS</span><span class="boot-sub">Automated Compromise Response System</span></div>
-    <ol class="boot-lines" id="bootLines"></ol>
-    <div class="boot-bar"><span id="bootBar"></span></div>
-    <p class="boot-skip" id="bootSkip"></p>
+  <div class="boot-stage">
+    <div class="boot-left">
+      <div class="boot-mark">
+        <svg class="boot-logo" viewBox="0 0 120 120" aria-hidden="true">
+          <path class="bl-shell" d="M60 6 L104 30 V64 C104 88 86 106 60 114 C34 106 16 88 16 64 V30 Z"/>
+          <path class="bl-link" d="M38 70 L60 46 L82 70 M60 46 V30 M38 70 H82"/>
+          <circle class="bl-node n1" cx="60" cy="30" r="5"/><circle class="bl-node n2" cx="60" cy="46" r="6"/>
+          <circle class="bl-node n3" cx="38" cy="70" r="5"/><circle class="bl-node n4" cx="82" cy="70" r="5"/>
+          <path class="bl-cut" d="M71 58 L77 52"/>
+        </svg>
+        <div><span class="boot-word">ACRS</span><span class="boot-box">BOX</span>
+          <span class="boot-sub">Automated Compromise Response System</span></div>
+      </div>
+      <ol class="boot-lines" id="bootLines"></ol>
+      <div class="boot-bar"><span id="bootBar"></span></div>
+      <p class="boot-skip" id="bootSkip"></p>
+    </div>
+    <div class="boot-right" aria-hidden="true">
+      <svg class="boot-net" id="bootNet" viewBox="0 0 1200 770"></svg>
+      <p class="boot-armed" id="bootArmed"></p>
+    </div>
   </div>
 </div>
+<div class="attract" id="attract" hidden><i></i><span id="attractText"></span></div>
 <a class="sr-only" href="#main" data-i18n="skip">تخطَّ إلى المحتوى</a>
 <header class="top">
-  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span></div>
+  <div class="brand"><span class="brand-ar">ACRS</span><span class="brand-en" id="brandEngine">v12</span><span class="live" aria-hidden="true"><i></i>LIVE</span><span class="clock" id="clock" aria-hidden="true"></span><span class="clock" id="uptime" aria-hidden="true"></span></div>
   <nav class="tabs" role="tablist" aria-label="Views" id="tabs">
     <button class="tab" role="tab" data-view="real" aria-selected="true"><span class="tab-n">1</span><span data-i18n="tab.real">حوادث حقيقية</span></button>
     <button class="tab" role="tab" data-view="break" aria-selected="false"><span class="tab-n">2</span><span data-i18n="tab.break">اكسره</span></button>
@@ -34,6 +51,7 @@
   </nav>
   <div class="top-tools">
     <span class="lab-chip" id="labChip" hidden><span class="dot" id="labDot"></span><span data-i18n="lab.chip">المختبر</span></span>
+    <button class="chip-btn" id="fsBtn" aria-label="Full screen" hidden><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
     <button class="chip-btn" id="langBtn" aria-label="English">EN</button>
     <button class="chip-btn" id="themeBtn" data-i18n-aria="theme" aria-label="تبديل المظهر">
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
@@ -65,7 +83,7 @@
           <button class="btn btn-attack" id="runBtn" disabled data-i18n="real.run">شغّل الحادثة</button>
         </div>
         <div class="moments" id="moments"></div>
-        <div class="map-wrap" id="incWrap"><svg class="map inc-map" id="incMap" viewBox="0 0 1000 460" role="img" aria-label="Incident network"></svg><div class="scan" aria-hidden="true"></div><div class="fault-flash" id="faultFlash" aria-hidden="true"></div></div>
+        <div class="map-wrap" id="incWrap"><svg class="map inc-map" id="incMap" viewBox="0 0 1000 460" role="img" aria-label="Incident network"></svg><div class="scan" aria-hidden="true"></div><div class="fault-flash" id="faultFlash" aria-hidden="true"></div><div class="verdict-sweep" id="verdictSweep" aria-live="polite"></div></div>
         <div class="term" id="term" hidden><div class="term-bar"><span></span><span></span><span></span><b>acrs-recover · audit chain</b></div><ol class="term-body" id="termBody" aria-live="polite"></ol></div>
       </div>
       <aside class="rail">

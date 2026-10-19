@@ -468,8 +468,10 @@
       l.audit ? el("span", { class: "h", text: "#" + l.audit }) : null, el("span", { class: "tx", text: l.text }), l.out ? el("span", { class: "o", text: l.out }) : null]);
     body.append(li); body.scrollTop = body.scrollHeight;
   }
-  async function runIncident() {
+  async function runIncident(auto = false) {
+    if (auto !== true) auto = false;
     const R = S.real, my = ++R.token, btn = $("#runBtn"); busy(btn, true);
+    const vsw = $("#verdictSweep"); vsw.className = "verdict-sweep"; vsw.textContent = "";
     let r;
     try { r = await api("/api/incident", { id: R.id, mode: R.mode }); } catch (e) { toast(e.message); busy(btn, false); return; }
     busy(btn, false); R.run = r;
@@ -481,6 +483,7 @@
     if (!reduced()) document.querySelector(".real-grid").scrollIntoView({ behavior: "smooth", block: "start" });
     const sysLines = r.terminal.filter((l) => l.kind !== "cmd"), cmdLines = r.terminal.filter((l) => l.kind === "cmd");
     const alive = () => my === R.token && S.view === "real";
+    if (!auto && AT.on) attractStop();
     for (let i = 0; i < r.steps.length; i++) {
       if (!alive()) return;
       const s = r.steps[i], fault = R.mode === "fault" && s.fallback;
@@ -501,7 +504,17 @@
       for (const l of cmdLines) { if (!alive()) return; termLine(l); await wait(l.text.includes("approve") || l.text.includes("restore") ? 140 : 420); }
       for (const l of sysLines.slice(4)) { termLine(l); await wait(300); }
     }
-    if (alive()) incSummary(r);
+    if (!alive()) return;
+    const last = r.steps[r.steps.length - 1], contained = last.status === "CONTAINED" || last.status === "CONTAINED_PENDING_APPROVAL";
+    const up = r.model.services.length - last.acrs_down.length;
+    vsw.className = "verdict-sweep" + (contained ? "" : " human"); vsw.textContent = "";
+    vsw.append(el("b", { text: contained ? t("verdict.ok") : t("verdict.human") }),
+      el("span", { text: `${up}/${r.model.services.length} services up · ${r.totals.unsafe} unsafe · audit ${r.audit_ok ? "intact" : "broken"}` }));
+    requestAnimationFrame(() => vsw.classList.add("is-on"));
+    await wait(2600); if (!alive()) return;
+    vsw.className = "verdict-sweep is-off";
+    incSummary(r);
+    if (!auto) $("#incSummary").scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "nearest" });
   }
   function incSummary(r) {
     const box = $("#incSummary"); box.textContent = ""; box.hidden = false;
@@ -1099,21 +1112,93 @@
       for (const id of J.iso) cls(S.maps.judge, id, "is-judge-iso"); for (const id of J.seg) cls(S.maps.judge, id, "is-judge-seg"); }
   }
 
+  /* ACRS Box power-on: the mark draws itself, the real self-test streams in (values from the server), the hospital
+     network assembles from scattered points into its floor plan and is armed, then the interface opens. ~5 s, skippable. */
   function bootSequence() {
-    const box = $("#boot"), ol = $("#bootLines"), bar = $("#bootBar");
-    const done = () => { box.classList.add("is-done"); document.removeEventListener("keydown", done); box.removeEventListener("click", done); };
-    if (reduced() || store.get("hassan-boot") === String(new Date().getHours())) { done(); return; }
-    store.set("hassan-boot", String(new Date().getHours()));        // the opener plays at most once an hour
+    const box = $("#boot"), ol = $("#bootLines"), bar = $("#bootBar"), net = $("#bootNet"), armed = $("#bootArmed");
+    let finished = false;
+    const done = () => {
+      if (finished) return; finished = true;
+      box.classList.add("is-done"); document.removeEventListener("keydown", done); box.removeEventListener("pointerdown", done);
+      S.booted = true; attractArm();
+    };
+    let seen = null; try { seen = sessionStorage.getItem("acrs-boot"); } catch (e) { /* private mode */ }
+    if (reduced() || seen) { done(); return; }
+    try { sessionStorage.setItem("acrs-boot", "1"); } catch (e) { /* fine */ }
     $("#bootSkip").textContent = t("boot.skip");
-    const lines = [t("boot.1"), t("boot.2"), t("boot.3"),
-      t("boot.4", { m: S.model.machines.length, l: S.model.links.length, s: S.model.services.length }),
-      t("boot.5", { n: Object.keys(S.model.evidence.files).length })];
+    const T = S.model.selftest || {};
+    const okT = (c) => c ? ["st-ok", "OK"] : ["st-warn", "WARN"];
+    const lines = [
+      [t("bt.kernel"), ["st-ok", "OK"]],
+      [t("bt.gate", { k: T.locked_ok, n: T.locked_n }), okT(T.locked_ok === T.locked_n)],
+      [t("bt.pq", { b: T.pq_pk_bytes }), okT(!!T.pq_alg)],
+      [t("bt.engine", { e: T.engine, b: S.model.config.solver_budget_s, f: T.fail_safe ?? 0, n: T.reference_attacks ?? 0 }), okT(!T.fail_safe)],
+      [t("bt.net", { h: T.hosts, l: T.links, s: T.services }), ["st-ok", "OK"]],
+      [t("bt.corpus", { n: T.incidents, r: T.incidents_real }), ["st-ok", "OK"]],
+      [t("bt.ev", { n: T.evidence_files }), ["st-ok", "OK"]],
+    ];
     ol.textContent = "";
-    const lis = lines.map((x) => { const li = el("li", {}, [el("span", { text: x }), el("span", { class: "ok", text: t("boot.ok") })]); ol.append(li); return li; });
-    lis.forEach((li, i) => setTimeout(() => { li.classList.add("is-on"); bar.style.transform = `scaleX(${(i + 1) / lis.length})`; }, 380 + i * 230));
-    setTimeout(done, 380 + lis.length * 230 + 650);
-    document.addEventListener("keydown", done); box.addEventListener("click", done);
+    const t0 = performance.now();
+    const lis = lines.map(([txt, [cls, word]]) => {
+      const li = el("li", {}, [el("span", { class: "ts", text: "" }), el("span", { text: txt }), el("span", { class: cls, text: word })]);
+      ol.append(li); return li;
+    });
+    // network constellation: real hospital positions, scattered first
+    net.textContent = ""; net.setAttribute("class", "boot-net");
+    const gL = sv("g"), gN = sv("g"); net.append(gL, gN);
+    for (const [a, b] of S.model.links) { const p = sv("path", { class: "bn-link", d: curve(a, b).d }); gL.append(p); }
+    const nodes = S.model.machines.map((m, i) => {
+      const p = S.pos[m.id], r = m.critical ? 9 : 6;
+      const c = sv("circle", { class: "bn-node" + (m.critical ? " crit" : !m.isolatable ? " med" : ""), cx: p.x, cy: p.y, r });
+      const ang = (i * 137.5) * Math.PI / 180, rad = 260 + (i % 7) * 40;
+      c.style.transform = `translate(${(600 + Math.cos(ang) * rad - p.x).toFixed(0)}px, ${(385 + Math.sin(ang) * rad * .6 - p.y).toFixed(0)}px)`;
+      c.style.transitionDelay = (i * 14) + "ms";
+      const ring = sv("circle", { class: "bn-ring", cx: p.x, cy: p.y, r: r + 10 }); ring.style.animationDelay = (i * 8) + "ms";
+      gN.append(c, ring); return c;
+    });
+    const step = 300, base = 900;
+    lis.forEach((li, i) => setTimeout(() => {
+      li.firstChild.textContent = ((performance.now() - t0) / 1000).toFixed(2).padStart(5, " ");
+      li.classList.add("is-on"); bar.style.transform = `scaleX(${(i + 1) / lis.length})`;
+    }, base + i * step));
+    setTimeout(() => net.classList.add("is-on"), 500);
+    setTimeout(() => { for (const c of nodes) c.style.transform = ""; }, base + 2 * step);
+    setTimeout(() => net.classList.add("is-linked"), base + 4 * step);
+    const end = base + lis.length * step;
+    setTimeout(() => { net.classList.add("is-armed"); armed.textContent = t("boot.armed"); armed.classList.add("is-on"); }, end + 200);
+    setTimeout(done, end + 1500);
+    document.addEventListener("keydown", done); box.addEventListener("pointerdown", done);
   }
+
+  /* self-running demo: after 60 s without a touch, replay a real incident; any touch hands control back at once */
+  const ATTRACT = [["07_hse_conti_2021", "fault"], ["01_bangladesh_bank_2016", "normal"], ["06_colonial_pipeline_2021", "normal"],
+    ["02_wannacry_nhs_2017", "fault"], ["04_norsk_hydro_2019", "normal"], ["05_duesseldorf_hospital_2020", "fault"]];
+  const AT = { timer: 0, on: false, k: 0, idle: 0 };
+  function attractArm() {
+    clearTimeout(AT.timer);
+    AT.timer = setTimeout(attractStart, 60000);
+  }
+  function attractStop() {
+    if (AT.on) { AT.on = false; $("#attract").hidden = true; if (S.real) S.real.token++; }
+    document.body.classList.remove("kiosk-idle");
+    attractArm();
+    clearTimeout(AT.idle); AT.idle = setTimeout(() => { if (KIOSK) document.body.classList.add("kiosk-idle"); }, 3000);
+  }
+  async function attractStart() {
+    if (!S.booted) return;
+    AT.on = true; $("#attractText").textContent = t("attract.text"); $("#attract").hidden = false;
+    show("real"); await realLoad();
+    while (AT.on) {
+      const [id, mode] = ATTRACT[AT.k++ % ATTRACT.length];
+      const it = S.real.cat && S.real.cat.incidents.find((x) => x.id === id); if (!it) continue;
+      S.real.group = it.group; renderSectors(); selectIncident(id);
+      S.real.mode = mode; $$("[data-rmode]").forEach((x) => x.setAttribute("aria-pressed", x.dataset.rmode === mode ? "true" : "false"));
+      await wait(1500); if (!AT.on) return;
+      await runIncident(true);
+      await wait(9000);
+    }
+  }
+  const KIOSK = /[?&]kiosk=1/.test(location.search);
 
   async function boot() {
     applyLang();
@@ -1158,7 +1243,15 @@
     });
     $("#brandEngine").textContent = S.model.config.engine || "v9";
     const tick = () => { const d = new Date(); $("#clock").textContent = d.toLocaleTimeString("en-GB", { hour12: false }); };
-    tick(); setInterval(tick, 1000);
+    const T0 = (S.model.selftest && S.model.selftest.started_at) ? S.model.selftest.started_at * 1000 : Date.now();
+    const tick2 = () => { const s = Math.max(0, Math.floor((Date.now() - T0) / 1000)); $("#uptime").textContent = "UP " + [s / 3600, (s % 3600) / 60, s % 60].map((x) => String(Math.floor(x)).padStart(2, "0")).join(":"); };
+    tick(); tick2(); setInterval(() => { tick(); tick2(); }, 1000);
+    for (const ev of ["pointerdown", "keydown", "wheel", "touchstart"]) document.addEventListener(ev, () => { if (S.booted) attractStop(); }, { passive: true });
+    document.addEventListener("pointermove", () => { if (KIOSK) { document.body.classList.remove("kiosk-idle"); clearTimeout(AT.idle); AT.idle = setTimeout(() => document.body.classList.add("kiosk-idle"), 3000); } }, { passive: true });
+    if (document.fullscreenEnabled) {
+      $("#fsBtn").hidden = false;
+      $("#fsBtn").addEventListener("click", () => { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {}); });
+    }
     if (S.model.config.agent) { $("#labPanel").hidden = false; $("#labChip").hidden = false; pollLab(); setInterval(pollLab, 10000); }
     $$("[data-rmode]").forEach((b) => b.addEventListener("click", () => {
       S.real.mode = b.dataset.rmode; $$("[data-rmode]").forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
