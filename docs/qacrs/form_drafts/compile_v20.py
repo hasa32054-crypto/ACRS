@@ -8,6 +8,8 @@ keys = ['nao','neprash','cs26','ecc','doe','shamoon','triton','anwar','nespoli',
 R = dict(zip(keys, old))
 R['hammar'] = ('Hammar, K., & Stadler, R. (2022). Intrusion Prevention Through Optimal Stopping. IEEE Transactions on Network and '
                'Service Management, 19(3). https://doi.org/10.1109/TNSM.2022.3176781')
+R['shield'] = ('Alshiekh, M., Bloem, R., Ehlers, R., Könighofer, B., Niekum, S., & Topcu, U. (2018). Safe Reinforcement Learning via Shielding. '
+               'Proceedings of the AAAI Conference on Artificial Intelligence, 32(1). https://doi.org/10.1609/aaai.v32i1.11797')
 R['nusuk'] = ('Ministry of Hajj and Umrah. (2025, September 19). Ministry of Hajj and Umrah: 30 million users of the Nusuk application '
               'from 190 countries around the world [News release]. https://haj.gov.sa/en/Media-Center/Ministry-News/'
               'Ministry-of-Hajj-and-Umrah-30-million-users-of-the-Nusuk-application-from-190-countries-around-the-w')
