@@ -14,6 +14,7 @@ R['hammar24'] = ('Hammar, K., & Stadler, R. (2024). Learning Near-Optimal Intrus
                   'IEEE Transactions on Network and Service Management, 21(1). https://doi.org/10.1109/TNSM.2023.3293413')
 R['hammar25'] = ('Hammar, K., Li, T., Stadler, R., & Zhu, Q. (2025). Adaptive Security Response Strategies Through Conjectural Online Learning. '
                   'IEEE Transactions on Information Forensics and Security, 20, 4055–4070. https://doi.org/10.1109/TIFS.2025.3558600')
+R['wazuh'] = 'Wazuh. (2025). Active Response. Wazuh documentation. https://documentation.wazuh.com/current/compliance/hipaa/active-response.html'
 R['nusuk'] = ('Ministry of Hajj and Umrah. (2025, September 19). Ministry of Hajj and Umrah: 30 million users of the Nusuk application '
               'from 190 countries around the world [News release]. https://haj.gov.sa/en/Media-Center/Ministry-News/'
               'Ministry-of-Hajj-and-Umrah-30-million-users-of-the-Nusuk-application-from-190-countries-around-the-w')
