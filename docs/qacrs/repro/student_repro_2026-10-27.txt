@@ -1,0 +1,1272 @@
+ cd ~/ACRS
+git checkout main
+git pull
+sudo apt update && sudo apt install -y python3-numpy python3-scipy
+make hassan-repro
+Switched to branch 'main'
+Your branch is behind 'origin/main' by 73 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+remote: Enumerating objects: 538, done.
+remote: Counting objects: 100% (483/483), done.
+remote: Compressing objects: 100% (240/240), done.
+remote: Total 538 (delta 389), reused 310 (delta 242), pack-reused 55 (from 1)
+Receiving objects: 100% (538/538), 9.52 MiB | 3.31 MiB/s, done.
+Resolving deltas: 100% (403/403), completed with 13 local objects.
+From https://github.com/hasa32054-crypto/ACRS
+   e116a74..90bc34d  main                    -> origin/main
+ * [new branch]      board-v6                -> origin/board-v6
+ * [new branch]      booth-91-wording        -> origin/booth-91-wording
+ * [new branch]      booth-box-3d            -> origin/booth-box-3d
+ * [new branch]      booth-box-exploded      -> origin/booth-box-exploded
+ * [new branch]      booth-box-os            -> origin/booth-box-os
+ * [new branch]      booth-crash-revive      -> origin/booth-crash-revive
+ * [new branch]      booth-five-tabs         -> origin/booth-five-tabs
+ * [new branch]      booth-full-breach       -> origin/booth-full-breach
+ * [new branch]      booth-full-breach-test  -> origin/booth-full-breach-test
+ * [new branch]      booth-logo              -> origin/booth-logo
+ * [new branch]      booth-no-scipy          -> origin/booth-no-scipy
+ * [new branch]      booth-stable-decisions  -> origin/booth-stable-decisions
+ * [new branch]      booth-step-motion       -> origin/booth-step-motion
+ * [new branch]      booth-v12-ops           -> origin/booth-v12-ops
+ * [new branch]      booth-v12-ops-2         -> origin/booth-v12-ops-2
+ * [new branch]      form-v13                -> origin/form-v13
+ * [new branch]      form-v14                -> origin/form-v14
+ * [new branch]      form-v15                -> origin/form-v15
+ * [new branch]      form-v16                -> origin/form-v16
+ * [new branch]      form-v17                -> origin/form-v17
+ * [new branch]      form-v18                -> origin/form-v18
+ * [new branch]      form-v20                -> origin/form-v20
+ * [new branch]      ibdaa-board-v2          -> origin/ibdaa-board-v2
+ * [new branch]      ibdaa-board-v3          -> origin/ibdaa-board-v3
+ * [new branch]      ibdaa-board-v4          -> origin/ibdaa-board-v4
+ * [new branch]      ibdaa-board-v5          -> origin/ibdaa-board-v5
+ * [new branch]      v14-attack-the-defender -> origin/v14-attack-the-defender
+Updating e195bb1..90bc34d
+Fast-forward
+ .agents/skills/brandkit/SKILL.md                                            |   798 ++
+ .agents/skills/design-taste-frontend-v1/SKILL.md                            |   226 +
+ .agents/skills/design-taste-frontend/SKILL.md                               |  1206 ++
+ .agents/skills/full-output-enforcement/SKILL.md                             |    49 +
+ .agents/skills/gpt-taste/SKILL.md                                           |    74 +
+ .agents/skills/high-end-visual-design/SKILL.md                              |    98 +
+ .agents/skills/image-to-code/SKILL.md                                       |  1228 ++
+ .agents/skills/imagegen-frontend-mobile/SKILL.md                            |  1465 ++
+ .agents/skills/imagegen-frontend-web/SKILL.md                               |   987 ++
+ .agents/skills/impeccable/SKILL.md                                          |    86 +
+ .agents/skills/impeccable/agents/impeccable_asset_producer.toml             |    47 +
+ .agents/skills/impeccable/agents/impeccable_documenter.toml                 |    27 +
+ .agents/skills/impeccable/agents/impeccable_finish_reviewer.toml            |    41 +
+ .agents/skills/impeccable/agents/impeccable_manual_edit_applier.toml        |    95 +
+ .agents/skills/impeccable/agents/openai.yaml                                |     4 +
+ .agents/skills/impeccable/reference/adapt.md                                |   318 +
+ .agents/skills/impeccable/reference/adapt.native.md                         |    58 +
+ .agents/skills/impeccable/reference/android.md                              |    46 +
+ .agents/skills/impeccable/reference/animate.md                              |    89 +
+ .agents/skills/impeccable/reference/audit.md                                |   137 +
+ .agents/skills/impeccable/reference/audit.native.md                         |   139 +
+ .agents/skills/impeccable/reference/bolder.md                               |    33 +
+ .agents/skills/impeccable/reference/clarify.md                              |    94 +
+ .agents/skills/impeccable/reference/colorize.md                             |    86 +
+ .agents/skills/impeccable/reference/component-review.md                     |    63 +
+ .agents/skills/impeccable/reference/craft-floor.md                          |    50 +
+ .agents/skills/impeccable/reference/craft.md                                |     5 +
+ .agents/skills/impeccable/reference/critique.md                             |   828 ++
+ .agents/skills/impeccable/reference/degraded/asset-producer.md              |    44 +
+ .agents/skills/impeccable/reference/degraded/documenter.md                  |    24 +
+ .agents/skills/impeccable/reference/degraded/finish-reviewer.md             |    38 +
+ .agents/skills/impeccable/reference/degraded/manual-edit-applier.md         |    92 +
+ .agents/skills/impeccable/reference/delight.md                              |    70 +
+ .agents/skills/impeccable/reference/distill.md                              |   111 +
+ .agents/skills/impeccable/reference/doctor.md                               |    54 +
+ .agents/skills/impeccable/reference/document.md                             |   416 +
+ .agents/skills/impeccable/reference/extract.md                              |    69 +
+ .agents/skills/impeccable/reference/generate.md                             |   101 +
+ .agents/skills/impeccable/reference/harden.md                               |   345 +
+ .agents/skills/impeccable/reference/hooks.md                                |   113 +
+ .agents/skills/impeccable/reference/init.md                                 |   131 +
+ .agents/skills/impeccable/reference/ios.md                                  |    51 +
+ .agents/skills/impeccable/reference/layout.md                               |    84 +
+ .agents/skills/impeccable/reference/live-setup.md                           |   104 +
+ .agents/skills/impeccable/reference/live.md                                 |   327 +
+ .agents/skills/impeccable/reference/mode-operate.md                         |    21 +
+ .agents/skills/impeccable/reference/mode-persuade.md                        |    19 +
+ .agents/skills/impeccable/reference/mode-read.md                            |    21 +
+ .agents/skills/impeccable/reference/new-work.md                             |   152 +
+ .agents/skills/impeccable/reference/onboard.md                              |   234 +
+ .agents/skills/impeccable/reference/operate.md                              |    61 +
+ .agents/skills/impeccable/reference/optimize.md                             |   258 +
+ .agents/skills/impeccable/reference/overdrive.md                            |   127 +
+ .agents/skills/impeccable/reference/polish.md                               |   105 +
+ .agents/skills/impeccable/reference/quieter.md                              |    99 +
+ .agents/skills/impeccable/reference/region-map.md                           |    26 +
+ .agents/skills/impeccable/reference/routing.md                              |    24 +
+ .agents/skills/impeccable/reference/shape.md                                |    59 +
+ .agents/skills/impeccable/reference/typeset.md                              |    80 +
+ .agents/skills/impeccable/reference/visualize.md                            |    47 +
+ .agents/skills/impeccable/scripts/VERSION                                   |     1 +
+ .agents/skills/impeccable/scripts/command-metadata.json                     |    98 +
+ .agents/skills/impeccable/scripts/data/font-index-failures.json             |   121 +
+ .agents/skills/impeccable/scripts/data/font-index.json                      |     1 +
+ .agents/skills/impeccable/scripts/impeccable                                |   206 +
+ .agents/skills/impeccable/scripts/impeccable.cmd                            |   214 +
+ .agents/skills/impeccable/scripts/live-browser-dom.js                       |   281 +
+ .agents/skills/impeccable/scripts/live-browser-ignores.js                   |   242 +
+ .agents/skills/impeccable/scripts/live-browser-session.js                   |   148 +
+ .agents/skills/impeccable/scripts/live-browser.js                           | 13532 ++++++++++++++++++
+ .agents/skills/impeccable/scripts/modern-screenshot.umd.js                  |    14 +
+ .agents/skills/industrial-brutalist-ui/SKILL.md                             |    92 +
+ .agents/skills/minimalist-ui/SKILL.md                                       |    85 +
+ .agents/skills/redesign-existing-projects/SKILL.md                          |   178 +
+ .agents/skills/stitch-design-taste/DESIGN.md                                |   121 +
+ .agents/skills/stitch-design-taste/SKILL.md                                 |   184 +
+ .claude/skills/brandkit                                                     |     1 +
+ .claude/skills/design-taste-frontend                                        |     1 +
+ .claude/skills/design-taste-frontend-v1                                     |     1 +
+ .claude/skills/full-output-enforcement                                      |     1 +
+ .claude/skills/gpt-taste                                                    |     1 +
+ .claude/skills/high-end-visual-design                                       |     1 +
+ .claude/skills/image-to-code                                                |     1 +
+ .claude/skills/imagegen-frontend-mobile                                     |     1 +
+ .claude/skills/imagegen-frontend-web                                        |     1 +
+ .claude/skills/impeccable                                                   |     1 +
+ .claude/skills/industrial-brutalist-ui                                      |     1 +
+ .claude/skills/minimalist-ui                                                |     1 +
+ .claude/skills/redesign-existing-projects                                   |     1 +
+ .claude/skills/stitch-design-taste                                          |     1 +
+ .gitignore                                                                  |     7 +
+ Makefile                                                                    |     2 +-
+ PRODUCT.md                                                                  |    89 +
+ README.md                                                                   |    26 +-
+ backend/qacrs/blind_v9.py                                                   |   240 +
+ backend/qacrs/blind_v9/AUTHOR_GUIDE_AR.md                                   |   185 +
+ backend/qacrs/blind_v9/LOCK_blind_v9.json                                   |    31 +
+ backend/qacrs/booth/DESIGN.md                                               |   122 +
+ backend/qacrs/booth/__init__.py                                             |    25 +
+ backend/qacrs/booth/agent.py                                                |   259 +
+ backend/qacrs/booth/core.py                                                 |   239 +
+ backend/qacrs/booth/engine_v12.py                                           |   107 +
+ backend/qacrs/booth/evidence.py                                             |   123 +
+ backend/qacrs/booth/incidents.py                                            |   245 +
+ backend/qacrs/booth/memory.py                                               |   121 +
+ backend/qacrs/booth/minihospital/docker-compose.yml                         |   146 +
+ backend/qacrs/booth/minihospital/lab.json                                   |    16 +
+ backend/qacrs/booth/minihospital/node.py                                    |    79 +
+ backend/qacrs/booth/minihospital/setup_linux.sh                             |    43 +
+ backend/qacrs/booth/minihospital/start_lab.sh                               |    15 +
+ backend/qacrs/booth/qr.py                                                   |   228 +
+ backend/qacrs/booth/secure.py                                               |   180 +
+ backend/qacrs/booth/server.py                                               |   371 +
+ backend/qacrs/booth/start_booth.ps1                                         |    19 +
+ backend/qacrs/booth/start_box.sh                                            |    14 +
+ backend/qacrs/booth/web/app.css                                             |   836 ++
+ backend/qacrs/booth/web/app.js                                              |  1506 ++
+ backend/qacrs/booth/web/box3d.js                                            |   201 +
+ backend/qacrs/booth/web/fonts/IBMPlexMono-Medium.woff2                      |   Bin 0 -> 46724 bytes
+ backend/qacrs/booth/web/fonts/IBMPlexMono-Regular.woff2                     |   Bin 0 -> 45640 bytes
+ backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Bold.woff2                  |   Bin 0 -> 73788 bytes
+ backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Medium.woff2                |   Bin 0 -> 75936 bytes
+ backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Regular.woff2               |   Bin 0 -> 71904 bytes
+ backend/qacrs/booth/web/fonts/IBMPlexSansArabic-SemiBold.woff2              |   Bin 0 -> 76408 bytes
+ backend/qacrs/booth/web/fonts/LICENSE-IBM-Plex-OFL.txt                      |    93 +
+ backend/qacrs/booth/web/i18n.js                                             |   361 +
+ backend/qacrs/booth/web/index.html                                          |   354 +
+ backend/qacrs/booth/web/mark.svg                                            |     1 +
+ backend/qacrs/booth/web/vendor/three/LICENSE                                |    21 +
+ backend/qacrs/booth/web/vendor/three/RoomEnvironment.js                     |   144 +
+ backend/qacrs/booth/web/vendor/three/RoundedBoxGeometry.js                  |   155 +
+ backend/qacrs/booth/web/vendor/three/three.module.min.js                    |     6 +
+ backend/qacrs/hospital_ar.py                                                |    40 +
+ backend/qacrs/phase15_v10.py                                                |   253 +
+ backend/qacrs/phase16_v11.py                                                |   238 +
+ backend/qacrs/report_v78.py                                                 |     2 +-
+ backend/qacrs/results/v10/v10.json                                          |   484 +
+ backend/qacrs/results/v11/v11.json                                          |  3903 +++++
+ backend/qacrs/results/v12/pqsign.json                                       |   107 +
+ backend/qacrs/results/v12/realism_v12.json                                  |   408 +
+ backend/qacrs/results/v12/sandbox_v12.json                                  |   963 ++
+ backend/qacrs/results/v12/survive_immune.json                               |   529 +
+ backend/qacrs/results/v12/v12.json                                          | 26001 ++++++++++++++++++++++++++++++++++
+ backend/qacrs/results/v13/immunity_v13.json                                 |  2214 +++
+ backend/qacrs/sectors_v10.py                                                |   151 +
+ backend/qacrs/v11/incidents/01_bangladesh_bank_2016.json                    |    51 +
+ backend/qacrs/v11/incidents/02_wannacry_nhs_2017.json                       |    74 +
+ backend/qacrs/v11/incidents/03_notpetya_maersk_2017.json                    |    78 +
+ backend/qacrs/v11/incidents/04_norsk_hydro_2019.json                        |    86 +
+ backend/qacrs/v11/incidents/05_duesseldorf_hospital_2020.json               |    64 +
+ backend/qacrs/v11/incidents/06_colonial_pipeline_2021.json                  |    65 +
+ backend/qacrs/v11/incidents/07_hse_conti_2021.json                          |    94 +
+ backend/qacrs/v11/incidents/08_change_healthcare_2024.json                  |    75 +
+ backend/qacrs/v11/incidents/09_synnovis_qilin_2024.json                     |    42 +
+ backend/qacrs/v11/incidents/10_interlock_2025.json                          |    22 +
+ backend/qacrs/v11/incidents/11_az_monica_2026.json                          |    40 +
+ backend/qacrs/v12/__init__.py                                               |     1 +
+ backend/qacrs/v12/corpus/MANIFEST.json                                      |   679 +
+ backend/qacrs/v12/corpus/cert_2026_poland_energy_chp_dynowiper.json         |   241 +
+ .../qacrs/v12/corpus/cisa_2022_aa22_074a_russia_mfa_printnightmare_ngo.json |   115 +
+ backend/qacrs/v12/corpus/cisa_2022_aa22_174a_log4shell_horizon_victim2.json |   224 +
+ backend/qacrs/v12/corpus/cisa_2022_aa22_277a_impacket_dib.json              |   169 +
+ backend/qacrs/v12/corpus/cisa_2022_aa22_320a_iran_log4shell_horizon.json    |   242 +
+ backend/qacrs/v12/corpus/cisa_2023_aa23_074a_telerik_iis.json               |    31 +
+ .../qacrs/v12/corpus/cisa_2023_aa23_250a_aeronautical_zoho_fortinet.json    |   231 +
+ backend/qacrs/v12/corpus/cisa_2024_aa24_038a_volt_typhoon_water.json        |   190 +
+ backend/qacrs/v12/corpus/cisa_2026_aa25_266a_geoserver_fceb.json            |   160 +
+ backend/qacrs/v12/corpus/ctid_2013_target.json                              |   184 +
+ backend/qacrs/v12/corpus/ctid_2014_jpmorgan.json                            |   168 +
+ backend/qacrs/v12/corpus/ctid_2015_carbanak_emulation.json                  |   172 +
+ backend/qacrs/v12/corpus/ctid_2016_swift_bangladesh_bank.json               |   103 +
+ backend/qacrs/v12/corpus/ctid_2017_cobalt_kitty_oceanlotus.json             |   153 +
+ backend/qacrs/v12/corpus/ctid_2017_equifax.json                             |   147 +
+ backend/qacrs/v12/corpus/ctid_2017_fin7_emulation.json                      |   153 +
+ backend/qacrs/v12/corpus/ctid_2017_notpetya.json                            |   184 +
+ backend/qacrs/v12/corpus/ctid_2017_sandworm_emulation.json                  |   163 +
+ backend/qacrs/v12/corpus/ctid_2018_apt29_emulation.json                     |   139 +
+ backend/qacrs/v12/corpus/ctid_2018_marriott_starwood.json                   |   151 +
+ backend/qacrs/v12/corpus/ctid_2019_fin6_emulation.json                      |   160 +
+ backend/qacrs/v12/corpus/ctid_2019_maastricht_university.json               |   217 +
+ backend/qacrs/v12/corpus/ctid_2019_oilrig_emulation.json                    |   167 +
+ backend/qacrs/v12/corpus/ctid_2020_oceanlotus_emulation.json                |   108 +
+ backend/qacrs/v12/corpus/ctid_2020_solarwinds.json                          |   157 +
+ backend/qacrs/v12/corpus/ctid_2020_wizard_spider_emulation.json             |   141 +
+ backend/qacrs/v12/corpus/ctid_2021_conti_dfir_icedid.json                   |   190 +
+ backend/qacrs/v12/corpus/ctid_2021_conti_hse_pwc.json                       |   155 +
+ backend/qacrs/v12/corpus/ctid_2021_fin13_case1_bank.json                    |   184 +
+ backend/qacrs/v12/corpus/ctid_2021_fin13_case2_peru.json                    |   184 +
+ backend/qacrs/v12/corpus/ctid_2021_hancitor_zerologon_dfir.json             |   173 +
+ backend/qacrs/v12/corpus/ctid_2021_menupass_emulation.json                  |    60 +
+ backend/qacrs/v12/corpus/ctid_2022_bumblebee_round2_dfir.json               |   142 +
+ backend/qacrs/v12/corpus/ctid_2022_cisa_iranian_apt_log4shell.json          |   147 +
+ backend/qacrs/v12/corpus/ctid_2022_gootloader_dfir.json                     |   219 +
+ backend/qacrs/v12/corpus/ctid_2022_uber_lapsus.json                         |   201 +
+ backend/qacrs/v12/corpus/ctid_2023_blind_eagle_emulation.json               |    56 +
+ backend/qacrs/v12/corpus/ctid_2024_ivanti_volexity_uta0178.json             |   181 +
+ backend/qacrs/v12/corpus/ctid_2024_mitre_nerve.json                         |   175 +
+ backend/qacrs/v12/corpus/ctid_2025_toolshell_sharepoint.json                |    68 +
+ backend/qacrs/v12/corpus/dfir2020_01_ryuk_5_hours.json                      |   166 +
+ backend/qacrs/v12/corpus/dfir2020_02_ryuk_speed_run.json                    |   182 +
+ backend/qacrs/v12/corpus/dfir2024_01_blacksuit_cobaltstrike_2024.json       |   250 +
+ backend/qacrs/v12/corpus/dfir2024_02_icedid_screenconnect_alphv_2024.json   |   197 +
+ backend/qacrs/v12/corpus/dfir2024_03_nitrogen_sliver_blackcat_2024.json     |   211 +
+ backend/qacrs/v12/corpus/dfir2024_04_onenote_nokoyawa_2024.json             |   123 +
+ backend/qacrs/v12/corpus/dfir2024_05_icedid_dagonlocker_2024.json           |   180 +
+ backend/qacrs/v12/corpus/dfir_2020_netwalker_1_hour.json                    |   138 +
+ backend/qacrs/v12/corpus/dfir_2020_pysa_mespinoza.json                      |   214 +
+ backend/qacrs/v12/corpus/dfir_2020_ryuks_return.json                        |   171 +
+ backend/qacrs/v12/corpus/dfir_2020_snatch.json                              |   171 +
+ backend/qacrs/v12/corpus/dfir_2021_bazarcall_conti_trickbot.json            |   180 +
+ backend/qacrs/v12/corpus/dfir_2021_bazarloader_conti_32h.json               |   215 +
+ backend/qacrs/v12/corpus/dfir_2021_bazarloader_conti_leaks.json             |   177 +
+ backend/qacrs/v12/corpus/dfir_2021_bazarloader_diavol.json                  |   230 +
+ backend/qacrs/v12/corpus/dfir_2021_icedid_conti.json                        |   187 +
+ backend/qacrs/v12/corpus/dfir_2021_icedid_xinglocker.json                   |   202 +
+ backend/qacrs/v12/corpus/dfir_2021_sodinokibi_revil.json                    |   204 +
+ backend/qacrs/v12/corpus/dfir_2022_emotet_quantum.json                      |   243 +
+ backend/qacrs/v12/corpus/dfir_2022_icedid_quantum.json                      |   190 +
+ backend/qacrs/v12/corpus/dfir_2023_html_smuggling_nokoyawa.json             |   206 +
+ backend/qacrs/v12/corpus/dfir_2023_malicious_iso_quantum.json               |   240 +
+ backend/qacrs/v12/corpus/dfir_2023_screenconnect_hive.json                  |   231 +
+ backend/qacrs/v12/corpus/dfir_2023_sql_bruteforce_bluesky.json              |   191 +
+ backend/qacrs/v12/corpus/dfir_2023_truebot_flawedgrace_mbrkiller.json       |   200 +
+ backend/qacrs/v12/corpus/dfir_2024_rdp_trigona_3h.json                      |   180 +
+ backend/qacrs/v12/corpus/dfir_2025_confluence_elpaco_team.json              |   191 +
+ backend/qacrs/v12/corpus/dfir_2025_confluence_lockbit.json                  |   242 +
+ backend/qacrs/v12/corpus/dfir_2025_fake_zoom_blacksuit.json                 |   221 +
+ backend/qacrs/v12/corpus/dfir_2025_rdp_lynx.json                            |   238 +
+ backend/qacrs/v12/corpus/dfir_2025_rdp_spray_ransomhub.json                 |   275 +
+ backend/qacrs/v12/corpus/dfir_2026_activemq_lockbit.json                    |   250 +
+ backend/qacrs/v12/corpus/dfir_2026_bumblebee_akira.json                     |   235 +
+ backend/qacrs/v12/corpus/dfir_2026_etherrat_tuktuk_gentlemen.json           |   252 +
+ backend/qacrs/v12/corpus/inc_2022_rackspace_hosted_exchange_play.json       |   110 +
+ backend/qacrs/v12/corpus/inc_2022_uber_lapsus_mfa_fatigue.json              |   136 +
+ backend/qacrs/v12/corpus/inc_2023_3cx_supply_chain.json                     |   160 +
+ backend/qacrs/v12/corpus/inc_2023_mgm_resorts_scattered_spider_alphv.json   |   238 +
+ backend/qacrs/v12/corpus/inc_2024_ascension_black_basta.json                |    23 +
+ backend/qacrs/v12/corpus/inc_2024_cdk_global_blacksuit.json                 |    21 +
+ backend/qacrs/v12/corpus/inc_2024_snowflake_customer_breaches_unc5537.json  |    21 +
+ backend/qacrs/v12/corpus/inc_2025_collins_aerospace_muse_hardbit.json       |    22 +
+ backend/qacrs/v12/corpus/inc_2025_jaguar_land_rover_scattered_lapsus.json   |    23 +
+ .../v12/corpus/inc_2025_marks_spencer_scattered_spider_dragonforce.json     |   184 +
+ backend/qacrs/v12/corpus_check.py                                           |    84 +
+ backend/qacrs/v12/guard_v12.py                                              |    52 +
+ backend/qacrs/v12/immunity.py                                               |   112 +
+ backend/qacrs/v12/phase17_v12.py                                            |   252 +
+ backend/qacrs/v12/phase18_survive_immune.py                                 |   220 +
+ backend/qacrs/v12/phase19_v13.py                                            |    78 +
+ backend/qacrs/v12/pqsign.py                                                 |   161 +
+ backend/qacrs/v12/qubo_v12.py                                               |   172 +
+ backend/qacrs/v12/realism_v12.py                                            |   154 +
+ backend/qacrs/v12/recover.py                                                |   251 +
+ backend/qacrs/v12/risk_map.py                                               |    49 +
+ backend/qacrs/v12/sandbox_v12.py                                            |   153 +
+ backend/tests/test_blind_v9.py                                              |    47 +
+ backend/tests/test_booth.py                                                 |   317 +
+ backend/tests/test_v12.py                                                   |   112 +
+ backend/third_party/dilithium_py/LICENSE                                    |   225 +
+ backend/third_party/dilithium_py/VENDORED.txt                               |     1 +
+ backend/third_party/dilithium_py/__init__.py                                |     0
+ backend/third_party/dilithium_py/dilithium/__init__.py                      |     3 +
+ backend/third_party/dilithium_py/dilithium/default_parameters.py            |    38 +
+ backend/third_party/dilithium_py/dilithium/dilithium.py                     |   332 +
+ backend/third_party/dilithium_py/drbg/__init__.py                           |     0
+ backend/third_party/dilithium_py/drbg/aes256_ctr_drbg.py                    |   137 +
+ backend/third_party/dilithium_py/ml_dsa/__init__.py                         |    17 +
+ backend/third_party/dilithium_py/ml_dsa/default_parameters.py               |    85 +
+ backend/third_party/dilithium_py/ml_dsa/hash_ml_dsa.py                      |   101 +
+ backend/third_party/dilithium_py/ml_dsa/ml_dsa.py                           |   540 +
+ backend/third_party/dilithium_py/ml_dsa/pkcs.py                             |   287 +
+ backend/third_party/dilithium_py/modules/__init__.py                        |     0
+ backend/third_party/dilithium_py/modules/modules.py                         |   227 +
+ backend/third_party/dilithium_py/modules/modules_generic.py                 |   227 +
+ backend/third_party/dilithium_py/polynomials/__init__.py                    |     0
+ backend/third_party/dilithium_py/polynomials/polynomials.py                 |   457 +
+ backend/third_party/dilithium_py/polynomials/polynomials_generic.py         |   243 +
+ backend/third_party/dilithium_py/shake/shake_wrapper.py                     |    61 +
+ backend/third_party/dilithium_py/utilities/__init__.py                      |     0
+ backend/third_party/dilithium_py/utilities/utils.py                         |   103 +
+ docs/index.html                                                             |   148 +-
+ docs/qacrs/BOOTH_RUN_GUIDE_AR.md                                            |   106 +
+ docs/qacrs/IBDAA_FORM_FACTS_AR.md                                           |     8 +-
+ docs/qacrs/PREREGISTRATION_BLIND_v9.md                                      |    70 +
+ docs/qacrs/PREREGISTRATION_v10.md                                           |    74 +
+ docs/qacrs/PREREGISTRATION_v11.md                                           |   109 +
+ docs/qacrs/PREREGISTRATION_v12.md                                           |   143 +
+ docs/qacrs/PREREGISTRATION_v13.md                                           |    28 +
+ docs/qacrs/PRESENTATION_ADDENDUM_v12_AR.md                                  |    17 +
+ docs/qacrs/RELATED_WORK_NOTES.md                                            |     2 +-
+ docs/qacrs/RESULTS_IBM_E9.md                                                |    11 +-
+ docs/qacrs/RESULTS_v10.md                                                   |    86 +
+ docs/qacrs/RESULTS_v11_pilot.md                                             |   142 +
+ docs/qacrs/RESULTS_v12.md                                                   |   168 +
+ docs/qacrs/RESULTS_v7_v8.md                                                 |     2 +-
+ docs/qacrs/SAIF_BOOTH_PLAN_AR.md                                            |    32 +
+ docs/qacrs/SAUDI_ALIGNMENT_AR.md                                            |    65 +
+ docs/qacrs/THREAT_MODEL_STRIDE.md                                           |    25 +
+ docs/qacrs/blind_converter_pack/02_wannacry_nhs_2017.BLIND.json             |    45 +
+ docs/qacrs/blind_converter_pack/04_norsk_hydro_2019.BLIND.json              |    45 +
+ docs/qacrs/blind_converter_pack/06_colonial_pipeline_2021.BLIND.json        |    50 +
+ docs/qacrs/blind_converter_pack/07_hse_conti_2021.BLIND.json                |    40 +
+ docs/qacrs/blind_converter_pack/08_change_healthcare_2024.BLIND.json        |    45 +
+ docs/qacrs/blind_converter_pack/CONVERSION_RULES.md                         |    59 +
+ docs/qacrs/blind_converter_pack/README_AR.md                                |    40 +
+ docs/qacrs/board/ACRS_board.pdf                                             |   Bin 0 -> 389148 bytes
+ docs/qacrs/board/ACRS_board.pptx                                            |   Bin 0 -> 433058 bytes
+ docs/qacrs/board/chart.html                                                 |    19 +
+ docs/qacrs/board/chart.png                                                  |   Bin 0 -> 97737 bytes
+ docs/qacrs/board/fill.py                                                    |   122 +
+ docs/qacrs/board/fill2.py                                                   |   162 +
+ docs/qacrs/board/fill3.py                                                   |   142 +
+ docs/qacrs/board/fill4.py                                                   |   148 +
+ docs/qacrs/board/fill5.py                                                   |   148 +
+ docs/qacrs/board/fill6.py                                                   |   156 +
+ docs/qacrs/board/logo.png                                                   |   Bin 0 -> 20775 bytes
+ docs/qacrs/board/pipe.html                                                  |    29 +
+ docs/qacrs/board/pipe.png                                                   |   Bin 0 -> 254651 bytes
+ docs/qacrs/figures/booth_break_it.png                                       |   Bin 0 -> 395826 bytes
+ docs/qacrs/figures/booth_real_lab.png                                       |   Bin 0 -> 48046 bytes
+ docs/qacrs/figures/booth_two_hospitals.png                                  |   Bin 0 -> 228898 bytes
+ docs/qacrs/figures/fig_c_engineering_drawing.png                            |   Bin 0 -> 299107 bytes
+ docs/qacrs/figures/ibdaa_fig1_containment_ar.png                            |   Bin 0 -> 106756 bytes
+ docs/qacrs/figures/ibdaa_fig2_v8_v9_ar.png                                  |   Bin 0 -> 134421 bytes
+ docs/qacrs/figures/make_fig_c.py                                            |    67 +
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS.docx                            |   Bin 0 -> 510151 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_FINAL.docx                      |   Bin 0 -> 490909 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_FINAL.pdf                       |   Bin 0 -> 769549 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v12.docx                        |   Bin 0 -> 787084 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v12.pdf                         |   Bin 0 -> 1090983 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v16.docx                        |   Bin 0 -> 807499 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v16.pdf                         |   Bin 0 -> 1099241 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v17.docx                        |   Bin 0 -> 810338 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v17.pdf                         |   Bin 0 -> 1100912 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v18.docx                        |   Bin 0 -> 808265 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v18.pdf                         |   Bin 0 -> 1075290 bytes
+ docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v3.docx                         |   Bin 0 -> 491608 bytes
+ docs/qacrs/form_drafts/SECTION2_PROBLEM_DRAFT_AR.md                         |     4 +-
+ docs/qacrs/form_drafts/build_v12.py                                         |   169 +
+ docs/qacrs/form_drafts/content_v12.py                                       |   272 +
+ docs/qacrs/form_drafts/content_v13.py                                       |   272 +
+ docs/qacrs/form_drafts/content_v14.py                                       |   272 +
+ docs/qacrs/form_drafts/content_v15.py                                       |   273 +
+ docs/qacrs/form_drafts/content_v16.py                                       |   287 +
+ docs/qacrs/form_drafts/content_v17.py                                       |   289 +
+ docs/qacrs/form_drafts/content_v18.py                                       |   336 +
+ docs/qacrs/form_drafts/fix_pagebreaks.py                                    |    13 +
+ skills-lock.json                                                            |    89 +
+ 347 files changed, 95118 insertions(+), 25 deletions(-)
+ create mode 100644 .agents/skills/brandkit/SKILL.md
+ create mode 100644 .agents/skills/design-taste-frontend-v1/SKILL.md
+ create mode 100644 .agents/skills/design-taste-frontend/SKILL.md
+ create mode 100644 .agents/skills/full-output-enforcement/SKILL.md
+ create mode 100644 .agents/skills/gpt-taste/SKILL.md
+ create mode 100644 .agents/skills/high-end-visual-design/SKILL.md
+ create mode 100644 .agents/skills/image-to-code/SKILL.md
+ create mode 100644 .agents/skills/imagegen-frontend-mobile/SKILL.md
+ create mode 100644 .agents/skills/imagegen-frontend-web/SKILL.md
+ create mode 100644 .agents/skills/impeccable/SKILL.md
+ create mode 100644 .agents/skills/impeccable/agents/impeccable_asset_producer.toml
+ create mode 100644 .agents/skills/impeccable/agents/impeccable_documenter.toml
+ create mode 100644 .agents/skills/impeccable/agents/impeccable_finish_reviewer.toml
+ create mode 100644 .agents/skills/impeccable/agents/impeccable_manual_edit_applier.toml
+ create mode 100644 .agents/skills/impeccable/agents/openai.yaml
+ create mode 100644 .agents/skills/impeccable/reference/adapt.md
+ create mode 100644 .agents/skills/impeccable/reference/adapt.native.md
+ create mode 100644 .agents/skills/impeccable/reference/android.md
+ create mode 100644 .agents/skills/impeccable/reference/animate.md
+ create mode 100644 .agents/skills/impeccable/reference/audit.md
+ create mode 100644 .agents/skills/impeccable/reference/audit.native.md
+ create mode 100644 .agents/skills/impeccable/reference/bolder.md
+ create mode 100644 .agents/skills/impeccable/reference/clarify.md
+ create mode 100644 .agents/skills/impeccable/reference/colorize.md
+ create mode 100644 .agents/skills/impeccable/reference/component-review.md
+ create mode 100644 .agents/skills/impeccable/reference/craft-floor.md
+ create mode 100644 .agents/skills/impeccable/reference/craft.md
+ create mode 100644 .agents/skills/impeccable/reference/critique.md
+ create mode 100644 .agents/skills/impeccable/reference/degraded/asset-producer.md
+ create mode 100644 .agents/skills/impeccable/reference/degraded/documenter.md
+ create mode 100644 .agents/skills/impeccable/reference/degraded/finish-reviewer.md
+ create mode 100644 .agents/skills/impeccable/reference/degraded/manual-edit-applier.md
+ create mode 100644 .agents/skills/impeccable/reference/delight.md
+ create mode 100644 .agents/skills/impeccable/reference/distill.md
+ create mode 100644 .agents/skills/impeccable/reference/doctor.md
+ create mode 100644 .agents/skills/impeccable/reference/document.md
+ create mode 100644 .agents/skills/impeccable/reference/extract.md
+ create mode 100644 .agents/skills/impeccable/reference/generate.md
+ create mode 100644 .agents/skills/impeccable/reference/harden.md
+ create mode 100644 .agents/skills/impeccable/reference/hooks.md
+ create mode 100644 .agents/skills/impeccable/reference/init.md
+ create mode 100644 .agents/skills/impeccable/reference/ios.md
+ create mode 100644 .agents/skills/impeccable/reference/layout.md
+ create mode 100644 .agents/skills/impeccable/reference/live-setup.md
+ create mode 100644 .agents/skills/impeccable/reference/live.md
+ create mode 100644 .agents/skills/impeccable/reference/mode-operate.md
+ create mode 100644 .agents/skills/impeccable/reference/mode-persuade.md
+ create mode 100644 .agents/skills/impeccable/reference/mode-read.md
+ create mode 100644 .agents/skills/impeccable/reference/new-work.md
+ create mode 100644 .agents/skills/impeccable/reference/onboard.md
+ create mode 100644 .agents/skills/impeccable/reference/operate.md
+ create mode 100644 .agents/skills/impeccable/reference/optimize.md
+ create mode 100644 .agents/skills/impeccable/reference/overdrive.md
+ create mode 100644 .agents/skills/impeccable/reference/polish.md
+ create mode 100644 .agents/skills/impeccable/reference/quieter.md
+ create mode 100644 .agents/skills/impeccable/reference/region-map.md
+ create mode 100644 .agents/skills/impeccable/reference/routing.md
+ create mode 100644 .agents/skills/impeccable/reference/shape.md
+ create mode 100644 .agents/skills/impeccable/reference/typeset.md
+ create mode 100644 .agents/skills/impeccable/reference/visualize.md
+ create mode 100644 .agents/skills/impeccable/scripts/VERSION
+ create mode 100644 .agents/skills/impeccable/scripts/command-metadata.json
+ create mode 100644 .agents/skills/impeccable/scripts/data/font-index-failures.json
+ create mode 100644 .agents/skills/impeccable/scripts/data/font-index.json
+ create mode 100755 .agents/skills/impeccable/scripts/impeccable
+ create mode 100644 .agents/skills/impeccable/scripts/impeccable.cmd
+ create mode 100644 .agents/skills/impeccable/scripts/live-browser-dom.js
+ create mode 100644 .agents/skills/impeccable/scripts/live-browser-ignores.js
+ create mode 100644 .agents/skills/impeccable/scripts/live-browser-session.js
+ create mode 100644 .agents/skills/impeccable/scripts/live-browser.js
+ create mode 100644 .agents/skills/impeccable/scripts/modern-screenshot.umd.js
+ create mode 100644 .agents/skills/industrial-brutalist-ui/SKILL.md
+ create mode 100644 .agents/skills/minimalist-ui/SKILL.md
+ create mode 100644 .agents/skills/redesign-existing-projects/SKILL.md
+ create mode 100644 .agents/skills/stitch-design-taste/DESIGN.md
+ create mode 100644 .agents/skills/stitch-design-taste/SKILL.md
+ create mode 120000 .claude/skills/brandkit
+ create mode 120000 .claude/skills/design-taste-frontend
+ create mode 120000 .claude/skills/design-taste-frontend-v1
+ create mode 120000 .claude/skills/full-output-enforcement
+ create mode 120000 .claude/skills/gpt-taste
+ create mode 120000 .claude/skills/high-end-visual-design
+ create mode 120000 .claude/skills/image-to-code
+ create mode 120000 .claude/skills/imagegen-frontend-mobile
+ create mode 120000 .claude/skills/imagegen-frontend-web
+ create mode 120000 .claude/skills/impeccable
+ create mode 120000 .claude/skills/industrial-brutalist-ui
+ create mode 120000 .claude/skills/minimalist-ui
+ create mode 120000 .claude/skills/redesign-existing-projects
+ create mode 120000 .claude/skills/stitch-design-taste
+ create mode 100644 PRODUCT.md
+ create mode 100644 backend/qacrs/blind_v9.py
+ create mode 100644 backend/qacrs/blind_v9/AUTHOR_GUIDE_AR.md
+ create mode 100644 backend/qacrs/blind_v9/LOCK_blind_v9.json
+ create mode 100644 backend/qacrs/booth/DESIGN.md
+ create mode 100644 backend/qacrs/booth/__init__.py
+ create mode 100644 backend/qacrs/booth/agent.py
+ create mode 100644 backend/qacrs/booth/core.py
+ create mode 100644 backend/qacrs/booth/engine_v12.py
+ create mode 100644 backend/qacrs/booth/evidence.py
+ create mode 100644 backend/qacrs/booth/incidents.py
+ create mode 100644 backend/qacrs/booth/memory.py
+ create mode 100644 backend/qacrs/booth/minihospital/docker-compose.yml
+ create mode 100644 backend/qacrs/booth/minihospital/lab.json
+ create mode 100644 backend/qacrs/booth/minihospital/node.py
+ create mode 100755 backend/qacrs/booth/minihospital/setup_linux.sh
+ create mode 100755 backend/qacrs/booth/minihospital/start_lab.sh
+ create mode 100644 backend/qacrs/booth/qr.py
+ create mode 100644 backend/qacrs/booth/secure.py
+ create mode 100644 backend/qacrs/booth/server.py
+ create mode 100644 backend/qacrs/booth/start_booth.ps1
+ create mode 100755 backend/qacrs/booth/start_box.sh
+ create mode 100644 backend/qacrs/booth/web/app.css
+ create mode 100644 backend/qacrs/booth/web/app.js
+ create mode 100644 backend/qacrs/booth/web/box3d.js
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexMono-Medium.woff2
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexMono-Regular.woff2
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Bold.woff2
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Medium.woff2
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexSansArabic-Regular.woff2
+ create mode 100644 backend/qacrs/booth/web/fonts/IBMPlexSansArabic-SemiBold.woff2
+ create mode 100755 backend/qacrs/booth/web/fonts/LICENSE-IBM-Plex-OFL.txt
+ create mode 100644 backend/qacrs/booth/web/i18n.js
+ create mode 100644 backend/qacrs/booth/web/index.html
+ create mode 100644 backend/qacrs/booth/web/mark.svg
+ create mode 100644 backend/qacrs/booth/web/vendor/three/LICENSE
+ create mode 100644 backend/qacrs/booth/web/vendor/three/RoomEnvironment.js
+ create mode 100644 backend/qacrs/booth/web/vendor/three/RoundedBoxGeometry.js
+ create mode 100644 backend/qacrs/booth/web/vendor/three/three.module.min.js
+ create mode 100644 backend/qacrs/hospital_ar.py
+ create mode 100644 backend/qacrs/phase15_v10.py
+ create mode 100644 backend/qacrs/phase16_v11.py
+ create mode 100644 backend/qacrs/results/v10/v10.json
+ create mode 100644 backend/qacrs/results/v11/v11.json
+ create mode 100644 backend/qacrs/results/v12/pqsign.json
+ create mode 100644 backend/qacrs/results/v12/realism_v12.json
+ create mode 100644 backend/qacrs/results/v12/sandbox_v12.json
+ create mode 100644 backend/qacrs/results/v12/survive_immune.json
+ create mode 100644 backend/qacrs/results/v12/v12.json
+ create mode 100644 backend/qacrs/results/v13/immunity_v13.json
+ create mode 100644 backend/qacrs/sectors_v10.py
+ create mode 100644 backend/qacrs/v11/incidents/01_bangladesh_bank_2016.json
+ create mode 100644 backend/qacrs/v11/incidents/02_wannacry_nhs_2017.json
+ create mode 100644 backend/qacrs/v11/incidents/03_notpetya_maersk_2017.json
+ create mode 100644 backend/qacrs/v11/incidents/04_norsk_hydro_2019.json
+ create mode 100644 backend/qacrs/v11/incidents/05_duesseldorf_hospital_2020.json
+ create mode 100644 backend/qacrs/v11/incidents/06_colonial_pipeline_2021.json
+ create mode 100644 backend/qacrs/v11/incidents/07_hse_conti_2021.json
+ create mode 100644 backend/qacrs/v11/incidents/08_change_healthcare_2024.json
+ create mode 100644 backend/qacrs/v11/incidents/09_synnovis_qilin_2024.json
+ create mode 100644 backend/qacrs/v11/incidents/10_interlock_2025.json
+ create mode 100644 backend/qacrs/v11/incidents/11_az_monica_2026.json
+ create mode 100644 backend/qacrs/v12/__init__.py
+ create mode 100644 backend/qacrs/v12/corpus/MANIFEST.json
+ create mode 100644 backend/qacrs/v12/corpus/cert_2026_poland_energy_chp_dynowiper.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2022_aa22_074a_russia_mfa_printnightmare_ngo.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2022_aa22_174a_log4shell_horizon_victim2.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2022_aa22_277a_impacket_dib.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2022_aa22_320a_iran_log4shell_horizon.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2023_aa23_074a_telerik_iis.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2023_aa23_250a_aeronautical_zoho_fortinet.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2024_aa24_038a_volt_typhoon_water.json
+ create mode 100644 backend/qacrs/v12/corpus/cisa_2026_aa25_266a_geoserver_fceb.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2013_target.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2014_jpmorgan.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2015_carbanak_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2016_swift_bangladesh_bank.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2017_cobalt_kitty_oceanlotus.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2017_equifax.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2017_fin7_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2017_notpetya.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2017_sandworm_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2018_apt29_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2018_marriott_starwood.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2019_fin6_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2019_maastricht_university.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2019_oilrig_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2020_oceanlotus_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2020_solarwinds.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2020_wizard_spider_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_conti_dfir_icedid.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_conti_hse_pwc.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_fin13_case1_bank.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_fin13_case2_peru.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_hancitor_zerologon_dfir.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2021_menupass_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2022_bumblebee_round2_dfir.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2022_cisa_iranian_apt_log4shell.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2022_gootloader_dfir.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2022_uber_lapsus.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2023_blind_eagle_emulation.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2024_ivanti_volexity_uta0178.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2024_mitre_nerve.json
+ create mode 100644 backend/qacrs/v12/corpus/ctid_2025_toolshell_sharepoint.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2020_01_ryuk_5_hours.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2020_02_ryuk_speed_run.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2024_01_blacksuit_cobaltstrike_2024.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2024_02_icedid_screenconnect_alphv_2024.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2024_03_nitrogen_sliver_blackcat_2024.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2024_04_onenote_nokoyawa_2024.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir2024_05_icedid_dagonlocker_2024.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2020_netwalker_1_hour.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2020_pysa_mespinoza.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2020_ryuks_return.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2020_snatch.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_bazarcall_conti_trickbot.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_bazarloader_conti_32h.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_bazarloader_conti_leaks.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_bazarloader_diavol.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_icedid_conti.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_icedid_xinglocker.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2021_sodinokibi_revil.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2022_emotet_quantum.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2022_icedid_quantum.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2023_html_smuggling_nokoyawa.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2023_malicious_iso_quantum.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2023_screenconnect_hive.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2023_sql_bruteforce_bluesky.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2023_truebot_flawedgrace_mbrkiller.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2024_rdp_trigona_3h.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2025_confluence_elpaco_team.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2025_confluence_lockbit.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2025_fake_zoom_blacksuit.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2025_rdp_lynx.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2025_rdp_spray_ransomhub.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2026_activemq_lockbit.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2026_bumblebee_akira.json
+ create mode 100644 backend/qacrs/v12/corpus/dfir_2026_etherrat_tuktuk_gentlemen.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2022_rackspace_hosted_exchange_play.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2022_uber_lapsus_mfa_fatigue.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2023_3cx_supply_chain.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2023_mgm_resorts_scattered_spider_alphv.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2024_ascension_black_basta.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2024_cdk_global_blacksuit.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2024_snowflake_customer_breaches_unc5537.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2025_collins_aerospace_muse_hardbit.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2025_jaguar_land_rover_scattered_lapsus.json
+ create mode 100644 backend/qacrs/v12/corpus/inc_2025_marks_spencer_scattered_spider_dragonforce.json
+ create mode 100644 backend/qacrs/v12/corpus_check.py
+ create mode 100644 backend/qacrs/v12/guard_v12.py
+ create mode 100644 backend/qacrs/v12/immunity.py
+ create mode 100644 backend/qacrs/v12/phase17_v12.py
+ create mode 100644 backend/qacrs/v12/phase18_survive_immune.py
+ create mode 100644 backend/qacrs/v12/phase19_v13.py
+ create mode 100644 backend/qacrs/v12/pqsign.py
+ create mode 100644 backend/qacrs/v12/qubo_v12.py
+ create mode 100644 backend/qacrs/v12/realism_v12.py
+ create mode 100644 backend/qacrs/v12/recover.py
+ create mode 100644 backend/qacrs/v12/risk_map.py
+ create mode 100644 backend/qacrs/v12/sandbox_v12.py
+ create mode 100644 backend/tests/test_blind_v9.py
+ create mode 100644 backend/tests/test_booth.py
+ create mode 100644 backend/tests/test_v12.py
+ create mode 100644 backend/third_party/dilithium_py/LICENSE
+ create mode 100644 backend/third_party/dilithium_py/VENDORED.txt
+ create mode 100644 backend/third_party/dilithium_py/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/dilithium/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/dilithium/default_parameters.py
+ create mode 100644 backend/third_party/dilithium_py/dilithium/dilithium.py
+ create mode 100644 backend/third_party/dilithium_py/drbg/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/drbg/aes256_ctr_drbg.py
+ create mode 100644 backend/third_party/dilithium_py/ml_dsa/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/ml_dsa/default_parameters.py
+ create mode 100644 backend/third_party/dilithium_py/ml_dsa/hash_ml_dsa.py
+ create mode 100644 backend/third_party/dilithium_py/ml_dsa/ml_dsa.py
+ create mode 100644 backend/third_party/dilithium_py/ml_dsa/pkcs.py
+ create mode 100644 backend/third_party/dilithium_py/modules/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/modules/modules.py
+ create mode 100644 backend/third_party/dilithium_py/modules/modules_generic.py
+ create mode 100644 backend/third_party/dilithium_py/polynomials/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/polynomials/polynomials.py
+ create mode 100644 backend/third_party/dilithium_py/polynomials/polynomials_generic.py
+ create mode 100644 backend/third_party/dilithium_py/shake/shake_wrapper.py
+ create mode 100644 backend/third_party/dilithium_py/utilities/__init__.py
+ create mode 100644 backend/third_party/dilithium_py/utilities/utils.py
+ create mode 100644 docs/qacrs/BOOTH_RUN_GUIDE_AR.md
+ create mode 100644 docs/qacrs/PREREGISTRATION_BLIND_v9.md
+ create mode 100644 docs/qacrs/PREREGISTRATION_v10.md
+ create mode 100644 docs/qacrs/PREREGISTRATION_v11.md
+ create mode 100644 docs/qacrs/PREREGISTRATION_v12.md
+ create mode 100644 docs/qacrs/PREREGISTRATION_v13.md
+ create mode 100644 docs/qacrs/PRESENTATION_ADDENDUM_v12_AR.md
+ create mode 100644 docs/qacrs/RESULTS_v10.md
+ create mode 100644 docs/qacrs/RESULTS_v11_pilot.md
+ create mode 100644 docs/qacrs/RESULTS_v12.md
+ create mode 100644 docs/qacrs/SAIF_BOOTH_PLAN_AR.md
+ create mode 100644 docs/qacrs/SAUDI_ALIGNMENT_AR.md
+ create mode 100644 docs/qacrs/blind_converter_pack/02_wannacry_nhs_2017.BLIND.json
+ create mode 100644 docs/qacrs/blind_converter_pack/04_norsk_hydro_2019.BLIND.json
+ create mode 100644 docs/qacrs/blind_converter_pack/06_colonial_pipeline_2021.BLIND.json
+ create mode 100644 docs/qacrs/blind_converter_pack/07_hse_conti_2021.BLIND.json
+ create mode 100644 docs/qacrs/blind_converter_pack/08_change_healthcare_2024.BLIND.json
+ create mode 100644 docs/qacrs/blind_converter_pack/CONVERSION_RULES.md
+ create mode 100644 docs/qacrs/blind_converter_pack/README_AR.md
+ create mode 100644 docs/qacrs/board/ACRS_board.pdf
+ create mode 100644 docs/qacrs/board/ACRS_board.pptx
+ create mode 100644 docs/qacrs/board/chart.html
+ create mode 100644 docs/qacrs/board/chart.png
+ create mode 100644 docs/qacrs/board/fill.py
+ create mode 100644 docs/qacrs/board/fill2.py
+ create mode 100644 docs/qacrs/board/fill3.py
+ create mode 100644 docs/qacrs/board/fill4.py
+ create mode 100644 docs/qacrs/board/fill5.py
+ create mode 100644 docs/qacrs/board/fill6.py
+ create mode 100644 docs/qacrs/board/logo.png
+ create mode 100644 docs/qacrs/board/pipe.html
+ create mode 100644 docs/qacrs/board/pipe.png
+ create mode 100644 docs/qacrs/figures/booth_break_it.png
+ create mode 100644 docs/qacrs/figures/booth_real_lab.png
+ create mode 100644 docs/qacrs/figures/booth_two_hospitals.png
+ create mode 100644 docs/qacrs/figures/fig_c_engineering_drawing.png
+ create mode 100644 docs/qacrs/figures/ibdaa_fig1_containment_ar.png
+ create mode 100644 docs/qacrs/figures/ibdaa_fig2_v8_v9_ar.png
+ create mode 100644 docs/qacrs/figures/make_fig_c.py
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_FINAL.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_FINAL.pdf
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v12.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v12.pdf
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v16.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v16.pdf
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v17.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v17.pdf
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v18.docx
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v18.pdf
+ create mode 100644 docs/qacrs/form_drafts/IBDAA_2027_FORM_ACRS_v3.docx
+ create mode 100644 docs/qacrs/form_drafts/build_v12.py
+ create mode 100644 docs/qacrs/form_drafts/content_v12.py
+ create mode 100644 docs/qacrs/form_drafts/content_v13.py
+ create mode 100644 docs/qacrs/form_drafts/content_v14.py
+ create mode 100644 docs/qacrs/form_drafts/content_v15.py
+ create mode 100644 docs/qacrs/form_drafts/content_v16.py
+ create mode 100644 docs/qacrs/form_drafts/content_v17.py
+ create mode 100644 docs/qacrs/form_drafts/content_v18.py
+ create mode 100644 docs/qacrs/form_drafts/fix_pagebreaks.py
+ create mode 100644 skills-lock.json
+[sudo] password for Cyper$:
+Hit:1 http://http.kali.org/kali kali-last-snapshot InRelease
+Get:2 https://cli.github.com/packages stable InRelease [3,917 B]
+Fetched 3,917 B in 1s (6,436 B/s)
+143 packages can be upgraded. Run 'apt list --upgradable' to see them.
+The following packages were automatically installed and are no longer required:
+  libpython3.13-minimal  libpython3.13-stdlib  python3.13  python3.13-minimal
+Use 'sudo apt autoremove' to remove them.
+
+Installing:
+  python3-numpy  python3-scipy
+
+Installing dependencies:
+  libavif16       libjbig0         libraqm0       libwebpmux3                 python3-decorator     python3-pooch
+  libblas3        libjpeg62-turbo  librav1e0.8    libyaml-0-2                 python3-idna          python3-requests
+  libdeflate0     liblapack3       libsvtav1enc4  libyuv0                     python3-numpy-dev     python3-tqdm
+  libgav1-2       liblerc4         libtiff6       python3-certifi             python3-olefile       python3-urllib3
+  libgfortran5    libopenjp2-7     libwebp7       python3-chardet             python3-pil           python3-yaml
+  libimagequant0  libqhull-r8.0    libwebpdemux2  python3-charset-normalizer  python3-platformdirs
+
+Suggested packages:
+  python-charset-normalizer-doc  python3-dev     python3-paramiko      python3-openssl      python-scipy-doc
+  gfortran                       python3-pytest  python3-xxhash        python3-socks        python3-brotli
+  python-numpy-doc               python-pil-doc  python3-cryptography  python-requests-doc
+
+Summary:
+  Upgrading: 0, Installing: 37, Removing: 0, Not Upgrading: 143
+  Download size: 32.7 MB
+  Space needed: 138 MB / 1,021 GB available
+
+Get:1 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-numpy-dev amd64 1:2.4.6+ds-4+b1 [138 kB]
+Get:3 http://kali.download/kali kali-last-snapshot/main amd64 libgfortran5 amd64 16.2.0-1 [878 kB]
+Get:4 http://kali.download/kali kali-last-snapshot/main amd64 liblapack3 amd64 3.12.1-8 [2,548 kB]
+Get:9 http://mirror.telepoint.bg/kali kali-last-snapshot/main amd64 libjpeg62-turbo amd64 1:3.1.3-4 [213 kB]
+Get:5 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-numpy amd64 1:2.4.6+ds-4+b1 [5,140 kB]
+Get:2 http://mirror.yer.az/kali kali-last-snapshot/main amd64 libblas3 amd64 3.12.1-8 [206 kB]
+Get:12 http://mirror1.sox.rs/kali/kali kali-last-snapshot/main amd64 libdeflate0 amd64 1.25-1 [48.0 kB]
+Get:29 http://mirror.ourhost.az/kali kali-last-snapshot/main amd64 python3-olefile all 0.47-1 [39.3 kB]
+Get:36 http://mirror.telepoint.bg/kali kali-last-snapshot/main amd64 python3-tqdm all 4.69.0-1 [90.6 kB]
+Get:34 http://mirror1.sox.rs/kali/kali kali-last-snapshot/main amd64 python3-pooch all 1.9.0-2 [62.8 kB]
+Get:6 http://http.kali.org/kali kali-last-snapshot/main amd64 libgav1-2 amd64 0.20.0-2+b2 [372 kB]
+Get:11 http://mirror.yer.az/kali kali-last-snapshot/main amd64 libavif16 amd64 1.4.2-1 [147 kB]
+Get:23 http://http.kali.org/kali kali-last-snapshot/main amd64 libyaml-0-2 amd64 0.2.5-2+b1 [53.8 kB]
+Get:24 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-certifi all 2026.7.22+ds-1 [9,928 B]
+Get:7 http://kali.download/kali kali-last-snapshot/main amd64 librav1e0.8 amd64 0.8.1-11 [966 kB]
+Get:8 http://http.kali.org/kali kali-last-snapshot/main amd64 libsvtav1enc4 amd64 4.1.0+dfsg-1 [2,414 kB]
+Get:10 http://kali.download/kali kali-last-snapshot/main amd64 libyuv0 amd64 0.0.1949.20260706-1 [177 kB]
+Get:13 http://http.kali.org/kali kali-last-snapshot/main amd64 libimagequant0 amd64 4.4.1-1+b2 [255 kB]
+Get:14 http://http.kali.org/kali kali-last-snapshot/main amd64 libjbig0 amd64 2.1-6.1+b3 [32.2 kB]
+Get:15 http://http.kali.org/kali kali-last-snapshot/main amd64 liblerc4 amd64 4.2.0+ds-1 [203 kB]
+Get:16 http://kali.download/kali kali-last-snapshot/main amd64 libopenjp2-7 amd64 2.5.4-1.1 [205 kB]
+Get:17 http://kali.download/kali kali-last-snapshot/main amd64 libqhull-r8.0 amd64 2020.2-9 [248 kB]
+Get:18 http://kali.download/kali kali-last-snapshot/main amd64 libraqm0 amd64 0.10.5-1 [13.6 kB]
+Get:19 http://http.kali.org/kali kali-last-snapshot/main amd64 libwebp7 amd64 1.5.0-0.1+b2 [335 kB]
+Get:20 http://kali.download/kali kali-last-snapshot/main amd64 libtiff6 amd64 4.7.2-1 [383 kB]
+Get:21 http://http.kali.org/kali kali-last-snapshot/main amd64 libwebpdemux2 amd64 1.5.0-0.1+b2 [113 kB]
+Get:22 http://http.kali.org/kali kali-last-snapshot/main amd64 libwebpmux3 amd64 1.5.0-0.1+b2 [126 kB]
+Get:25 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-chardet all 5.2.0+dfsg-2 [108 kB]
+Get:26 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-charset-normalizer amd64 3.4.7-2+b1 [190 kB]
+Get:27 http://kali.download/kali kali-last-snapshot/main amd64 python3-decorator all 5.3.1-1 [33.3 kB]
+Get:28 http://kali.download/kali kali-last-snapshot/main amd64 python3-idna all 3.18-1 [41.6 kB]
+Get:30 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-pil amd64 12.3.0-1+b1 [555 kB]
+Get:31 http://kali.download/kali kali-last-snapshot/main amd64 python3-platformdirs all 4.10.0-1 [18.3 kB]
+Get:32 http://kali.download/kali kali-last-snapshot/main amd64 python3-urllib3 all 2.7.0-3 [119 kB]
+Get:33 http://kali.download/kali kali-last-snapshot/main amd64 python3-requests all 2.34.2-1 [77.6 kB]
+Get:35 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-scipy amd64 1.17.1-5+b1 [16.0 MB]
+Get:37 http://http.kali.org/kali kali-last-snapshot/main amd64 python3-yaml amd64 6.0.3-1+b1 [138 kB]
+Fetched 32.7 MB in 8s (4,100 kB/s)
+Extracting templates from packages: 100%
+Selecting previously unselected package python3-numpy-dev:amd64.
+(Reading database… 91333 files and directories currently installed.)
+Preparing to unpack …/00-python3-numpy-dev_1%3a2.4.6+ds-4+b1_amd64.deb…
+Unpacking python3-numpy-dev:amd64 (1:2.4.6+ds-4+b1)…
+Selecting previously unselected package libblas3:amd64.
+Preparing to unpack …/01-libblas3_3.12.1-8_amd64.deb…
+Unpacking libblas3:amd64 (3.12.1-8)…
+Selecting previously unselected package libgfortran5:amd64.
+Preparing to unpack …/02-libgfortran5_16.2.0-1_amd64.deb…
+Unpacking libgfortran5:amd64 (16.2.0-1)…
+Selecting previously unselected package liblapack3:amd64.
+Preparing to unpack …/03-liblapack3_3.12.1-8_amd64.deb…
+Unpacking liblapack3:amd64 (3.12.1-8)…
+Selecting previously unselected package python3-numpy.
+Preparing to unpack …/04-python3-numpy_1%3a2.4.6+ds-4+b1_amd64.deb…
+Unpacking python3-numpy (1:2.4.6+ds-4+b1)…
+Selecting previously unselected package libgav1-2:amd64.
+Preparing to unpack …/05-libgav1-2_0.20.0-2+b2_amd64.deb…
+Unpacking libgav1-2:amd64 (0.20.0-2+b2)…
+Selecting previously unselected package librav1e0.8:amd64.
+Preparing to unpack …/06-librav1e0.8_0.8.1-11_amd64.deb…
+Unpacking librav1e0.8:amd64 (0.8.1-11)…
+Selecting previously unselected package libsvtav1enc4:amd64.
+Preparing to unpack …/07-libsvtav1enc4_4.1.0+dfsg-1_amd64.deb…
+Unpacking libsvtav1enc4:amd64 (4.1.0+dfsg-1)…
+Selecting previously unselected package libjpeg62-turbo:amd64.
+Preparing to unpack …/08-libjpeg62-turbo_1%3a3.1.3-4_amd64.deb…
+Unpacking libjpeg62-turbo:amd64 (1:3.1.3-4)…
+Selecting previously unselected package libyuv0:amd64.
+Preparing to unpack …/09-libyuv0_0.0.1949.20260706-1_amd64.deb…
+Unpacking libyuv0:amd64 (0.0.1949.20260706-1)…
+Selecting previously unselected package libavif16:amd64.
+Preparing to unpack …/10-libavif16_1.4.2-1_amd64.deb…
+Unpacking libavif16:amd64 (1.4.2-1)…
+Selecting previously unselected package libdeflate0:amd64.
+Preparing to unpack …/11-libdeflate0_1.25-1_amd64.deb…
+Unpacking libdeflate0:amd64 (1.25-1)…
+Selecting previously unselected package libimagequant0:amd64.
+Preparing to unpack …/12-libimagequant0_4.4.1-1+b2_amd64.deb…
+Unpacking libimagequant0:amd64 (4.4.1-1+b2)…
+Selecting previously unselected package libjbig0:amd64.
+Preparing to unpack …/13-libjbig0_2.1-6.1+b3_amd64.deb…
+Unpacking libjbig0:amd64 (2.1-6.1+b3)…
+Selecting previously unselected package liblerc4:amd64.
+Preparing to unpack …/14-liblerc4_4.2.0+ds-1_amd64.deb…
+Unpacking liblerc4:amd64 (4.2.0+ds-1)…
+Selecting previously unselected package libopenjp2-7:amd64.
+Preparing to unpack …/15-libopenjp2-7_2.5.4-1.1_amd64.deb…
+Unpacking libopenjp2-7:amd64 (2.5.4-1.1)…
+Selecting previously unselected package libqhull-r8.0:amd64.
+Preparing to unpack …/16-libqhull-r8.0_2020.2-9_amd64.deb…
+Unpacking libqhull-r8.0:amd64 (2020.2-9)…
+Selecting previously unselected package libraqm0:amd64.
+Preparing to unpack …/17-libraqm0_0.10.5-1_amd64.deb…
+Unpacking libraqm0:amd64 (0.10.5-1)…
+Selecting previously unselected package libwebp7:amd64.
+Preparing to unpack …/18-libwebp7_1.5.0-0.1+b2_amd64.deb…
+Unpacking libwebp7:amd64 (1.5.0-0.1+b2)…
+Selecting previously unselected package libtiff6:amd64.
+Preparing to unpack …/19-libtiff6_4.7.2-1_amd64.deb…
+Unpacking libtiff6:amd64 (4.7.2-1)…
+Selecting previously unselected package libwebpdemux2:amd64.
+Preparing to unpack …/20-libwebpdemux2_1.5.0-0.1+b2_amd64.deb…
+Unpacking libwebpdemux2:amd64 (1.5.0-0.1+b2)…
+Selecting previously unselected package libwebpmux3:amd64.
+Preparing to unpack …/21-libwebpmux3_1.5.0-0.1+b2_amd64.deb…
+Unpacking libwebpmux3:amd64 (1.5.0-0.1+b2)…
+Selecting previously unselected package libyaml-0-2:amd64.
+Preparing to unpack …/22-libyaml-0-2_0.2.5-2+b1_amd64.deb…
+Unpacking libyaml-0-2:amd64 (0.2.5-2+b1)…
+Selecting previously unselected package python3-certifi.
+Preparing to unpack …/23-python3-certifi_2026.7.22+ds-1_all.deb…
+Unpacking python3-certifi (2026.7.22+ds-1)…
+Selecting previously unselected package python3-chardet.
+Preparing to unpack …/24-python3-chardet_5.2.0+dfsg-2_all.deb…
+Unpacking python3-chardet (5.2.0+dfsg-2)…
+Selecting previously unselected package python3-charset-normalizer.
+Preparing to unpack …/25-python3-charset-normalizer_3.4.7-2+b1_amd64.deb…
+Unpacking python3-charset-normalizer (3.4.7-2+b1)…
+Selecting previously unselected package python3-decorator.
+Preparing to unpack …/26-python3-decorator_5.3.1-1_all.deb…
+Unpacking python3-decorator (5.3.1-1)…
+Selecting previously unselected package python3-idna.
+Preparing to unpack …/27-python3-idna_3.18-1_all.deb…
+Unpacking python3-idna (3.18-1)…
+Selecting previously unselected package python3-olefile.
+Preparing to unpack …/28-python3-olefile_0.47-1_all.deb…
+Unpacking python3-olefile (0.47-1)…
+Selecting previously unselected package python3-pil:amd64.
+Preparing to unpack …/29-python3-pil_12.3.0-1+b1_amd64.deb…
+Unpacking python3-pil:amd64 (12.3.0-1+b1)…
+Selecting previously unselected package python3-platformdirs.
+Preparing to unpack …/30-python3-platformdirs_4.10.0-1_all.deb…
+Unpacking python3-platformdirs (4.10.0-1)…
+Selecting previously unselected package python3-urllib3.
+Preparing to unpack …/31-python3-urllib3_2.7.0-3_all.deb…
+Unpacking python3-urllib3 (2.7.0-3)…
+Selecting previously unselected package python3-requests.
+Preparing to unpack …/32-python3-requests_2.34.2-1_all.deb…
+Unpacking python3-requests (2.34.2-1)…
+Selecting previously unselected package python3-pooch.
+Preparing to unpack …/33-python3-pooch_1.9.0-2_all.deb…
+Unpacking python3-pooch (1.9.0-2)…
+Selecting previously unselected package python3-scipy.
+Preparing to unpack …/34-python3-scipy_1.17.1-5+b1_amd64.deb…
+Unpacking python3-scipy (1.17.1-5+b1)…
+Selecting previously unselected package python3-tqdm.
+Preparing to unpack …/35-python3-tqdm_4.69.0-1_all.deb…
+Unpacking python3-tqdm (4.69.0-1)…
+Selecting previously unselected package python3-yaml.
+Preparing to unpack …/36-python3-yaml_6.0.3-1+b1_amd64.deb…
+Unpacking python3-yaml (6.0.3-1+b1)…
+Setting up liblerc4:amd64 (4.2.0+ds-1)…
+Setting up libyaml-0-2:amd64 (0.2.5-2+b1)…
+Setting up python3-charset-normalizer (3.4.7-2+b1)…
+Setting up python3-olefile (0.47-1)…
+Setting up python3-tqdm (4.69.0-1)…
+Setting up libdeflate0:amd64 (1.25-1)…
+Setting up libqhull-r8.0:amd64 (2020.2-9)…
+Setting up python3-yaml (6.0.3-1+b1)…
+Setting up libjbig0:amd64 (2.1-6.1+b3)…
+Setting up python3-platformdirs (4.10.0-1)…
+Setting up librav1e0.8:amd64 (0.8.1-11)…
+Setting up python3-decorator (5.3.1-1)…
+Setting up libblas3:amd64 (3.12.1-8)…
+update-alternatives: using /usr/lib/x86_64-linux-gnu/blas/libblas.so.3 to provide /usr/lib/x86_64-linux-gnu/libblas.so.3 (libblas.so.3-x86_64-linux-gnu) in auto mode
+Setting up python3-chardet (5.2.0+dfsg-2)…
+Setting up libjpeg62-turbo:amd64 (1:3.1.3-4)…
+Setting up python3-certifi (2026.7.22+ds-1)…
+Setting up libraqm0:amd64 (0.10.5-1)…
+Setting up libimagequant0:amd64 (4.4.1-1+b2)…
+Setting up python3-numpy-dev:amd64 (1:2.4.6+ds-4+b1)…
+Setting up python3-idna (3.18-1)…
+Setting up libsvtav1enc4:amd64 (4.1.0+dfsg-1)…
+Setting up libgfortran5:amd64 (16.2.0-1)…
+Setting up python3-urllib3 (2.7.0-3)…
+Setting up libwebp7:amd64 (1.5.0-0.1+b2)…
+Setting up libgav1-2:amd64 (0.20.0-2+b2)…
+Setting up libtiff6:amd64 (4.7.2-1)…
+Setting up libopenjp2-7:amd64 (2.5.4-1.1)…
+Setting up libwebpmux3:amd64 (1.5.0-0.1+b2)…
+Setting up libyuv0:amd64 (0.0.1949.20260706-1)…
+Setting up libavif16:amd64 (1.4.2-1)…
+Setting up liblapack3:amd64 (3.12.1-8)…
+update-alternatives: using /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode
+Setting up libwebpdemux2:amd64 (1.5.0-0.1+b2)…
+Setting up python3-pil:amd64 (12.3.0-1+b1)…
+Setting up python3-requests (2.34.2-1)…
+Setting up python3-numpy (1:2.4.6+ds-4+b1)…
+Setting up python3-scipy (1.17.1-5+b1)…
+Setting up python3-pooch (1.9.0-2)…
+Processing triggers for libc-bin (2.43-4)…
+cd backend && start=$(date +%s) && python3 -m unittest tests.test_qacrs tests.test_qacrs_v3 tests.test_qacrs_v7 tests.test_hassan_engine tests.test_executor_v8 tests.test_realism_v8 tests.test_hassan_service tests.test_hassan_v9 tests.test_quantum_scale tests.test_blind_v9 tests.test_booth tests.test_v12 && python3 -m qacrs.phase9_v7 && \
+  python3 -m qacrs.phase10_adversarial && python3 -m qacrs.phase11_executor && \
+  python3 -m qacrs.phase12_realism_scale && python3 -m qacrs.phase13_integration && \
+  echo "hassan-repro: $(( $(date +%s) - start )) s"
+........................................................................................../usr/lib/python3.14/tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 400: 'Bad Request'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+...............{
+ "scenarios_in_file": 3,
+ "valid": 3,
+ "invalid_reasons": [],
+ "unsafe": 0,
+ "silent": 0,
+ "silent_wilson95": [
+  5.551115123125783e-17,
+  0.5614970317550454
+ ],
+ "escalated": 0,
+ "containment_ratio_vs_full_isolation": 1.0,
+ "H1_met": false,
+ "services_down_total": {
+  "hassan": 0,
+  "full_isolation_safe": 0
+ },
+ "wilcoxon_services": "n < 10, not computed",
+ "decision_ms": {
+  "median": 0.5615999999974974,
+  "p95": 1.0737000000062835
+ }
+}
+Saved: /tmp/tmpbjtx6kgk/d94ed15fbf52edda.json
+....................s...............
+----------------------------------------------------------------------
+Ran 141 tests in 30.299s
+
+OK (skipped=1)
+<sys>:0: ResourceWarning: unclosed <socket.socket fd=4, family=2, type=1, proto=0, laddr=('127.0.0.1', 33887)>
+
+== chains_7008  n=259 (dropped 141)
+  full_isolation_safe  contained 259 (v2 rules 259)  auto  95  2p 164  esc   0  silent  0  rej 0  svc down 292  seg used   0
+  rule_segment         contained 259 (v2 rules 143)  auto 259  2p   0  esc   0  silent  0  rej 0  svc down   7  seg used 164
+  q_acrs_v5            contained 142 (v2 rules 142)  auto 142  2p   0  esc 117  silent  0  rej 0  svc down   0  seg used   0
+  q_acrs_v7            contained 253 (v2 rules 142)  auto 253  2p   0  esc   6  silent  0  rej 0  svc down   0  seg used 158
+  H1_v7: {'ratio': 0.9768, 'services_down': [0, 292], 'supported': True}
+  H6_fully_automatic_vs_v5: {'v7_only': 111, 'v5_only': 0, 'p_one_sided': 3.851859888774472e-34, 'v7': 253, 'v5': 142, 'supported': True}
+  H7_services_vs_rule_segment: {'p': 0.00407548579675135, 'nonzero_pairs': 7, 'statistic': 0.0, 'v7': 0, 'rule_segment': 7, 'supported': True}
+  H8_containment_vs_rule_segment: {'ratio': 0.9768, 'supported': True}
+  H2_v7_silent: {'count': 0, 'wilson95': [0.0, 0.014615117561475346], 'supported': True}
+  escalation_rate: {'v7': 0.023166023166023165, 'v5': 0.4517374517374517, 'v7_wilson95': (0.010659446644687928, 0.04961056894482717)}
+
+== random_9003  n=428 (dropped 72)
+  full_isolation_safe  contained 353 (v2 rules 353)  auto 202  2p 151  esc  75  silent  0  rej 0  svc down 306  seg used   0
+  rule_segment         contained 428 (v2 rules 292)  auto 428  2p   0  esc   0  silent  0  rej 0  svc down  27  seg used 226
+  q_acrs_v5            contained 279 (v2 rules 279)  auto 279  2p   0  esc 149  silent  0  rej 0  svc down   0  seg used   0
+  q_acrs_v7            contained 410 (v2 rules 279)  auto 410  2p   0  esc  18  silent  0  rej 0  svc down   0  seg used 221
+  H1_v7: {'ratio': 1.1615, 'services_down': [0, 306], 'supported': True}
+  H6_fully_automatic_vs_v5: {'v7_only': 131, 'v5_only': 0, 'p_one_sided': 3.6734198463196485e-40, 'v7': 410, 'v5': 279, 'supported': True}
+  H7_services_vs_rule_segment: {'p': 1.0172773072722122e-07, 'nonzero_pairs': 27, 'statistic': 0.0, 'v7': 0, 'rule_segment': 27, 'supported': True}
+  H8_containment_vs_rule_segment: {'ratio': 0.9579, 'supported': True}
+  H2_v7_silent: {'count': 0, 'wilson95': [0.0, 0.008895530390214679], 'supported': True}
+  escalation_rate: {'v7': 0.04205607476635514, 'v5': 0.34813084112149534, 'v7_wilson95': (0.026765532400659996, 0.06549392533991044)}
+
+sensitivity (chains):
+  rho 0.1  d_seg 0.5  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.1  d_seg 1.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.1  d_seg 2.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.2  d_seg 0.5  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.2  d_seg 1.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.2  d_seg 2.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.3  d_seg 0.5  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.3  d_seg 1.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.3  d_seg 2.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.5  d_seg 0.5  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.5  d_seg 1.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.5  d_seg 2.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.7  d_seg 0.5  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.7  d_seg 1.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+  rho 0.7  d_seg 2.0  contained 253 auto 253 esc   6 silent  0 svc down   0
+== harm_bound_exhaustive (16.2s)
+{
+ "net12": {
+  "forged_sets": 298,
+  "hassan_worst": {
+   "services_down": 0
+  },
+  "full_isolation_safe_worst": {
+   "services_down": 1,
+   "isolated": 2,
+   "set": [
+    "web1",
+    "web2"
+   ]
+  },
+  "violations": {
+   "critical_isolated_auto": 0,
+   "isolated_not_reported": 0,
+   "cert_fail": 0
+  }
+ },
+ "net22": {
+  "forged_sets": 1793,
+  "hassan_worst": {
+   "services_down": 0
+  },
+  "full_isolation_safe_worst": {
+   "services_down": 1,
+   "isolated": 2,
+   "set": [
+    "web1_a",
+    "web2_a"
+   ]
+  },
+  "violations": {
+   "critical_isolated_auto": 0,
+   "isolated_not_reported": 0,
+   "cert_fail": 0
+  }
+ },
+ "H9_supported": true
+}
+== certificate_validity_random (201.0s)
+{
+ "net12": {
+  "sets": 10000,
+  "violations": {
+   "critical_isolated_auto": 0,
+   "isolated_not_reported": 0,
+   "cert_fail": 0
+  },
+  "worst_services_down": 0
+ },
+ "net22": {
+  "sets": 10000,
+  "violations": {
+   "critical_isolated_auto": 0,
+   "isolated_not_reported": 0,
+   "cert_fail": 0
+  },
+  "worst_services_down": 0
+ }
+}
+== flood (0.5s)
+{
+ "alerts": 1000,
+ "window_s": 60,
+ "auto_isolations_total": 3,
+ "rate_limit": 3,
+ "isolated_not_reported": 0,
+ "latency_ms": {
+  "median": 0.41970000000901564,
+  "p99": 2.143300000000181,
+  "max": 5.481299999985367
+ },
+ "p99_target_met": true,
+ "rate_limit_respected": true
+}
+== inflation (7.3s)
+{
+ "development": {
+  "scenarios": 40,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ },
+ "heldout_9001": {
+  "scenarios": 482,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ },
+ "heldout_9002": {
+  "scenarios": 456,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ },
+ "ood_7007": {
+  "scenarios": 291,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ },
+ "chains_7008": {
+  "scenarios": 259,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ },
+ "random_9003": {
+  "scenarios": 428,
+  "critical_isolated_automatically": 0,
+  "services_down": 0
+ }
+}
+== failsafe (33.7s)
+{
+ "injected": 1000,
+ "fell_back_correctly": {
+  "exception": 334,
+  "timeout": 333,
+  "malformed": 333
+ },
+ "crashes": 0,
+ "silent": 0,
+ "target_met": true
+}
+== consistency_guard (0.1s)
+{
+ "detection": {
+  "naive": {
+   "detected": 406,
+   "n": 500,
+   "rate": 0.812
+  },
+  "path_aware": {
+   "detected": 61,
+   "n": 500,
+   "rate": 0.122
+  }
+ },
+ "detection_overall": 0.467,
+ "false_flags": {
+  "ood_7007": {
+   "scenarios": 291,
+   "flagged": 1,
+   "rate": 0.003436426116838488
+  },
+  "chains_7008": {
+   "scenarios": 259,
+   "flagged": 0,
+   "rate": 0.0
+  },
+  "heldout_9001_random": {
+   "scenarios": 482,
+   "flagged": 363,
+   "rate": 0.7531120331950207
+  }
+ },
+ "false_flag_rate_chains": 0.0018181818181818182,
+ "target_detection_met": false,
+ "target_false_flag_met": true,
+ "caveat": "chains are generated with the same 'reachable from a hacked predecessor or entry' idea the guard uses, so their false-flag rate is optimistic; the random sets show the opposite extreme"
+}
+{
+ "audit_chain": {
+  "entries": 200,
+  "tamper_attempts": 1000,
+  "detected": {
+   "edit": 334,
+   "delete": 333,
+   "reorder": 333
+  },
+  "target_met": true
+ },
+ "certificates_and_hmac": {
+  "decisions": 1956,
+  "genuine_accepted": 1956,
+  "signatures_valid": 1956,
+  "checker_ms": {
+   "median": 0.02390000003060777,
+   "p95": 0.05519999996295155
+  },
+  "tampered": 1000,
+  "tampered_rejected_by_checker": 726,
+  "tampered_rejected_by_hmac": 1000,
+  "S5_target_met": false,
+  "F16_target_met": true
+ },
+ "ttl": {
+  "rules": 1000,
+  "with_expiry": 1000,
+  "unconfirmed_expired": 800,
+  "unconfirmed": 800,
+  "confirmed_kept": 200,
+  "target_met": true
+ },
+ "decaying_containment": {
+  "chains_7008": {
+   "isolations": 597,
+   "isolation_minutes_fixed": 35820.0,
+   "isolation_minutes_decaying": 751.4,
+   "reduction": 0.979,
+   "assumptions": {
+    "half_life_min": 15.0,
+    "keep_isolation_at_risk": 7,
+    "fixed_review_min": 60.0
+   },
+   "note": "model arithmetic under stated assumptions; no re-infection modelled"
+  },
+  "random_9003": {
+   "isolations": 784,
+   "isolation_minutes_fixed": 47040.0,
+   "isolation_minutes_decaying": 796.6,
+   "reduction": 0.9831,
+   "assumptions": {
+    "half_life_min": 15.0,
+    "keep_isolation_at_risk": 7,
+    "fixed_review_min": 60.0
+   },
+   "note": "model arithmetic under stated assumptions; no re-infection modelled"
+  }
+ }
+}
+== explainability (7.2s): {"decisions": 1956, "cards_complete_bilingual_with_counterfactual": 1956, "target_met": true}
+== mitre (0.0s): {"scenarios": 2006, "fully_tagged": 2006, "target_met": true}
+== patient_minutes (0.0s): {"chains_7008": {"patient_minutes": {"full_isolation_safe": 470700.0, "rule_segment": 7200.0, "q_acrs_v5": 0.0, "q_acrs_v7": 0.0}, "saved_vs_full_isolation_q_acrs_v7": 470700.0, "scenarios": 259}, "random_9003": {"patient_minutes": {"full_isolation_safe": 549000.0, "rule_segment": 32400.0, "q_acrs_v5": 0.0, "q_acrs_v7": 0.0}, "saved_vs_full_isolation_q_acrs_v7": 549000.0, "scenarios": 428}, "assumptions": {"patients_per_hour": {"logins": 120, "nurse_app": 60, "appointments": 30, "ehr": 120, "imaging": 20, "hl7": 60, "er_board": 25, "portal": 30, "pharmacy": 40, "lab_results": 40}, "outage_min": 60, "formula": "patients arriving during the outage x mean wait (outage/2)"}}
+== hospital60 (15.6s): {"machines": 60, "services": 8, "links": 98, "scenarios": 200, "status_counts": {"ESCALATED": 6, "CONTAINED": 194}, "unsafe": 0, "silent_wilson95": [1.734723475976807e-18, 0.018845326377266575], "services_down": 0, "full_isolation_safe_services_down": 252, "patient_minutes": {"hassan": 0.0, "full_isolation_safe": 388200.0}, "decision_ms": {"median": 0.26689999998552594, "p95": 305.8646549999935, "max": 1446.2754610000275}, "solver_used": {"annealing": 13, "exact": 187}, "target_met": true}
+== ransomware_spread (329.5s): {"net12": {"hassan_v7": {"mean_encrypted": 2.66, "mean_services_unavailable": 0.69, "mean_isolated": 2.2}, "full_isolation_safe": {"mean_encrypted": 2.66, "mean_services_unavailable": 0.69, "mean_isolated": 2.2}, "no_action": {"mean_encrypted": 4.09, "mean_services_unavailable": 2.66, "mean_isolated": 0.0}}, "hospital60": {"hassan_v7": {"mean_encrypted": 3.42, "mean_services_unavailable": 0.96, "mean_isolated": 3.1}, "full_isolation_safe": {"mean_encrypted": 3.42, "mean_services_unavailable": 0.96, "mean_isolated": 3.1}, "no_action": {"mean_encrypted": 6.31, "mean_services_unavailable": 7.14, "mean_isolated": 0.0}}, "model": "1 hop per tick along links; decision at tick 2 on the infected set (risk 8); 10 ticks; restricted machines keep spreading"}
+== anticipatory (0.6s): {"chains_with_hidden_hop": 428, "next_hop_already_blocked": {"q_acrs_v7": 427, "q_acrs_v5": 427, "rule_segment": 428}, "share": {"q_acrs_v7": 0.9976635514018691, "q_acrs_v5": 0.9976635514018691, "rule_segment": 1.0}}
+== scale_200 (0.1s): {"machines": 202, "scenarios": 20, "solver_used": {"exact": 20}, "rejected": 0, "decision_ms": {"median": 0.21779999997306732, "p95": 11.218200000030265, "max": 43.44639900000402}, "target_met": true}
+== portfolio_agreement (95.3s): {"scenarios": 1956, "annealing_equals_exact": 1956, "target_met": true}
+== hybrid_cross_check (0.0s): {"scenarios": 38, "qaoa_best_of_100_disagrees_with_exact": 2, "executed_disagreements": 0, "rule": "disagreement -> human decision; never executed"}
+== noise_sweep (0.0s): {"p_best_ideal_stored": 0.9814, "p_best_random": 0.25, "recorded_hardware_p_best": 0.9653, "closest_setting": {"two_qubit_error": 0.01, "readout_error": 0.0, "p_best": 0.9668}, "closest_with_readout_0": {"two_qubit_error": 0.01, "readout_error": 0.0, "p_best": 0.9668}, "note": "simple global-depolarizing + independent readout model on the stored ideal distribution (non-optimal mass spread evenly); an inference about effective error, not a device characterisation; several (gate, readout) pairs fit about equally well"}
+== regret_escalation (2.5s): {"chains_7008": {"escalations_v7": 6, "kept_by_regret_rule": 6, "dropped_would_be_silent": 0, "tau": 5.0}, "random_9003": {"escalations_v7": 18, "kept_by_regret_rule": 17, "dropped_would_be_silent": 1, "tau": 5.0}, "note": "dropping an escalation means accepting documented risk automatically, which the containment rules count as a silent failure; reported, not adopted"}
+== api_44 (4.9s): {"requests": 1000, "status_codes": {"200": 1000}, "round_trip_ms": {"median": 1.9273999999995794, "p95": 10.14960100008011, "max": 103.07249100003446}, "engine_ms": {"median": 0.5765990000554666, "p95": 8.669101000009505}, "malformed_requests_status": [400, 400, 400], "target_met": true}
+== acrs_timers_45 (13.5s): {"decisions": 2156, "within_7s": 2156, "worst_decision_s": 0.12458890499999598, "target_met": true, "note": "decision time only; ACRS executor/controller latency is measured separately in research/e2e_timing.py"}
+== replay_46 (5.8s): {"sampled": 100, "replayed_with_card": 100, "target_met": true}
+hassan-repro: 786 s
+git status --short backend/qacrs/results
+ M backend/qacrs/results/v7/v7.json
+ M backend/qacrs/results/v7/v7_sensitivity.json
+ M backend/qacrs/results/v8/adversarial.json
+ M backend/qacrs/results/v8/executor.json
+ M backend/qacrs/results/v8/integration.json
+ M backend/qacrs/results/v8/realism_scale.json
+
+┌──(Cyper$㉿DESKTOP-NIOUJN5)-[~/ACRS]
+└─$
