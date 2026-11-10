@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ACRS | النتائج والأدلة</title>
+<meta name="description" content="ACRS: نظام ذكي يوقف الهجوم السيبراني ويُبقي الخدمة شغّالة. النتائج والأدلة.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070D1A">
+<style>
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--bg:#070D1A;--card:#0D1730;--card2:#111D3A;--line:rgba(255,255,255,.09);--ink:#E9EEF7;--mut:#9AA8BE;
+--green:#2EE58A;--red:#FF4D5E;--amber:#FFC233;--blue:#5B9BFF;--off:#38445C;
+--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color-scheme:dark;-webkit-text-size-adjust:100%}
+body{font-family:Plex,system-ui,sans-serif;color:var(--ink);line-height:1.65;font-size:17px;overflow-x:hidden;
+background:radial-gradient(800px 600px at 100% -10%,rgba(46,229,138,.13),transparent 60%),radial-gradient(700px 600px at -10% 35%,rgba(91,155,255,.10),transparent 60%),var(--bg)}
+::selection{background:var(--green);color:#04140C}
+.en{direction:ltr;unicode-bidi:isolate}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+a{color:var(--green);text-underline-offset:3px}
+
+/* hero */
+.hero{padding:40px 0 10px}
+.brand{display:flex;align-items:baseline;gap:14px;justify-content:flex-start}
+.logo{font-size:52px;font-weight:700;letter-spacing:3px;direction:ltr;line-height:1}
+.logo span{color:var(--green);text-shadow:0 0 30px rgba(46,229,138,.6)}
+.full{color:var(--mut);font-size:13px;direction:ltr}
+h1{font-size:clamp(30px,7.2vw,52px);line-height:1.25;margin-top:20px;font-weight:700}
+h1 .r{color:var(--red);display:block}
+h1 .g{color:var(--green);display:block}
+.lead{color:#C9D3E3;margin-top:12px;font-size:18px;max-width:46ch}
+
+/* stage */
+.stage{margin-top:24px;background:var(--card);border-radius:20px;padding:18px;box-shadow:0 0 0 1px var(--line) inset,0 30px 60px -30px rgba(0,0,0,.7)}
+.stage-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.phase{font-weight:600;font-size:16px;min-height:26px;transition:opacity .3s var(--ease)}
+.replay{font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;display:flex;gap:8px;align-items:center;transition:background .2s,transform .1s}
+.replay:hover{background:rgba(255,255,255,.1)}.replay:active{transform:scale(.97)}
+.replay svg{width:14px;height:14px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pane{border-radius:14px;padding:12px 10px 10px;background:rgba(255,255,255,.025);box-shadow:0 0 0 1px var(--line) inset;transition:box-shadow .6s var(--ease),background .6s}
+.pane h3{font-size:16px;text-align:center}
+.pane h3 small{display:block;font-weight:400;color:var(--mut);font-size:12px}
+.pane svg{width:100%;height:auto;display:block;margin:6px 0}
+.meter{display:flex;justify-content:center;gap:8px;align-items:baseline;font-size:13px;color:var(--mut)}
+.meter b{font-size:26px;color:var(--ink);transition:color .4s}
+.pane.bad.done{box-shadow:0 0 0 1px rgba(255,77,94,.45) inset}
+.pane.bad.done .meter b{color:var(--red)}
+.pane.good.done{box-shadow:0 0 0 1px rgba(46,229,138,.6) inset,0 0 40px -10px rgba(46,229,138,.45);background:rgba(46,229,138,.05)}
+.pane.good.done .meter b{color:var(--green)}
+.node circle.b{transition:fill .5s var(--ease),r .4s var(--ease)}
+.edge{transition:stroke .5s,opacity .5s}
+.ring{opacity:0;transform-origin:center;transform-box:fill-box}
+.ring.on{opacity:1;animation:ring 1.2s var(--ease) forwards}
+@keyframes ring{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 1.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+.pkt{opacity:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12px;color:var(--mut);margin-top:12px}
+.legend span{display:flex;gap:6px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:18px;background:var(--card);border-radius:20px;box-shadow:0 0 0 1px var(--line) inset}
+.stats div{padding:22px 8px;text-align:center}
+.stats div+div{border-inline-start:1px solid var(--line)}
+.stats b{display:block;font-size:clamp(36px,9vw,58px);line-height:1;direction:ltr;font-weight:700}
+.stats span{display:block;font-size:13px;color:var(--mut);margin-top:8px;line-height:1.45}
+
+/* sections */
+section{margin:46px 0}
+h2{font-size:clamp(22px,5vw,30px);line-height:1.3;margin-bottom:6px}
+.sub{color:var(--mut);margin-bottom:18px;font-size:15px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* problem */
+.dots{display:grid;grid-template-columns:repeat(20,1fr);gap:5px;direction:ltr;margin:14px 0 10px}
+.dots i{aspect-ratio:1;border-radius:50%;background:var(--off);transform:scale(.3);opacity:0;transition:transform .5s var(--ease),opacity .5s,background .5s}
+.in .dots i{transform:none;opacity:1}
+.dots i.inf{background:var(--red)}
+.dots i.clean{background:transparent;box-shadow:0 0 0 2px var(--amber) inset}
+.facts{display:grid;gap:10px;margin-top:14px}
+.fact{background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 0 0 1px var(--line) inset;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.fact b{font-size:26px;color:var(--amber);direction:ltr}
+.fact small{color:var(--mut)}
+.q{margin-top:16px;padding:20px;border-radius:16px;text-align:center;font-size:22px;font-weight:700;background:linear-gradient(135deg,rgba(46,229,138,.10),rgba(91,155,255,.08));box-shadow:0 0 0 1px rgba(46,229,138,.35) inset}
+.q span{color:var(--green)}
+
+/* steps */
+.steps{display:grid;gap:10px;position:relative}
+.step{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 0 0 1px var(--line) inset;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.step .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.step .ic svg{width:24px;height:24px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.step b{display:block;font-size:17px}
+.step p{color:#C9D3E3;font-size:15px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;box-shadow:0 0 0 1px currentColor inset}
+
+/* bars */
+.chart{background:var(--card);border-radius:16px;padding:18px;box-shadow:0 0 0 1px var(--line) inset}
+.grp+.grp{margin-top:18px}
+.grp .cap{font-size:13px;color:var(--mut);margin-bottom:8px}
+.bar{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center;margin:6px 0}
+.bar .lb{font-size:14px;color:var(--mut)}
+.bar .t{display:flex;align-items:center;gap:10px}
+.bar .f{height:26px;border-radius:7px;width:0;transition:width 1.4s var(--ease)}
+.bar .v{font-weight:700;direction:ltr;font-size:18px}
+
+/* hypotheses */
+.hyps{display:grid;gap:10px}
+.hyp{background:var(--card);border-radius:14px;box-shadow:0 0 0 1px var(--line) inset;overflow:hidden}
+.hyp summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:40px 1fr 30px;gap:12px;align-items:center;padding:14px 16px}
+.hyp summary::-webkit-details-marker{display:none}
+.hyp .id{color:var(--green);font-weight:700;direction:ltr}
+.hyp .t b{display:block;font-size:16px}
+.hyp .t small{color:var(--mut);font-size:13px}
+.hyp svg.s{width:26px;height:26px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.hyp .ev{padding:0 16px 16px 16px;margin-inline-start:52px;color:#C9D3E3;font-size:14px;border-top:1px dashed var(--line);padding-top:12px}
+.hyp .ev code{direction:ltr;unicode-bidi:isolate;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:6px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+.hyp[open]{box-shadow:0 0 0 1px rgba(46,229,138,.35) inset}
+.more{font-size:12px;color:var(--mut);display:block;margin-top:2px}
+
+/* quantum */
+.qgrid{display:grid;grid-template-columns:repeat(11,1fr);gap:6px;align-items:end;height:140px;direction:ltr;margin:14px 0 6px}
+.qgrid div{background:linear-gradient(180deg,var(--blue),rgba(91,155,255,.25));border-radius:5px 5px 2px 2px;height:0;transition:height 1.2s var(--ease);position:relative}
+.qgrid div span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--mut)}
+.qcap{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);direction:ltr}
+.ev-list{display:grid;gap:8px;margin-top:14px}
+.ev-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:8px 0;font-size:14px}
+.ev-row:last-child{border-bottom:0}
+.ev-row span:first-child{color:var(--mut)}
+.ev-row span:last-child{direction:ltr;font-weight:600;text-align:left}
+
+/* timeline */
+.tl{position:relative;padding-inline-start:22px}
+.tl::before{content:"";position:absolute;inset-inline-start:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl div{position:relative;padding:6px 0 14px}
+.tl div::before{content:"";position:absolute;inset-inline-start:-21px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 2px var(--green) inset}
+.tl b{display:block}
+.tl small{color:var(--mut)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:12px 20px;border-radius:12px;background:var(--green);color:#04140C;font-weight:700;text-decoration:none;transition:transform .1s}
+.btn:active{transform:scale(.98)}
+ol.refs{direction:ltr;text-align:left;padding-left:20px;font-size:13px;color:#C9D3E3;display:grid;gap:6px}
+ol.refs i{color:var(--mut)}
+footer{color:var(--mut);font-size:13px;text-align:center;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+
+@media (max-width:560px){
+  .duo{gap:8px}.pane{padding:10px 6px 8px}.pane h3{font-size:14px}.meter b{font-size:22px}
+  .stats span{font-size:11.5px}.bar{grid-template-columns:76px 1fr}
+  .hyp .ev{margin-inline-start:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}.dots i{opacity:1;transform:none}
+}
+
+/* ===== cinematic intro ===== */
+.intro{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+#cv{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.intro::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(7,13,26,0) 35%,rgba(7,13,26,.85) 72%,var(--bg) 100%);pointer-events:none}
+.ov{width:100%;max-width:900px;margin:0 auto;padding:0 18px 56px}
+.hud{position:absolute;top:18px;inset-inline:18px;display:flex;justify-content:space-between;font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--mut);direction:ltr}
+.hud #hudS{color:var(--mut);transition:color .4s}
+.hud.alert #hudS{color:var(--red)}.hud.safe #hudS{color:var(--green)}
+.iv{opacity:0;transform:translateY(22px);filter:blur(10px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease);transition-delay:calc(var(--d)*140ms)}
+.intro.show .iv{opacity:1;transform:none;filter:none}
+.intro h1{margin-top:18px}
+.cta{display:inline-flex;align-items:center;gap:14px;margin-top:26px;padding:8px 8px 8px 22px;padding-inline-start:22px;border-radius:999px;background:rgba(255,255,255,.06);box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,inset 0 1px 0 rgba(255,255,255,.08);color:var(--ink);text-decoration:none;font-weight:600;transition:transform .3s var(--ease),background .3s}
+.cta i{width:38px;height:38px;border-radius:50%;background:var(--green);color:#04140C;display:flex;align-items:center;justify-content:center;transition:transform .4s var(--ease)}
+.cta i svg{width:18px;height:18px}
+.cta:hover{background:rgba(255,255,255,.1)}.cta:hover i{transform:translateY(2px) scale(1.06)}.cta:active{transform:scale(.98)}
+/* double-bezel shells */
+.stage,.stats,.chart{box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,inset 0 1px 0 rgba(255,255,255,.06),0 0 0 6px rgba(255,255,255,.025),0 40px 80px -40px rgba(0,0,0,.8)}
+section{margin:84px 0}
+.reveal{filter:blur(8px)}.reveal.in{filter:none}
+.reveal{transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease)}
+@media (prefers-reduced-motion:reduce){.iv{opacity:1;transform:none;filter:none}.reveal{filter:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+</div>
+<section class="intro" id="intro" aria-label="مقدمة">
+  <canvas id="cv" aria-hidden="true"></canvas>
+  <div class="hud" aria-hidden="true"><span id="hudT">00.0s</span><span id="hudS">SCANNING</span></div>
+  <div class="ov">
+    <div class="brand iv" style="--d:0"><div class="logo">ACR<span>S</span></div><div class="full">Automated Compromise<br>Response System</div></div>
+    <h1><span class="r iv" style="--d:1">أوقفنا الهجوم،</span><span class="g iv" style="--d:2">وبقيت الخدمة شغّالة</span></h1>
+    <p class="lead iv" style="--d:3">مثل رجل الإطفاء: يُغلق الغرفة التي فيها الحريق، ولا يقطع الكهرباء عن المستشفى كله.</p>
+    <a class="cta iv" style="--d:4" href="#sim"><span>شاهد كيف حدث ذلك</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></i></a>
+  </div>
+</section>
+<div class="wrap">
+<header class="hero" id="sim">
+
+  <div class="stage" aria-label="محاكاة: نفس الهجوم بطريقتين">
+    <div class="stage-top">
+      <div class="phase" id="phase">شبكة مستشفى تعمل بشكل طبيعي</div>
+      <button class="replay" id="replay" type="button" aria-label="إعادة المحاكاة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>إعادة</button>
+    </div>
+    <div class="duo">
+      <div class="pane bad" id="paneA"><h3>العزل الكامل<small>الطريقة المعتادة</small></h3><svg id="netA" viewBox="0 0 300 260" role="img" aria-label="العزل الكامل يطفئ كل الأجهزة"></svg><div class="meter">خدمات متوقفة <b class="num" id="mA">0</b><span>/ 8</span></div></div>
+      <div class="pane good" id="paneB"><h3 style="color:var(--green)">ACRS<small>عزل ذكي ومتدرّج</small></h3><svg id="netB" viewBox="0 0 300 260" role="img" aria-label="ACRS يعزل الجهاز المصاب فقط"></svg><div class="meter">خدمات متوقفة <b class="num" id="mB">0</b><span>/ 8</span></div></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--red)"></i>مصاب</span><span><i style="background:var(--green)"></i>شغّال</span><span><i style="background:var(--off)"></i>متوقف</span><span><i style="background:var(--amber)"></i>بوابة السلامة</span></div>
+  </div>
+
+  <div class="stats">
+    <div><b class="num" style="color:var(--green)" data-count="6">0</b><span>خدمات توقفت فقط<br>بدل 273 مع العزل الكامل</span></div>
+    <div><b class="num" data-count="97.7" data-dec="1" data-suf="%">0</b><span>نسبة الاحتواء<br>(الهدف 80%)</span></div>
+    <div><b class="num" style="color:var(--amber)" data-count="0">0</b><span>قرار غير آمن<br>في كل التجارب</span></div>
+  </div>
+</header>
+
+<section class="reveal" id="problem">
+  <h2>المشكلة</h2>
+  <p class="sub">في هجوم <span class="en">WannaCry</span> عام 2017 تأثرت 80 جهة صحية بريطانية [1].</p>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+  <div class="legend" style="justify-content:flex-start;margin:0"><span><i style="background:var(--red)"></i>مصابة فعلاً: 34</span><span><i style="box-shadow:0 0 0 2px var(--amber) inset"></i>سليمة لكن تعطّلت: 46</span></div>
+  <div class="facts">
+    <div class="fact"><b class="num">+19,000</b><span>موعد طبي أُلغي بسبب الهجوم <small>[1]</small></span></div>
+    <div class="fact"><b>×2</b><span>تضاعفت هجمات الفدية على المستشفيات بين 2016 و2021 <small>[2]</small></span></div>
+  </div>
+  <div class="q">كيف نوقف الهجوم<br><span>دون أن نوقف الخدمة؟</span></div>
+</section>
+
+<section class="reveal">
+  <h2>كيف يتخذ ACRS قراره</h2>
+  <p class="sub">أربع خطوات، من التنبيه حتى التنفيذ.</p>
+  <div class="steps">
+    <div class="step"><div class="ic" style="background:rgba(255,77,94,.12)"><svg viewBox="0 0 24 24" stroke="var(--red)"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><div><b>تنبيه</b><p>نظام كشف التسلل يبلّغ أن جهازاً مشبوه.</p></div></div>
+    <div class="step"><div class="ic" style="background:rgba(91,155,255,.14)"><svg viewBox="0 0 24 24" stroke="var(--blue)"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div><div><b>قرار ذكي <span class="en" style="color:var(--mut);font-weight:400">QUBO</span></b><p>يوازن بين خطر انتشار الهجوم وكلفة إيقاف الخدمة، ويختار أقل إجراء كافٍ [4].</p><div class="chips"><span class="chip" style="color:var(--red)">عزل</span><span class="chip" style="color:var(--amber)">تقييد</span><span class="chip" style="color:var(--blue)">تجزئة</span></div></div></div>
+    <div class="step"><div class="ic" style="background:rgba(255,194,51,.13)"><svg viewBox="0 0 24 24" stroke="var(--amber)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><div><b>بوابة السلامة</b><p>أي قرار يمسّ نظاماً حرجاً لا يُنفَّذ إلا بموافقة شخصين [5].</p></div></div>
+    <div class="step"><div class="ic" style="background:rgba(46,229,138,.12)"><svg viewBox="0 0 24 24" stroke="var(--green)"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v6M15 10v5M9 15v5"/></svg></div><div><b>تنفيذ</b><p>يتحوّل القرار إلى قواعد جدار حماية تُطبَّق فوراً.</p></div></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>عدد الخدمات التي توقفت</h2>
+  <p class="sub">أقل = أفضل. نفس الهجمات، طريقتان.</p>
+  <div class="chart">
+    <div class="grp"><div class="cap">253 سلسلة هجوم (محاكاة)</div>
+      <div class="bar"><span class="lb">العزل الكامل</span><div class="t"><div class="f" data-w="80" style="background:#46546E"></div><span class="v">273</span></div></div>
+      <div class="bar"><span class="lb" style="color:var(--green)">ACRS</span><div class="t"><div class="f" data-w="2" style="background:var(--green);min-width:0"></div><span class="v" style="color:var(--green)">6</span></div></div>
+    </div>
+    <div class="grp"><div class="cap">75 حالة من تقارير هجمات منشورة</div>
+      <div class="bar"><span class="lb">العزل الكامل</span><div class="t"><div class="f" data-w="78" style="background:#46546E"></div><span class="v">268</span></div></div>
+      <div class="bar"><span class="lb" style="color:var(--green)">ACRS</span><div class="t"><div class="f" data-w="20" style="background:var(--green)"></div><span class="v" style="color:var(--green)">70</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>الفرضيات والأدلة</h2>
+  <p class="sub">5 فرضيات بأرقام محددة، سُجّلت في <span class="en">Git</span> قبل التجارب. اضغط على أي فرضية لرؤية الدليل.</p>
+  <div class="hyps">
+    <details class="hyp"><summary><span class="id">H1</span><span class="t"><b>الاحتواء: 97.7%</b><small>الهدف ≥ 80% من العزل الكامل</small><span class="more">الدليل ▾</span></span><svg class="s" viewBox="0 0 24 24" stroke="var(--green)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></summary>
+      <div class="ev">259 سلسلة هجوم جديدة لم يرها النظام أثناء التطوير. وفي اختبار التعميم على قطاعات أخرى: بنك 0.902، جامعة 0.839، مصنع 0.792 (أقل بقليل من 0.80، ونذكره بصراحة).</div></details>
+    <details class="hyp"><summary><span class="id">H2</span><span class="t"><b>السلامة: 0 قرارات غير آمنة</b><small>تحقّق رسمي + اختبار على لينكس حقيقي</small><span class="more">الدليل ▾</span></span><svg class="s" viewBox="0 0 24 24" stroke="var(--green)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></summary>
+      <div class="ev">عاملنا المُحسِّن كأنه غير موثوق، وطلبنا من حلّال <code>HiGHS</code> [6] إيجاد أي مدخل يكسر قواعد السلامة الخمس على خمس شبكات: لم يجد. وطابق جدار حماية لينكس الحقيقي النموذج في <code>6,002</code> فحص.</div></details>
+    <details class="hyp"><summary><span class="id">H3</span><span class="t"><b>السرعة: 118 ms</b><small>الهدف أقل من 50 ms. لم تتحقق</small><span class="more">الدليل ▾</span></span><svg class="s" viewBox="0 0 24 24" stroke="var(--red)"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
+      <div class="ev">زمن قطع المهاجم (p95) على 66 حالة واقعية 118 ms، وعلى الحالات التركيبية 41 ms. نتيجة لم تتحقق، ونعرضها كما هي؛ وتسريعها هو أول خطوة قادمة.</div></details>
+    <details class="hyp"><summary><span class="id">H4</span><span class="t"><b>الحاسوب الكمّي: أفضل من العشوائي</b><small>11 من 11 مسألة على <span class="en">IBM</span></small><span class="more">الدليل ▾</span></span><svg class="s" viewBox="0 0 24 24" stroke="var(--green)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></summary>
+      <div class="ev">التفاصيل والرسم في قسم «التجربة الكمّية» تحت. لا ندّعي تفوّقاً كمّياً.</div></details>
+    <details class="hyp"><summary><span class="id">H5</span><span class="t"><b>التزوير: 0 خدمات متوقفة</b><small>تنبيهات مزيّفة على 1-3 أجهزة</small><span class="more">الدليل ▾</span></span><svg class="s" viewBox="0 0 24 24" stroke="var(--green)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></summary>
+      <div class="ev">مهاجم يزوّر تنبيهات على 1 إلى 3 أجهزة في شبكتين (12 و22 جهازاً) ليخدع النظام فيطفئ خدمات سليمة: لم تتوقف أي خدمة، لأن بوابة السلامة توقف أي قرار يمسّ نظاماً حرجاً.</div></details>
+  </div>
+</section>
+
+<section class="reveal" id="quantum">
+  <h2>التجربة الكمّية</h2>
+  <p class="sub">قسّمنا شبكة مستشفى من 240 جهازاً إلى 11 مسألة صغيرة، وشغّلناها على حاسوب <span class="en">IBM</span> كمّي حقيقي [7].</p>
+  <div class="chart">
+    <div style="font-size:13px;color:var(--mut)">كم مرة أفضل من الاختيار العشوائي (لكل مسألة)</div>
+    <div class="qgrid" id="qgrid"></div>
+    <div class="qcap"><span>16 qubit</span><span>2 qubit</span></div>
+    <div class="ev-list">
+      <div class="ev-row"><span>الحاسوب</span><span>ibm_kingston · 156 qubit</span></div>
+      <div class="ev-row"><span>رقم المهمة (Job ID)</span><span>db5u2d2mb58s738b1020</span></div>
+      <div class="ev-row"><span>الكيوبتات المستخدمة</span><span>75 · 10,000 shots</span></div>
+      <div class="ev-row"><span>وجد الحل الأمثل</span><span style="color:var(--green)">11 / 11</span></div>
+      <div class="ev-row"><span>دالة إحصائياً (Holm)</span><span style="color:var(--green)">11 / 11</span></div>
+      <div class="ev-row"><span>التاريخ</span><span>2026-10-11</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>لماذا تثق بالنتائج؟</h2>
+  <p class="sub">كل خطوة مسجّلة بتاريخها في <span class="en">Git</span>، ولا يمكن تعديلها بعد ذلك دون أن يظهر التعديل.</p>
+  <div class="tl">
+    <div><b>تسجيل الفرضيات قبل الكود</b><small>ملف الفرضيات يُسجَّل أولاً بلا كود ولا بيانات، ثم تأتي التجارب (مثال: الإصدار v12 في 2026-10-18).</small></div>
+    <div><b>اختبار على بيانات لم يرها النظام</b><small>259 سلسلة جديدة، و75 حالة من تقارير هجمات منشورة.</small></div>
+    <div><b>تحقّق رسمي ومهاجم مُزوِّر</b><small>حلّال HiGHS، و6,002 فحص على لينكس، وتنبيهات مزيّفة.</small></div>
+    <div><b>عتاد كمّي حقيقي</b><small>IBM، رقم المهمة منشور أعلاه.</small></div>
+    <div><b>نعرض الإخفاق أيضاً</b><small>H3 وشبكة المصنع لم تبلغا الهدف، ومذكورتان بصراحة.</small></div>
+  </div>
+  <a class="btn" href="ACRS_poster.pdf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>البوستر كاملاً (PDF)</a>
+</section>
+
+<section class="reveal">
+  <h2>المراجع</h2>
+  <ol class="refs">
+    <li>National Audit Office. (2017). <i>Investigation: WannaCry cyber attack and the NHS</i> (HC 414).</li>
+    <li>Neprash, H. T., et al. (2022). Trends in ransomware attacks on US hospitals, clinics, and other health care delivery organizations, 2016-2021. <i>JAMA Health Forum, 3</i>(12), e224873.</li>
+    <li>National Cybersecurity Authority. (2024). <i>Essential Cybersecurity Controls (ECC-2:2024).</i></li>
+    <li>Lucas, A. (2014). Ising formulations of many NP problems. <i>Frontiers in Physics, 2</i>, 5.</li>
+    <li>Sha, L. (2001). Using simplicity to control complexity. <i>IEEE Software, 18</i>(4), 20-28.</li>
+    <li>Huangfu, Q., &amp; Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. <i>Mathematical Programming Computation, 10</i>, 119-142.</li>
+    <li>Javadi-Abhari, A., et al. (2024). Quantum computing with Qiskit. <i>arXiv:2405.08810.</i></li>
+  </ol>
+</section>
+
+<footer>الكود المصدري غير منشور.<br>© حقوق محفوظة</footer>
+</div>
+
+<script>
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const C={g:'#2EE58A',r:'#FF4D5E',a:'#FFC233',off:'#38445C',edge:'rgba(255,255,255,.16)',bg:'#0D1730'};
+// network: 0 = core switch, 1..9 devices, 9 = hospital server (critical), 8 = infected
+const N=[[150,130],[60,50],[150,30],[240,50],[270,135],[240,215],[150,235],[60,215],[30,135]];
+const crit=5, inf=8;
+const E=[[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,1]];
+const ns='http://www.w3.org/2000/svg';
+function el(t,a,p){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e}
+function build(id){
+  const s=document.getElementById(id);s.innerHTML='';
+  const g={edges:[],nodes:[],s};
+  E.forEach(([a,b])=>{g.edges.push(el('line',{x1:N[a][0],y1:N[a][1],x2:N[b][0],y2:N[b][1],stroke:C.edge,'stroke-width':3,'stroke-linecap':'round',class:'edge'},s))});
+  g.pkts=[];
+  N.forEach(([x,y],i)=>{
+    const n=el('g',{class:'node'},s);
+    if(i===0){el('rect',{x:x-26,y:y-17,width:52,height:34,rx:8,fill:'#13233F',stroke:C.g,'stroke-width':2},n);
+      for(let j=0;j<4;j++)el('circle',{cx:x-15+j*10,cy:y,r:2.6,fill:C.g},n);g.nodes.push({n});return}
+    const r=i===crit?22:17;
+    const halo=el('circle',{cx:x,cy:y,r:r,fill:'none',stroke:C.r,'stroke-width':2,opacity:0},n);
+    const b=el('circle',{cx:x,cy:y,r:r,fill:C.g,stroke:C.bg,'stroke-width':3,class:'b'},n);
+    if(i===crit){el('path',{d:`M${x-4} ${y-11}h8v7h7v8h-7v7h-8v-7h-7v-8h7z`,fill:'#fff'},n)}
+    else{el('rect',{x:x-7,y:y-6,width:14,height:10,rx:1.5,fill:'none',stroke:'#fff','stroke-width':2},n);el('path',{d:`M${x-4} ${y+8}h8`,stroke:'#fff','stroke-width':2,'stroke-linecap':'round'},n)}
+    const x2=el('g',{opacity:0,stroke:'#C9D3E3','stroke-width':3,'stroke-linecap':'round'},n);el('path',{d:`M${x+r-8} ${y-r-2}l9 9M${x+r+1} ${y-r-2}l-9 9`},x2);
+    g.nodes.push({n,b,halo,x2,x,y,r});
+  });
+  // isolation ring + shield
+  const [ix,iy]=N[inf];
+  g.ring=el('circle',{cx:ix,cy:iy,r:30,fill:'none',stroke:C.r,'stroke-width':2.5,'stroke-dasharray':'6 5',class:'ring'},s);
+  const [cx,cy]=N[crit];
+  g.shield=el('g',{opacity:0,transform:`translate(${cx+20} ${cy-30})`},s);
+  el('path',{d:'M0 -11l10 4v7c0 7-10 11-10 11s-10-4-10-11v-7z',fill:C.a,stroke:C.bg,'stroke-width':2},g.shield);
+  el('path',{d:'M-4 1l3 3 5-6',stroke:'#04140C','stroke-width':2,fill:'none','stroke-linecap':'round'},g.shield);
+  // attack packets along edges from infected node
+  [[8,0],[8,1],[8,7]].forEach(([a,b])=>{const p=el('circle',{r:4,fill:C.r,class:'pkt',cx:N[a][0],cy:N[a][1]},s);g.pkts.push({p,a,b})});
+  return g;
+}
+let A,B,timers=[];
+const phase=document.getElementById('phase'),mA=document.getElementById('mA'),mB=document.getElementById('mB');
+const pA=document.getElementById('paneA'),pB=document.getElementById('paneB');
+function setPhase(t){phase.style.opacity=0;setTimeout(()=>{phase.textContent=t;phase.style.opacity=1},180)}
+function at(ms,f){timers.push(setTimeout(f,RM?0:ms))}
+function infect(g){const n=g.nodes[inf];n.b.setAttribute('fill',C.r);n.halo.setAttribute('opacity',1);n.halo.classList.add('pulse')}
+function packets(g,on){g.pkts.forEach(({p,a,b},k)=>{if(!on){p.style.opacity=0;return}
+  if(RM)return;p.animate([{cx:N[a][0],cy:N[a][1],opacity:1},{cx:N[b][0],cy:N[b][1],opacity:.2}],{duration:900,delay:k*180,iterations:2,easing:'ease-in'})})}
+function run(){
+  timers.forEach(clearTimeout);timers=[];
+  A=build('netA');B=build('netB');mA.textContent='0';mB.textContent='0';pA.classList.remove('done');pB.classList.remove('done');
+  setPhase('شبكة مستشفى تعمل بشكل طبيعي');
+  at(900,()=>{setPhase('هجوم: جهاز مصاب يحاول الانتشار');infect(A);infect(B);packets(A,1);packets(B,1)});
+  // A: full isolation, devices go off one by one
+  const order=[1,2,3,4,5,6,7,8];
+  at(3000,()=>{setPhase('ACRS يعزل المصاب وحده')});
+  order.forEach((i,k)=>at(3200+k*220,()=>{const n=A.nodes[i];n.b.setAttribute('fill',C.off);n.halo.setAttribute('opacity',0);n.halo.classList.remove('pulse');n.x2.setAttribute('opacity',1);mA.textContent=String(k+1)}));
+  at(3200,()=>{A.edges.forEach(e=>e.setAttribute('stroke','rgba(255,255,255,.06)'));A.nodes[0].n.setAttribute('opacity',.45)});
+  at(3200+8*220,()=>{mA.textContent='8';pA.classList.add('done')});
+  // B: isolate only infected
+  at(3300,()=>{B.ring.classList.add('on');E.forEach(([a,b],k)=>{if(a===inf||b===inf){B.edges[k].setAttribute('stroke',C.r);B.edges[k].setAttribute('stroke-dasharray','3 6');B.edges[k].setAttribute('opacity',.6)}else B.edges[k].setAttribute('stroke','rgba(46,229,138,.35)')})});
+  at(3900,()=>{B.shield.setAttribute('opacity',1);if(!RM)B.shield.animate([{opacity:0,transform:`translate(${N[crit][0]+20}px,${N[crit][1]-22}px)`},{opacity:1,transform:`translate(${N[crit][0]+20}px,${N[crit][1]-30}px)`}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'})});
+  at(4300,()=>{mB.textContent='1';pB.classList.add('done');packets(A,0);packets(B,0);setPhase('النتيجة: المستشفى بقي شغّالاً مع ACRS')});
+}
+document.getElementById('replay').addEventListener('click',run);
+// start when visible
+const st=document.querySelector('.stage');let started=false;
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting&&!started){started=true;run();o.disconnect()}},{threshold:.35}).observe(st);
+
+// counters
+function count(el){const to=parseFloat(el.dataset.count),dec=+(el.dataset.dec||0),suf=el.dataset.suf||'';
+  if(RM||to===0){el.textContent=to.toFixed(dec)+suf;return}
+  const t0=performance.now(),d=1400;(function f(t){const p=Math.min(1,(t-t0)/d),e=1-Math.pow(1-p,4);el.textContent=(to*e).toFixed(dec)+suf;if(p<1)requestAnimationFrame(f)})(t0)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;
+  if(t.dataset.count!==undefined)count(t);
+  if(t.classList.contains('reveal')){t.classList.add('in');t.querySelectorAll('.f').forEach(f=>f.style.width=f.dataset.w+'%');
+    t.querySelectorAll('.qgrid div').forEach((d,i)=>setTimeout(()=>d.style.height=d.dataset.h+'%',RM?0:i*70))}
+  io.unobserve(t)}),{threshold:.2});
+document.querySelectorAll('[data-count],.reveal').forEach(e=>io.observe(e));
+
+// dots: 34 infected, 46 clean-but-disrupted
+const dots=document.getElementById('dots');
+for(let i=0;i<80;i++){const d=document.createElement('i');d.className=i<34?'inf':'clean';d.style.transitionDelay=(RM?0:i*12)+'ms';dots.appendChild(d)}
+
+// quantum bars: real/random ratio per subproblem (E9, ibm_kingston)
+const q=[[16,19.7],[10,23.2],[10,21.5],[10,14.1],[6,13.3],[5,9.1],[4,3.5],[4,8.3],[4,4.0],[4,3.8],[2,3.1]];
+const qg=document.getElementById('qgrid');
+q.forEach(([n,r])=>{const d=document.createElement('div');d.dataset.h=(r/23.2*100).toFixed(0);d.title=n+' qubit: ×'+r;const s=document.createElement('span');s.textContent='×'+r;d.appendChild(s);qg.appendChild(d)});
+})();
+
+// ===== cinematic intro: an attack spreads, ACRS contains it, the network stays alive =====
+(()=>{
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),intro=document.getElementById('intro');
+const hud=document.querySelector('.hud'),hT=document.getElementById('hudT'),hS=document.getElementById('hudS');
+let W,H,DPR,nodes=[],edges=[],adj=[],t0=null,raf;
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+function layout(){
+  DPR=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
+  seed=7;nodes=[];edges=[];
+  const n=W<600?64:110, top=H*.07, bot=H*.64;
+  for(let i=0;i<n;i++)nodes.push({x:20+rnd()*(W-40),y:top+rnd()*(bot-top),r:2.4+rnd()*2.4,ph:rnd()*6.28,inf:-1,crit:false});
+  // 4 critical hospital servers
+  [0.18,0.42,0.66,0.88].forEach(f=>{let best=0,bd=1e9;nodes.forEach((p,i)=>{const d=Math.abs(p.x-W*f)+Math.abs(p.y-(top+bot)/2);if(d<bd){bd=d;best=i}});nodes[best].crit=true;nodes[best].r=6});
+  adj=nodes.map(()=>[]);
+  nodes.forEach((a,i)=>{const near=nodes.map((b,j)=>[j,(a.x-b.x)**2+(a.y-b.y)**2]).filter(([j])=>j!==i).sort((p,q)=>p[1]-q[1]).slice(0,3);
+    near.forEach(([j])=>{if(!adj[i].includes(j)){adj[i].push(j);adj[j].push(i);edges.push([i,j])}})});
+  // patient zero: a non-critical node near the middle-left
+  let pz=0,bd=1e9;nodes.forEach((p,i)=>{if(p.crit)return;const d=Math.abs(p.x-W*.35)+Math.abs(p.y-(top+bot)*.5);if(d<bd){bd=d;pz=i}});
+  // BFS infection times, capped at 2 hops (ACRS stops it there)
+  const q=[[pz,0]];nodes[pz].inf=0;const seen=new Set([pz]);
+  while(q.length){const [i,h]=q.shift();if(h>=3)continue;adj[i].forEach(j=>{if(seen.has(j)||nodes[j].crit)return;seen.add(j);nodes[j].inf=(h+1)*0.5+rnd()*.3;q.push([j,h+1])})}
+}
+const T_ATTACK=.7,T_CONTAIN=2.9,T_TEXT=3.6;
+function ease(x){return 1-Math.pow(1-Math.min(1,Math.max(0,x)),3)}
+function frame(ts){
+  if(t0===null)t0=ts;const t=RM?6:(ts-t0)/1000;
+  ctx.clearRect(0,0,W,H);
+  const contained=t>T_CONTAIN, cK=ease((t-T_CONTAIN)/.9);
+  const infected=i=>nodes[i].inf>=0&&t>T_ATTACK+nodes[i].inf;
+  // shockwave
+  if(contained&&cK<1){const pz=nodes.findIndex(p=>p.inf===0);const R=cK*Math.hypot(W,H);ctx.beginPath();ctx.arc(nodes[pz].x,nodes[pz].y,R,0,6.283);ctx.strokeStyle=`rgba(46,229,138,${.5*(1-cK)})`;ctx.lineWidth=2;ctx.stroke()}
+  // edges
+  edges.forEach(([a,b])=>{const ia=infected(a),ib=infected(b);let col='rgba(150,170,200,.13)',dash=[];
+    if(ia||ib){col=contained?`rgba(255,77,94,${.55*(1-cK)+.12})`:'rgba(255,77,94,.55)';if(contained&&(ia!==ib))dash=[3,5]}
+    else if(contained)col=`rgba(46,229,138,${.08+.22*cK})`;
+    ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(nodes[a].x,nodes[a].y);ctx.lineTo(nodes[b].x,nodes[b].y);ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke()});
+  ctx.setLineDash([]);
+  // attack packets travelling outwards before containment
+  if(t>T_ATTACK&&!contained){edges.forEach(([a,b])=>{let s=a,d=b;if(infected(b)&&!infected(a)){s=b;d=a}else if(!(infected(a)&&!infected(b)))return;
+    if(nodes[d].inf<0&&!nodes[d].crit)return;const p=((t*1.6)+a*.13)%1;ctx.beginPath();ctx.arc(nodes[s].x+(nodes[d].x-nodes[s].x)*p,nodes[s].y+(nodes[d].y-nodes[s].y)*p,1.8,0,6.283);ctx.fillStyle='#FF4D5E';ctx.fill()})}
+  // nodes
+  nodes.forEach((p,i)=>{const inf=infected(i);const pulse=.5+.5*Math.sin(t*2+p.ph);let col='rgba(170,185,210,.55)',glow=0;
+    if(inf){col='#FF4D5E';glow=10}else if(contained){col=p.crit?'#2EE58A':`rgba(46,229,138,${.45+.5*cK})`;glow=p.crit?16:6*cK}else if(p.crit)col='#9AA8BE';
+    ctx.shadowColor=col;ctx.shadowBlur=glow;ctx.beginPath();ctx.arc(p.x,p.y,p.r*(inf?1.15+.15*pulse:1),0,6.283);ctx.fillStyle=col;ctx.fill();ctx.shadowBlur=0;
+    if(p.crit){ctx.fillStyle='#070D1A';ctx.fillRect(p.x-1,p.y-3.5,2,7);ctx.fillRect(p.x-3.5,p.y-1,7,2);
+      if(contained){const a=cK;ctx.strokeStyle=`rgba(255,194,51,${a})`;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(p.x,p.y,p.r+5+3*(1-a),0,6.283);ctx.stroke()}}
+    if(inf&&contained){ctx.strokeStyle=`rgba(255,77,94,${.9*cK})`;ctx.setLineDash([3,3]);ctx.lineWidth=1.3;ctx.beginPath();ctx.arc(p.x,p.y,p.r+7-2*cK,0,6.283);ctx.stroke();ctx.setLineDash([])}
+  });
+  // HUD
+  hT.textContent=(Math.min(t,9.9)).toFixed(1).padStart(4,'0')+'s';
+  if(t<T_ATTACK){hS.textContent='NETWORK NORMAL';hud.className='hud'}
+  else if(!contained){const n=nodes.filter((p,i)=>infected(i)).length;hS.textContent='ATTACK SPREADING · '+n+(n===1?' HOST':' HOSTS');hud.className='hud alert'}
+  else{const n=nodes.filter((p,i)=>infected(i)).length;hS.textContent='CONTAINED · '+n+' ISOLATED · '+(nodes.length-n)+' ONLINE';hud.className='hud safe'}
+  if(t>T_TEXT&&!intro.classList.contains('show')){intro.classList.add('show');try{navigator.vibrate&&navigator.vibrate(18)}catch(e){}}
+  if(!RM)raf=requestAnimationFrame(frame);
+}
+function start(){cancelAnimationFrame(raf);t0=null;layout();raf=requestAnimationFrame(frame)}
+addEventListener('resize',()=>{const w=cv.clientWidth;if(Math.abs(w-W)>40)start()});
+// pause when off-screen
+new IntersectionObserver(es=>{if(es[0].isIntersecting){if(!raf)raf=requestAnimationFrame(frame)}else{cancelAnimationFrame(raf);raf=0}}).observe(intro);
+start();
+})();
+</script>
+</body>
+</html>
