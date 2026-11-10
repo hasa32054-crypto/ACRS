@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACRS | النتائج</title>
+<meta name="description" content="ACRS: نظام ذكي يوقف الهجوم السيبراني ويُبقي الخدمة شغّالة. ملخص النتائج.">
+<meta name="robots" content="noindex">
+<style>
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Plex;src:url(fonts/IBMPlexSansArabic-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--bg:#070D1A;--card:#0E1830;--line:rgba(255,255,255,.09);--ink:#E8EEF7;--mut:#9AA8BE;
+--green:#2EE58A;--red:#FF4D5E;--amber:#FFC233;--blue:#5B9BFF}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color-scheme:dark}
+body{font-family:Plex,system-ui,sans-serif;color:var(--ink);line-height:1.65;font-size:17px;
+background:radial-gradient(700px 500px at 90% -5%,rgba(46,229,138,.14),transparent 60%),radial-gradient(600px 500px at 0% 40%,rgba(91,155,255,.10),transparent 60%),var(--bg)}
+::selection{background:var(--green);color:#04140C}
+.en{direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:860px;margin:0 auto;padding:0 18px}
+header{padding:44px 0 24px}
+.brand{font-size:56px;font-weight:700;letter-spacing:2px;direction:ltr;text-align:right;line-height:1;text-shadow:0 0 40px rgba(46,229,138,.3)}
+.brand span{color:var(--green)}
+.full{color:var(--mut);direction:ltr;text-align:right;font-size:15px;margin-top:6px}
+h1{font-size:clamp(28px,6vw,44px);line-height:1.3;margin-top:22px;font-weight:700}
+h1 .r{color:var(--red)}h1 .g{color:var(--green)}
+.lead{color:#C9D3E3;margin-top:12px;font-size:18px}
+section{background:var(--card);border-radius:16px;padding:24px 20px;margin:16px 0;box-shadow:0 0 0 1px var(--line) inset}
+h2{font-size:22px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;text-align:center}
+.stats div{padding:6px 8px}.stats div+div{border-inline-start:1px solid var(--line)}
+.stats b{display:block;font-size:clamp(34px,8vw,52px);line-height:1.1;direction:ltr}
+.stats span{font-size:14px;color:var(--mut);display:block;margin-top:4px}
+ul{list-style:none;display:grid;gap:8px}
+li{display:flex;gap:12px;align-items:flex-start}
+li::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--amber);margin-top:11px;flex:none}
+.bars .row{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;margin:6px 0}
+.bars .lb{font-size:14px;color:var(--mut)}
+.bars .t{display:flex;align-items:center;gap:10px}
+.bars .f{height:22px;border-radius:6px}
+.bars .v{font-weight:700;direction:ltr}
+.cap{font-size:14px;color:var(--mut);margin:14px 0 4px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:10px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.id{color:var(--green);font-weight:700;width:40px;direction:ltr}
+td.s{width:34px;text-align:center}
+td small{display:block;color:var(--mut);font-size:13px}
+svg.i{width:22px;height:22px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ok{stroke:var(--green)}.no{stroke:var(--red)}
+.steps{counter-reset:s;display:grid;gap:12px}
+.steps div{display:grid;grid-template-columns:34px 1fr;gap:12px}
+.steps div::before{counter-increment:s;content:counter(s);width:34px;height:34px;border-radius:8px;background:rgba(46,229,138,.12);color:var(--green);font-weight:700;display:flex;align-items:center;justify-content:center}
+.steps b{display:block}
+.steps p{color:#C9D3E3;font-size:15px}
+.note{color:var(--mut);font-size:14px;margin-top:10px}
+ol.refs{direction:ltr;text-align:left;padding-left:20px;font-size:13px;color:#C9D3E3;display:grid;gap:6px}
+ol.refs i{color:var(--mut)}
+a{color:var(--green);text-underline-offset:3px}
+.btn{display:inline-block;margin-top:6px;padding:10px 18px;border-radius:10px;background:var(--green);color:#04140C;font-weight:700;text-decoration:none}
+.btn:active{transform:translateY(1px)}
+footer{color:var(--mut);font-size:13px;text-align:center;padding:24px 0 40px}
+@media (max-width:520px){.stats span{font-size:12px}.bars .row{grid-template-columns:80px 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">ACR<span>S</span></div>
+  <div class="full">Automated Compromise Response System</div>
+  <h1><span class="r">أوقفنا الهجوم،</span><br><span class="g">وبقيت الخدمة شغّالة</span></h1>
+  <p class="lead">مثل رجل الإطفاء: يُغلق الغرفة التي فيها الحريق، ولا يقطع الكهرباء عن المستشفى كله.</p>
+</header>
+
+<section aria-label="أهم النتائج">
+  <div class="stats">
+    <div><b style="color:var(--green)">6</b><span>خدمات توقفت فقط، بدل 273 مع العزل الكامل</span></div>
+    <div><b>97.7%</b><span>نسبة الاحتواء مقارنة بالعزل الكامل (الهدف 80%)</span></div>
+    <div><b style="color:var(--amber)">0</b><span>قرار غير آمن</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>المشكلة</h2>
+  <ul>
+    <li><span>في هجوم <span class="en">WannaCry</span> عام 2017 تأثرت 80 جهة صحية بريطانية، و46 منها لم تكن مصابة أصلاً [1].</span></li>
+    <li><span>أُلغي أكثر من 19,000 موعد طبي بسبب الهجوم [1].</span></li>
+    <li><span>هجمات الفدية على المستشفيات تضاعفت بين 2016 و2021 [2].</span></li>
+    <li><span>الحل المعتاد هو العزل الكامل: يوقف الهجوم، ويوقف الخدمة معه.</span></li>
+  </ul>
+  <p class="note" style="color:var(--ink);font-weight:600;font-size:17px">سؤال البحث: كيف نوقف الهجوم دون أن نوقف الخدمة؟</p>
+</section>
+
+<section>
+  <h2>كيف يعمل النظام</h2>
+  <div class="steps">
+    <div><span><b>تنبيه</b><p>نظام كشف التسلل يبلّغ أن جهازاً مشبوه.</p></span></div>
+    <div><span><b>قرار ذكي <span class="en">(QUBO)</span></b><p>يوازن بين خطر انتشار الهجوم وكلفة إيقاف الخدمة، ويختار أقل إجراء كافٍ: عزل، أو تقييد، أو تجزئة [4].</p></span></div>
+    <div><span><b>بوابة سلامة</b><p>أي قرار يمسّ نظاماً حرجاً لا يُنفَّذ إلا بموافقة شخصين [5].</p></span></div>
+    <div><span><b>تنفيذ</b><p>يتحوّل القرار إلى قواعد جدار حماية تُطبَّق فوراً.</p></span></div>
+  </div>
+</section>
+
+<section class="bars">
+  <h2>عدد الخدمات التي توقفت (أقل = أفضل)</h2>
+  <div class="cap">253 سلسلة هجوم (محاكاة)</div>
+  <div class="row"><span class="lb">العزل الكامل</span><div class="t"><div class="f" style="width:78%;background:#46546E"></div><span class="v">273</span></div></div>
+  <div class="row"><span class="lb" style="color:var(--green)">ACRS</span><div class="t"><div class="f" style="width:2%;min-width:6px;background:var(--green)"></div><span class="v" style="color:var(--green)">6</span></div></div>
+  <div class="cap">75 حالة من تقارير هجمات منشورة</div>
+  <div class="row"><span class="lb">العزل الكامل</span><div class="t"><div class="f" style="width:78%;background:#46546E"></div><span class="v">268</span></div></div>
+  <div class="row"><span class="lb" style="color:var(--green)">ACRS</span><div class="t"><div class="f" style="width:20%;background:var(--green)"></div><span class="v" style="color:var(--green)">70</span></div></div>
+</section>
+
+<section>
+  <h2>هل تحققت الفرضيات؟</h2>
+  <p class="note" style="margin:0 0 8px">سُجّلت الفرضيات وأرقامها في <span class="en">Git</span> قبل بدء التجارب.</p>
+  <table>
+    <tr><td class="id">H1</td><td>احتواء 97.7% على 259 سلسلة (الهدف 80%)<small>شبكة المصنع 0.792، أقل بقليل من 0.80</small></td><td class="s"><svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></td></tr>
+    <tr><td class="id">H2</td><td>0 قرارات غير آمنة<small>تحقّق رسمي من 5 خصائص سلامة بـ <span class="en">HiGHS</span> [6]، و6,002 فحص على جدار حماية لينكس</small></td><td class="s"><svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></td></tr>
+    <tr><td class="id">H3</td><td>قطع المهاجم 118 ms على 66 حالة واقعية (الهدف 50 ms)<small>41 ms على الحالات التركيبية. لم تتحقق، وهي خطوة قادمة.</small></td><td class="s"><svg class="i no" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></td></tr>
+    <tr><td class="id">H4</td><td>على حاسوب <span class="en">IBM</span> الكمّي: أفضل من العشوائي <span class="en">3-23×</span><small>11 مسألة (حتى 16 كيوبت لكل منها) من شبكة 240 جهازاً [7]. لا ندّعي تفوّقاً كمّياً.</small></td><td class="s"><svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></td></tr>
+    <tr><td class="id">H5</td><td>تنبيه مزيّف على <span class="en">1-3</span> أجهزة لم يوقف أي خدمة</td><td class="s"><svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>الاستنتاج والخطوات القادمة</h2>
+  <ul>
+    <li><span>احتواء يقارب العزل الكامل (97.7%) مع خدمات متوقفة أقل بنحو 45 مرة، و0 قرار غير آمن.</span></li>
+    <li><span>القادم: تنبيهات <span class="en">IDS</span> من شبكة فعلية، وزمن أقل من 50 ms، واختبار مهاجم يعرف تفاصيل النظام.</span></li>
+  </ul>
+  <a class="btn" href="ACRS_poster.pdf">البوستر كاملاً (PDF)</a>
+</section>
+
+<section>
+  <h2>المراجع</h2>
+  <ol class="refs">
+    <li>National Audit Office. (2017). <i>Investigation: WannaCry cyber attack and the NHS</i> (HC 414).</li>
+    <li>Neprash, H. T., et al. (2022). Trends in ransomware attacks on US hospitals, clinics, and other health care delivery organizations, 2016-2021. <i>JAMA Health Forum, 3</i>(12), e224873.</li>
+    <li>National Cybersecurity Authority. (2024). <i>Essential Cybersecurity Controls (ECC-2:2024).</i></li>
+    <li>Lucas, A. (2014). Ising formulations of many NP problems. <i>Frontiers in Physics, 2</i>, 5.</li>
+    <li>Sha, L. (2001). Using simplicity to control complexity. <i>IEEE Software, 18</i>(4), 20-28.</li>
+    <li>Huangfu, Q., &amp; Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. <i>Mathematical Programming Computation, 10</i>, 119-142.</li>
+    <li>Javadi-Abhari, A., et al. (2024). Quantum computing with Qiskit. <i>arXiv:2405.08810.</i></li>
+  </ol>
+</section>
+
+<footer>© حقوق محفوظة</footer>
+</div>
+</body>
+</html>
